@@ -4,18 +4,26 @@ sample package
 Submodules
 ----------
 
-sample.calc module
+source.tool module
 ------------------
 
-.. automodule:: sample.calc
+.. automodule:: source.tool
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    
+source.calc module
+------------------
+
+.. automodule:: source.calc
     :members:
     :undoc-members:
     :show-inheritance:
 
-sample.employee module
+source.employee module
 ----------------------
 
-.. automodule:: sample.employee
+.. automodule:: source.employee
     :members:
     :undoc-members:
     :show-inheritance:
@@ -24,7 +32,7 @@ sample.employee module
 Module contents
 ---------------
 
-.. automodule:: sample
+.. automodule:: source
     :members:
     :undoc-members:
     :show-inheritance:

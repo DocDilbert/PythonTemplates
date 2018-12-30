@@ -15,7 +15,7 @@
             "name": "Python: tool.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/tool.py",
+            "program": "${workspaceFolder}/sample/tool.py",
             "console": "integratedTerminal",
             "args": ["--sum", "5", "5", "5"] // add arguments to test command line arguments
         },

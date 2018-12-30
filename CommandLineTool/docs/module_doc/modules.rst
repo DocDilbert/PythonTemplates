@@ -1,7 +1,7 @@
-sample
+source
 ======
 
 .. toctree::
    :maxdepth: 4
 
-   sample
+   source
