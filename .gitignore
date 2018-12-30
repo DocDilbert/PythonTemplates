@@ -65,6 +65,7 @@ instance/
 
 # Sphinx documentation
 docs/_build/
+CommandLineTool/docs/_build/
 
 # PyBuilder
 target/
