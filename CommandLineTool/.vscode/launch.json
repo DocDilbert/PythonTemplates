@@ -12,11 +12,12 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: main.py",
+            "name": "Python: tool.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
-            "console": "integratedTerminal"
+            "program": "${workspaceFolder}/tool.py",
+            "console": "integratedTerminal",
+            "args": ["--sum", "5", "5", "5"] // add arguments to test command line arguments
         },
         {
             "name": "Python: Current File (External Terminal)",

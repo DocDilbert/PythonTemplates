@@ -1,7 +1,7 @@
 import argparse
 
 def main():
-    print("HELLO WORLD")
+    print("main() started")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Command line tool template.')
