@@ -17,6 +17,7 @@ Bei diesem Projekt handelt es sich um ein Template für ein Kommandozeilen Tool.
    :caption: Contents:
 
    quick-rst.rst
+   quick-sphinx.rst
    module_doc/source.rst
 
 Indices and tables
