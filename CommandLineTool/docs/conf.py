@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Command Line Tool Template'
+project = 'CommandLineTool'
 copyright = '2018, Christian Gröling'
 author = 'Christian Gröling'
 

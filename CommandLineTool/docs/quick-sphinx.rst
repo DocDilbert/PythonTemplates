@@ -1,3 +1,4 @@
+.. _quick-sphinx:
 
 Sphinx Quick Reference
 ======================

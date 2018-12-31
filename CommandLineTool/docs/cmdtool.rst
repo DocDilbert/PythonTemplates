@@ -1,27 +1,27 @@
-.. _source-package:
+.. _cmdtool_doc:
 
-The CommandLineTool source package reference
+The cmdtool package reference
 ============================================
 
-source.tool module
-------------------
-.. automodule:: source.tool
+cmdtool.cmdtool module
+----------------------
+.. automodule:: cmdtool.cmdtool
     :members:
     :undoc-members:
     :show-inheritance:
     
-source.calc module
-------------------
+cmdtool.calc module
+-------------------
 
-.. automodule:: source.calc
+.. automodule:: cmdtool.calc
     :members:
     :undoc-members:
     :show-inheritance:
 
-source.employee module
-----------------------
+cmdtool.employee module
+-----------------------
 
-.. automodule:: source.employee
+.. automodule:: cmdtool.employee
     :members:
     :undoc-members:
     :show-inheritance:
