@@ -3,14 +3,13 @@
 RST Quick Reference
 ===================
 
+::
 
  Underline titles with punctuation
  =================================
 
  For subtitles, switch to another punctuation mark
  -------------------------------------------------
-
-::
 
  *Italic* **bold** ``name`` ``function()`` ``expression = 3 + 3``
  `Hyperlink <http://en.wikipedia.org/wiki/Hyperlink>`_ `Link`_

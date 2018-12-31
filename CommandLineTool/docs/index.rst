@@ -22,9 +22,16 @@ Bei diesem Projekt handelt es sich um ein Template für ein Kommandozeilen Tool.
         unit_tests/test_calc.py
         unit_tests/test_employee.py
 * Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:
-    .. code-block:: c
+    .. code-block:: python
 
         docs/*
+
+Nützliche Links
+---------------
+* `Google Python Style Guide' <http://google.github.io/styleguide/pyguide.html>`_
+* `Argparse Tutorial <https://docs.python.org/3/howto/argparse.html>`_
+* `Documenting Your Project Using Sphinx <https://pythonhosted.org/an_example_pypi_project/sphinx.html>`_
+* `Support for NumPy and Google style docstrings <https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html>`_
 
 Sphinx-Referenz
 ---------------
