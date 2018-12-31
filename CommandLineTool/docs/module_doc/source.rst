@@ -1,12 +1,10 @@
-sample package
-==============
+.. _source-package:
 
-Submodules
-----------
+The CommandLineTool source package reference
+============================================
 
 source.tool module
 ------------------
-
 .. automodule:: source.tool
     :members:
     :undoc-members:
@@ -29,10 +27,10 @@ source.employee module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: source
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. Module contents
+.. ---------------
+.. 
+.. .. automodule:: source
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
