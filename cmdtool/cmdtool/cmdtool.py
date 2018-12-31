@@ -1,10 +1,18 @@
 #!/usr/bin/env python
-""" Dieses Modul enthält das eigentliche Template für Kommandozeilen Tools 
+""" Dieses Modul enthält das eigentliche Template für Kommandozeilen Tools.
+
+.. note::
+
+       BLA BLA
+
 """
 
 import argparse
 
 def main():
+    """Die Main Funktion
+    """
+
     parser = argparse.ArgumentParser(description='Command line tool template.')
 
     # positional arguments:

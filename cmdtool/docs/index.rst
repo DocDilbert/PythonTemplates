@@ -3,11 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-cmdtool
+======================================================
+The **cmdtool** Documentation
 ======================================================
 Bei diesem Projekt handelt es sich um ein Python Template für ein Kommandozeilen Tool. Es beeinhaltet:
 
-* Ein Hauptmodul :py:mod:`cmdtool.cmdtool` welches Kommandozeilen Argumente mit hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
+* Ein Hauptmodul :py:mod:`cmdtool.cmdtool` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
     ::
 
         cmdtool/cmdtool.py
@@ -36,6 +37,21 @@ angehängt die die wichtigsten reStructuredText und Sphinx Kommandos enthalten:
 * :ref:`quick-rst`
 * :ref:`quick-sphinx`
 
+Nützliche Links
+-------------------
+Folgende Links sind für die Verwendung dieses Templates nützlich:
+
+* **Python:**
+    #. `Google Python Style Guide <http://google.github.io/styleguide/pyguide.html>`_
+    #. `Argparse Tutorial <https://docs.python.org/3/howto/argparse.html>`_
+        
+* **Sphinx:**
+    #. `reStructuredText Markup Specification <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html>`_
+    #. `Quick reStructuredText <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
+    #. `Documenting Your Project Using Sphinx <https://pythonhosted.org/an_example_pypi_project/sphinx.html>`_
+    #. `Cross referencing Python objects <http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects>`_
+    #. `Support for NumPy and Google style docstrings <https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html>`_
+
 Inhaltsverzeichniss
 -------------------
 .. toctree::
@@ -50,17 +66,4 @@ Indizes und Tabellen
 * :ref:`genindex`
 * :ref:`cmdtool_doc`
 * :ref:`search`
-
-Nützliche Links
--------------------
-**Python:**
-    #. `Google Python Style Guide <http://google.github.io/styleguide/pyguide.html>`_
-    #. `Argparse Tutorial <https://docs.python.org/3/howto/argparse.html>`_
-        
-**Sphinx:**
-    #. `reStructuredText Markup Specification <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html>`_
-    #. `Quick reStructuredText <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
-    #. `Documenting Your Project Using Sphinx <https://pythonhosted.org/an_example_pypi_project/sphinx.html>`_
-    #. `Cross referencing Python objects <http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cross-referencing-python-objects>`_
-    #. `Support for NumPy and Google style docstrings <https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html>`_
 
