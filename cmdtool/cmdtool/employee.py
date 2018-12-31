@@ -1,3 +1,6 @@
+""" Dieses Modul enthält die Test Klasse Employee die als Gegenstück für Unit Test Beispiele verwendet wird.
+"""
+
 import requests
 
 class Employee:

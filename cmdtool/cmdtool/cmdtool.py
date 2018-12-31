@@ -1,11 +1,10 @@
 #!/usr/bin/env python
+""" Dieses Modul enthält das eigentliche Template für Kommandozeilen Tools 
+"""
 
 import argparse
 
 def main():
-    print("main() started")
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Command line tool template.')
 
     # positional arguments:
@@ -30,4 +29,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
     print(args.accumulate(args.integers))
+    print("main() finished")
+
+if __name__ == "__main__":
     main() 

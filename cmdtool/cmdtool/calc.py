@@ -1,3 +1,7 @@
+"""Dieses Module enthält einige einfache Funktionen die als Gegenstück 
+für UnitTests verwendet werden.
+"""
+
 def add(x, y):
     """Add Function
     

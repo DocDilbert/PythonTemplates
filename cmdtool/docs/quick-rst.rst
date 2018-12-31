@@ -16,7 +16,6 @@ RST Quick Reference
 
  .. _Link: http://en.wikipedia.org/wiki/Link_(The_Legend_of_Zelda)
  .. image:: images/python-logo.png
-    :scale: 50 %
  .. A comment block starts with two periods, can continue indented.
 
  A paragraph is one or more lines of un-indented text, separated
