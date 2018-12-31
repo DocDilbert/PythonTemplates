@@ -7,27 +7,27 @@ CommandLineTool
 ======================================================
 Bei diesem Projekt handelt es sich um ein Template für ein Kommandozeilen Tool. Es beeinhaltet:
 
-* Ein Hauptskript welches Kommandozeilen Argumente mit hilfe von ArgParse :py:class:`argparse` verarbeitet. Siehe hierzu:
+* Ein Hauptskript welches Kommandozeilen Argumente mit hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
     .. code-block:: c
 
         cmdtool/cmdtool.py
-* Ein wenig Business Logic die keinerlei zweck dient außer getestet zu werden. Siehe hierzu:
+* Ein wenig Business Logic, die keinerlei zweck dient, außer getestet zu werden. Siehe hierzu:
     .. code-block:: c
 
         cmdtool/calc.py
         cmdtool/employee.py
-* Ein paar Unit Tests die als Beispiel dienen. Siehe hierzu:
+* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:
     .. code-block:: c
 
         unit_tests/test_calc.py
         unit_tests/test_employee.py
-* Einer Sphinx Dokumentation die als Referenz dient. Siehe hierzu:
+* Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:
     .. code-block:: c
 
         docs/*
 
-Sphinx
-------
+Sphinx-Referenz
+---------------
 Um beim schreiben einer Sphinx Dokumentation zu helfen sind zwei rst Dateien
 angehängt die die wichtigsten reStructuredText und Sphinx Kommandos enthalten:
 
