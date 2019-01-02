@@ -45,7 +45,7 @@ Folgende Links sind für die Verwendung dieses Templates nützlich:
     #. `Google Python Style Guide <http://google.github.io/styleguide/pyguide.html>`_
     #. `Argparse Tutorial <https://docs.python.org/3/howto/argparse.html>`_
     #. `The Hitchhiker’s Guide to Packaging <https://the-hitchhikers-guide-to-packaging.readthedocs.io/en/latest/index.html>`_ 
-    #. `python-packaging Command-Line-Scripts<https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html>`_
+    #. `python-packaging Command-Line-Scripts <https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html>`_
 * **Sphinx:**
     #. `reStructuredText Markup Specification <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html>`_
     #. `Quick reStructuredText <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_
