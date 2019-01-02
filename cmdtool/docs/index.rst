@@ -13,13 +13,16 @@ besteht aus dem Package :py:mod:`cmdtool` welches wiederum aus folgenden Modulen
     ::
 
         cmdtool/cmdtool.py
-* | Ein wenig Business Logic in den Modulen :py:mod:`cmdtool.calc` sowie :py:mod:`cmdtool.employee`. 
-  | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
+* | Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
+* | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
 
     :: 
 
         cmdtool/calc.py
         cmdtool/employee.py
+
+Zusätzlich enthält das Projekt folgende Inhalte:
+
 * Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:
     :: 
 
