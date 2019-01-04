@@ -9,9 +9,16 @@ qttool.qttool module
     :members:
     :undoc-members:
     :show-inheritance:
-    
+
+qttool.mainwindow module
+------------------------
+.. automodule:: qttool.mainwindow
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 qttool.calc module
--------------------
+----------------------
 
 .. automodule:: qttool.calc
     :members:
