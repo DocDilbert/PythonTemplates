@@ -8,9 +8,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Set up the user interface from Designer.
         self.setupUi(self)
 
+
         # Make some local modifications.
+        self.tableWidget.setRowCount(5)
+        self.tableWidget.setColumnCount(2)
+        self.tableWidget.setHorizontalHeaderLabels(['name','value'])
         #self.colorDepthCombo.addItem("2 colors (1 bit per pixel)")
 
         # Connect up the buttons.
         #self.okButton.clicked.connect(self.accept)
-        #self.cancelButton.clicked.connect(self.reject)
+        self.exitButton.clicked.connect(self.close)
