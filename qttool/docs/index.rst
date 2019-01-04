@@ -33,6 +33,23 @@ Zusätzlich enthält das Projekt folgende Inhalte:
 
         docs/*
 
+HowTo: QtDesigner
+-------------------
+#. Das Programm Designer aufrufen. Das sollte bei Anaconda 3 dabei sein.
+#. Die UI erstellen. 
+    * Eventuell am Anfang ein MainWindow auswählen
+#. Die uic Datei unter dem Package qttool speichern.
+#. Mit Hilfe des Tool pyuic5 die uic Datei in eine Python Datei umwandlen.
+#. Die Python Datei in den bestehenden Code einbinden.
+
+Das ganze ist schon für das MainWindow vorbereitet worden. Siehe hierzu:
+    ::
+    
+        qttool/mainWindow.ui
+        qttool/ui_mainWindow.py
+
+Um die Datei ui_mainWindow.py zu aktualisieren gibt es das Make Target ui.
+
 Sphinx-Referenz
 -------------------
 Um beim schreiben einer Sphinx Dokumentation zu helfen sind zwei rst Dateien
