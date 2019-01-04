@@ -12,7 +12,7 @@ import argparse
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 
-from mainWindow import MainWindow
+from mainwindow import MainWindow
 
 def main():
     """Die Main Funktion
