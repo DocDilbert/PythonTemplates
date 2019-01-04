@@ -35,21 +35,24 @@ Zusätzlich enthält das Projekt folgende Inhalte:
 
 HowTo: QtDesigner
 -------------------
-#. Das Qt-Programm `Designer` aufrufen. Das sollte bei Anaconda 3 dabei sein.
+#. Das Qt-Programm `Designer` aufrufen. Das Programm ist bei Anaconda 3 dabei.
 #. Die UI im Designer erstellen. 
-    * Eventuell am Anfang ein MainWindow auswählen
+    * Beim erstellen eines neuen UI, die Basisklasse auswählen (z.B. :py:class:`QMainWindow`)
+    * Als ersten Schritt sollte man der Hauptklasse (z.B. :py:class:`QMainWindow`) in der Objektanzeige ein Layout zuweisen. Hierzu rechte Maustaste und danach Layout.
+    * Das UI erstellen.
 #. Die uic Datei unter dem Package :py:mod:`qttool.ui` speichern.
 #. Mit Hilfe des Tool pyuic5 die uic Datei in eine Python Datei umwandlen.
 #. Die Python Datei in den bestehenden Code einbinden.
 
-Das ganze ist schon im Modul :py:mod:`qttool.mainwindow` vorbereitet worden. Siehe hierzu:
+Das ganze ist schon im Modul :py:mod:`qttool.mainwindow` beispielhaft vorbereitet worden. Siehe hierzu:
     ::
-    
+
         qttool/mainwindow.py
         qttool/ui/mainWindow.ui
         qttool/ui/ui_mainwindow.py
 
 Um die Datei :file:`ui_mainWindow.py` zu aktualisieren gibt es das Make Target :code:`ui`.
+
 
 Sphinx-Referenz
 -------------------
