@@ -9,6 +9,8 @@
 """
 
 import argparse
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
 
 def main():
     """Die Main Funktion
@@ -27,7 +29,16 @@ def main():
 
     args = parser.parse_args()
     print(args)
-    print("main() finished")
+    app = QApplication(sys.argv)
+
+    w = QWidget()
+    w.resize(250, 150)
+    w.move(300, 300)
+    w.setWindowTitle('Simple')
+    w.show()
+    
+    app.exec_()
+	
 
 if __name__ == "__main__":
     main() 
