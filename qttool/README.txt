@@ -1,1 +1,1 @@
-Ein Python Kommandozeilen Tool Template. 
+Ein Python Qt Tool Template. 

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from cmdtool import employee
+from qttool import employee
 
 class TestEmployee(unittest.TestCase):
 
@@ -51,7 +51,7 @@ class TestEmployee(unittest.TestCase):
         self.assertEqual(self.emp_2.pay, 63000)
 
     def test_monthly_schedule(self):
-        with patch('cmdtool.employee.requests.get') as mocked_get:
+        with patch('qttool.employee.requests.get') as mocked_get:
             mocked_get.return_value.ok = True
             mocked_get.return_value.text = 'Success'
         

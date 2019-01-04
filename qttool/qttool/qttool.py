@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" Dieses Modul enthält das eigentliche Template für Kommandozeilen Tools.
+""" Dieses Modul enthält das eigentliche Template für Qt Tools.
 
 .. note::
 

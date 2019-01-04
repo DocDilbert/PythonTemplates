@@ -15,7 +15,7 @@
             "name": "Python: qttool.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/cmdtool/cmdtool.py",
+            "program": "${workspaceFolder}/qttool/qttool.py",
             "console": "integratedTerminal",
             "args": ["--sum", "5", "5", "5"] // add arguments to test command line arguments
         },
