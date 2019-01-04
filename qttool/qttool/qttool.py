@@ -10,8 +10,8 @@
 
 import argparse
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from mainwindow import MainWindow
 
 def main():
