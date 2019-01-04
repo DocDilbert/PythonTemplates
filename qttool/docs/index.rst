@@ -48,7 +48,7 @@ Das ganze ist schon für das MainWindow vorbereitet worden. Siehe hierzu:
         qttool/mainWindow.ui
         qttool/ui_mainWindow.py
 
-Um die Datei ui_mainWindow.py zu aktualisieren gibt es das Make Target ui.
+Um die Datei :file:`ui_mainWindow.py` zu aktualisieren gibt es das Make Target :code:`ui`.
 
 Sphinx-Referenz
 -------------------
