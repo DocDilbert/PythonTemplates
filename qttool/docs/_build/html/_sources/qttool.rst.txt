@@ -1,27 +1,27 @@
-.. _cmdtool_doc:
+.. _qttool_doc:
 
-The cmdtool package reference
+The qttool package reference
 ============================================
 
-cmdtool.cmdtool module
+qttool.qttool module
 ----------------------
-.. automodule:: cmdtool.cmdtool
+.. automodule:: qttool.qttool
     :members:
     :undoc-members:
     :show-inheritance:
     
-cmdtool.calc module
+qttool.calc module
 -------------------
 
-.. automodule:: cmdtool.calc
+.. automodule:: qttool.calc
     :members:
     :undoc-members:
     :show-inheritance:
 
-cmdtool.employee module
+qttool.employee module
 -----------------------
 
-.. automodule:: cmdtool.employee
+.. automodule:: qttool.employee
     :members:
     :undoc-members:
     :show-inheritance:
