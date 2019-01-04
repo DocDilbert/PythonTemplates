@@ -10,7 +10,9 @@
 
 import argparse
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+
+from ui_mainWindow import Ui_MainWindow
 
 def main():
     """Die Main Funktion
@@ -31,10 +33,13 @@ def main():
     print(args)
     app = QApplication(sys.argv)
 
-    w = QWidget()
+    w = QMainWindow()
     w.resize(250, 150)
     w.move(300, 300)
     w.setWindowTitle('Simple')
+
+    ui = Ui_MainWindow()
+    ui.setupUi(w)
     w.show()
     
     app.exec_()
