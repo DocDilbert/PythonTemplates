@@ -5,7 +5,6 @@ html:
 	$(MAKE) -C ./docs html
 
 clean:
-	rm -f ./qttool/ui/ui_mainwindow.py
 	$(MAKE) -C ./docs clean
 
 ui:
