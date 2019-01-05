@@ -44,8 +44,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 model.setData(model.index(idx, 0), QBrush(glitter), Qt.BackgroundRole)
 
             # Setze die Schriftfarbe jedes items auf rot welches das mark Attribut aufweist.
-            if "mark" in item:
-                if item["mark"] == True:
+            if "mark" in item and item["mark"]:
                     model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.ForegroundRole)
 
     
