@@ -22,7 +22,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="CustomListWidget" name="listWidget"/>
+     <widget class="CustomListView" name="listView"/>
     </item>
     <item>
      <widget class="QPushButton" name="exitButton">
@@ -47,9 +47,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CustomListWidget</class>
-   <extends>QListWidget</extends>
-   <header>customlistwidget.h</header>
+   <class>CustomListView</class>
+   <extends>QListView</extends>
+   <header>customlistview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,0 +1,12 @@
+[
+    { "name" : "Christian"},
+    { "name" : "Lukas", "red" : true},
+    { "name" : "Tim"},
+    { "name" : "Monika", "red" : true},
+    { "name" : "Hans-Peter"},
+    { "name" : "Johann"},
+    { "name" : "Wolf-Dieter"},
+    { "name" : "Edelgard", "red" : true},
+    { "name" : "Joachim"}
+
+]

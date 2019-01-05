@@ -13,6 +13,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from mainwindow import MainWindow
+import json
 
 def main():
     """Die Main Funktion
@@ -33,9 +34,11 @@ def main():
     print(args)
     app = QApplication(sys.argv)
 
-    w = MainWindow()
-    #w.resize(250, 150)
-    #w.move(300, 300)
+
+    with open("data_file.json", "r") as read_file:
+        data = json.load(read_file)
+
+    w = MainWindow(data)
     w.setWindowTitle('Simple')
     w.show()
     
