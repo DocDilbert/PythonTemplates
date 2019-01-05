@@ -9,10 +9,10 @@ The **qttool** Documentation
 Bei diesem Projekt handelt es sich um ein Python Template für ein Qt Tool. Es
 besteht aus dem Package :py:mod:`qttool` welches wiederum aus folgenden Modulen besteht.
 
-* Einem Hauptmodul :py:mod:`qttool.qttool` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
+* Einem Hauptmodul :py:mod:`qttool.main` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
     ::
 
-        qttool/qttool.py
+        qttool/main.py
 * | Dem Modul :py:mod:`qttool.calc`, sowie dem Modul :py:mod:`qttool.employee`.
 * | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
 

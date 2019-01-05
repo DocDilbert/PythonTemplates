@@ -3,9 +3,9 @@
 The qttool package reference
 ============================================
 
-qttool.qttool module
+qttool.main module
 ----------------------
-.. automodule:: qttool.qttool
+.. automodule:: qttool.main
     :members:
     :undoc-members:
     :show-inheritance:
@@ -20,7 +20,6 @@ qttool.mainwindow module
 
 qttool.calc module
 ----------------------
-
 .. automodule:: qttool.calc
     :members:
     :undoc-members:
@@ -28,7 +27,6 @@ qttool.calc module
 
 qttool.employee module
 -----------------------
-
 .. automodule:: qttool.employee
     :members:
     :undoc-members:

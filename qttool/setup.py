@@ -11,6 +11,6 @@ setup(
     # packages can hook into to provide certain functionality. 
     # It also provides a few itself, including the console_scripts entry point.
     entry_points = {
-        'console_scripts': ['qttool=qttool.qttool:main'],
+        'console_scripts': ['qttool=qttool.main:main'],
     }
 )

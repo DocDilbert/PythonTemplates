@@ -10,7 +10,7 @@
 
 import argparse
 import sys
-
+print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from qttool.mainwindow import MainWindow
 import json
