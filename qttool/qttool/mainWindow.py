@@ -2,7 +2,7 @@
 """
 
 from PyQt5.QtWidgets import QWidget, QMainWindow, QLabel
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
 from ui.ui_mainwindow import Ui_MainWindow
 from PyQt5.QtCore import Qt
 
@@ -27,16 +27,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listView.setModel(model)
 
         for idx, item in enumerate(data):
-            qitem = QStandardItem(item["name"])
+            label = ""
+            label += "name: "+ item['name'] + '\n'
+            label += "birthday: "+ item['birthday']
+
+            qitem = QStandardItem(label)
             qitem.setCheckable(False)
             qitem.setEditable(False)
     
             # Add the item to the model
             model.appendRow(qitem)
 
-            if "red" in item:
-                if item["red"] == True:
-                    model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.BackgroundRole)
+            # Ändere die Hintergrundfarbe jedes zweiten Items um diese besser zu unterscheiden
+            glitter = QColor("#E6E8FA")
+            if idx % 2 == 0:
+                model.setData(model.index(idx, 0), QBrush(glitter), Qt.BackgroundRole)
+
+            # Setze die Schriftfarbe jedes items auf rot welches das mark Attribut aufweist.
+            if "mark" in item:
+                if item["mark"] == True:
+                    model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.ForegroundRole)
+
     
         # Connect up the buttons.
         self.exitButton.clicked.connect(self.close)
