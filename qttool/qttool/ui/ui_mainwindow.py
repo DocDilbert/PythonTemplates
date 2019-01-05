@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.listView = CustomListView(self.centralwidget)
+        self.listView = QtWidgets.QListView(self.centralwidget)
         self.listView.setObjectName("listView")
         self.verticalLayout_2.addWidget(self.listView)
         self.exitButton = QtWidgets.QPushButton(self.centralwidget)
@@ -44,4 +44,3 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.exitButton.setText(_translate("MainWindow", "Exit"))
 
-from customlistview import CustomListView
