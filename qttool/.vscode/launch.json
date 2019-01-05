@@ -15,7 +15,7 @@
             "name": "Python: qttool.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/qttool/qttool.py",
+            "program": "${workspaceFolder}/starter.py",
             "console": "integratedTerminal",
             "args": ["--verbose"] // add arguments to test command line arguments
         },

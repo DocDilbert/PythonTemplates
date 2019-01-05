@@ -3,7 +3,7 @@
 
 from PyQt5.QtWidgets import QWidget, QMainWindow, QLabel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
-from ui.ui_mainwindow import Ui_MainWindow
+from qttool.ui.ui_mainwindow import Ui_MainWindow
 from PyQt5.QtCore import Qt
 
 class MainWindow(QMainWindow, Ui_MainWindow):

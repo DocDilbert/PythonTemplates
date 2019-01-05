@@ -12,7 +12,7 @@ import argparse
 import sys
 
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
-from mainwindow import MainWindow
+from qttool.mainwindow import MainWindow
 import json
 
 def main():
