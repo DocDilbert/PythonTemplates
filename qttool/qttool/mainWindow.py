@@ -10,10 +10,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         # Make some local modifications.
-        self.tableWidget.setRowCount(5)
-        self.tableWidget.setColumnCount(2)
-        self.tableWidget.setHorizontalHeaderLabels(['name','value'])
-        #self.colorDepthCombo.addItem("2 colors (1 bit per pixel)")
+        self.listWidget.addItem("TEST");
+
 
         # Connect up the buttons.
         #self.okButton.clicked.connect(self.accept)
