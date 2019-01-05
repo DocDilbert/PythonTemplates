@@ -10,5 +10,6 @@
     "python.unitTest.unittestEnabled": true,
     "python.unitTest.pyTestEnabled": false,
     "python.unitTest.nosetestsEnabled": false,
-    "autoDocstring.docstringFormat" : "google"
+    "autoDocstring.docstringFormat": "google",
+    "restructuredtext.confPath": "${workspaceFolder}/docs"
 }
