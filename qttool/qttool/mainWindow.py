@@ -10,17 +10,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Set up the user interface from Designer.
         self.setupUi(self)
 
-        items = ["a", "b", "c"]
-        
-        model = QStandardItemModel()
+        model = QStandardItemModel(self.listView)
         self.listView.setModel(model)
+
         for idx, item in enumerate(data):
             qitem = QStandardItem(item["name"])
-
-            qbrush = QBrush()
-            qbrush.setColor(Qt.red)
-
-            qitem.setBackground(qbrush)
             qitem.setCheckable(False)
             qitem.setEditable(False)
     
@@ -32,5 +26,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.BackgroundRole)
     
         # Connect up the buttons.
-        #self.okButton.clicked.connect(self.accept)
         self.exitButton.clicked.connect(self.close)
