@@ -11,39 +11,32 @@ besteht aus dem Package :py:mod:`qttool` welches wiederum aus folgenden Modulen 
 
 * Einem Hauptmodul :py:mod:`qttool.main` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet.
   Die Methode :py:meth:`~qttool.main.main` dieses Moduls verwendet die Klasse :py:class:`~.MainWindow` um ein qt Fenster 
-  darzustellen. Siehe hierzu:
+  darzustellen. Siehe hierzu::   
 
-    ::   
-
-        qttool/main.py
+    qttool/main.py
 
 * Dem Modul :py:mod:`qttool.mainwindow`, welches die 
   Klasse :py:class:`~qttool.mainwindow.MainWindow` enthält. Diese Klasse baut das
-  UI auf. Siehe hierzu:
-  
-    ::
+  UI auf. Siehe hierzu::
 
-        qttool/mainwindow.py
+    qttool/mainwindow.py
 
 * Dem Modul :py:mod:`qttool.calc`, sowie dem Modul :py:mod:`qttool.employee`.
-  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
+  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:: 
 
-    :: 
-
-        qttool/calc.py
-        qttool/employee.py
+    qttool/calc.py
+    qttool/employee.py
 
 Zusätzlich enthält das Projekt folgende Inhalte:
 
-* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:
-    :: 
+* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:: 
 
-        unit_tests/test_calc.py
-        unit_tests/test_employee.py
-* Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:
-    :: 
+    unit_tests/test_calc.py
+    unit_tests/test_employee.py
 
-        docs/*
+* Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:: 
+
+    docs/*
 
 HowTo: QtDesigner
 -------------------
@@ -56,12 +49,11 @@ HowTo: QtDesigner
 #. Mit Hilfe des Tool pyuic5 die uic Datei in eine Python Datei umwandlen.
 #. Die Python Datei in den bestehenden Code einbinden.
 
-Das ganze ist schon im Modul :py:mod:`qttool.mainwindow` beispielhaft vorbereitet worden. Siehe hierzu:
-    ::
+Das ganze ist schon im Modul :py:mod:`qttool.mainwindow` beispielhaft vorbereitet worden. Siehe hierzu::
 
-        qttool/mainwindow.py
-        qttool/ui/mainWindow.ui
-        qttool/ui/ui_mainwindow.py
+    qttool/mainwindow.py
+    qttool/ui/mainWindow.ui
+    qttool/ui/ui_mainwindow.py
 
 Um die Datei :file:`ui_mainWindow.py` zu aktualisieren gibt es das Make Target :code:`ui`.
 
