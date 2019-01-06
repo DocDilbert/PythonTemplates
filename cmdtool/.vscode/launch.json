@@ -12,10 +12,10 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Python: cmdtool.py",
+            "name": "Python: cmdtool",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/cmdtool/cmdtool.py",
+            "program": "${workspaceFolder}/cmdtool/main.py",
             "console": "integratedTerminal",
             "args": ["--sum", "5", "5", "5"] // add arguments to test command line arguments
         },

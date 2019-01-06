@@ -3,7 +3,7 @@
 The cmdtool package reference
 ============================================
 
-cmdtool.cmdtool module
+cmdtool.main module
 ----------------------
 .. automodule:: cmdtool.cmdtool
     :members:
