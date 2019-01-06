@@ -16,8 +16,8 @@ besteht aus dem Package :py:mod:`cmdtool` welches wiederum aus folgenden Modulen
     ::
 
         cmdtool/cmdtool.py
-* | Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
-  | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
+* Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
+  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
 
     :: 
 
