@@ -12,27 +12,23 @@ besteht aus dem Package :py:mod:`cmdtool` welches wiederum aus folgenden Modulen
 * Einem Hauptmodul :py:mod:`cmdtool.main` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. 
   Dieses Modul kann direkt von python aus aufgerufen werden.
 
-  Siehe hierzu:
-    ::
+  Siehe hierzu::
 
         cmdtool/cmdtool.py
-* Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
-  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
 
-    :: 
+* Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
+  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:: 
 
         cmdtool/calc.py
         cmdtool/employee.py
 
 Zusätzlich enthält das Projekt folgende Inhalte:
 
-* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:
-    :: 
+* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:: 
 
         unit_tests/test_calc.py
         unit_tests/test_employee.py
-* Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:
-    :: 
+* Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:: 
 
         docs/*
 
