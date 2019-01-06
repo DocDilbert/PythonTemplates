@@ -5,7 +5,7 @@ The cmdtool package reference
 
 cmdtool.main module
 ----------------------
-.. automodule:: cmdtool.cmdtool
+.. automodule:: cmdtool.main
     :members:
     :undoc-members:
     :show-inheritance:

@@ -9,12 +9,15 @@ The **cmdtool** Documentation
 Bei diesem Projekt handelt es sich um ein Python Template für ein Kommandozeilen Tool. Es
 besteht aus dem Package :py:mod:`cmdtool` welches wiederum aus folgenden Modulen besteht.
 
-* Einem Hauptmodul :py:mod:`cmdtool.cmdtool` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. Siehe hierzu:
+* Einem Hauptmodul :py:mod:`cmdtool.main` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet. 
+  Dieses Modul kann direkt von python aus aufgerufen werden.
+
+  Siehe hierzu:
     ::
 
         cmdtool/cmdtool.py
 * | Dem Modul :py:mod:`cmdtool.calc`, sowie dem Modul :py:mod:`cmdtool.employee`.
-* | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
+  | Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:
 
     :: 
 

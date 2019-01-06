@@ -4,7 +4,7 @@
 
 .. note::
 
-       BLA BLA
+       Ein Beispiel für eine Sphinx Notiz
 
 """
 

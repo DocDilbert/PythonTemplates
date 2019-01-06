@@ -1,10 +1,10 @@
-""" Dieses Modul enthält die Test Klasse Employee die als Gegenstück für Unit Test Beispiele verwendet wird.
+""" Dieses Modul enthält die Test Klasse :py:class:`~.Employee` die als Gegenstück für Unit Test Beispiele verwendet wird.
 """
 
 import requests
 
 class Employee:
-    """A sample Employee class"""
+    """Eine Klasse die für Unit-Test Beispiele verwendet wird."""
 
     raise_amt = 1.05
 
