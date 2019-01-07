@@ -17,9 +17,10 @@ class TestClosureFinder(unittest.TestCase):
                 test['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge")
 
             for element in zip(output, test['output']):
-                self.assertEqual(element[0], element[1])
+                self.assertEqual(element[0], element[1], test['description'])
 
     closure_finder_basic = [{
+        'description' : "closure_finder_basic_1",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_END', '}', 1)
@@ -32,6 +33,7 @@ class TestClosureFinder(unittest.TestCase):
             )
         ]
     }, {
+        'description' : "closure_finder_basic_2",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_BEGIN', '{', 1),
@@ -53,6 +55,7 @@ class TestClosureFinder(unittest.TestCase):
             )
         ]
     }, {
+        'description' : "closure_finder_basic_3",
         'input': [
             Closure(
                 [
@@ -71,6 +74,7 @@ class TestClosureFinder(unittest.TestCase):
             )
         ]
     }, {
+        'description' : "closure_finder_basic_4",
         'input': [
             Closure(
                 Token('CB_BEGIN', '{', 0),
