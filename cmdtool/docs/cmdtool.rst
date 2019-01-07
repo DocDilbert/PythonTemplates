@@ -9,7 +9,7 @@ cmdtool.main module
     :members:
     :undoc-members:
     :show-inheritance:
-    
+
 cmdtool.calc module
 -------------------
 

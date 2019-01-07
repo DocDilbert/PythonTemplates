@@ -6,7 +6,7 @@
 .. include globals.rst
 
 ======================================================
-The **cmdtool** Documentation
+Die **cmdtool** Dokumentation
 ======================================================
 Bei diesem Projekt handelt es sich um ein Python Template für ein Kommandozeilen Tool. Es
 besteht aus dem Package :py:mod:`cmdtool` welches wiederum aus folgenden Modulen besteht.
@@ -49,7 +49,7 @@ Folgende Links sind für die Verwendung dieses Templates nützlich:
 * **Python:**
     #. `Google Python Style Guide <http://google.github.io/styleguide/pyguide.html>`_
     #. `Argparse Tutorial <https://docs.python.org/3/howto/argparse.html>`_
-    #. `The Hitchhiker’s Guide to Packaging <https://the-hitchhikers-guide-to-packaging.readthedocs.io/en/latest/index.html>`_ 
+    #. `The Hitchhiker’s Guide to Packaging <https://the-hitchhikers-guide-to-packaging.readthedocs.io/en/latest/index.html>`_
     #. `python-packaging Command-Line-Scripts <https://python-packaging.readthedocs.io/en/latest/command-line-scripts.html>`_
 * **Sphinx:**
     #. `reStructuredText Markup Specification <http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html>`_
