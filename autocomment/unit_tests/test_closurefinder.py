@@ -6,7 +6,6 @@ from pycpp.code import Closure
 
 
 class TestClosureFinder(unittest.TestCase):
-
     def test_closure_finder(self):
         closurefinder = ClosureFinder()
 
@@ -27,10 +26,9 @@ class TestClosureFinder(unittest.TestCase):
         ],
         'output': [
             Closure(
-                [
-                    Token('CB_BEGIN', '{', 0),
-                    Token('CB_END', '}', 1)
-                ]
+                Token('CB_BEGIN', '{', 0),
+                Token('CB_END', '}', 1),
+                []
             )
         ]
     }, {
@@ -43,36 +41,37 @@ class TestClosureFinder(unittest.TestCase):
 
         'output': [
             Closure(
+                Token('CB_BEGIN', '{', 0),
+                Token('CB_END', '}', 3),
                 [
-                    Token('CB_BEGIN', '{', 0),
-                    Closure([
+                    Closure(
                         Token('CB_BEGIN', '{', 1),
-                        Token('CB_END', '}', 2)
-                    ]),
-                    Token('CB_END', '}', 3)
+                        Token('CB_END', '}', 2),
+                        []
+                    )
                 ]
             )
         ]
     },
-    # {
-    #     'input': [
-    #         Closure(
-    #             [
-    #                 Token('CB_BEGIN', '{', 0),
-    #                 Token('CB_END', '}', 1)
-    #             ]
-    #         )
-    #     ],
+        {
+        'input': [
+            Closure(
+                [
+                    Token('CB_BEGIN', '{', 0),
+                    Token('CB_END', '}', 1)
+                ]
+            )
+        ],
 
-    #     'output': [
-    #         Closure(
-    #             [
-    #                 Token('CB_BEGIN', '{', 0),
-    #                 Token('CB_END', '}', 1)
-    #             ]
-    #         )
-    #     ]
-    # }
+        'output': [
+            Closure(
+                [
+                    Token('CB_BEGIN', '{', 0),
+                    Token('CB_END', '}', 1)
+                ]
+            )
+        ]
+    }
     ]
 
 

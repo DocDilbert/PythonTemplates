@@ -9,22 +9,28 @@ class ClosureFinder(object):
     def input(self, tokens):
         self.tokens = tokens
 
-    
-    def tree(self):
+    def tree_recursive(self, tokens):
         output = Closure()
         actual = output
         closure_tree = []
-
-        for token in self.tokens:
-            if token.type == "CB_BEGIN":
-                temp = Closure()
-                closure_tree.append(actual)
-                actual.add(temp)
-                actual = temp
-
-            actual.add(token)
-
-            if token.type == "CB_END":
-                actual = closure_tree.pop()
+        for token in tokens:
+            if isinstance(token, Closure):
+                output.add(Closure(token.begin_del, token.end_del,
+                                   self.tree_recursive(token.content)))
+            else:
+                if token.type == "CB_BEGIN":
+                    temp = Closure()
+                    temp.begin_del = token
+                    closure_tree.append(actual)
+                    actual.add(temp)
+                    actual = temp
+                elif token.type == "CB_END":
+                    actual.end_del = token
+                    actual = closure_tree.pop()
+                else:
+                    actual.add(token)
 
         return output.content
+
+    def tree(self):
+        return self.tree_recursive(self.tokens)

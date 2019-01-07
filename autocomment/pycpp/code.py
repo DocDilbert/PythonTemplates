@@ -3,16 +3,14 @@
 
 
 class Code(object):
-    def __eq__(self, other):
-        return False
-
-    def __neq__(self, other):
-        return True
+    pass
 
 
 class Closure(Code):
 
-    def __init__(self, content=None):
+    def __init__(self, begin_del=None, end_del=None, content=None):
+        self.begin_del = begin_del
+        self.end_del = end_del
         if content is not None:
             self.content = list(content)
         else:
@@ -20,6 +18,15 @@ class Closure(Code):
 
     def add(self, token):
         self.content.append(token)
+
+    def serialize(self):
+        output = []
+        for t in self.content:
+            if isinstance(t, Closure):
+                output += t.serialize_closure()
+            else:
+                output.append(t)
+        return output
 
     def print_closure(self, trailing):
         trailing = "--" + trailing
@@ -43,7 +50,10 @@ class Closure(Code):
     def __eq__(self, other):
         if len(self.content) != len(other.content):
             return False
-
+        if self.begin_del != other.begin_del:
+            return False
+        if self.end_del != other.end_del:
+            return False
         for self_element, other_element in zip(self.content, other.content):
             if self_element != other_element:
                 return False
