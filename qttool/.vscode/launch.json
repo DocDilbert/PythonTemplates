@@ -17,6 +17,9 @@
             "request": "launch",
             "program": "${workspaceFolder}/qttool/main.py",
             "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH" : "${workspaceFolder}"
+            },
             "args": ["--verbose"] // add arguments to test command line arguments
         },
         {

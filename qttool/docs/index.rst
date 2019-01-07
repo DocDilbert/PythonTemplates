@@ -6,18 +6,18 @@
 .. include globals.rst
 
 ======================================================
-The **qttool** Documentation
+Die **qttool** Dokumentation
 ======================================================
 Bei diesem Projekt handelt es sich um ein Python Template für ein Qt Tool. Es
 besteht aus dem Package :py:mod:`qttool` welches wiederum aus folgenden Modulen besteht.
 
 * Einem Hauptmodul :py:mod:`qttool.main` welches Kommandozeilen Argumente mit Hilfe von :py:mod:`argparse` verarbeitet.
   Die Methode :py:meth:`~qttool.main.main` dieses Moduls verwendet die Klasse :py:class:`~.MainWindow` um ein qt Fenster 
-  darzustellen. Siehe hierzu::   
+  darzustellen. Siehe hierzu::
 
     qttool/main.py
 
-* Dem Modul :py:mod:`qttool.mainwindow`, welches die 
+* Dem Modul :py:mod:`qttool.mainwindow`, welches die
   Klasse :py:class:`~qttool.mainwindow.MainWindow` enthält. Diese Klasse baut das
   UI auf. Siehe hierzu::
 
