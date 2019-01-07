@@ -62,6 +62,7 @@ class Lexer(object):
 
     rules = [
         ('\s+',             'WHITESPACE'),
+        ('//',              'COMMENT'),
         ('\d+',             'NUMBER'),
         ('[a-zA-Z_]\w+',    'IDENTIFIER'),
         ('\+',              'PLUS'),

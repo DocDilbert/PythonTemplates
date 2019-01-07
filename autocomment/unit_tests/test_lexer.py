@@ -29,6 +29,13 @@ class TestLexer(unittest.TestCase):
                 lexer.Token('WHITESPACE', '  ', 0 )
             ]
         },
+        {'input' : '// TEST', 
+            'output' : [
+                lexer.Token('COMMENT', '//', 0 ),
+                lexer.Token('WHITESPACE', ' ', 2 ),
+                lexer.Token('IDENTIFIER', 'TEST', 3 )
+            ]
+        },
         {'input' : 'erw = _abc', 
             'output' : [
                 lexer.Token('IDENTIFIER','erw',0 ),
