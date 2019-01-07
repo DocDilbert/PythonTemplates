@@ -10,6 +10,7 @@
 
 import argparse
 import sys
+import time
 
 #print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
@@ -41,7 +42,7 @@ def main():
 
     with open("LibRteDriver.h", "r") as read_file:
         code = read_file.read()
-
+    start = time.time()
     lexer = Lexer()
     lexer.input(code)
     output = list(lexer.tokens())
@@ -50,6 +51,9 @@ def main():
     closurefinder.input(output)
 
     output2 = closurefinder.tree()
+    end = time.time()
+
+    print("Elapsed Time "+str(end - start)+" seconds")
     with open("output", "w") as write_file:
         for t in output2:
             write_file.write(str(t))
