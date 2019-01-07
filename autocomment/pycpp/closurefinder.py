@@ -1,6 +1,7 @@
 from pycpp.token import Token
 from pycpp.token import Closure
 
+
 class ClosureFinder(object):
     def __init__(self):
         pass
@@ -18,11 +19,11 @@ class ClosureFinder(object):
                 temp = Closure()
                 closure_tree.append(actual)
                 actual.add(temp)
-                actual=temp
+                actual = temp
 
             actual.add(token)
 
             if token.type == "CB_END":
                 actual = closure_tree.pop()
-        
-        return(output.content)
+
+        return output.content
