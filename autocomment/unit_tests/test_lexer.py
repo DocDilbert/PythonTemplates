@@ -1,6 +1,6 @@
 import unittest
 from pycpp import lexer
-
+from pycpp import token
 
 class TestLexer(unittest.TestCase):
 
@@ -20,43 +20,43 @@ class TestLexer(unittest.TestCase):
     lexer_basic =   [
         {'input' : ' ', 
             'output' : [
-                lexer.Token('WHITESPACE', ' ', 0 )
+                token.Token('WHITESPACE', ' ', 0 )
             ]
         },
         {'input' : '  ', 
             'output' : [
-                lexer.Token('WHITESPACE', '  ', 0 )
+                token.Token('WHITESPACE', '  ', 0 )
             ]
         },
         {'input' : '// TEST', 
             'output' : [
-                lexer.Token('COMMENT', '//', 0 ),
-                lexer.Token('WHITESPACE', ' ', 2 ),
-                lexer.Token('STRING', 'TEST', 3 )
+                token.Token('COMMENT', '//', 0 ),
+                token.Token('WHITESPACE', ' ', 2 ),
+                token.Token('STRING', 'TEST', 3 )
             ]
         },
         {'input' : '{TEST}', 
             'output' : [
-                lexer.Token('CB_BEGIN', '{', 0 ),
-                lexer.Token('STRING', 'TEST', 1 ),
-                lexer.Token('CB_END', '}', 5 )
+                token.Token('CB_BEGIN', '{', 0 ),
+                token.Token('STRING', 'TEST', 1 ),
+                token.Token('CB_END', '}', 5 )
             ]
         },
 
         {'input' : '/*TEST*/', 
             'output' : [
-                lexer.Token('COMMENT_BEGIN', '/*', 0 ),
-                lexer.Token('STRING', 'TEST', 2 ),
-                lexer.Token('COMMENT_END', '*/', 6 )
+                token.Token('COMMENT_BEGIN', '/*', 0 ),
+                token.Token('STRING', 'TEST', 2 ),
+                token.Token('COMMENT_END', '*/', 6 )
             ]
         },
         {'input' : 'erw = _abc', 
             'output' : [
-                lexer.Token('STRING','erw',0 ),
-                lexer.Token('WHITESPACE', ' ', 3 ),
-                lexer.Token('EQUALS','=', 4 ),
-                lexer.Token('WHITESPACE', ' ', 5 ),
-                lexer.Token('STRING','_abc',6 )
+                token.Token('STRING','erw',0 ),
+                token.Token('WHITESPACE', ' ', 3 ),
+                token.Token('EQUALS','=', 4 ),
+                token.Token('WHITESPACE', ' ', 5 ),
+                token.Token('STRING','_abc',6 )
             ]
         }
     ]
