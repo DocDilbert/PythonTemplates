@@ -52,8 +52,7 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ]
-    },
-        {
+    }, {
         'input': [
             Closure(
                 [
@@ -71,8 +70,35 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ]
-    }
-    ]
+    }, {
+        'input': [
+            Closure(
+                Token('CB_BEGIN', '{', 0),
+                Token('CB_END', '}', 3),
+                [
+                    Closure(
+                        Token('CB_BEGIN', '{', 1),
+                        Token('CB_END', '}', 2),
+                        []
+                    )
+                ]
+            )
+        ],
+
+        'output': [
+            Closure(
+                Token('CB_BEGIN', '{', 0),
+                Token('CB_END', '}', 3),
+                [
+                    Closure(
+                        Token('CB_BEGIN', '{', 1),
+                        Token('CB_END', '}', 2),
+                        []
+                    )
+                ]
+            )
+        ]
+    }]
 
 
 if __name__ == '__main__':
