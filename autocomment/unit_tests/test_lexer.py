@@ -33,16 +33,16 @@ class TestLexer(unittest.TestCase):
             'output' : [
                 lexer.Token('COMMENT', '//', 0 ),
                 lexer.Token('WHITESPACE', ' ', 2 ),
-                lexer.Token('IDENTIFIER', 'TEST', 3 )
+                lexer.Token('STRING', 'TEST', 3 )
             ]
         },
         {'input' : 'erw = _abc', 
             'output' : [
-                lexer.Token('IDENTIFIER','erw',0 ),
+                lexer.Token('STRING','erw',0 ),
                 lexer.Token('WHITESPACE', ' ', 3 ),
                 lexer.Token('EQUALS','=', 4 ),
                 lexer.Token('WHITESPACE', ' ', 5 ),
-                lexer.Token('IDENTIFIER','_abc',6 )
+                lexer.Token('STRING','_abc',6 )
             ]
         }
     ]

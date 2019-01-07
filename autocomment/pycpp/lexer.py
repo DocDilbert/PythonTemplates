@@ -61,33 +61,21 @@ class Lexer(object):
     """
 
     rules = [
-        ('\s+',             'WHITESPACE'),
-        ('//',              'COMMENT'),
-        ('\d+',             'NUMBER'),
-        ('[a-zA-Z_]\w+',    'IDENTIFIER'),
-        ('\+',              'PLUS'),
-        ('\-',              'MINUS'),
-        ('\*',              'MULTIPLY'),
-        ('\/',              'DIVIDE'),
-        ('\(',              'LP'),
-        ('\)',              'RP'),
-        ('=',               'EQUALS'),
+        (r'\s+',             'WHITESPACE'),
+        (r'//',              'COMMENT'),
+        (r'\d+',             'NUMBER'),
+        (r'[a-zA-Z_]\w+',    'STRING'),
+        (r'\+',              'PLUS'),
+        (r'\-',              'MINUS'),
+        (r'\*',              'MULTIPLY'),
+        (r'\/',              'DIVIDE'),
+        (r'\(',              'LP'),
+        (r'\)',              'RP'),
+        (r'=',               'EQUALS'),
     ]
 
     def __init__(self):
         """ Create a lexer.
-
-            rules:
-                A list of rules. Each rule is a `regex, type`
-                pair, where `regex` is the regular expression used
-                to recognize the token and `type` is the type
-                of the token to return when it's recognized.
-
-            skip_whitespace:
-                If True, whitespace (\s+) will be skipped and not
-                reported by the lexer. Otherwise, you have to
-                specify your rules for whitespace, or it will be
-                flagged as an error.
         """
         # All the regexes are concatenated into a single one
         # with named groups. Since the group names must be valid
@@ -106,8 +94,6 @@ class Lexer(object):
             idx += 1
 
         self.regex = re.compile('|'.join(regex_parts))
-        self.skip_whitespace = False
-        self.re_ws_skip = re.compile('\S')
 
     def input(self, buf):
         """ Initialize the lexer with a buffer as input.
@@ -126,14 +112,6 @@ class Lexer(object):
         if self.pos >= len(self.buf):
             return None
         else:
-            if self.skip_whitespace:
-                m = self.re_ws_skip.search(self.buf, self.pos)
-
-                if m:
-                    self.pos = m.start()
-                else:
-                    return None
-
             m = self.regex.match(self.buf, self.pos)
             if m:
                 groupname = m.lastgroup
