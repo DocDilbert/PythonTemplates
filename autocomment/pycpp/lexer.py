@@ -61,10 +61,14 @@ class Lexer(object):
     """
 
     rules = [
-        (r'\s+',             'WHITESPACE'),
-        (r'//',              'COMMENT'),
+        (r'\s+',             'WHITESPACE'),   
         (r'\d+',             'NUMBER'),
         (r'[a-zA-Z_]\w+',    'STRING'),
+        (r'//',              'COMMENT'),
+        (r'/\*',             'COMMENT_BEGIN'),
+        (r'\*/',             'COMMENT_END'),
+        (r'{',               'CB_BEGIN'), # CB ist die Kurzform von Code Block
+        (r'}',               'CB_END'),   # CB ist die Kurzform von Code Block
         (r'\+',              'PLUS'),
         (r'\-',              'MINUS'),
         (r'\*',              'MULTIPLY'),

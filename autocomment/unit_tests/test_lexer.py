@@ -10,7 +10,6 @@ class TestLexer(unittest.TestCase):
         for test in self.lexer_basic:
             lexer_.input(test['input'])
 
-
             output = list(lexer_.tokens())
 
             self.assertEqual(len(output),len(test['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge")
@@ -34,6 +33,21 @@ class TestLexer(unittest.TestCase):
                 lexer.Token('COMMENT', '//', 0 ),
                 lexer.Token('WHITESPACE', ' ', 2 ),
                 lexer.Token('STRING', 'TEST', 3 )
+            ]
+        },
+        {'input' : '{TEST}', 
+            'output' : [
+                lexer.Token('CB_BEGIN', '{', 0 ),
+                lexer.Token('STRING', 'TEST', 1 ),
+                lexer.Token('CB_END', '}', 5 )
+            ]
+        },
+
+        {'input' : '/*TEST*/', 
+            'output' : [
+                lexer.Token('COMMENT_BEGIN', '/*', 0 ),
+                lexer.Token('STRING', 'TEST', 2 ),
+                lexer.Token('COMMENT_END', '*/', 6 )
             ]
         },
         {'input' : 'erw = _abc', 
