@@ -1,0 +1,15 @@
+{
+    // Arguments passed in. Each argument is a separate item in the array.
+    "python.unitTest.unittestArgs": [
+        "-v",
+        "-s",
+        "unit_tests",
+        "-p",
+        "*test*.py"
+    ],
+    "python.unitTest.unittestEnabled": true,
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "autoDocstring.docstringFormat": "google",
+    "restructuredtext.confPath": "${workspaceFolder}\\docs"
+}

@@ -67,6 +67,7 @@ instance/
 docs/_build/
 cmdtool/docs/_build/
 qttool/docs/_build/
+autocomment/docs/_build/
 
 # PyBuilder
 target/
