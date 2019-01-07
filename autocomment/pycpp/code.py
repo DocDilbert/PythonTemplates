@@ -1,16 +1,18 @@
-# token.py
+# code.py
 #
 
+
 class Code(object):
-    def __eq__(self,other):
+    def __eq__(self, other):
         return False
 
     def __neq__(self, other):
         return True
 
+
 class Closure(Code):
 
-    def __init__(self, content = None):
+    def __init__(self, content=None):
         if content is not None:
             self.content = list(content)
         else:
@@ -27,7 +29,7 @@ class Closure(Code):
                 output += t.print_closure(trailing)
                 output += "\n"
             else:
-                output += trailing  + str(t)
+                output += trailing + str(t)
                 output += "\n"
         return output
 
@@ -37,23 +39,26 @@ class Closure(Code):
 
     def __repr__(self):
         return self.__str__()
-    def __eq__(self,other):
-        if len(self.content)!= len(other.content):
+
+    def __eq__(self, other):
+        if len(self.content) != len(other.content):
             return False
 
         for self_element, other_element in zip(self.content, other.content):
             if self_element != other_element:
                 return False
-        
+
         return True
 
-    def __ne__(self,other):
+    def __ne__(self, other):
         return not(self.__eq__(other))
+
 
 class Token(Code):
     """ A simple Token structure.
         Contains the token type, value and position.
     """
+
     def __init__(self, type, val, pos):
         self.type = type
         self.val = val
@@ -65,8 +70,8 @@ class Token(Code):
     def __repr__(self):
         return '(%s(%s) at %s)' % (self.type, self.val, self.pos)
 
-    def __eq__(self,other):
-        
+    def __eq__(self, other):
+
         if self.type != other.type:
             return False
 
@@ -75,8 +80,8 @@ class Token(Code):
 
         if self.pos != other.pos:
             return False
-        
+
         return True
 
-    def __ne__(self,other):
+    def __ne__(self, other):
         return not(self.__eq__(other))

@@ -1,6 +1,6 @@
 import unittest
 from pycpp import lexer
-from pycpp import token
+from pycpp.code import Token
 
 class TestLexer(unittest.TestCase):
 
@@ -20,51 +20,51 @@ class TestLexer(unittest.TestCase):
     lexer_basic = [
         {'input' : ' ',
          'output' : [
-             token.Token('WHITESPACE', ' ', 0)
+             Token('WHITESPACE', ' ', 0)
          ]
         },
         {'input' : '  ',
          'output' : [
-             token.Token('WHITESPACE', '  ', 0)
+             Token('WHITESPACE', '  ', 0)
          ]
         },
         {'input' : '// TEST',
             'output' : [
-                token.Token('COMMENT', '//', 0),
-                token.Token('WHITESPACE', ' ', 2),
-                token.Token('STRING', 'TEST', 3)
+                Token('COMMENT', '//', 0),
+                Token('WHITESPACE', ' ', 2),
+                Token('STRING', 'TEST', 3)
             ]
         },
         {'input' : '{TEST}',
             'output' : [
-                token.Token('CB_BEGIN', '{', 0),
-                token.Token('STRING', 'TEST', 1),
-                token.Token('CB_END', '}', 5)
+                Token('CB_BEGIN', '{', 0),
+                Token('STRING', 'TEST', 1),
+                Token('CB_END', '}', 5)
             ]
         },
         {'input' : 'ab c de',
             'output' : [
-                token.Token('STRING', 'ab', 0),
-                token.Token('WHITESPACE', ' ', 2),
-                token.Token('STRING', 'c', 3),
-                token.Token('WHITESPACE', ' ', 4),
-                token.Token('STRING', 'de', 5),
+                Token('STRING', 'ab', 0),
+                Token('WHITESPACE', ' ', 2),
+                Token('STRING', 'c', 3),
+                Token('WHITESPACE', ' ', 4),
+                Token('STRING', 'de', 5),
             ]
         },
         {'input' : '/*TEST*/',
             'output' : [
-                token.Token('COMMENT_BEGIN', '/*', 0),
-                token.Token('STRING', 'TEST', 2),
-                token.Token('COMMENT_END', '*/', 6)
+                Token('COMMENT_BEGIN', '/*', 0),
+                Token('STRING', 'TEST', 2),
+                Token('COMMENT_END', '*/', 6)
             ]
         },
         {'input' : 'erw = _abc',
             'output' : [
-                token.Token('STRING','erw',0),
-                token.Token('WHITESPACE', ' ', 3),
-                token.Token('EQUALS','=', 4),
-                token.Token('WHITESPACE', ' ', 5),
-                token.Token('STRING','_abc',6)
+                Token('STRING','erw',0),
+                Token('WHITESPACE', ' ', 3),
+                Token('EQUALS','=', 4),
+                Token('WHITESPACE', ' ', 5),
+                Token('STRING','_abc',6)
             ]
         }
     ]

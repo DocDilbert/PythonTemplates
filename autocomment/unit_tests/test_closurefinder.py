@@ -1,8 +1,8 @@
 
 import unittest
 from pycpp.closurefinder import ClosureFinder
-from pycpp.token import Token
-from pycpp.token import Closure
+from pycpp.code import Token
+from pycpp.code import Closure
 
 
 class TestClosureFinder(unittest.TestCase):
@@ -53,7 +53,27 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ]
-    }]
+    },
+    # {
+    #     'input': [
+    #         Closure(
+    #             [
+    #                 Token('CB_BEGIN', '{', 0),
+    #                 Token('CB_END', '}', 1)
+    #             ]
+    #         )
+    #     ],
+
+    #     'output': [
+    #         Closure(
+    #             [
+    #                 Token('CB_BEGIN', '{', 0),
+    #                 Token('CB_END', '}', 1)
+    #             ]
+    #         )
+    #     ]
+    # }
+    ]
 
 
 if __name__ == '__main__':

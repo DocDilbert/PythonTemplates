@@ -5,7 +5,7 @@
 
 import re
 import sys
-from pycpp import token
+from pycpp.code import Token
 
 class LexerError(Exception):
     """ Lexer error exception.
@@ -97,7 +97,7 @@ class Lexer(object):
             if m:
                 groupname = m.lastgroup
                 tok_type = self.group_type[groupname]
-                tok = token.Token(tok_type, m.group(groupname), self.pos)
+                tok = Token(tok_type, m.group(groupname), self.pos)
                 self.pos = m.end()
                 return tok
             print(self.buf[self.pos-5:self.pos+5])
