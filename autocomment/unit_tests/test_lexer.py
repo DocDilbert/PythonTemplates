@@ -42,7 +42,15 @@ class TestLexer(unittest.TestCase):
                 token.Token('CB_END', '}', 5 )
             ]
         },
-
+        {'input' : 'ab c de', 
+            'output' : [
+                token.Token('STRING', 'ab', 0 ),
+                token.Token('WHITESPACE', ' ', 2 ),
+                token.Token('STRING', 'c', 3 ),
+                token.Token('WHITESPACE', ' ', 4 ),
+                token.Token('STRING', 'de', 5 ),
+            ]
+        },
         {'input' : '/*TEST*/', 
             'output' : [
                 token.Token('COMMENT_BEGIN', '/*', 0 ),

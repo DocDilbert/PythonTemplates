@@ -13,6 +13,8 @@ import sys
 print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
+from pycpp.lexer import Lexer
+from pycpp.closurefinder import ClosureFinder
 import json
 
 def main():
@@ -34,15 +36,29 @@ def main():
     print(args)
     app = QApplication(sys.argv)
 
+    code = ""
 
-    with open("data_file.json", "r") as read_file:
-        data = json.load(read_file)
+    with open("LibRteDriver.h", "r") as read_file:
+        code = read_file.read()
 
-    w = MainWindow(data)
-    w.setWindowTitle('Simple')
-    w.show()
+    lexer = Lexer()
+    lexer.input(code)
+    output = list(lexer.tokens())
+
+    closurefinder = ClosureFinder()
+    closurefinder.input(output)
+
+    output2 = closurefinder.tree()
+    with open("output", "w") as write_file:
+        for t in output2:
+            write_file.write(str(t))
+            write_file.write('\n')
+            
+    #w = MainWindow(data)
+    #w.setWindowTitle('Simple')
+    #w.show()
     
-    app.exec_()
+    #app.exec_()
 	
 
 if __name__ == "__main__":

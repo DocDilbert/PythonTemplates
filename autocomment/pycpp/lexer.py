@@ -26,7 +26,20 @@ class Lexer(object):
     rules = [
         (r'\s+',             'WHITESPACE'),   
         (r'\d+',             'NUMBER'),
-        (r'[a-zA-Z_]\w+',    'STRING'),
+        (r'\\',              'BACKSLASH'),
+        (r'&',               'AND'),
+        (r'\.',              'DOT'),
+        (r'<',               'LESS'),
+        (r'>',               'MORE'),
+        (r':',               'DOUBLEPOINT'),
+        (r';',               'ENDOFCOMMAND'),
+        (r',',               'COMMA'),
+        (r'!',               'NOT'),
+        (r'[a-zA-Z_]\w*',    'STRING'),
+        (r'#',               'HASH'),
+        (r'\?',              'QUESTIONMARK'),
+        (r'"',               'ASTERISK'),
+        (r'///',             'DOXYGENCOMMENT'),
         (r'//',              'COMMENT'),
         (r'/\*',             'COMMENT_BEGIN'),
         (r'\*/',             'COMMENT_END'),
@@ -86,7 +99,7 @@ class Lexer(object):
                 tok = token.Token(tok_type, m.group(groupname), self.pos)
                 self.pos = m.end()
                 return tok
-
+            print(self.buf[self.pos-5:self.pos+5])
             # if we're here, no rule matched
             raise LexerError(self.pos)
 
