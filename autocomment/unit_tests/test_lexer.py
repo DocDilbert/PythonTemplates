@@ -1,26 +1,10 @@
-import unittest
+import pytest
 from pycpp.lexer import Lexer
 from pycpp.code import Token
 
 
-class TestLexer(unittest.TestCase):
-
-    def test_lex(self):
-        lexer = Lexer()
-
-        for test in self.lexer_basic:
-
-            lexer.input(test['input'])
-
-            output = list(lexer.tokens())
-
-            self.assertEqual(len(output), len(
-                test['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge")
-
-            for element in zip(output, test['output']):
-                self.assertEqual(element[0], element[1], test['description'])
-
-    lexer_basic = [{
+LEXER_TESTS = [
+    {
         'description': "lexer_basic_1",
         'input': ' ',
         'output': [
@@ -77,8 +61,18 @@ class TestLexer(unittest.TestCase):
             Token('STRING', '_abc', 6)
         ]
     }
-    ]
+]
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.mark.parametrize("testdata", LEXER_TESTS)
+def test_lex(testdata):
+    lexer = Lexer()
+    lexer.input(testdata['input'])
+
+    output = list(lexer.tokens())
+
+    assert len(output) == len(
+        testdata['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
+
+    for element in zip(output, testdata['output']):
+        assert element[0] == element[1], testdata['description']

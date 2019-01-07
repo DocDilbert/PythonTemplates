@@ -7,8 +7,8 @@
         "-p",
         "*test*.py"
     ],
-    "python.unitTest.unittestEnabled": true,
-    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.pyTestEnabled": true,
     "python.unitTest.nosetestsEnabled": false,
     "autoDocstring.docstringFormat": "google",
     "restructuredtext.confPath": "${workspaceFolder}\\docs",

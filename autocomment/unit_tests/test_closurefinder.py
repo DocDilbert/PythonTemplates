@@ -1,26 +1,12 @@
 
-import unittest
+import pytest
 from pycpp.closurefinder import ClosureFinder
 from pycpp.code import Token
 from pycpp.code import Closure
 
-
-class TestClosureFinder(unittest.TestCase):
-    def test_closure_finder(self):
-        closurefinder = ClosureFinder()
-
-        for test in self.closure_finder_basic:
-            closurefinder.input(test['input'])
-
-            output = closurefinder.tree()
-            self.assertEqual(len(output), len(
-                test['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge")
-
-            for element in zip(output, test['output']):
-                self.assertEqual(element[0], element[1], test['description'])
-
-    closure_finder_basic = [{
-        'description' : "closure_finder_basic_1",
+CLOSURE_FINDER_TESTS = [
+    {
+        'description': "closure_finder_basic_1",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_END', '}', 1)
@@ -32,15 +18,15 @@ class TestClosureFinder(unittest.TestCase):
                 []
             )
         ]
-    }, {
-        'description' : "closure_finder_basic_2",
+    },
+    {
+        'description': "closure_finder_basic_2",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_BEGIN', '{', 1),
             Token('CB_END', '}', 2),
             Token('CB_END', '}', 3)
         ],
-
         'output': [
             Closure(
                 Token('CB_BEGIN', '{', 0),
@@ -54,8 +40,9 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ]
-    }, {
-        'description' : "closure_finder_basic_3",
+    },
+    {
+        'description': "closure_finder_basic_3",
         'input': [
             Closure(
                 [
@@ -64,7 +51,6 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ],
-
         'output': [
             Closure(
                 [
@@ -73,8 +59,9 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ]
-    }, {
-        'description' : "closure_finder_basic_4",
+    },
+    {
+        'description': "closure_finder_basic_4",
         'input': [
             Closure(
                 Token('CB_BEGIN', '{', 0),
@@ -88,7 +75,6 @@ class TestClosureFinder(unittest.TestCase):
                 ]
             )
         ],
-
         'output': [
             Closure(
                 Token('CB_BEGIN', '{', 0),
@@ -105,5 +91,14 @@ class TestClosureFinder(unittest.TestCase):
     }]
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.mark.parametrize("testdata", CLOSURE_FINDER_TESTS)
+def test_closure_finder(testdata):
+    closurefinder = ClosureFinder()
+    closurefinder.input(testdata['input'])
+
+    output = closurefinder.tree()
+    assert len(output) == len(
+        testdata['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
+
+    for element in zip(output, testdata['output']):
+        assert element[0] == element[1], testdata['description']
