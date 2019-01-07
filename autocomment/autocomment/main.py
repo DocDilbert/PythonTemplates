@@ -10,12 +10,13 @@
 
 import argparse
 import sys
-print(sys.path)
+
+#print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
 from pycpp.closurefinder import ClosureFinder
-import json
+
 
 def main():
     """Die Main Funktion

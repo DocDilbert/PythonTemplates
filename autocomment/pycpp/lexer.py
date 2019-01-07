@@ -66,7 +66,8 @@ class Lexer(object):
         idx = 1
         regex_parts = []
         self.group_type = {}
-
+        self.buf = None
+        self.pos = 0
         for regex, type in self.rules:
             groupname = 'GROUP%s' % idx
             regex_parts.append('(?P<%s>%s)' % (groupname, regex))

@@ -6,7 +6,7 @@ class TestLexer(unittest.TestCase):
 
     def test_lex(self):
         lexer_ = lexer.Lexer()
-        
+
         for test in self.lexer_basic:
             lexer_.input(test['input'])
 
@@ -17,54 +17,54 @@ class TestLexer(unittest.TestCase):
             for element in zip(output, test['output']):
                 self.assertEqual(element[0], element[1])
 
-    lexer_basic =   [
-        {'input' : ' ', 
+    lexer_basic = [
+        {'input' : ' ',
+         'output' : [
+             token.Token('WHITESPACE', ' ', 0)
+         ]
+        },
+        {'input' : '  ',
+         'output' : [
+             token.Token('WHITESPACE', '  ', 0)
+         ]
+        },
+        {'input' : '// TEST',
             'output' : [
-                token.Token('WHITESPACE', ' ', 0 )
+                token.Token('COMMENT', '//', 0),
+                token.Token('WHITESPACE', ' ', 2),
+                token.Token('STRING', 'TEST', 3)
             ]
         },
-        {'input' : '  ', 
+        {'input' : '{TEST}',
             'output' : [
-                token.Token('WHITESPACE', '  ', 0 )
+                token.Token('CB_BEGIN', '{', 0),
+                token.Token('STRING', 'TEST', 1),
+                token.Token('CB_END', '}', 5)
             ]
         },
-        {'input' : '// TEST', 
+        {'input' : 'ab c de',
             'output' : [
-                token.Token('COMMENT', '//', 0 ),
-                token.Token('WHITESPACE', ' ', 2 ),
-                token.Token('STRING', 'TEST', 3 )
+                token.Token('STRING', 'ab', 0),
+                token.Token('WHITESPACE', ' ', 2),
+                token.Token('STRING', 'c', 3),
+                token.Token('WHITESPACE', ' ', 4),
+                token.Token('STRING', 'de', 5),
             ]
         },
-        {'input' : '{TEST}', 
+        {'input' : '/*TEST*/',
             'output' : [
-                token.Token('CB_BEGIN', '{', 0 ),
-                token.Token('STRING', 'TEST', 1 ),
-                token.Token('CB_END', '}', 5 )
+                token.Token('COMMENT_BEGIN', '/*', 0),
+                token.Token('STRING', 'TEST', 2),
+                token.Token('COMMENT_END', '*/', 6)
             ]
         },
-        {'input' : 'ab c de', 
+        {'input' : 'erw = _abc',
             'output' : [
-                token.Token('STRING', 'ab', 0 ),
-                token.Token('WHITESPACE', ' ', 2 ),
-                token.Token('STRING', 'c', 3 ),
-                token.Token('WHITESPACE', ' ', 4 ),
-                token.Token('STRING', 'de', 5 ),
-            ]
-        },
-        {'input' : '/*TEST*/', 
-            'output' : [
-                token.Token('COMMENT_BEGIN', '/*', 0 ),
-                token.Token('STRING', 'TEST', 2 ),
-                token.Token('COMMENT_END', '*/', 6 )
-            ]
-        },
-        {'input' : 'erw = _abc', 
-            'output' : [
-                token.Token('STRING','erw',0 ),
-                token.Token('WHITESPACE', ' ', 3 ),
-                token.Token('EQUALS','=', 4 ),
-                token.Token('WHITESPACE', ' ', 5 ),
-                token.Token('STRING','_abc',6 )
+                token.Token('STRING','erw',0),
+                token.Token('WHITESPACE', ' ', 3),
+                token.Token('EQUALS','=', 4),
+                token.Token('WHITESPACE', ' ', 5),
+                token.Token('STRING','_abc',6)
             ]
         }
     ]
