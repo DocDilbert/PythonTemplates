@@ -9,6 +9,9 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            "env": {
+                "PYTHONPATH" : "${workspaceFolder}"
+            },
             "console": "integratedTerminal"
         },
         {
@@ -26,6 +29,9 @@
             "name": "Python: Current File (External Terminal)",
             "type": "python",
             "request": "launch",
+            "env": {
+                "PYTHONPATH" : "${workspaceFolder}"
+            },
             "program": "${file}",
             "console": "externalTerminal"
         }
