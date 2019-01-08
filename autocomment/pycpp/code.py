@@ -6,7 +6,7 @@ class Code(object):
     pass
 
 
-class Closure(Code):
+class Block(Code):
     def __init__(self, begin_del=None, end_del=None, content=None):
         self.begin_del = begin_del
         self.end_del = end_del
@@ -21,7 +21,7 @@ class Closure(Code):
     def serialize(self):
         output = []
         for t in self.content:
-            if isinstance(t, Closure):
+            if isinstance(t, Block):
                 output += t.serialize_closure()
             else:
                 output.append(t)
@@ -32,7 +32,7 @@ class Closure(Code):
         output = ""
         insert_trail = True
         for t in self.content:
-            if isinstance(t, Closure):
+            if isinstance(t, Block):
                 output += t.print_closure(trailing)
             else:
                 if insert_trail:

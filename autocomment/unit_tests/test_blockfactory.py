@@ -1,7 +1,7 @@
 import pytest
 from pycpp.blockfactory import BlockFactory
 from pycpp.code import Token, TokenNewLine
-from pycpp.code import Closure
+from pycpp.code import Block
 
 BLOCK_FACTORY_TESTS = [
     {
@@ -12,7 +12,7 @@ BLOCK_FACTORY_TESTS = [
             Token('END', '}', 1)
         ],
         'output': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 1),
                 []
@@ -28,7 +28,7 @@ BLOCK_FACTORY_TESTS = [
             Token('END', '}', 2)
         ],
         'output': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 2),
                 [
@@ -47,11 +47,11 @@ BLOCK_FACTORY_TESTS = [
             Token('END', '}', 3)
         ],
         'output': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 3),
                 [
-                    Closure(
+                    Block(
                         Token('BEGIN', '{', 1),
                         Token('END', '}', 2),
                         []
@@ -64,7 +64,7 @@ BLOCK_FACTORY_TESTS = [
         'description': "blockfactory_test_3",
         'search_pattern': ('BEGIN','END'),
         'input': [
-            Closure(
+            Block(
                 [
                     Token('BEGIN', '{', 0),
                     Token('END', '}', 1)
@@ -72,7 +72,7 @@ BLOCK_FACTORY_TESTS = [
             )
         ],
         'output': [
-            Closure(
+            Block(
                 [
                     Token('BEGIN', '{', 0),
                     Token('END', '}', 1)
@@ -84,11 +84,11 @@ BLOCK_FACTORY_TESTS = [
         'description': "blockfactory_test_4",
         'search_pattern': ('BEGIN','END'),
         'input': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 3),
                 [
-                    Closure(
+                    Block(
                         Token('BEGIN', '{', 1),
                         Token('END', '}', 2),
                         []
@@ -97,11 +97,11 @@ BLOCK_FACTORY_TESTS = [
             )
         ],
         'output': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 3),
                 [
-                    Closure(
+                    Block(
                         Token('BEGIN', '{', 1),
                         Token('END', '}', 2),
                         []
@@ -118,7 +118,7 @@ BLOCK_FACTORY_TESTS = [
             TokenNewLine( 1)
         ],
         'output': [
-            Closure(
+            Block(
                 Token('DOXYGENCOMMENT', '///', 0),
                 TokenNewLine( 1),
                 []
@@ -129,7 +129,7 @@ BLOCK_FACTORY_TESTS = [
         'description': "blockfactory_test_6",
         'search_pattern': ('DOXYGENCOMMENT','NL'),
         'input': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 3),
                 [
@@ -139,11 +139,11 @@ BLOCK_FACTORY_TESTS = [
             )
         ],
         'output': [
-            Closure(
+            Block(
                 Token('BEGIN', '{', 0),
                 Token('END', '}', 3),
                 [
-                    Closure(
+                    Block(
                         Token('DOXYGENCOMMENT', '///', 1),
                         TokenNewLine(2),
                         []
@@ -161,7 +161,7 @@ BLOCK_FACTORY_TESTS = [
             TokenNewLine(2)
         ],
         'output': [
-            Closure(
+            Block(
                 Token('DOXYGENCOMMENT', '///', 0),
                 TokenNewLine(1),
                 [ ]

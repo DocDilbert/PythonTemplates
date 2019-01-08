@@ -1,5 +1,5 @@
 from pycpp.code import Token
-from pycpp.code import Closure
+from pycpp.code import Block
 
 
 class BlockFactory(object):
@@ -12,17 +12,17 @@ class BlockFactory(object):
         self.tokens = tokens
 
     def tree_recursive(self, tokens):
-        output = Closure()
+        output = Block()
         actual = output
         closure_tree = []
 
         for token in tokens:
-            if isinstance(token, Closure):
-                output.add(Closure(token.begin_del, token.end_del,
+            if isinstance(token, Block):
+                output.add(Block(token.begin_del, token.end_del,
                                    self.tree_recursive(token.content)))
             else:
                 if token.type == self.begin_token_type:
-                    temp = Closure()
+                    temp = Block()
                     temp.begin_del = token
                     closure_tree.append(actual)
                     actual.add(temp)
