@@ -1,12 +1,11 @@
-
 import pytest
 from pycpp.blockfactory import BlockFactory
-from pycpp.code import Token
+from pycpp.code import Token, TokenNewLine
 from pycpp.code import Closure
 
 BLOCK_FACTORY_TESTS = [
     {
-        'description': "blockfactory_test_1",
+        'description': "blockfactory_test_0",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_END', '}', 1)
@@ -16,6 +15,23 @@ BLOCK_FACTORY_TESTS = [
                 Token('CB_BEGIN', '{', 0),
                 Token('CB_END', '}', 1),
                 []
+            )
+        ]
+    },
+    {
+        'description': "blockfactory_test_1",
+        'input': [
+            Token('CB_BEGIN', '{', 0),
+            TokenNewLine(1),
+            Token('CB_END', '}', 2)
+        ],
+        'output': [
+            Closure(
+                Token('CB_BEGIN', '{', 0),
+                Token('CB_END', '}', 2),
+                [
+                    TokenNewLine(1)
+                ]
             )
         ]
     },

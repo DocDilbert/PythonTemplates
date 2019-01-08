@@ -5,7 +5,46 @@
 
 import re
 import sys
-from pycpp.code import Token
+from pycpp.code import Token, TokenNewLine
+
+def token_factory(type_, val, pos):
+    return Token(type_, val, pos)
+
+def token_newline_factory(type_, val, pos):
+    return TokenNewLine(pos)
+
+CPP_RULES = [
+    (r' +',              'WHITESPACE', token_factory),
+    (r'\t+',             'TAB', token_factory),
+    (r'\n+',             'NEWLINE', token_newline_factory),
+    (r'\d+',             'NUMBER', token_factory),
+    (r'\\',              'BACKSLASH', token_factory),
+    (r'&',               'AND', token_factory),
+    (r'\.',              'DOT', token_factory),
+    (r'<',               'LESS', token_factory),
+    (r'>',               'MORE', token_factory),
+    (r':',               'DOUBLEPOINT', token_factory),
+    (r';',               'ENDOFCOMMAND', token_factory),
+    (r',',               'COMMA', token_factory),
+    (r'!',               'NOT', token_factory),
+    (r'[a-zA-Z_]\w*',    'STRING', token_factory),
+    (r'#',               'HASH', token_factory),
+    (r'\?',              'QUESTIONMARK', token_factory),
+    (r'"',               'ASTERISK', token_factory),
+    (r'///',             'DOXYGENCOMMENT', token_factory),
+    (r'//',              'COMMENT', token_factory),
+    (r'/\*',             'COMMENT_BEGIN', token_factory),
+    (r'\*/',             'COMMENT_END', token_factory),
+    (r'{',               'CB_BEGIN', token_factory),  # CB ist die Kurzform von Code Block
+    (r'}',               'CB_END', token_factory),   # CB ist die Kurzform von Code Block
+    (r'\+',              'PLUS', token_factory),
+    (r'\-',              'MINUS', token_factory),
+    (r'\*',              'MULTIPLY', token_factory),
+    (r'\/',              'DIVIDE', token_factory),
+    (r'\(',              'LP', token_factory),
+    (r'\)',              'RP', token_factory),
+    (r'=',               'EQUALS', token_factory),
+]
 
 class LexerError(Exception):
     """ Lexer error exception.
@@ -13,6 +52,7 @@ class LexerError(Exception):
         pos:
             Position in the input line where the error occurred.
     """
+
     def __init__(self, pos):
         self.pos = pos
 
@@ -22,37 +62,6 @@ class Lexer(object):
 
         See below for an example of usage.
     """
-
-    rules = [
-        (r'\s+',             'WHITESPACE'),   
-        (r'\d+',             'NUMBER'),
-        (r'\\',              'BACKSLASH'),
-        (r'&',               'AND'),
-        (r'\.',              'DOT'),
-        (r'<',               'LESS'),
-        (r'>',               'MORE'),
-        (r':',               'DOUBLEPOINT'),
-        (r';',               'ENDOFCOMMAND'),
-        (r',',               'COMMA'),
-        (r'!',               'NOT'),
-        (r'[a-zA-Z_]\w*',    'STRING'),
-        (r'#',               'HASH'),
-        (r'\?',              'QUESTIONMARK'),
-        (r'"',               'ASTERISK'),
-        (r'///',             'DOXYGENCOMMENT'),
-        (r'//',              'COMMENT'),
-        (r'/\*',             'COMMENT_BEGIN'),
-        (r'\*/',             'COMMENT_END'),
-        (r'{',               'CB_BEGIN'), # CB ist die Kurzform von Code Block
-        (r'}',               'CB_END'),   # CB ist die Kurzform von Code Block
-        (r'\+',              'PLUS'),
-        (r'\-',              'MINUS'),
-        (r'\*',              'MULTIPLY'),
-        (r'\/',              'DIVIDE'),
-        (r'\(',              'LP'),
-        (r'\)',              'RP'),
-        (r'=',               'EQUALS'),
-    ]
 
     def __init__(self):
         """ Create a lexer.
@@ -68,10 +77,10 @@ class Lexer(object):
         self.group_type = {}
         self.buf = None
         self.pos = 0
-        for regex, type in self.rules:
+        for regex, type_, factory in CPP_RULES:
             groupname = 'GROUP%s' % idx
             regex_parts.append('(?P<%s>%s)' % (groupname, regex))
-            self.group_type[groupname] = type
+            self.group_type[groupname] = type_
             idx += 1
 
         self.regex = re.compile('|'.join(regex_parts))
@@ -109,7 +118,8 @@ class Lexer(object):
         """
         while 1:
             tok = self.token()
-            if tok is None: break
+            if tok is None:
+                break
             yield tok
 
 
@@ -119,9 +129,8 @@ if __name__ == '__main__':
     #lx = Lexer(rules, skip_whitespace=True)
     #lx.input('erw = _abc + 12*(R4-623902)  ')
 
-    #try:
+    # try:
    #     for tok in lx.tokens():
    #         print(tok)
    # except LexerError as err:
    #     print('LexerError at position %s' % err.pos)
-

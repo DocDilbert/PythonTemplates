@@ -1,11 +1,11 @@
 DOXYGENCOMMENT(///) at 0
-WHITESPACE(
+NEWLINE(
 ) at 3
 DOXYGENCOMMENT(///) at 4
 WHITESPACE( ) at 7
 BACKSLASH(\) at 8
 STRING(file) at 9
-WHITESPACE(
+NEWLINE(
 ) at 13
 DOXYGENCOMMENT(///) at 14
 WHITESPACE( ) at 17
@@ -33,7 +33,7 @@ STRING(rights) at 63
 WHITESPACE( ) at 69
 STRING(reserved) at 70
 DOT(.) at 78
-WHITESPACE(
+NEWLINE(
 ) at 79
 DOXYGENCOMMENT(///) at 80
 WHITESPACE( ) at 83
@@ -41,10 +41,10 @@ BACKSLASH(\) at 84
 STRING(author) at 85
 WHITESPACE( ) at 91
 STRING(cgg) at 92
-WHITESPACE(
+NEWLINE(
 ) at 95
 DOXYGENCOMMENT(///) at 96
-WHITESPACE(
+NEWLINE(
 ) at 99
 DOXYGENCOMMENT(///) at 100
 WHITESPACE( ) at 103
@@ -71,16 +71,16 @@ WHITESPACE( ) at 157
 STRING(oop) at 158
 WHITESPACE( ) at 161
 STRING(environment) at 162
-WHITESPACE(
+NEWLINE(
 ) at 173
 DOXYGENCOMMENT(///) at 174
-WHITESPACE(
+NEWLINE(
 ) at 177
 HASH(#) at 178
 STRING(pragma) at 179
 WHITESPACE( ) at 185
 STRING(once) at 186
-WHITESPACE(
+NEWLINE(
 
 ) at 190
 HASH(#) at 192
@@ -91,7 +91,7 @@ STRING(IRteConfiguration) at 202
 DOT(.) at 219
 STRING(h) at 220
 ASTERISK(") at 221
-WHITESPACE(
+NEWLINE(
 ) at 222
 HASH(#) at 223
 STRING(include) at 224
@@ -101,7 +101,7 @@ STRING(LibRteDeviceDescription) at 233
 DOT(.) at 256
 STRING(h) at 257
 ASTERISK(") at 258
-WHITESPACE(
+NEWLINE(
 ) at 259
 HASH(#) at 260
 STRING(include) at 261
@@ -111,7 +111,7 @@ STRING(LibRteDiagnosis) at 270
 DOT(.) at 285
 STRING(h) at 286
 ASTERISK(") at 287
-WHITESPACE(
+NEWLINE(
 ) at 288
 HASH(#) at 289
 STRING(include) at 290
@@ -121,7 +121,7 @@ STRING(LibRteFirmwareUpdateChannel) at 299
 DOT(.) at 326
 STRING(h) at 327
 ASTERISK(") at 328
-WHITESPACE(
+NEWLINE(
 ) at 329
 HASH(#) at 330
 STRING(include) at 331
@@ -131,7 +131,7 @@ STRING(LibRteMailboxManager) at 340
 DOT(.) at 360
 STRING(h) at 361
 ASTERISK(") at 362
-WHITESPACE(
+NEWLINE(
 ) at 363
 HASH(#) at 364
 STRING(include) at 365
@@ -141,7 +141,7 @@ STRING(LibRteModuleConfig) at 374
 DOT(.) at 392
 STRING(h) at 393
 ASTERISK(") at 394
-WHITESPACE(
+NEWLINE(
 ) at 395
 HASH(#) at 396
 STRING(include) at 397
@@ -151,7 +151,7 @@ STRING(LibRteNrtDriver) at 406
 DOT(.) at 421
 STRING(h) at 422
 ASTERISK(") at 423
-WHITESPACE(
+NEWLINE(
 ) at 424
 HASH(#) at 425
 STRING(include) at 426
@@ -161,7 +161,7 @@ STRING(LibRteProcessManager) at 435
 DOT(.) at 455
 STRING(h) at 456
 ASTERISK(") at 457
-WHITESPACE(
+NEWLINE(
 ) at 458
 HASH(#) at 459
 STRING(include) at 460
@@ -171,7 +171,7 @@ STRING(LibRteWatchdog) at 469
 DOT(.) at 483
 STRING(h) at 484
 ASTERISK(") at 485
-WHITESPACE(
+NEWLINE(
 ) at 486
 HASH(#) at 487
 STRING(include) at 488
@@ -181,7 +181,7 @@ STRING(FMCTypes) at 497
 DOT(.) at 505
 STRING(h) at 506
 ASTERISK(") at 507
-WHITESPACE(
+NEWLINE(
 ) at 508
 HASH(#) at 509
 STRING(include) at 510
@@ -191,7 +191,7 @@ STRING(FMCReturnCodes) at 519
 DOT(.) at 533
 STRING(h) at 534
 ASTERISK(") at 535
-WHITESPACE(
+NEWLINE(
 
 ) at 536
 HASH(#) at 538
@@ -202,7 +202,7 @@ STRING(ComponentBaseLrte) at 548
 DOT(.) at 565
 STRING(h) at 566
 ASTERISK(") at 567
-WHITESPACE(
+NEWLINE(
 ) at 568
 HASH(#) at 569
 STRING(include) at 570
@@ -212,7 +212,7 @@ STRING(librte) at 579
 DOT(.) at 585
 STRING(h) at 586
 ASTERISK(") at 587
-WHITESPACE(
+NEWLINE(
 ) at 588
 HASH(#) at 589
 STRING(include) at 590
@@ -222,7 +222,7 @@ STRING(sciopta) at 599
 DOT(.) at 606
 STRING(h) at 607
 ASTERISK(") at 608
-WHITESPACE(
+NEWLINE(
 ) at 609
 HASH(#) at 610
 STRING(include) at 611
@@ -232,7 +232,7 @@ STRING(inline) at 620
 DOT(.) at 626
 STRING(h) at 627
 ASTERISK(") at 628
-WHITESPACE(
+NEWLINE(
 
 ) at 629
 HASH(#) at 631
@@ -243,7 +243,7 @@ STRING(IEtherCatDriver) at 641
 DOT(.) at 656
 STRING(h) at 657
 ASTERISK(") at 658
-WHITESPACE(
+NEWLINE(
 ) at 659
 HASH(#) at 660
 STRING(include) at 661
@@ -253,7 +253,7 @@ STRING(IProfiNetDriver) at 670
 DOT(.) at 685
 STRING(h) at 686
 ASTERISK(") at 687
-WHITESPACE(
+NEWLINE(
 ) at 688
 HASH(#) at 689
 STRING(include) at 690
@@ -263,7 +263,7 @@ STRING(IDeviceIdentification) at 699
 DOT(.) at 720
 STRING(h) at 721
 ASTERISK(") at 722
-WHITESPACE(
+NEWLINE(
 ) at 723
 HASH(#) at 724
 STRING(include) at 725
@@ -273,7 +273,7 @@ STRING(IMemory) at 734
 DOT(.) at 741
 STRING(h) at 742
 ASTERISK(") at 743
-WHITESPACE(
+NEWLINE(
 ) at 744
 HASH(#) at 745
 STRING(include) at 746
@@ -283,7 +283,7 @@ STRING(IPhysicalGpioChannel) at 755
 DOT(.) at 775
 STRING(h) at 776
 ASTERISK(") at 777
-WHITESPACE(
+NEWLINE(
 ) at 778
 HASH(#) at 779
 STRING(include) at 780
@@ -293,7 +293,7 @@ STRING(IDeviceShutdown) at 789
 DOT(.) at 804
 STRING(h) at 805
 ASTERISK(") at 806
-WHITESPACE(
+NEWLINE(
 ) at 807
 HASH(#) at 808
 STRING(include) at 809
@@ -303,7 +303,7 @@ STRING(ISoftReset) at 818
 DOT(.) at 828
 STRING(h) at 829
 ASTERISK(") at 830
-WHITESPACE(
+NEWLINE(
 ) at 831
 HASH(#) at 832
 STRING(include) at 833
@@ -313,7 +313,7 @@ STRING(IEtherCatStateChangeObserver) at 842
 DOT(.) at 870
 STRING(h) at 871
 ASTERISK(") at 872
-WHITESPACE(
+NEWLINE(
 ) at 873
 HASH(#) at 874
 STRING(include) at 875
@@ -323,7 +323,7 @@ STRING(ICoeServiceDataHandler) at 884
 DOT(.) at 906
 STRING(h) at 907
 ASTERISK(") at 908
-WHITESPACE(
+NEWLINE(
 ) at 909
 HASH(#) at 910
 STRING(include) at 911
@@ -333,7 +333,7 @@ STRING(IProcessDataConfigurationHandler) at 920
 DOT(.) at 952
 STRING(h) at 953
 ASTERISK(") at 954
-WHITESPACE(
+NEWLINE(
 ) at 955
 HASH(#) at 956
 STRING(include) at 957
@@ -343,7 +343,7 @@ STRING(ICommunicationInformation) at 966
 DOT(.) at 991
 STRING(h) at 992
 ASTERISK(") at 993
-WHITESPACE(
+NEWLINE(
 ) at 994
 HASH(#) at 995
 STRING(include) at 996
@@ -353,7 +353,7 @@ STRING(IHardwareInformation) at 1005
 DOT(.) at 1025
 STRING(h) at 1026
 ASTERISK(") at 1027
-WHITESPACE(
+NEWLINE(
 ) at 1028
 HASH(#) at 1029
 STRING(include) at 1030
@@ -363,7 +363,7 @@ STRING(IFirmwareVersionInformation) at 1039
 DOT(.) at 1066
 STRING(h) at 1067
 ASTERISK(") at 1068
-WHITESPACE(
+NEWLINE(
 ) at 1069
 HASH(#) at 1070
 STRING(include) at 1071
@@ -373,7 +373,7 @@ STRING(IEtherCatStateChangeHandler) at 1080
 DOT(.) at 1107
 STRING(h) at 1108
 ASTERISK(") at 1109
-WHITESPACE(
+NEWLINE(
 ) at 1110
 HASH(#) at 1111
 STRING(include) at 1112
@@ -383,7 +383,7 @@ STRING(ILed) at 1121
 DOT(.) at 1125
 STRING(h) at 1126
 ASTERISK(") at 1127
-WHITESPACE(
+NEWLINE(
 
 ) at 1128
 HASH(#) at 1130
@@ -392,7 +392,7 @@ WHITESPACE( ) at 1138
 LESS(<) at 1139
 STRING(atomic) at 1140
 MORE(>) at 1146
-WHITESPACE(
+NEWLINE(
 
 ) at 1147
 HASH(#) at 1149
@@ -429,7 +429,7 @@ STRING(in) at 1254
 WHITESPACE( ) at 1256
 STRING(seconds) at 1257
 RP()) at 1264
-WHITESPACE(
+NEWLINE(
 ) at 1265
 HASH(#) at 1266
 STRING(define) at 1267
@@ -471,7 +471,7 @@ STRING(in) at 1390
 WHITESPACE( ) at 1392
 STRING(seconds) at 1393
 RP()) at 1400
-WHITESPACE(
+NEWLINE(
 
 ) at 1401
 HASH(#) at 1403
@@ -505,7 +505,7 @@ WHITESPACE( ) at 1499
 STRING(to) at 1500
 WHITESPACE( ) at 1502
 STRING(terminate) at 1503
-WHITESPACE(
+NEWLINE(
 ) at 1512
 HASH(#) at 1513
 STRING(define) at 1514
@@ -546,22 +546,22 @@ STRING(sleep) at 1627
 WHITESPACE( ) at 1632
 STRING(time) at 1633
 RP()) at 1637
-WHITESPACE(
+NEWLINE(
 
 ) at 1638
 STRING(namespace) at 1640
 WHITESPACE( ) at 1649
 STRING(DSL) at 1650
-WHITESPACE(
+NEWLINE(
 ) at 1653
--->WHITESPACE(
+-->NEWLINE(
 ) at 1655
 -->STRING(namespace) at 1656
 -->WHITESPACE( ) at 1665
 -->STRING(Drivers) at 1666
--->WHITESPACE(
+-->NEWLINE(
 ) at 1673
----->WHITESPACE(
+---->NEWLINE(
 
 ) at 1675
 ---->DOXYGENCOMMENT(///) at 1677
@@ -593,7 +593,7 @@ WHITESPACE(
 ---->STRING(c) at 1754
 ---->PLUS(+) at 1755
 ---->PLUS(+) at 1756
----->WHITESPACE(
+---->NEWLINE(
 ) at 1757
 ---->DOXYGENCOMMENT(///) at 1758
 ---->WHITESPACE( ) at 1761
@@ -609,15 +609,16 @@ WHITESPACE(
 ---->WHITESPACE( ) at 1783
 ---->STRING(implementation) at 1784
 ---->DOT(.) at 1798
----->WHITESPACE(
+---->NEWLINE(
 ) at 1799
 ---->STRING(class) at 1800
 ---->WHITESPACE( ) at 1805
 ---->STRING(LibRteDriver) at 1806
 ---->WHITESPACE( ) at 1818
 ---->DOUBLEPOINT(:) at 1819
----->WHITESPACE(
-    ) at 1820
+---->NEWLINE(
+) at 1820
+---->WHITESPACE(    ) at 1821
 ---->STRING(public) at 1825
 ---->WHITESPACE( ) at 1831
 ---->STRING(Autogen) at 1832
@@ -628,8 +629,9 @@ WHITESPACE(
 ---->DOUBLEPOINT(:) at 1862
 ---->STRING(ComponentBaseLrte) at 1863
 ---->COMMA(,) at 1880
----->WHITESPACE(
-    ) at 1881
+---->NEWLINE(
+) at 1881
+---->WHITESPACE(    ) at 1882
 ---->STRING(public) at 1886
 ---->WHITESPACE( ) at 1892
 ---->STRING(Interfaces) at 1893
@@ -637,8 +639,9 @@ WHITESPACE(
 ---->DOUBLEPOINT(:) at 1904
 ---->STRING(IEtherCatDriver) at 1905
 ---->COMMA(,) at 1920
----->WHITESPACE(
-    ) at 1921
+---->NEWLINE(
+) at 1921
+---->WHITESPACE(    ) at 1922
 ---->STRING(public) at 1926
 ---->WHITESPACE( ) at 1932
 ---->STRING(Interfaces) at 1933
@@ -646,36 +649,40 @@ WHITESPACE(
 ---->DOUBLEPOINT(:) at 1944
 ---->STRING(IProfiNetDriver) at 1945
 ---->COMMA(,) at 1960
----->WHITESPACE(
-    ) at 1961
+---->NEWLINE(
+) at 1961
+---->WHITESPACE(    ) at 1962
 ---->STRING(public) at 1966
 ---->WHITESPACE( ) at 1972
 ---->STRING(Interfaces) at 1973
 ---->DOUBLEPOINT(:) at 1983
 ---->DOUBLEPOINT(:) at 1984
 ---->STRING(ILedTest) at 1985
----->WHITESPACE(
+---->NEWLINE(
 ) at 1993
------->WHITESPACE(
+------>NEWLINE(
 ) at 1995
 ------>STRING(public) at 1996
 ------>DOUBLEPOINT(:) at 2002
------->WHITESPACE(
-    ) at 2003
+------>NEWLINE(
+) at 2003
+------>WHITESPACE(    ) at 2004
 ------>DOXYGENCOMMENT(///) at 2008
 ------>WHITESPACE( ) at 2011
 ------>STRING(Default) at 2012
 ------>WHITESPACE( ) at 2019
 ------>STRING(constructor) at 2020
------->WHITESPACE(
-    ) at 2031
+------>NEWLINE(
+) at 2031
+------>WHITESPACE(    ) at 2032
 ------>STRING(LibRteDriver) at 2036
 ------>LP(() at 2048
 ------>RP()) at 2049
 ------>ENDOFCOMMAND(;) at 2050
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 2051
+) at 2051
+------>WHITESPACE(    ) at 2053
 ------>DOXYGENCOMMENT(///) at 2057
 ------>WHITESPACE( ) at 2060
 ------>STRING(Initialize) at 2061
@@ -693,8 +700,9 @@ WHITESPACE(
 ------>STRING(fieldbus) at 2111
 ------>WHITESPACE( ) at 2119
 ------>STRING(chip) at 2120
------->WHITESPACE(
-    ) at 2124
+------>NEWLINE(
+) at 2124
+------>WHITESPACE(    ) at 2125
 ------>DOXYGENCOMMENT(///) at 2129
 ------>WHITESPACE( ) at 2132
 ------>BACKSLASH(\) at 2133
@@ -717,8 +725,9 @@ WHITESPACE(
 ------>STRING(handler) at 2189
 ------>WHITESPACE( ) at 2196
 ------>STRING(interface) at 2197
------->WHITESPACE(
-    ) at 2206
+------>NEWLINE(
+) at 2206
+------>WHITESPACE(    ) at 2207
 ------>DOXYGENCOMMENT(///) at 2211
 ------>WHITESPACE( ) at 2214
 ------>BACKSLASH(\) at 2215
@@ -741,8 +750,9 @@ WHITESPACE(
 ------>STRING(handler) at 2271
 ------>WHITESPACE( ) at 2278
 ------>STRING(interface) at 2279
------->WHITESPACE(
-    ) at 2288
+------>NEWLINE(
+) at 2288
+------>WHITESPACE(    ) at 2289
 ------>DOXYGENCOMMENT(///) at 2293
 ------>WHITESPACE( ) at 2296
 ------>BACKSLASH(\) at 2297
@@ -765,8 +775,9 @@ WHITESPACE(
 ------>STRING(handler) at 2353
 ------>WHITESPACE( ) at 2360
 ------>STRING(interface) at 2361
------->WHITESPACE(
-    ) at 2370
+------>NEWLINE(
+) at 2370
+------>WHITESPACE(    ) at 2371
 ------>DOXYGENCOMMENT(///) at 2375
 ------>WHITESPACE( ) at 2378
 ------>BACKSLASH(\) at 2379
@@ -775,8 +786,9 @@ WHITESPACE(
 ------>STRING(moduleConfig) at 2386
 ------>WHITESPACE( ) at 2398
 ------>STRING(TODO) at 2399
------->WHITESPACE(
-    ) at 2403
+------>NEWLINE(
+) at 2403
+------>WHITESPACE(    ) at 2404
 ------>DOXYGENCOMMENT(///) at 2408
 ------>WHITESPACE( ) at 2411
 ------>BACKSLASH(\) at 2412
@@ -805,8 +817,9 @@ WHITESPACE(
 ------>DOT(.) at 2509
 ------>DOT(.) at 2510
 ------>DOT(.) at 2511
------->WHITESPACE(
-    ) at 2512
+------>NEWLINE(
+) at 2512
+------>WHITESPACE(    ) at 2513
 ------>DOXYGENCOMMENT(///) at 2517
 ------>WHITESPACE( ) at 2520
 ------>BACKSLASH(\) at 2521
@@ -827,8 +840,9 @@ WHITESPACE(
 ------>STRING(RTE) at 2570
 ------>WHITESPACE( ) at 2573
 ------>STRING(Controller) at 2574
------->WHITESPACE(
-    ) at 2584
+------>NEWLINE(
+) at 2584
+------>WHITESPACE(    ) at 2585
 ------>DOXYGENCOMMENT(///) at 2589
 ------>WHITESPACE( ) at 2592
 ------>BACKSLASH(\) at 2593
@@ -839,8 +853,9 @@ WHITESPACE(
 ------>STRING(reset) at 2610
 ------>WHITESPACE( ) at 2615
 ------>STRING(output) at 2616
------->WHITESPACE(
-    ) at 2622
+------>NEWLINE(
+) at 2622
+------>WHITESPACE(    ) at 2623
 ------>DOXYGENCOMMENT(///) at 2627
 ------>WHITESPACE( ) at 2630
 ------>BACKSLASH(\) at 2631
@@ -851,8 +866,9 @@ WHITESPACE(
 ------>STRING(pdIrq) at 2644
 ------>WHITESPACE( ) at 2649
 ------>STRING(output) at 2650
------->WHITESPACE(
-    ) at 2656
+------>NEWLINE(
+) at 2656
+------>WHITESPACE(    ) at 2657
 ------>DOXYGENCOMMENT(///) at 2661
 ------>WHITESPACE( ) at 2664
 ------>BACKSLASH(\) at 2665
@@ -863,8 +879,9 @@ WHITESPACE(
 ------>STRING(mailbox) at 2679
 ------>WHITESPACE( ) at 2686
 ------>STRING(output) at 2687
------->WHITESPACE(
-    ) at 2693
+------>NEWLINE(
+) at 2693
+------>WHITESPACE(    ) at 2694
 ------>DOXYGENCOMMENT(///) at 2698
 ------>WHITESPACE( ) at 2701
 ------>BACKSLASH(\) at 2702
@@ -887,8 +904,9 @@ WHITESPACE(
 ------>STRING(file) at 2761
 ------>WHITESPACE( ) at 2765
 ------>STRING(access) at 2766
------->WHITESPACE(
-    ) at 2772
+------>NEWLINE(
+) at 2772
+------>WHITESPACE(    ) at 2773
 ------>DOXYGENCOMMENT(///) at 2777
 ------>WHITESPACE( ) at 2780
 ------>BACKSLASH(\) at 2781
@@ -923,8 +941,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 2886
 ------>STRING(happen) at 2887
 ------>RP()) at 2893
------->WHITESPACE(
-    ) at 2894
+------>NEWLINE(
+) at 2894
+------>WHITESPACE(    ) at 2895
 ------>DOXYGENCOMMENT(///) at 2899
 ------>WHITESPACE( ) at 2902
 ------>BACKSLASH(\) at 2903
@@ -933,8 +952,9 @@ WHITESPACE(
 ------>STRING(reset) at 2910
 ------>WHITESPACE( ) at 2915
 ------>STRING(TODO) at 2916
------->WHITESPACE(
-    ) at 2920
+------>NEWLINE(
+) at 2920
+------>WHITESPACE(    ) at 2921
 ------>DOXYGENCOMMENT(///) at 2925
 ------>WHITESPACE( ) at 2928
 ------>BACKSLASH(\) at 2929
@@ -943,8 +963,9 @@ WHITESPACE(
 ------>STRING(hardwareInformation) at 2936
 ------>WHITESPACE( ) at 2955
 ------>STRING(TODO) at 2956
------->WHITESPACE(
-    ) at 2960
+------>NEWLINE(
+) at 2960
+------>WHITESPACE(    ) at 2961
 ------>DOXYGENCOMMENT(///) at 2965
 ------>WHITESPACE( ) at 2968
 ------>BACKSLASH(\) at 2969
@@ -953,42 +974,48 @@ WHITESPACE(
 ------>STRING(firmwareVersionInformation) at 2976
 ------>WHITESPACE( ) at 3002
 ------>STRING(TODO) at 3003
------->WHITESPACE(
-    ) at 3007
+------>NEWLINE(
+) at 3007
+------>WHITESPACE(    ) at 3008
 ------>STRING(FMCReturnCode) at 3012
 ------>WHITESPACE( ) at 3025
 ------>STRING(initBase) at 3026
 ------>LP(() at 3034
------->WHITESPACE(
-        ) at 3035
+------>NEWLINE(
+) at 3035
+------>WHITESPACE(        ) at 3036
 ------>STRING(LibRteProcessHandler) at 3044
 ------>AND(&) at 3064
 ------>WHITESPACE( ) at 3065
 ------>STRING(processP0Handler) at 3066
 ------>COMMA(,) at 3082
------->WHITESPACE(
-        ) at 3083
+------>NEWLINE(
+) at 3083
+------>WHITESPACE(        ) at 3084
 ------>STRING(LibRteProcessHandler) at 3092
 ------>AND(&) at 3112
 ------>WHITESPACE( ) at 3113
 ------>STRING(processP1Handler) at 3114
 ------>COMMA(,) at 3130
------->WHITESPACE(
-        ) at 3131
+------>NEWLINE(
+) at 3131
+------>WHITESPACE(        ) at 3132
 ------>STRING(LibRteProcessHandler) at 3140
 ------>AND(&) at 3160
 ------>WHITESPACE( ) at 3161
 ------>STRING(processP2Handler) at 3162
 ------>COMMA(,) at 3178
------->WHITESPACE(
-        ) at 3179
+------>NEWLINE(
+) at 3179
+------>WHITESPACE(        ) at 3180
 ------>STRING(LibRteModuleConfig) at 3188
 ------>AND(&) at 3206
 ------>WHITESPACE( ) at 3207
 ------>STRING(moduleConfig) at 3208
 ------>COMMA(,) at 3220
------->WHITESPACE(
-        ) at 3221
+------>NEWLINE(
+) at 3221
+------>WHITESPACE(        ) at 3222
 ------>STRING(Interfaces) at 3230
 ------>DOUBLEPOINT(:) at 3240
 ------>DOUBLEPOINT(:) at 3241
@@ -997,8 +1024,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3268
 ------>STRING(communicationInformation) at 3269
 ------>COMMA(,) at 3293
------->WHITESPACE(
-        ) at 3294
+------>NEWLINE(
+) at 3294
+------>WHITESPACE(        ) at 3295
 ------>STRING(Interfaces) at 3303
 ------>DOUBLEPOINT(:) at 3313
 ------>DOUBLEPOINT(:) at 3314
@@ -1007,8 +1035,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3336
 ------>STRING(powerFailRTE) at 3337
 ------>COMMA(,) at 3349
------->WHITESPACE(
-        ) at 3350
+------>NEWLINE(
+) at 3350
+------>WHITESPACE(        ) at 3351
 ------>STRING(Interfaces) at 3359
 ------>DOUBLEPOINT(:) at 3369
 ------>DOUBLEPOINT(:) at 3370
@@ -1017,8 +1046,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3392
 ------>STRING(chipReset) at 3393
 ------>COMMA(,) at 3402
------->WHITESPACE(
-        ) at 3403
+------>NEWLINE(
+) at 3403
+------>WHITESPACE(        ) at 3404
 ------>STRING(Interfaces) at 3412
 ------>DOUBLEPOINT(:) at 3422
 ------>DOUBLEPOINT(:) at 3423
@@ -1027,8 +1057,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3445
 ------>STRING(pdIrq) at 3446
 ------>COMMA(,) at 3451
------->WHITESPACE(
-        ) at 3452
+------>NEWLINE(
+) at 3452
+------>WHITESPACE(        ) at 3453
 ------>STRING(Interfaces) at 3461
 ------>DOUBLEPOINT(:) at 3471
 ------>DOUBLEPOINT(:) at 3472
@@ -1037,8 +1068,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3494
 ------>STRING(mbxIrq) at 3495
 ------>COMMA(,) at 3501
------->WHITESPACE(
-        ) at 3502
+------>NEWLINE(
+) at 3502
+------>WHITESPACE(        ) at 3503
 ------>STRING(Interfaces) at 3511
 ------>DOUBLEPOINT(:) at 3521
 ------>DOUBLEPOINT(:) at 3522
@@ -1047,8 +1079,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3531
 ------>STRING(memory) at 3532
 ------>COMMA(,) at 3538
------->WHITESPACE(
-        ) at 3539
+------>NEWLINE(
+) at 3539
+------>WHITESPACE(        ) at 3540
 ------>STRING(Interfaces) at 3548
 ------>DOUBLEPOINT(:) at 3558
 ------>DOUBLEPOINT(:) at 3559
@@ -1057,8 +1090,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3576
 ------>STRING(deviceShutdown) at 3577
 ------>COMMA(,) at 3591
------->WHITESPACE(
-        ) at 3592
+------>NEWLINE(
+) at 3592
+------>WHITESPACE(        ) at 3593
 ------>STRING(Interfaces) at 3601
 ------>DOUBLEPOINT(:) at 3611
 ------>DOUBLEPOINT(:) at 3612
@@ -1067,8 +1101,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3624
 ------>STRING(reset) at 3625
 ------>COMMA(,) at 3630
------->WHITESPACE(
-        ) at 3631
+------>NEWLINE(
+) at 3631
+------>WHITESPACE(        ) at 3632
 ------>STRING(Interfaces) at 3640
 ------>DOUBLEPOINT(:) at 3650
 ------>DOUBLEPOINT(:) at 3651
@@ -1078,8 +1113,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 3674
 ------>STRING(hardwareInformation) at 3675
 ------>COMMA(,) at 3694
------->WHITESPACE(
-        ) at 3695
+------>NEWLINE(
+) at 3695
+------>WHITESPACE(        ) at 3696
 ------>STRING(Interfaces) at 3704
 ------>DOUBLEPOINT(:) at 3714
 ------>DOUBLEPOINT(:) at 3715
@@ -1087,13 +1123,15 @@ WHITESPACE(
 ------>AND(&) at 3743
 ------>WHITESPACE( ) at 3744
 ------>STRING(firmwareVersionInformation) at 3745
------->WHITESPACE(
-    ) at 3771
+------>NEWLINE(
+) at 3771
+------>WHITESPACE(    ) at 3772
 ------>RP()) at 3776
 ------>ENDOFCOMMAND(;) at 3777
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 3778
+) at 3778
+------>WHITESPACE(    ) at 3780
 ------>DOXYGENCOMMENT(///) at 3784
 ------>WHITESPACE( ) at 3787
 ------>STRING(Sends) at 3788
@@ -1117,8 +1155,9 @@ WHITESPACE(
 ------>STRING(operational) at 3849
 ------>WHITESPACE( ) at 3860
 ------>STRING(state) at 3861
------->WHITESPACE(
-    ) at 3866
+------>NEWLINE(
+) at 3866
+------>WHITESPACE(    ) at 3867
 ------>DOXYGENCOMMENT(///) at 3871
 ------>WHITESPACE( ) at 3874
 ------>BACKSLASH(\) at 3875
@@ -1135,8 +1174,9 @@ WHITESPACE(
 ------>STRING(identification) at 3918
 ------>WHITESPACE( ) at 3932
 ------>STRING(code) at 3933
------->WHITESPACE(
-    ) at 3937
+------>NEWLINE(
+) at 3937
+------>WHITESPACE(    ) at 3938
 ------>STRING(FMCReturnCode) at 3942
 ------>WHITESPACE( ) at 3955
 ------>STRING(sendDeviceInformations) at 3956
@@ -1150,9 +1190,10 @@ WHITESPACE(
 ------>STRING(deviceIdent) at 4014
 ------>RP()) at 4025
 ------>ENDOFCOMMAND(;) at 4026
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4027
+) at 4027
+------>WHITESPACE(    ) at 4029
 ------>DOXYGENCOMMENT(///) at 4033
 ------>WHITESPACE( ) at 4036
 ------>STRING(doLedTest) at 4037
@@ -1162,8 +1203,9 @@ WHITESPACE(
 ------>STRING(rte) at 4050
 ------>WHITESPACE( ) at 4053
 ------>STRING(controller) at 4054
------->WHITESPACE(
-    ) at 4064
+------>NEWLINE(
+) at 4064
+------>WHITESPACE(    ) at 4065
 ------>COMMENT(//) at 4069
 ------>WHITESPACE( ) at 4071
 ------>BACKSLASH(\) at 4072
@@ -1176,8 +1218,9 @@ WHITESPACE(
 ------>STRING(led) at 4090
 ------>WHITESPACE( ) at 4093
 ------>STRING(state) at 4094
------->WHITESPACE(
-    ) at 4099
+------>NEWLINE(
+) at 4099
+------>WHITESPACE(    ) at 4100
 ------>STRING(FMCReturnCode) at 4104
 ------>WHITESPACE( ) at 4117
 ------>STRING(doLedTest) at 4118
@@ -1192,9 +1235,10 @@ WHITESPACE(
 ------>STRING(state) at 4157
 ------>RP()) at 4162
 ------>ENDOFCOMMAND(;) at 4163
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4164
+) at 4164
+------>WHITESPACE(    ) at 4166
 ------>DOXYGENCOMMENT(///) at 4170
 ------>WHITESPACE( ) at 4173
 ------>STRING(Enables) at 4174
@@ -1206,17 +1250,19 @@ WHITESPACE(
 ------>STRING(in) at 4201
 ------>WHITESPACE( ) at 4203
 ------>STRING(librte) at 4204
------->WHITESPACE(
-    ) at 4210
+------>NEWLINE(
+) at 4210
+------>WHITESPACE(    ) at 4211
 ------>STRING(void) at 4215
 ------>WHITESPACE( ) at 4219
 ------>STRING(enableProcessDataTransfer) at 4220
 ------>LP(() at 4245
 ------>RP()) at 4246
 ------>ENDOFCOMMAND(;) at 4247
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4248
+) at 4248
+------>WHITESPACE(    ) at 4250
 ------>DOXYGENCOMMENT(///) at 4254
 ------>WHITESPACE( ) at 4257
 ------>STRING(Enables) at 4258
@@ -1226,17 +1272,19 @@ WHITESPACE(
 ------>STRING(specific) at 4273
 ------>WHITESPACE( ) at 4281
 ------>STRING(irqs) at 4282
------->WHITESPACE(
-    ) at 4286
+------>NEWLINE(
+) at 4286
+------>WHITESPACE(    ) at 4287
 ------>STRING(void) at 4291
 ------>WHITESPACE( ) at 4295
 ------>STRING(startCyclicOperation) at 4296
 ------>LP(() at 4316
 ------>RP()) at 4317
 ------>ENDOFCOMMAND(;) at 4318
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4319
+) at 4319
+------>WHITESPACE(    ) at 4321
 ------>DOXYGENCOMMENT(///) at 4325
 ------>WHITESPACE( ) at 4328
 ------>STRING(Get) at 4329
@@ -1250,8 +1298,9 @@ WHITESPACE(
 ------>STRING(acyclic) at 4347
 ------>WHITESPACE( ) at 4354
 ------>STRING(process) at 4355
------->WHITESPACE(
-    ) at 4362
+------>NEWLINE(
+) at 4362
+------>WHITESPACE(    ) at 4363
 ------>DOXYGENCOMMENT(///) at 4367
 ------>WHITESPACE( ) at 4370
 ------>BACKSLASH(\) at 4371
@@ -1276,8 +1325,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4427
 ------>STRING(error) at 4428
 ------>RP()) at 4433
------->WHITESPACE(
-    ) at 4434
+------>NEWLINE(
+) at 4434
+------>WHITESPACE(    ) at 4435
 ------>STRING(sc_pid_t) at 4439
 ------>WHITESPACE( ) at 4447
 ------>STRING(getPidP0) at 4448
@@ -1286,9 +1336,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4458
 ------>STRING(const) at 4459
 ------>ENDOFCOMMAND(;) at 4464
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4465
+) at 4465
+------>WHITESPACE(    ) at 4467
 ------>DOXYGENCOMMENT(///) at 4471
 ------>WHITESPACE( ) at 4474
 ------>STRING(Get) at 4475
@@ -1302,8 +1353,9 @@ WHITESPACE(
 ------>STRING(acyclic) at 4493
 ------>WHITESPACE( ) at 4500
 ------>STRING(process) at 4501
------->WHITESPACE(
-    ) at 4508
+------>NEWLINE(
+) at 4508
+------>WHITESPACE(    ) at 4509
 ------>DOXYGENCOMMENT(///) at 4513
 ------>WHITESPACE( ) at 4516
 ------>BACKSLASH(\) at 4517
@@ -1328,8 +1380,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4573
 ------>STRING(error) at 4574
 ------>RP()) at 4579
------->WHITESPACE(
-    ) at 4580
+------>NEWLINE(
+) at 4580
+------>WHITESPACE(    ) at 4581
 ------>STRING(sc_pid_t) at 4585
 ------>WHITESPACE( ) at 4593
 ------>STRING(getPidP1) at 4594
@@ -1338,9 +1391,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4604
 ------>STRING(const) at 4605
 ------>ENDOFCOMMAND(;) at 4610
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4611
+) at 4611
+------>WHITESPACE(    ) at 4613
 ------>DOXYGENCOMMENT(///) at 4617
 ------>WHITESPACE( ) at 4620
 ------>STRING(Get) at 4621
@@ -1354,8 +1408,9 @@ WHITESPACE(
 ------>STRING(acyclic) at 4639
 ------>WHITESPACE( ) at 4646
 ------>STRING(process) at 4647
------->WHITESPACE(
-    ) at 4654
+------>NEWLINE(
+) at 4654
+------>WHITESPACE(    ) at 4655
 ------>DOXYGENCOMMENT(///) at 4659
 ------>WHITESPACE( ) at 4662
 ------>BACKSLASH(\) at 4663
@@ -1380,8 +1435,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4719
 ------>STRING(error) at 4720
 ------>RP()) at 4725
------->WHITESPACE(
-    ) at 4726
+------>NEWLINE(
+) at 4726
+------>WHITESPACE(    ) at 4727
 ------>STRING(sc_pid_t) at 4731
 ------>WHITESPACE( ) at 4739
 ------>STRING(getPidP2) at 4740
@@ -1390,9 +1446,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 4750
 ------>STRING(const) at 4751
 ------>ENDOFCOMMAND(;) at 4756
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4757
+) at 4757
+------>WHITESPACE(    ) at 4759
 ------>DOXYGENCOMMENT(///) at 4763
 ------>WHITESPACE( ) at 4766
 ------>STRING(Get) at 4767
@@ -1406,8 +1463,9 @@ WHITESPACE(
 ------>STRING(consumer) at 4793
 ------>WHITESPACE( ) at 4801
 ------>STRING(registration) at 4802
------->WHITESPACE(
-    ) at 4814
+------>NEWLINE(
+) at 4814
+------>WHITESPACE(    ) at 4815
 ------>DOXYGENCOMMENT(///) at 4819
 ------>WHITESPACE( ) at 4822
 ------>BACKSLASH(\) at 4823
@@ -1424,8 +1482,9 @@ WHITESPACE(
 ------>STRING(sub) at 4862
 ------>MINUS(-) at 4865
 ------>STRING(component) at 4866
------->WHITESPACE(
-    ) at 4875
+------>NEWLINE(
+) at 4875
+------>WHITESPACE(    ) at 4876
 ------>STRING(LibRteDiagnosis) at 4880
 ------>AND(&) at 4895
 ------>WHITESPACE( ) at 4896
@@ -1433,9 +1492,10 @@ WHITESPACE(
 ------>LP(() at 4916
 ------>RP()) at 4917
 ------>ENDOFCOMMAND(;) at 4918
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 4919
+) at 4919
+------>WHITESPACE(    ) at 4921
 ------>DOXYGENCOMMENT(///) at 4925
 ------>WHITESPACE( ) at 4928
 ------>STRING(Returns) at 4929
@@ -1453,8 +1513,9 @@ WHITESPACE(
 ------>STRING(firmware) at 4965
 ------>WHITESPACE( ) at 4973
 ------>STRING(update) at 4974
------->WHITESPACE(
-    ) at 4980
+------>NEWLINE(
+) at 4980
+------>WHITESPACE(    ) at 4981
 ------>DOXYGENCOMMENT(///) at 4985
 ------>WHITESPACE( ) at 4988
 ------>BACKSLASH(\) at 4989
@@ -1469,8 +1530,9 @@ WHITESPACE(
 ------>STRING(update) at 5019
 ------>WHITESPACE( ) at 5025
 ------>STRING(channel) at 5026
------->WHITESPACE(
-    ) at 5033
+------>NEWLINE(
+) at 5033
+------>WHITESPACE(    ) at 5034
 ------>STRING(Interfaces) at 5038
 ------>DOUBLEPOINT(:) at 5048
 ------>DOUBLEPOINT(:) at 5049
@@ -1481,9 +1543,10 @@ WHITESPACE(
 ------>LP(() at 5075
 ------>RP()) at 5076
 ------>ENDOFCOMMAND(;) at 5077
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5078
+) at 5078
+------>WHITESPACE(    ) at 5080
 ------>DOXYGENCOMMENT(///) at 5084
 ------>WHITESPACE( ) at 5087
 ------>STRING(Returns) at 5088
@@ -1499,8 +1562,9 @@ WHITESPACE(
 ------>STRING(RTE) at 5121
 ------>WHITESPACE( ) at 5124
 ------>STRING(chip) at 5125
------->WHITESPACE(
-    ) at 5129
+------>NEWLINE(
+) at 5129
+------>WHITESPACE(    ) at 5130
 ------>DOXYGENCOMMENT(///) at 5134
 ------>WHITESPACE( ) at 5137
 ------>BACKSLASH(\) at 5138
@@ -1513,8 +1577,9 @@ WHITESPACE(
 ------>STRING(libRTE) at 5157
 ------>WHITESPACE( ) at 5163
 ------>STRING(driver) at 5164
------->WHITESPACE(
-    ) at 5170
+------>NEWLINE(
+) at 5170
+------>WHITESPACE(    ) at 5171
 ------>STRING(rte_driver_t) at 5175
 ------>MULTIPLY(*) at 5187
 ------>WHITESPACE( ) at 5188
@@ -1522,9 +1587,10 @@ WHITESPACE(
 ------>LP(() at 5202
 ------>RP()) at 5203
 ------>ENDOFCOMMAND(;) at 5204
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5205
+) at 5205
+------>WHITESPACE(    ) at 5207
 ------>DOXYGENCOMMENT(///) at 5211
 ------>WHITESPACE( ) at 5214
 ------>STRING(Returns) at 5215
@@ -1540,8 +1606,9 @@ WHITESPACE(
 ------>STRING(nrt) at 5242
 ------>WHITESPACE( ) at 5245
 ------>STRING(driver) at 5246
------->WHITESPACE(
-    ) at 5252
+------>NEWLINE(
+) at 5252
+------>WHITESPACE(    ) at 5253
 ------>STRING(LibRteNrtDriver) at 5257
 ------>AND(&) at 5272
 ------>WHITESPACE( ) at 5273
@@ -1549,9 +1616,10 @@ WHITESPACE(
 ------>LP(() at 5286
 ------>RP()) at 5287
 ------>ENDOFCOMMAND(;) at 5288
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5289
+) at 5289
+------>WHITESPACE(    ) at 5291
 ------>DOXYGENCOMMENT(///) at 5295
 ------>WHITESPACE( ) at 5298
 ------>STRING(cyclic) at 5299
@@ -1567,17 +1635,19 @@ WHITESPACE(
 ------>STRING(sub) at 5332
 ------>MINUS(-) at 5335
 ------>STRING(component) at 5336
------->WHITESPACE(
-    ) at 5345
+------>NEWLINE(
+) at 5345
+------>WHITESPACE(    ) at 5346
 ------>STRING(void) at 5350
 ------>WHITESPACE( ) at 5354
 ------>STRING(updateWatchdog) at 5355
 ------>LP(() at 5369
 ------>RP()) at 5370
 ------>ENDOFCOMMAND(;) at 5371
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5372
+) at 5372
+------>WHITESPACE(    ) at 5374
 ------>DOXYGENCOMMENT(///) at 5378
 ------>WHITESPACE( ) at 5381
 ------>STRING(cyclic) at 5382
@@ -1595,8 +1665,9 @@ WHITESPACE(
 ------>STRING(new) at 5419
 ------>WHITESPACE( ) at 5422
 ------>STRING(messages) at 5423
------->WHITESPACE(
-    ) at 5431
+------>NEWLINE(
+) at 5431
+------>WHITESPACE(    ) at 5432
 ------>DOXYGENCOMMENT(///) at 5436
 ------>WHITESPACE( ) at 5439
 ------>STRING(note) at 5440
@@ -1626,17 +1697,19 @@ WHITESPACE(
 ------>STRING(are) at 5511
 ------>WHITESPACE( ) at 5514
 ------>STRING(executed) at 5515
------->WHITESPACE(
-    ) at 5523
+------>NEWLINE(
+) at 5523
+------>WHITESPACE(    ) at 5524
 ------>STRING(void) at 5528
 ------>WHITESPACE( ) at 5532
 ------>STRING(updateAsync) at 5533
 ------>LP(() at 5544
 ------>RP()) at 5545
 ------>ENDOFCOMMAND(;) at 5546
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5547
+) at 5547
+------>WHITESPACE(    ) at 5549
 ------>DOXYGENCOMMENT(///) at 5553
 ------>WHITESPACE( ) at 5556
 ------>STRING(cyclic) at 5557
@@ -1664,17 +1737,19 @@ WHITESPACE(
 ------>STRING(RTE) at 5624
 ------>WHITESPACE( ) at 5627
 ------>STRING(controller) at 5628
------->WHITESPACE(
-    ) at 5638
+------>NEWLINE(
+) at 5638
+------>WHITESPACE(    ) at 5639
 ------>STRING(void) at 5643
 ------>WHITESPACE( ) at 5647
 ------>STRING(checkDeviceShutdown) at 5648
 ------>LP(() at 5667
 ------>RP()) at 5668
 ------>ENDOFCOMMAND(;) at 5669
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5670
+) at 5670
+------>WHITESPACE(    ) at 5672
 ------>DOXYGENCOMMENT(///) at 5676
 ------>WHITESPACE( ) at 5679
 ------>STRING(Returns) at 5680
@@ -1694,8 +1769,9 @@ WHITESPACE(
 ------>STRING(Mailbox) at 5715
 ------>WHITESPACE( ) at 5722
 ------>STRING(handler) at 5723
------->WHITESPACE(
-    ) at 5730
+------>NEWLINE(
+) at 5730
+------>WHITESPACE(    ) at 5731
 ------>STRING(LibRteMailboxManager) at 5735
 ------>AND(&) at 5755
 ------>WHITESPACE( ) at 5756
@@ -1703,9 +1779,10 @@ WHITESPACE(
 ------>LP(() at 5774
 ------>RP()) at 5775
 ------>ENDOFCOMMAND(;) at 5776
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5777
+) at 5777
+------>WHITESPACE(    ) at 5779
 ------>DOXYGENCOMMENT(///) at 5783
 ------>WHITESPACE( ) at 5786
 ------>STRING(Returns) at 5787
@@ -1725,8 +1802,9 @@ WHITESPACE(
 ------>STRING(Mailbox) at 5822
 ------>WHITESPACE( ) at 5829
 ------>STRING(handler) at 5830
------->WHITESPACE(
-    ) at 5837
+------>NEWLINE(
+) at 5837
+------>WHITESPACE(    ) at 5838
 ------>STRING(LibRteProcessManager) at 5842
 ------>AND(&) at 5862
 ------>WHITESPACE( ) at 5863
@@ -1734,9 +1812,10 @@ WHITESPACE(
 ------>LP(() at 5881
 ------>RP()) at 5882
 ------>ENDOFCOMMAND(;) at 5883
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5884
+) at 5884
+------>WHITESPACE(    ) at 5886
 ------>DOXYGENCOMMENT(///) at 5890
 ------>WHITESPACE( ) at 5893
 ------>BACKSLASH(\) at 5894
@@ -1746,8 +1825,9 @@ WHITESPACE(
 ------>DOUBLEPOINT(:) at 5913
 ------>DOUBLEPOINT(:) at 5914
 ------>STRING(IEtherCatDriver) at 5915
------->WHITESPACE(
-    ) at 5930
+------>NEWLINE(
+) at 5930
+------>WHITESPACE(    ) at 5931
 ------>STRING(void) at 5935
 ------>WHITESPACE( ) at 5939
 ------>STRING(newPDxData) at 5940
@@ -1763,9 +1843,10 @@ WHITESPACE(
 ------>STRING(buf_size) at 5970
 ------>RP()) at 5978
 ------>ENDOFCOMMAND(;) at 5979
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 5980
+) at 5980
+------>WHITESPACE(    ) at 5982
 ------>DOXYGENCOMMENT(///) at 5986
 ------>WHITESPACE( ) at 5989
 ------>BACKSLASH(\) at 5990
@@ -1775,8 +1856,9 @@ WHITESPACE(
 ------>DOUBLEPOINT(:) at 6009
 ------>DOUBLEPOINT(:) at 6010
 ------>STRING(IEtherCatDriver) at 6011
------->WHITESPACE(
-    ) at 6026
+------>NEWLINE(
+) at 6026
+------>WHITESPACE(    ) at 6027
 ------>STRING(Interfaces) at 6031
 ------>DOUBLEPOINT(:) at 6041
 ------>DOUBLEPOINT(:) at 6042
@@ -1795,9 +1877,10 @@ WHITESPACE(
 ------>STRING(buf_size) at 6084
 ------>RP()) at 6092
 ------>ENDOFCOMMAND(;) at 6093
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 6094
+) at 6094
+------>WHITESPACE(    ) at 6096
 ------>DOXYGENCOMMENT(///) at 6100
 ------>WHITESPACE( ) at 6103
 ------>STRING(Returns) at 6104
@@ -1814,8 +1897,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 6139
 ------>STRING(p0) at 6140
 ------>DOT(.) at 6142
------->WHITESPACE(
-    ) at 6143
+------>NEWLINE(
+) at 6143
+------>WHITESPACE(    ) at 6144
 ------>STRING(AINLINE) at 6148
 ------>WHITESPACE( ) at 6155
 ------>STRING(UINT32) at 6156
@@ -1823,10 +1907,12 @@ WHITESPACE(
 ------>STRING(getPollTimeP0) at 6163
 ------>LP(() at 6176
 ------>RP()) at 6177
------->WHITESPACE(
-    ) at 6178
--------->WHITESPACE(
-        ) at 6184
+------>NEWLINE(
+) at 6178
+------>WHITESPACE(    ) at 6179
+-------->NEWLINE(
+) at 6184
+-------->WHITESPACE(        ) at 6185
 -------->STRING(auto) at 6193
 -------->WHITESPACE( ) at 6197
 -------->STRING(updateCycle) at 6198
@@ -1837,8 +1923,9 @@ WHITESPACE(
 -------->LP(() at 6232
 -------->RP()) at 6233
 -------->ENDOFCOMMAND(;) at 6234
--------->WHITESPACE(
-        ) at 6235
+-------->NEWLINE(
+) at 6235
+-------->WHITESPACE(        ) at 6236
 -------->STRING(UINT32) at 6244
 -------->WHITESPACE( ) at 6250
 -------->STRING(pollTime) at 6251
@@ -1860,18 +1947,21 @@ WHITESPACE(
 -------->STRING(f) at 6302
 -------->RP()) at 6303
 -------->ENDOFCOMMAND(;) at 6304
--------->WHITESPACE(
-        ) at 6305
+-------->NEWLINE(
+) at 6305
+-------->WHITESPACE(        ) at 6306
 -------->STRING(return) at 6314
 -------->WHITESPACE( ) at 6320
 -------->STRING(pollTime) at 6321
 -------->ENDOFCOMMAND(;) at 6329
--------->WHITESPACE(
-    ) at 6330
+-------->NEWLINE(
+) at 6330
+-------->WHITESPACE(    ) at 6331
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 6336
+) at 6336
+------>WHITESPACE(    ) at 6338
 ------>DOXYGENCOMMENT(///) at 6342
 ------>WHITESPACE( ) at 6345
 ------>STRING(Raises) at 6346
@@ -1887,8 +1977,9 @@ WHITESPACE(
 ------>STRING(read) at 6369
 ------>WHITESPACE( ) at 6373
 ------>STRING(error) at 6374
------->WHITESPACE(
-    ) at 6379
+------>NEWLINE(
+) at 6379
+------>WHITESPACE(    ) at 6380
 ------>STRING(AINLINE) at 6384
 ------>WHITESPACE( ) at 6391
 ------>STRING(void) at 6392
@@ -1896,10 +1987,12 @@ WHITESPACE(
 ------>STRING(raiseOutOfOrderReadError) at 6397
 ------>LP(() at 6421
 ------>RP()) at 6422
------->WHITESPACE(
-    ) at 6423
--------->WHITESPACE(
-        ) at 6429
+------>NEWLINE(
+) at 6423
+------>WHITESPACE(    ) at 6424
+-------->NEWLINE(
+) at 6429
+-------->WHITESPACE(        ) at 6430
 -------->STRING(this) at 6438
 -------->MINUS(-) at 6442
 -------->MORE(>) at 6443
@@ -1907,12 +2000,14 @@ WHITESPACE(
 -------->LP(() at 6476
 -------->RP()) at 6477
 -------->ENDOFCOMMAND(;) at 6478
--------->WHITESPACE(
-    ) at 6479
+-------->NEWLINE(
+) at 6479
+-------->WHITESPACE(    ) at 6480
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 6485
+) at 6485
+------>WHITESPACE(    ) at 6487
 ------>DOXYGENCOMMENT(///) at 6491
 ------>WHITESPACE( ) at 6494
 ------>STRING(Raises) at 6495
@@ -1924,8 +2019,9 @@ WHITESPACE(
 ------>STRING(watchdog) at 6512
 ------>WHITESPACE( ) at 6520
 ------>STRING(error) at 6521
------->WHITESPACE(
-    ) at 6526
+------>NEWLINE(
+) at 6526
+------>WHITESPACE(    ) at 6527
 ------>STRING(AINLINE) at 6531
 ------>WHITESPACE( ) at 6538
 ------>STRING(void) at 6539
@@ -1933,10 +2029,12 @@ WHITESPACE(
 ------>STRING(raiseWatchdogError) at 6544
 ------>LP(() at 6562
 ------>RP()) at 6563
------->WHITESPACE(
-    ) at 6564
--------->WHITESPACE(
-        ) at 6570
+------>NEWLINE(
+) at 6564
+------>WHITESPACE(    ) at 6565
+-------->NEWLINE(
+) at 6570
+-------->WHITESPACE(        ) at 6571
 -------->STRING(if) at 6579
 -------->WHITESPACE( ) at 6581
 -------->LP(() at 6582
@@ -1969,10 +2067,12 @@ WHITESPACE(
 -------->RP()) at 6682
 -------->RP()) at 6683
 -------->RP()) at 6684
--------->WHITESPACE(
-        ) at 6685
----------->WHITESPACE(
-            ) at 6695
+-------->NEWLINE(
+) at 6685
+-------->WHITESPACE(        ) at 6686
+---------->NEWLINE(
+) at 6695
+---------->WHITESPACE(            ) at 6696
 ---------->COMMENT(//) at 6708
 ---------->WHITESPACE( ) at 6710
 ---------->STRING(avoid) at 6711
@@ -1984,8 +2084,9 @@ WHITESPACE(
 ---------->STRING(soft) at 6734
 ---------->WHITESPACE( ) at 6738
 ---------->STRING(reset) at 6739
----------->WHITESPACE(
-            ) at 6744
+---------->NEWLINE(
+) at 6744
+---------->WHITESPACE(            ) at 6745
 ---------->COMMENT(//) at 6757
 ---------->WHITESPACE( ) at 6759
 ---------->STRING(todo) at 6760
@@ -2009,8 +2110,9 @@ WHITESPACE(
 ---------->WHITESPACE( ) at 6819
 ---------->STRING(shutdown) at 6820
 ---------->QUESTIONMARK(?) at 6828
----------->WHITESPACE(
-            ) at 6829
+---------->NEWLINE(
+) at 6829
+---------->WHITESPACE(            ) at 6830
 ---------->STRING(this) at 6842
 ---------->MINUS(-) at 6846
 ---------->MORE(>) at 6847
@@ -2019,15 +2121,18 @@ WHITESPACE(
 ---------->STRING(true) at 6880
 ---------->RP()) at 6884
 ---------->ENDOFCOMMAND(;) at 6885
----------->WHITESPACE(
-        ) at 6886
+---------->NEWLINE(
+) at 6886
+---------->WHITESPACE(        ) at 6887
 
--------->WHITESPACE(
-    ) at 6896
+-------->NEWLINE(
+) at 6896
+-------->WHITESPACE(    ) at 6897
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 6902
+) at 6902
+------>WHITESPACE(    ) at 6904
 ------>DOXYGENCOMMENT(///) at 6908
 ------>WHITESPACE( ) at 6911
 ------>STRING(Raises) at 6912
@@ -2051,8 +2156,9 @@ WHITESPACE(
 ------>STRING(be) at 6965
 ------>WHITESPACE( ) at 6967
 ------>STRING(used) at 6968
------->WHITESPACE(
-    ) at 6972
+------>NEWLINE(
+) at 6972
+------>WHITESPACE(    ) at 6973
 ------>STRING(AINLINE) at 6977
 ------>WHITESPACE( ) at 6984
 ------>STRING(void) at 6985
@@ -2063,10 +2169,12 @@ WHITESPACE(
 ------>WHITESPACE( ) at 7030
 ------>STRING(errorId) at 7031
 ------>RP()) at 7038
------->WHITESPACE(
-    ) at 7039
--------->WHITESPACE(
-        ) at 7045
+------>NEWLINE(
+) at 7039
+------>WHITESPACE(    ) at 7040
+-------->NEWLINE(
+) at 7045
+-------->WHITESPACE(        ) at 7046
 -------->STRING(this) at 7054
 -------->MINUS(-) at 7058
 -------->MORE(>) at 7059
@@ -2075,12 +2183,14 @@ WHITESPACE(
 -------->STRING(errorId) at 7098
 -------->RP()) at 7105
 -------->ENDOFCOMMAND(;) at 7106
--------->WHITESPACE(
-    ) at 7107
+-------->NEWLINE(
+) at 7107
+-------->WHITESPACE(    ) at 7108
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 7113
+) at 7113
+------>WHITESPACE(    ) at 7115
 ------>DOXYGENCOMMENT(///) at 7119
 ------>WHITESPACE( ) at 7122
 ------>STRING(Raises) at 7123
@@ -2094,8 +2204,9 @@ WHITESPACE(
 ------>STRING(communication) at 7150
 ------>WHITESPACE( ) at 7163
 ------>STRING(error) at 7164
------->WHITESPACE(
-    ) at 7169
+------>NEWLINE(
+) at 7169
+------>WHITESPACE(    ) at 7170
 ------>STRING(AINLINE) at 7174
 ------>WHITESPACE( ) at 7181
 ------>STRING(void) at 7182
@@ -2111,10 +2222,12 @@ WHITESPACE(
 ------>WHITESPACE( ) at 7252
 ------>STRING(returnCode) at 7253
 ------>RP()) at 7263
------->WHITESPACE(
-    ) at 7264
--------->WHITESPACE(
-        ) at 7270
+------>NEWLINE(
+) at 7264
+------>WHITESPACE(    ) at 7265
+-------->NEWLINE(
+) at 7270
+-------->WHITESPACE(        ) at 7271
 -------->STRING(this) at 7279
 -------->MINUS(-) at 7283
 -------->MORE(>) at 7284
@@ -2126,12 +2239,14 @@ WHITESPACE(
 -------->STRING(returnCode) at 7341
 -------->RP()) at 7351
 -------->ENDOFCOMMAND(;) at 7352
--------->WHITESPACE(
-    ) at 7353
+-------->NEWLINE(
+) at 7353
+-------->WHITESPACE(    ) at 7354
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 7359
+) at 7359
+------>WHITESPACE(    ) at 7361
 ------>COMMENT(//) at 7365
 ------>WHITESPACE( ) at 7367
 ------>MULTIPLY(*) at 7368
@@ -2210,8 +2325,9 @@ WHITESPACE(
 ------>MULTIPLY(*) at 7441
 ------>MULTIPLY(*) at 7442
 ------>MULTIPLY(*) at 7443
------->WHITESPACE(
-    ) at 7444
+------>NEWLINE(
+) at 7444
+------>WHITESPACE(    ) at 7445
 ------>COMMENT(//) at 7449
 ------>WHITESPACE( ) at 7451
 ------>STRING(IRQ) at 7452
@@ -2219,8 +2335,9 @@ WHITESPACE(
 ------>STRING(related) at 7456
 ------>WHITESPACE( ) at 7463
 ------>STRING(stuff) at 7464
------->WHITESPACE(
-    ) at 7469
+------>NEWLINE(
+) at 7469
+------>WHITESPACE(    ) at 7470
 ------>COMMENT(//) at 7474
 ------>WHITESPACE( ) at 7476
 ------>MULTIPLY(*) at 7477
@@ -2299,8 +2416,9 @@ WHITESPACE(
 ------>MULTIPLY(*) at 7550
 ------>MULTIPLY(*) at 7551
 ------>MULTIPLY(*) at 7552
------->WHITESPACE(
-    ) at 7553
+------>NEWLINE(
+) at 7553
+------>WHITESPACE(    ) at 7554
 ------>DOXYGENCOMMENT(///) at 7558
 ------>WHITESPACE( ) at 7561
 ------>STRING(Set) at 7562
@@ -2314,8 +2432,9 @@ WHITESPACE(
 ------>STRING(data) at 7583
 ------>WHITESPACE( ) at 7587
 ------>STRING(irq) at 7588
------->WHITESPACE(
-    ) at 7591
+------>NEWLINE(
+) at 7591
+------>WHITESPACE(    ) at 7592
 ------>DOXYGENCOMMENT(///) at 7596
 ------>WHITESPACE( ) at 7599
 ------>BACKSLASH(\) at 7600
@@ -2330,8 +2449,9 @@ WHITESPACE(
 ------>STRING(irq) at 7624
 ------>WHITESPACE( ) at 7627
 ------>STRING(line) at 7628
------->WHITESPACE(
-    ) at 7632
+------>NEWLINE(
+) at 7632
+------>WHITESPACE(    ) at 7633
 ------>STRING(void) at 7637
 ------>WHITESPACE( ) at 7641
 ------>STRING(pdIrqSetState) at 7642
@@ -2341,9 +2461,10 @@ WHITESPACE(
 ------>STRING(state) at 7661
 ------>RP()) at 7666
 ------>ENDOFCOMMAND(;) at 7667
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 7668
+) at 7668
+------>WHITESPACE(    ) at 7670
 ------>DOXYGENCOMMENT(///) at 7674
 ------>WHITESPACE( ) at 7677
 ------>STRING(Set) at 7678
@@ -2355,8 +2476,9 @@ WHITESPACE(
 ------>STRING(mailbox) at 7691
 ------>WHITESPACE( ) at 7698
 ------>STRING(irq) at 7699
------->WHITESPACE(
-    ) at 7702
+------>NEWLINE(
+) at 7702
+------>WHITESPACE(    ) at 7703
 ------>DOXYGENCOMMENT(///) at 7707
 ------>WHITESPACE( ) at 7710
 ------>BACKSLASH(\) at 7711
@@ -2371,8 +2493,9 @@ WHITESPACE(
 ------>STRING(irq) at 7735
 ------>WHITESPACE( ) at 7738
 ------>STRING(line) at 7739
------->WHITESPACE(
-    ) at 7743
+------>NEWLINE(
+) at 7743
+------>WHITESPACE(    ) at 7744
 ------>STRING(void) at 7748
 ------>WHITESPACE( ) at 7752
 ------>STRING(mbxIrqSetState) at 7753
@@ -2382,9 +2505,10 @@ WHITESPACE(
 ------>STRING(state) at 7773
 ------>RP()) at 7778
 ------>ENDOFCOMMAND(;) at 7779
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 7780
+) at 7780
+------>WHITESPACE(    ) at 7782
 ------>COMMENT(//) at 7786
 ------>WHITESPACE( ) at 7788
 ------>MULTIPLY(*) at 7789
@@ -2463,8 +2587,9 @@ WHITESPACE(
 ------>MULTIPLY(*) at 7862
 ------>MULTIPLY(*) at 7863
 ------>MULTIPLY(*) at 7864
------->WHITESPACE(
-    ) at 7865
+------>NEWLINE(
+) at 7865
+------>WHITESPACE(    ) at 7866
 ------>COMMENT(//) at 7870
 ------>WHITESPACE( ) at 7872
 ------>STRING(CANOpen) at 7873
@@ -2480,8 +2605,9 @@ WHITESPACE(
 ------>LP(() at 7912
 ------>STRING(COE) at 7913
 ------>RP()) at 7916
------->WHITESPACE(
-    ) at 7917
+------>NEWLINE(
+) at 7917
+------>WHITESPACE(    ) at 7918
 ------>COMMENT(//) at 7922
 ------>WHITESPACE( ) at 7924
 ------>STRING(All) at 7925
@@ -2501,8 +2627,9 @@ WHITESPACE(
 ------>STRING(IEtherCatDriver) at 7962
 ------>WHITESPACE( ) at 7977
 ------>STRING(interface) at 7978
------->WHITESPACE(
-    ) at 7987
+------>NEWLINE(
+) at 7987
+------>WHITESPACE(    ) at 7988
 ------>COMMENT(//) at 7992
 ------>WHITESPACE( ) at 7994
 ------>MULTIPLY(*) at 7995
@@ -2581,9 +2708,10 @@ WHITESPACE(
 ------>MULTIPLY(*) at 8068
 ------>MULTIPLY(*) at 8069
 ------>MULTIPLY(*) at 8070
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 8071
+) at 8071
+------>WHITESPACE(    ) at 8073
 ------>DOXYGENCOMMENT(///) at 8077
 ------>WHITESPACE( ) at 8080
 ------>STRING(see) at 8081
@@ -2592,8 +2720,9 @@ WHITESPACE(
 ------>DOUBLEPOINT(:) at 8095
 ------>DOUBLEPOINT(:) at 8096
 ------>STRING(ILibRteDriver) at 8097
------->WHITESPACE(
-    ) at 8110
+------>NEWLINE(
+) at 8110
+------>WHITESPACE(    ) at 8111
 ------>DOXYGENCOMMENT(///) at 8115
 ------>WHITESPACE( ) at 8118
 ------>STRING(Additional) at 8119
@@ -2617,8 +2746,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 8176
 ------>STRING(LibRteDriver) at 8177
 ------>DOT(.) at 8189
------->WHITESPACE(
-    ) at 8190
+------>NEWLINE(
+) at 8190
+------>WHITESPACE(    ) at 8191
 ------>STRING(void) at 8195
 ------>WHITESPACE( ) at 8199
 ------>STRING(sendCoeServiceDataReadRequest) at 8200
@@ -2643,9 +2773,10 @@ WHITESPACE(
 ------>STRING(completeAccess) at 8283
 ------>RP()) at 8297
 ------>ENDOFCOMMAND(;) at 8298
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 8299
+) at 8299
+------>WHITESPACE(    ) at 8301
 ------>DOXYGENCOMMENT(///) at 8305
 ------>WHITESPACE( ) at 8308
 ------>STRING(Registers) at 8309
@@ -2662,8 +2793,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 8345
 ------>STRING(processing) at 8346
 ------>DOT(.) at 8356
------->WHITESPACE(
-    ) at 8357
+------>NEWLINE(
+) at 8357
+------>WHITESPACE(    ) at 8358
 ------>DOXYGENCOMMENT(///) at 8362
 ------>WHITESPACE( ) at 8365
 ------>STRING(Attention) at 8366
@@ -2707,8 +2839,9 @@ WHITESPACE(
 ------>STRING(be) at 8472
 ------>WHITESPACE( ) at 8474
 ------>STRING(called) at 8475
------->WHITESPACE(
-    ) at 8481
+------>NEWLINE(
+) at 8481
+------>WHITESPACE(    ) at 8482
 ------>DOXYGENCOMMENT(///) at 8486
 ------>WHITESPACE( ) at 8489
 ------>BACKSLASH(\) at 8490
@@ -2725,8 +2858,9 @@ WHITESPACE(
 ------>STRING(the) at 8531
 ------>WHITESPACE( ) at 8534
 ------>STRING(handler) at 8535
------->WHITESPACE(
-    ) at 8542
+------>NEWLINE(
+) at 8542
+------>WHITESPACE(    ) at 8543
 ------>STRING(void) at 8547
 ------>WHITESPACE( ) at 8551
 ------>STRING(registerCoeServiceDataHandler) at 8552
@@ -2740,9 +2874,10 @@ WHITESPACE(
 ------>STRING(serviceDataHandler) at 8618
 ------>RP()) at 8636
 ------>ENDOFCOMMAND(;) at 8637
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 8638
+) at 8638
+------>WHITESPACE(    ) at 8640
 ------>DOXYGENCOMMENT(///) at 8644
 ------>WHITESPACE( ) at 8647
 ------>STRING(Registers) at 8648
@@ -2759,8 +2894,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 8680
 ------>STRING(processing) at 8681
 ------>DOT(.) at 8691
------->WHITESPACE(
-    ) at 8692
+------>NEWLINE(
+) at 8692
+------>WHITESPACE(    ) at 8693
 ------>DOXYGENCOMMENT(///) at 8697
 ------>WHITESPACE( ) at 8700
 ------>BACKSLASH(\) at 8701
@@ -2777,8 +2913,9 @@ WHITESPACE(
 ------>STRING(the) at 8734
 ------>WHITESPACE( ) at 8737
 ------>STRING(handler) at 8738
------->WHITESPACE(
-    ) at 8745
+------>NEWLINE(
+) at 8745
+------>WHITESPACE(    ) at 8746
 ------>STRING(void) at 8750
 ------>WHITESPACE( ) at 8754
 ------>STRING(registerFoeServiceDataHandler) at 8755
@@ -2792,9 +2929,10 @@ WHITESPACE(
 ------>STRING(foeHandler) at 8810
 ------>RP()) at 8820
 ------>ENDOFCOMMAND(;) at 8821
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 8822
+) at 8822
+------>WHITESPACE(    ) at 8824
 ------>DOXYGENCOMMENT(///) at 8828
 ------>WHITESPACE( ) at 8831
 ------>STRING(Registers) at 8832
@@ -2813,8 +2951,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 8882
 ------>STRING(requests) at 8883
 ------>DOT(.) at 8891
------->WHITESPACE(
-    ) at 8892
+------>NEWLINE(
+) at 8892
+------>WHITESPACE(    ) at 8893
 ------>DOXYGENCOMMENT(///) at 8897
 ------>WHITESPACE( ) at 8900
 ------>BACKSLASH(\) at 8901
@@ -2837,8 +2976,9 @@ WHITESPACE(
 ------>STRING(configuration) at 8970
 ------>WHITESPACE( ) at 8983
 ------>STRING(requests) at 8984
------->WHITESPACE(
-    ) at 8992
+------>NEWLINE(
+) at 8992
+------>WHITESPACE(    ) at 8993
 ------>STRING(void) at 8997
 ------>WHITESPACE( ) at 9001
 ------>STRING(registerProcessDataConfigurationHandler) at 9002
@@ -2852,9 +2992,10 @@ WHITESPACE(
 ------>STRING(pdConfigHandler) at 9088
 ------>RP()) at 9103
 ------>ENDOFCOMMAND(;) at 9104
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 9105
+) at 9105
+------>WHITESPACE(    ) at 9107
 ------>COMMENT(//) at 9111
 ------>WHITESPACE( ) at 9113
 ------>MULTIPLY(*) at 9114
@@ -2933,8 +3074,9 @@ WHITESPACE(
 ------>MULTIPLY(*) at 9187
 ------>MULTIPLY(*) at 9188
 ------>MULTIPLY(*) at 9189
------->WHITESPACE(
-    ) at 9190
+------>NEWLINE(
+) at 9190
+------>WHITESPACE(    ) at 9191
 ------>COMMENT(//) at 9195
 ------>WHITESPACE( ) at 9197
 ------>STRING(Methods) at 9198
@@ -2948,8 +3090,9 @@ WHITESPACE(
 ------>STRING(statistic) at 9222
 ------>WHITESPACE( ) at 9231
 ------>STRING(output) at 9232
------->WHITESPACE(
-    ) at 9238
+------>NEWLINE(
+) at 9238
+------>WHITESPACE(    ) at 9239
 ------>COMMENT(//) at 9243
 ------>WHITESPACE( ) at 9245
 ------>MULTIPLY(*) at 9246
@@ -3028,8 +3171,9 @@ WHITESPACE(
 ------>MULTIPLY(*) at 9319
 ------>MULTIPLY(*) at 9320
 ------>MULTIPLY(*) at 9321
------->WHITESPACE(
-    ) at 9322
+------>NEWLINE(
+) at 9322
+------>WHITESPACE(    ) at 9323
 ------>DOXYGENCOMMENT(///) at 9327
 ------>WHITESPACE( ) at 9330
 ------>STRING(Increments) at 9331
@@ -3039,8 +3183,9 @@ WHITESPACE(
 ------>STRING(process) at 9345
 ------>WHITESPACE( ) at 9352
 ------>STRING(counter) at 9353
------->WHITESPACE(
-    ) at 9360
+------>NEWLINE(
+) at 9360
+------>WHITESPACE(    ) at 9361
 ------>STRING(AINLINE) at 9365
 ------>WHITESPACE( ) at 9372
 ------>STRING(void) at 9373
@@ -3048,10 +3193,12 @@ WHITESPACE(
 ------>STRING(incrementStats_cyclesP0) at 9378
 ------>LP(() at 9401
 ------>RP()) at 9402
------->WHITESPACE(
-    ) at 9403
--------->WHITESPACE(
-        ) at 9409
+------>NEWLINE(
+) at 9403
+------>WHITESPACE(    ) at 9404
+-------->NEWLINE(
+) at 9409
+-------->WHITESPACE(        ) at 9410
 -------->STRING(data_Set_stats_cyclesP0) at 9418
 -------->LP(() at 9441
 -------->STRING(data_Get_stats_cyclesP0) at 9442
@@ -3063,12 +3210,14 @@ WHITESPACE(
 -------->NUMBER(1) at 9470
 -------->RP()) at 9471
 -------->ENDOFCOMMAND(;) at 9472
--------->WHITESPACE(
-    ) at 9473
+-------->NEWLINE(
+) at 9473
+-------->WHITESPACE(    ) at 9474
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 9479
+) at 9479
+------>WHITESPACE(    ) at 9481
 ------>DOXYGENCOMMENT(///) at 9485
 ------>WHITESPACE( ) at 9488
 ------>STRING(Increments) at 9489
@@ -3078,8 +3227,9 @@ WHITESPACE(
 ------>STRING(process) at 9503
 ------>WHITESPACE( ) at 9510
 ------>STRING(counter) at 9511
------->WHITESPACE(
-    ) at 9518
+------>NEWLINE(
+) at 9518
+------>WHITESPACE(    ) at 9519
 ------>STRING(AINLINE) at 9523
 ------>WHITESPACE( ) at 9530
 ------>STRING(void) at 9531
@@ -3087,10 +3237,12 @@ WHITESPACE(
 ------>STRING(incrementStats_cyclesP1) at 9536
 ------>LP(() at 9559
 ------>RP()) at 9560
------->WHITESPACE(
-    ) at 9561
--------->WHITESPACE(
-        ) at 9567
+------>NEWLINE(
+) at 9561
+------>WHITESPACE(    ) at 9562
+-------->NEWLINE(
+) at 9567
+-------->WHITESPACE(        ) at 9568
 -------->STRING(data_Set_stats_cyclesP1) at 9576
 -------->LP(() at 9599
 -------->STRING(data_Get_stats_cyclesP1) at 9600
@@ -3102,12 +3254,14 @@ WHITESPACE(
 -------->NUMBER(1) at 9628
 -------->RP()) at 9629
 -------->ENDOFCOMMAND(;) at 9630
--------->WHITESPACE(
-    ) at 9631
+-------->NEWLINE(
+) at 9631
+-------->WHITESPACE(    ) at 9632
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 9637
+) at 9637
+------>WHITESPACE(    ) at 9639
 ------>DOXYGENCOMMENT(///) at 9643
 ------>WHITESPACE( ) at 9646
 ------>STRING(Increments) at 9647
@@ -3117,8 +3271,9 @@ WHITESPACE(
 ------>STRING(process) at 9661
 ------>WHITESPACE( ) at 9668
 ------>STRING(counter) at 9669
------->WHITESPACE(
-    ) at 9676
+------>NEWLINE(
+) at 9676
+------>WHITESPACE(    ) at 9677
 ------>STRING(AINLINE) at 9681
 ------>WHITESPACE( ) at 9688
 ------>STRING(void) at 9689
@@ -3126,10 +3281,12 @@ WHITESPACE(
 ------>STRING(incrementStats_cyclesP2) at 9694
 ------>LP(() at 9717
 ------>RP()) at 9718
------->WHITESPACE(
-    ) at 9719
--------->WHITESPACE(
-        ) at 9725
+------>NEWLINE(
+) at 9719
+------>WHITESPACE(    ) at 9720
+-------->NEWLINE(
+) at 9725
+-------->WHITESPACE(        ) at 9726
 -------->STRING(data_Set_stats_cyclesP2) at 9734
 -------->LP(() at 9757
 -------->STRING(data_Get_stats_cyclesP2) at 9758
@@ -3141,12 +3298,14 @@ WHITESPACE(
 -------->NUMBER(1) at 9786
 -------->RP()) at 9787
 -------->ENDOFCOMMAND(;) at 9788
--------->WHITESPACE(
-    ) at 9789
+-------->NEWLINE(
+) at 9789
+-------->WHITESPACE(    ) at 9790
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 9795
+) at 9795
+------>WHITESPACE(    ) at 9797
 ------>DOXYGENCOMMENT(///) at 9801
 ------>WHITESPACE( ) at 9804
 ------>STRING(Increments) at 9805
@@ -3160,8 +3319,9 @@ WHITESPACE(
 ------>STRING(ack) at 9832
 ------>WHITESPACE( ) at 9835
 ------>STRING(counter) at 9836
------->WHITESPACE(
-    ) at 9843
+------>NEWLINE(
+) at 9843
+------>WHITESPACE(    ) at 9844
 ------>STRING(AINLINE) at 9848
 ------>WHITESPACE( ) at 9855
 ------>STRING(void) at 9856
@@ -3169,10 +3329,12 @@ WHITESPACE(
 ------>STRING(incrementStats_processSendEsmAck) at 9861
 ------>LP(() at 9893
 ------>RP()) at 9894
------->WHITESPACE(
-    ) at 9895
--------->WHITESPACE(
-        ) at 9901
+------>NEWLINE(
+) at 9895
+------>WHITESPACE(    ) at 9896
+-------->NEWLINE(
+) at 9901
+-------->WHITESPACE(        ) at 9902
 -------->STRING(data_Set_stats_processSendEsmAck) at 9910
 -------->LP(() at 9942
 -------->STRING(data_Get_stats_processSendEsmAck) at 9943
@@ -3184,12 +3346,14 @@ WHITESPACE(
 -------->NUMBER(1) at 9980
 -------->RP()) at 9981
 -------->ENDOFCOMMAND(;) at 9982
--------->WHITESPACE(
-    ) at 9983
+-------->NEWLINE(
+) at 9983
+-------->WHITESPACE(    ) at 9984
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 9989
+) at 9989
+------>WHITESPACE(    ) at 9991
 ------>DOXYGENCOMMENT(///) at 9995
 ------>WHITESPACE( ) at 9998
 ------>STRING(Increments) at 9999
@@ -3205,8 +3369,9 @@ WHITESPACE(
 ------>STRING(request) at 10030
 ------>WHITESPACE( ) at 10037
 ------>STRING(counter) at 10038
------->WHITESPACE(
-    ) at 10045
+------>NEWLINE(
+) at 10045
+------>WHITESPACE(    ) at 10046
 ------>STRING(AINLINE) at 10050
 ------>WHITESPACE( ) at 10057
 ------>STRING(void) at 10058
@@ -3214,10 +3379,12 @@ WHITESPACE(
 ------>STRING(incrementStats_processSendSdoReadRequest) at 10063
 ------>LP(() at 10103
 ------>RP()) at 10104
------->WHITESPACE(
-    ) at 10105
--------->WHITESPACE(
-        ) at 10111
+------>NEWLINE(
+) at 10105
+------>WHITESPACE(    ) at 10106
+-------->NEWLINE(
+) at 10111
+-------->WHITESPACE(        ) at 10112
 -------->STRING(data_Set_stats_processSendSdoReadRequest) at 10120
 -------->LP(() at 10160
 -------->STRING(data_Get_stats_processSendSdoReadRequest) at 10161
@@ -3229,12 +3396,14 @@ WHITESPACE(
 -------->NUMBER(1) at 10206
 -------->RP()) at 10207
 -------->ENDOFCOMMAND(;) at 10208
--------->WHITESPACE(
-    ) at 10209
+-------->NEWLINE(
+) at 10209
+-------->WHITESPACE(    ) at 10210
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 10215
+) at 10215
+------>WHITESPACE(    ) at 10217
 ------>DOXYGENCOMMENT(///) at 10221
 ------>WHITESPACE( ) at 10224
 ------>STRING(Increments) at 10225
@@ -3250,8 +3419,9 @@ WHITESPACE(
 ------>STRING(message) at 10263
 ------>WHITESPACE( ) at 10270
 ------>STRING(counter) at 10271
------->WHITESPACE(
-    ) at 10278
+------>NEWLINE(
+) at 10278
+------>WHITESPACE(    ) at 10279
 ------>STRING(AINLINE) at 10283
 ------>WHITESPACE( ) at 10290
 ------>STRING(void) at 10291
@@ -3259,10 +3429,12 @@ WHITESPACE(
 ------>STRING(incrementStats_processSendDiagnosisMessage) at 10296
 ------>LP(() at 10338
 ------>RP()) at 10339
------->WHITESPACE(
-    ) at 10340
--------->WHITESPACE(
-        ) at 10346
+------>NEWLINE(
+) at 10340
+------>WHITESPACE(    ) at 10341
+-------->NEWLINE(
+) at 10346
+-------->WHITESPACE(        ) at 10347
 -------->STRING(data_Set_stats_processSendDiagnosisMessage) at 10355
 -------->LP(() at 10397
 -------->STRING(data_Get_stats_processSendDiagnosisMessage) at 10398
@@ -3274,12 +3446,14 @@ WHITESPACE(
 -------->NUMBER(1) at 10445
 -------->RP()) at 10446
 -------->ENDOFCOMMAND(;) at 10447
--------->WHITESPACE(
-    ) at 10448
+-------->NEWLINE(
+) at 10448
+-------->WHITESPACE(    ) at 10449
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 10454
+) at 10454
+------>WHITESPACE(    ) at 10456
 ------>DOXYGENCOMMENT(///) at 10460
 ------>WHITESPACE( ) at 10463
 ------>STRING(Increments) at 10464
@@ -3297,8 +3471,9 @@ WHITESPACE(
 ------>STRING(request) at 10509
 ------>WHITESPACE( ) at 10516
 ------>STRING(counter) at 10517
------->WHITESPACE(
-    ) at 10524
+------>NEWLINE(
+) at 10524
+------>WHITESPACE(    ) at 10525
 ------>STRING(AINLINE) at 10529
 ------>WHITESPACE( ) at 10536
 ------>STRING(void) at 10537
@@ -3306,10 +3481,12 @@ WHITESPACE(
 ------>STRING(incrementStats_processModuleConfigRequest) at 10542
 ------>LP(() at 10583
 ------>RP()) at 10584
------->WHITESPACE(
-    ) at 10585
--------->WHITESPACE(
-        ) at 10591
+------>NEWLINE(
+) at 10585
+------>WHITESPACE(    ) at 10586
+-------->NEWLINE(
+) at 10591
+-------->WHITESPACE(        ) at 10592
 -------->STRING(data_Set_stats_processModuleConfigRequest) at 10600
 -------->LP(() at 10641
 -------->STRING(data_Get_stats_processModuleConfigRequest) at 10642
@@ -3321,12 +3498,14 @@ WHITESPACE(
 -------->NUMBER(1) at 10688
 -------->RP()) at 10689
 -------->ENDOFCOMMAND(;) at 10690
--------->WHITESPACE(
-    ) at 10691
+-------->NEWLINE(
+) at 10691
+-------->WHITESPACE(    ) at 10692
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 10697
+) at 10697
+------>WHITESPACE(    ) at 10699
 ------>DOXYGENCOMMENT(///) at 10703
 ------>WHITESPACE( ) at 10706
 ------>STRING(Increments) at 10707
@@ -3342,8 +3521,9 @@ WHITESPACE(
 ------>STRING(request) at 10742
 ------>WHITESPACE( ) at 10749
 ------>STRING(counter) at 10750
------->WHITESPACE(
-    ) at 10757
+------>NEWLINE(
+) at 10757
+------>WHITESPACE(    ) at 10758
 ------>STRING(AINLINE) at 10762
 ------>WHITESPACE( ) at 10769
 ------>STRING(void) at 10770
@@ -3351,10 +3531,12 @@ WHITESPACE(
 ------>STRING(incrementStats_processEsmRequest) at 10775
 ------>LP(() at 10807
 ------>RP()) at 10808
------->WHITESPACE(
-    ) at 10809
--------->WHITESPACE(
-        ) at 10815
+------>NEWLINE(
+) at 10809
+------>WHITESPACE(    ) at 10810
+-------->NEWLINE(
+) at 10815
+-------->WHITESPACE(        ) at 10816
 -------->STRING(data_Set_stats_processEsmRequest) at 10824
 -------->LP(() at 10856
 -------->STRING(data_Get_stats_processEsmRequest) at 10857
@@ -3366,12 +3548,14 @@ WHITESPACE(
 -------->NUMBER(1) at 10894
 -------->RP()) at 10895
 -------->ENDOFCOMMAND(;) at 10896
--------->WHITESPACE(
-    ) at 10897
+-------->NEWLINE(
+) at 10897
+-------->WHITESPACE(    ) at 10898
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 10903
+) at 10903
+------>WHITESPACE(    ) at 10905
 ------>DOXYGENCOMMENT(///) at 10909
 ------>WHITESPACE( ) at 10912
 ------>STRING(Increments) at 10913
@@ -3389,8 +3573,9 @@ WHITESPACE(
 ------>STRING(received) at 10951
 ------>WHITESPACE( ) at 10959
 ------>STRING(counter) at 10960
------->WHITESPACE(
-    ) at 10967
+------>NEWLINE(
+) at 10967
+------>WHITESPACE(    ) at 10968
 ------>STRING(AINLINE) at 10972
 ------>WHITESPACE( ) at 10979
 ------>STRING(void) at 10980
@@ -3398,10 +3583,12 @@ WHITESPACE(
 ------>STRING(incrementStats_frameAsReadResponse) at 10985
 ------>LP(() at 11019
 ------>RP()) at 11020
------->WHITESPACE(
-    ) at 11021
--------->WHITESPACE(
-        ) at 11027
+------>NEWLINE(
+) at 11021
+------>WHITESPACE(    ) at 11022
+-------->NEWLINE(
+) at 11027
+-------->WHITESPACE(        ) at 11028
 -------->STRING(data_Set_stats_frameAsReadResponse) at 11036
 -------->LP(() at 11070
 -------->STRING(data_Get_stats_frameAsReadResponse) at 11071
@@ -3413,12 +3600,14 @@ WHITESPACE(
 -------->NUMBER(1) at 11110
 -------->RP()) at 11111
 -------->ENDOFCOMMAND(;) at 11112
--------->WHITESPACE(
-    ) at 11113
+-------->NEWLINE(
+) at 11113
+-------->WHITESPACE(    ) at 11114
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 11119
+) at 11119
+------>WHITESPACE(    ) at 11121
 ------>DOXYGENCOMMENT(///) at 11125
 ------>WHITESPACE( ) at 11128
 ------>STRING(Increments) at 11129
@@ -3432,8 +3621,9 @@ WHITESPACE(
 ------>STRING(received) at 11155
 ------>WHITESPACE( ) at 11163
 ------>STRING(counter) at 11164
------->WHITESPACE(
-    ) at 11171
+------>NEWLINE(
+) at 11171
+------>WHITESPACE(    ) at 11172
 ------>STRING(AINLINE) at 11176
 ------>WHITESPACE( ) at 11183
 ------>STRING(void) at 11184
@@ -3441,10 +3631,12 @@ WHITESPACE(
 ------>STRING(incrementStats_frameAsRead) at 11189
 ------>LP(() at 11215
 ------>RP()) at 11216
------->WHITESPACE(
-    ) at 11217
--------->WHITESPACE(
-        ) at 11223
+------>NEWLINE(
+) at 11217
+------>WHITESPACE(    ) at 11218
+-------->NEWLINE(
+) at 11223
+-------->WHITESPACE(        ) at 11224
 -------->STRING(data_Set_stats_frameAsRead) at 11232
 -------->LP(() at 11258
 -------->STRING(data_Get_stats_frameAsRead) at 11259
@@ -3456,12 +3648,14 @@ WHITESPACE(
 -------->NUMBER(1) at 11290
 -------->RP()) at 11291
 -------->ENDOFCOMMAND(;) at 11292
--------->WHITESPACE(
-    ) at 11293
+-------->NEWLINE(
+) at 11293
+-------->WHITESPACE(    ) at 11294
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 11299
+) at 11299
+------>WHITESPACE(    ) at 11301
 ------>DOXYGENCOMMENT(///) at 11305
 ------>WHITESPACE( ) at 11308
 ------>STRING(Increments) at 11309
@@ -3477,8 +3671,9 @@ WHITESPACE(
 ------>STRING(received) at 11339
 ------>WHITESPACE( ) at 11347
 ------>STRING(counter) at 11348
------->WHITESPACE(
-    ) at 11355
+------>NEWLINE(
+) at 11355
+------>WHITESPACE(    ) at 11356
 ------>STRING(AINLINE) at 11360
 ------>WHITESPACE( ) at 11367
 ------>STRING(void) at 11368
@@ -3486,10 +3681,12 @@ WHITESPACE(
 ------>STRING(incrementStats_frameAsWrite) at 11373
 ------>LP(() at 11400
 ------>RP()) at 11401
------->WHITESPACE(
-    ) at 11402
--------->WHITESPACE(
-        ) at 11408
+------>NEWLINE(
+) at 11402
+------>WHITESPACE(    ) at 11403
+-------->NEWLINE(
+) at 11408
+-------->WHITESPACE(        ) at 11409
 -------->STRING(data_Set_stats_frameAsWrite) at 11417
 -------->LP(() at 11444
 -------->STRING(data_Get_stats_frameAsWrite) at 11445
@@ -3501,12 +3698,14 @@ WHITESPACE(
 -------->NUMBER(1) at 11477
 -------->RP()) at 11478
 -------->ENDOFCOMMAND(;) at 11479
--------->WHITESPACE(
-    ) at 11480
+-------->NEWLINE(
+) at 11480
+-------->WHITESPACE(    ) at 11481
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 11486
+) at 11486
+------>WHITESPACE(    ) at 11488
 ------>DOXYGENCOMMENT(///) at 11492
 ------>WHITESPACE( ) at 11495
 ------>STRING(Increments) at 11496
@@ -3524,8 +3723,9 @@ WHITESPACE(
 ------>STRING(received) at 11534
 ------>WHITESPACE( ) at 11542
 ------>STRING(counter) at 11543
------->WHITESPACE(
-    ) at 11550
+------>NEWLINE(
+) at 11550
+------>WHITESPACE(    ) at 11551
 ------>STRING(AINLINE) at 11555
 ------>WHITESPACE( ) at 11562
 ------>STRING(void) at 11563
@@ -3533,10 +3733,12 @@ WHITESPACE(
 ------>STRING(incrementStats_frameEsmStateChange) at 11568
 ------>LP(() at 11602
 ------>RP()) at 11603
------->WHITESPACE(
-    ) at 11604
--------->WHITESPACE(
-        ) at 11610
+------>NEWLINE(
+) at 11604
+------>WHITESPACE(    ) at 11605
+-------->NEWLINE(
+) at 11610
+-------->WHITESPACE(        ) at 11611
 -------->STRING(data_Set_stats_frameEsmStateChange) at 11619
 -------->LP(() at 11653
 -------->STRING(data_Get_stats_frameEsmStateChange) at 11654
@@ -3548,12 +3750,14 @@ WHITESPACE(
 -------->NUMBER(1) at 11693
 -------->RP()) at 11694
 -------->ENDOFCOMMAND(;) at 11695
--------->WHITESPACE(
-    ) at 11696
+-------->NEWLINE(
+) at 11696
+-------->WHITESPACE(    ) at 11697
 
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 11702
+) at 11702
+------>WHITESPACE(    ) at 11704
 ------>DOXYGENCOMMENT(///) at 11708
 ------>WHITESPACE( ) at 11711
 ------>STRING(Increments) at 11712
@@ -3569,8 +3773,9 @@ WHITESPACE(
 ------>STRING(received) at 11747
 ------>WHITESPACE( ) at 11755
 ------>STRING(counter) at 11756
------->WHITESPACE(
-    ) at 11763
+------>NEWLINE(
+) at 11763
+------>WHITESPACE(    ) at 11764
 ------>STRING(AINLINE) at 11768
 ------>WHITESPACE( ) at 11775
 ------>STRING(void) at 11776
@@ -3578,10 +3783,12 @@ WHITESPACE(
 ------>STRING(incrementStats_frameModuleConfig) at 11781
 ------>LP(() at 11813
 ------>RP()) at 11814
------->WHITESPACE(
-    ) at 11815
--------->WHITESPACE(
-        ) at 11821
+------>NEWLINE(
+) at 11815
+------>WHITESPACE(    ) at 11816
+-------->NEWLINE(
+) at 11821
+-------->WHITESPACE(        ) at 11822
 -------->STRING(data_Set_stats_frameModuleConfig) at 11830
 -------->LP(() at 11862
 -------->STRING(data_Get_stats_frameModuleConfig) at 11863
@@ -3593,13 +3800,15 @@ WHITESPACE(
 -------->NUMBER(1) at 11900
 -------->RP()) at 11901
 -------->ENDOFCOMMAND(;) at 11902
--------->WHITESPACE(
-    ) at 11903
+-------->NEWLINE(
+) at 11903
+-------->WHITESPACE(    ) at 11904
 
------->WHITESPACE(
+------>NEWLINE(
 
 
-    ) at 11909
+) at 11909
+------>WHITESPACE(    ) at 11912
 ------>STRING(virtual) at 11916
 ------>WHITESPACE( ) at 11923
 ------>STRING(FMCReturnCode) at 11924
@@ -3608,9 +3817,10 @@ WHITESPACE(
 ------>LP(() at 11971
 ------>RP()) at 11972
 ------>ENDOFCOMMAND(;) at 11973
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 11974
+) at 11974
+------>WHITESPACE(    ) at 11976
 ------>DOXYGENCOMMENT(///) at 11980
 ------>WHITESPACE( ) at 11983
 ------>STRING(returns) at 11984
@@ -3628,17 +3838,20 @@ WHITESPACE(
 ------>STRING(been) at 12031
 ------>WHITESPACE( ) at 12035
 ------>STRING(finished) at 12036
------->WHITESPACE(
-    ) at 12044
+------>NEWLINE(
+) at 12044
+------>WHITESPACE(    ) at 12045
 ------>STRING(BOOL) at 12049
 ------>WHITESPACE( ) at 12053
 ------>STRING(isSendDeviceInformationDone) at 12054
 ------>LP(() at 12081
 ------>RP()) at 12082
------->WHITESPACE(
-    ) at 12083
--------->WHITESPACE(
-        ) at 12089
+------>NEWLINE(
+) at 12083
+------>WHITESPACE(    ) at 12084
+-------->NEWLINE(
+) at 12089
+-------->WHITESPACE(        ) at 12090
 -------->STRING(return) at 12098
 -------->WHITESPACE( ) at 12104
 -------->STRING(static_cast) at 12105
@@ -3649,18 +3862,20 @@ WHITESPACE(
 -------->STRING(sendDeviceInformationDone) at 12123
 -------->RP()) at 12148
 -------->ENDOFCOMMAND(;) at 12149
--------->WHITESPACE(
-    ) at 12150
+-------->NEWLINE(
+) at 12150
+-------->WHITESPACE(    ) at 12151
 
------->WHITESPACE(
+------>NEWLINE(
 
 
 ) at 12156
 ------>STRING(private) at 12159
 ------>DOUBLEPOINT(:) at 12166
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 12167
+) at 12167
+------>WHITESPACE(    ) at 12169
 ------>DOXYGENCOMMENT(///) at 12173
 ------>WHITESPACE( ) at 12176
 ------>STRING(Sends) at 12177
@@ -3677,8 +3892,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 12217
 ------>STRING(librte) at 12218
 ------>DOT(.) at 12224
------->WHITESPACE(
-    ) at 12225
+------>NEWLINE(
+) at 12225
+------>WHITESPACE(    ) at 12226
 ------>DOXYGENCOMMENT(///) at 12230
 ------>WHITESPACE( ) at 12233
 ------>BACKSLASH(\) at 12234
@@ -3691,8 +3907,9 @@ WHITESPACE(
 ------>STRING(device) at 12260
 ------>WHITESPACE( ) at 12266
 ------>STRING(id) at 12267
------->WHITESPACE(
-    ) at 12269
+------>NEWLINE(
+) at 12269
+------>WHITESPACE(    ) at 12270
 ------>STRING(FMCReturnCode) at 12274
 ------>WHITESPACE( ) at 12287
 ------>STRING(sendEtherCatDeviceIdentification) at 12288
@@ -3702,9 +3919,10 @@ WHITESPACE(
 ------>STRING(explDevId) at 12328
 ------>RP()) at 12337
 ------>ENDOFCOMMAND(;) at 12338
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 12339
+) at 12339
+------>WHITESPACE(    ) at 12341
 ------>DOXYGENCOMMENT(///) at 12345
 ------>WHITESPACE( ) at 12348
 ------>STRING(Sends) at 12349
@@ -3721,8 +3939,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 12389
 ------>STRING(librte) at 12390
 ------>DOT(.) at 12396
------->WHITESPACE(
-    ) at 12397
+------>NEWLINE(
+) at 12397
+------>WHITESPACE(    ) at 12398
 ------>DOXYGENCOMMENT(///) at 12402
 ------>WHITESPACE( ) at 12405
 ------>BACKSLASH(\) at 12406
@@ -3749,8 +3968,9 @@ WHITESPACE(
 ------>STRING(profinet) at 12458
 ------>WHITESPACE( ) at 12466
 ------>STRING(device) at 12467
------->WHITESPACE(
-    ) at 12473
+------>NEWLINE(
+) at 12473
+------>WHITESPACE(    ) at 12474
 ------>DOXYGENCOMMENT(///) at 12478
 ------>WHITESPACE( ) at 12481
 ------>BACKSLASH(\) at 12482
@@ -3773,8 +3993,9 @@ WHITESPACE(
 ------>STRING(profinet) at 12532
 ------>WHITESPACE( ) at 12540
 ------>STRING(device) at 12541
------->WHITESPACE(
-    ) at 12547
+------>NEWLINE(
+) at 12547
+------>WHITESPACE(    ) at 12548
 ------>DOXYGENCOMMENT(///) at 12552
 ------>WHITESPACE( ) at 12555
 ------>BACKSLASH(\) at 12556
@@ -3795,8 +4016,9 @@ WHITESPACE(
 ------>STRING(profinet) at 12593
 ------>WHITESPACE( ) at 12601
 ------>STRING(device) at 12602
------->WHITESPACE(
-    ) at 12608
+------>NEWLINE(
+) at 12608
+------>WHITESPACE(    ) at 12609
 ------>DOXYGENCOMMENT(///) at 12613
 ------>WHITESPACE( ) at 12616
 ------>BACKSLASH(\) at 12617
@@ -3819,14 +4041,16 @@ WHITESPACE(
 ------>STRING(profinet) at 12661
 ------>WHITESPACE( ) at 12669
 ------>STRING(device) at 12670
------->WHITESPACE(
-    ) at 12676
+------>NEWLINE(
+) at 12676
+------>WHITESPACE(    ) at 12677
 ------>STRING(FMCReturnCode) at 12681
 ------>WHITESPACE( ) at 12694
 ------>STRING(sendProfiNetDeviceIdentification) at 12695
 ------>LP(() at 12727
------->WHITESPACE(
-        ) at 12728
+------>NEWLINE(
+) at 12728
+------>WHITESPACE(        ) at 12729
 ------>STRING(Interfaces) at 12737
 ------>DOUBLEPOINT(:) at 12747
 ------>DOUBLEPOINT(:) at 12748
@@ -3834,13 +4058,15 @@ WHITESPACE(
 ------>AND(&) at 12770
 ------>WHITESPACE( ) at 12771
 ------>STRING(deviceIdent) at 12772
------->WHITESPACE(
-    ) at 12783
+------>NEWLINE(
+) at 12783
+------>WHITESPACE(    ) at 12784
 ------>RP()) at 12788
 ------>ENDOFCOMMAND(;) at 12789
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 12790
+) at 12790
+------>WHITESPACE(    ) at 12792
 ------>DOXYGENCOMMENT(///) at 12796
 ------>WHITESPACE( ) at 12799
 ------>STRING(is) at 12800
@@ -3858,8 +4084,9 @@ WHITESPACE(
 ------>STRING(been) at 12842
 ------>WHITESPACE( ) at 12846
 ------>STRING(finished) at 12847
------->WHITESPACE(
-    ) at 12855
+------>NEWLINE(
+) at 12855
+------>WHITESPACE(    ) at 12856
 ------>STRING(std) at 12860
 ------>DOUBLEPOINT(:) at 12863
 ------>DOUBLEPOINT(:) at 12864
@@ -3870,9 +4097,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 12877
 ------>STRING(sendDeviceInformationDone) at 12878
 ------>ENDOFCOMMAND(;) at 12903
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 12904
+) at 12904
+------>WHITESPACE(    ) at 12906
 ------>DOXYGENCOMMENT(///) at 12910
 ------>WHITESPACE( ) at 12913
 ------>STRING(Generic) at 12914
@@ -3890,29 +4118,33 @@ WHITESPACE(
 ------>STRING(with) at 12957
 ------>WHITESPACE( ) at 12961
 ------>STRING(libRTE) at 12962
------->WHITESPACE(
-    ) at 12968
+------>NEWLINE(
+) at 12968
+------>WHITESPACE(    ) at 12969
 ------>STRING(rte_driver_t) at 12973
 ------>WHITESPACE( ) at 12985
 ------>STRING(appDriver) at 12986
 ------>ENDOFCOMMAND(;) at 12995
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 12996
+) at 12996
+------>WHITESPACE(    ) at 12998
 ------>STRING(LibRteNrtDriver) at 13002
 ------>WHITESPACE( ) at 13017
 ------>STRING(nrtDriver) at 13018
 ------>ENDOFCOMMAND(;) at 13027
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13028
+) at 13028
+------>WHITESPACE(    ) at 13030
 ------>STRING(LibRteMailboxManager) at 13034
 ------>WHITESPACE( ) at 13054
 ------>STRING(mailboxManager) at 13055
 ------>ENDOFCOMMAND(;) at 13069
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13070
+) at 13070
+------>WHITESPACE(    ) at 13072
 ------>DOXYGENCOMMENT(///) at 13076
 ------>WHITESPACE( ) at 13079
 ------>STRING(holds) at 13080
@@ -3926,15 +4158,17 @@ WHITESPACE(
 ------>STRING(firmware) at 13104
 ------>WHITESPACE( ) at 13112
 ------>STRING(updates) at 13113
------->WHITESPACE(
-    ) at 13120
+------>NEWLINE(
+) at 13120
+------>WHITESPACE(    ) at 13121
 ------>STRING(LibRteFirmwareUpdateChannel) at 13125
 ------>WHITESPACE( ) at 13152
 ------>STRING(firmwareUpdateChannel) at 13153
 ------>ENDOFCOMMAND(;) at 13174
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13175
+) at 13175
+------>WHITESPACE(    ) at 13177
 ------>DOXYGENCOMMENT(///) at 13181
 ------>WHITESPACE( ) at 13184
 ------>STRING(holds) at 13185
@@ -3950,15 +4184,17 @@ WHITESPACE(
 ------>STRING(description) at 13216
 ------>WHITESPACE( ) at 13227
 ------>STRING(file) at 13228
------->WHITESPACE(
-    ) at 13232
+------>NEWLINE(
+) at 13232
+------>WHITESPACE(    ) at 13233
 ------>STRING(LibRteDeviceDescription) at 13237
 ------>WHITESPACE( ) at 13260
 ------>STRING(deviceDescription) at 13261
 ------>ENDOFCOMMAND(;) at 13278
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13279
+) at 13279
+------>WHITESPACE(    ) at 13281
 ------>DOXYGENCOMMENT(///) at 13285
 ------>WHITESPACE( ) at 13288
 ------>STRING(holds) at 13289
@@ -3982,16 +4218,18 @@ WHITESPACE(
 ------>STRING(module) at 13335
 ------>WHITESPACE( ) at 13341
 ------>STRING(configuration) at 13342
------->WHITESPACE(
-    ) at 13355
+------>NEWLINE(
+) at 13355
+------>WHITESPACE(    ) at 13356
 ------>STRING(LibRteModuleConfig) at 13360
 ------>MULTIPLY(*) at 13378
 ------>WHITESPACE( ) at 13379
 ------>STRING(moduleConfig) at 13380
 ------>ENDOFCOMMAND(;) at 13392
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13393
+) at 13393
+------>WHITESPACE(    ) at 13395
 ------>DOXYGENCOMMENT(///) at 13399
 ------>WHITESPACE( ) at 13402
 ------>STRING(holds) at 13403
@@ -4005,15 +4243,17 @@ WHITESPACE(
 ------>STRING(libRTE) at 13427
 ------>WHITESPACE( ) at 13433
 ------>STRING(diagnosis) at 13434
------->WHITESPACE(
-    ) at 13443
+------>NEWLINE(
+) at 13443
+------>WHITESPACE(    ) at 13444
 ------>STRING(LibRteDiagnosis) at 13448
 ------>WHITESPACE( ) at 13463
 ------>STRING(diagnosis) at 13464
 ------>ENDOFCOMMAND(;) at 13473
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13474
+) at 13474
+------>WHITESPACE(    ) at 13476
 ------>DOXYGENCOMMENT(///) at 13480
 ------>WHITESPACE( ) at 13483
 ------>STRING(holds) at 13484
@@ -4027,15 +4267,17 @@ WHITESPACE(
 ------>STRING(watchdog) at 13508
 ------>WHITESPACE( ) at 13516
 ------>STRING(handling) at 13517
------->WHITESPACE(
-    ) at 13525
+------>NEWLINE(
+) at 13525
+------>WHITESPACE(    ) at 13526
 ------>STRING(LibRteWatchdog) at 13530
 ------>WHITESPACE( ) at 13544
 ------>STRING(watchdog) at 13545
 ------>ENDOFCOMMAND(;) at 13553
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13554
+) at 13554
+------>WHITESPACE(    ) at 13556
 ------>DOXYGENCOMMENT(///) at 13560
 ------>WHITESPACE( ) at 13563
 ------>STRING(holds) at 13564
@@ -4049,8 +4291,9 @@ WHITESPACE(
 ------>STRING(data) at 13589
 ------>WHITESPACE( ) at 13593
 ------>STRING(irq) at 13594
------->WHITESPACE(
-    ) at 13597
+------>NEWLINE(
+) at 13597
+------>WHITESPACE(    ) at 13598
 ------>STRING(Interfaces) at 13602
 ------>DOUBLEPOINT(:) at 13612
 ------>DOUBLEPOINT(:) at 13613
@@ -4059,9 +4302,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 13635
 ------>STRING(pdIrq) at 13636
 ------>ENDOFCOMMAND(;) at 13641
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13642
+) at 13642
+------>WHITESPACE(    ) at 13644
 ------>DOXYGENCOMMENT(///) at 13648
 ------>WHITESPACE( ) at 13651
 ------>STRING(holds) at 13652
@@ -4073,8 +4317,9 @@ WHITESPACE(
 ------>STRING(mailbox) at 13669
 ------>WHITESPACE( ) at 13676
 ------>STRING(irq) at 13677
------->WHITESPACE(
-    ) at 13680
+------>NEWLINE(
+) at 13680
+------>WHITESPACE(    ) at 13681
 ------>STRING(Interfaces) at 13685
 ------>DOUBLEPOINT(:) at 13695
 ------>DOUBLEPOINT(:) at 13696
@@ -4083,9 +4328,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 13718
 ------>STRING(mbxIrq) at 13719
 ------>ENDOFCOMMAND(;) at 13725
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13726
+) at 13726
+------>WHITESPACE(    ) at 13728
 ------>DOXYGENCOMMENT(///) at 13732
 ------>WHITESPACE( ) at 13735
 ------>STRING(holds) at 13736
@@ -4101,8 +4347,9 @@ WHITESPACE(
 ------>STRING(rte) at 13763
 ------>WHITESPACE( ) at 13766
 ------>STRING(chip) at 13767
------->WHITESPACE(
-    ) at 13771
+------>NEWLINE(
+) at 13771
+------>WHITESPACE(    ) at 13772
 ------>STRING(Interfaces) at 13776
 ------>DOUBLEPOINT(:) at 13786
 ------>DOUBLEPOINT(:) at 13787
@@ -4111,9 +4358,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 13809
 ------>STRING(chipReset) at 13810
 ------>ENDOFCOMMAND(;) at 13819
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13820
+) at 13820
+------>WHITESPACE(    ) at 13822
 ------>DOXYGENCOMMENT(///) at 13826
 ------>WHITESPACE( ) at 13829
 ------>STRING(holds) at 13830
@@ -4129,8 +4377,9 @@ WHITESPACE(
 ------>STRING(rte) at 13857
 ------>WHITESPACE( ) at 13860
 ------>STRING(chip) at 13861
------->WHITESPACE(
-    ) at 13865
+------>NEWLINE(
+) at 13865
+------>WHITESPACE(    ) at 13866
 ------>STRING(Interfaces) at 13870
 ------>DOUBLEPOINT(:) at 13880
 ------>DOUBLEPOINT(:) at 13881
@@ -4139,9 +4388,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 13903
 ------>STRING(powerFailRTE) at 13904
 ------>ENDOFCOMMAND(;) at 13916
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 13917
+) at 13917
+------>WHITESPACE(    ) at 13919
 ------>DOXYGENCOMMENT(///) at 13923
 ------>WHITESPACE( ) at 13926
 ------>STRING(Holds) at 13927
@@ -4151,8 +4401,9 @@ WHITESPACE(
 ------>STRING(to) at 13943
 ------>WHITESPACE( ) at 13945
 ------>STRING(shutdown) at 13946
------->WHITESPACE(
-    ) at 13954
+------>NEWLINE(
+) at 13954
+------>WHITESPACE(    ) at 13955
 ------>STRING(Interfaces) at 13959
 ------>DOUBLEPOINT(:) at 13969
 ------>DOUBLEPOINT(:) at 13970
@@ -4161,9 +4412,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 13987
 ------>STRING(shutdownInterface) at 13988
 ------>ENDOFCOMMAND(;) at 14005
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14006
+) at 14006
+------>WHITESPACE(    ) at 14008
 ------>DOXYGENCOMMENT(///) at 14012
 ------>WHITESPACE( ) at 14015
 ------>STRING(Holds) at 14016
@@ -4173,8 +4425,9 @@ WHITESPACE(
 ------>STRING(to) at 14032
 ------>WHITESPACE( ) at 14034
 ------>STRING(softReset) at 14035
------->WHITESPACE(
-    ) at 14044
+------>NEWLINE(
+) at 14044
+------>WHITESPACE(    ) at 14045
 ------>STRING(Interfaces) at 14049
 ------>DOUBLEPOINT(:) at 14059
 ------>DOUBLEPOINT(:) at 14060
@@ -4183,9 +4436,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14072
 ------>STRING(softResetInterface) at 14073
 ------>ENDOFCOMMAND(;) at 14091
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14092
+) at 14092
+------>WHITESPACE(    ) at 14094
 ------>DOXYGENCOMMENT(///) at 14098
 ------>WHITESPACE( ) at 14101
 ------>STRING(Holds) at 14102
@@ -4206,8 +4460,9 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14170
 ------>STRING(type) at 14171
 ------>RP()) at 14175
------->WHITESPACE(
-    ) at 14176
+------>NEWLINE(
+) at 14176
+------>WHITESPACE(    ) at 14177
 ------>STRING(Interfaces) at 14181
 ------>DOUBLEPOINT(:) at 14191
 ------>DOUBLEPOINT(:) at 14192
@@ -4216,9 +4471,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14219
 ------>STRING(communicationInformation) at 14220
 ------>ENDOFCOMMAND(;) at 14244
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14245
+) at 14245
+------>WHITESPACE(    ) at 14247
 ------>DOXYGENCOMMENT(///) at 14251
 ------>WHITESPACE( ) at 14254
 ------>STRING(Holds) at 14255
@@ -4228,8 +4484,9 @@ WHITESPACE(
 ------>STRING(to) at 14271
 ------>WHITESPACE( ) at 14273
 ------>STRING(hardwareInformation) at 14274
------->WHITESPACE(
-    ) at 14293
+------>NEWLINE(
+) at 14293
+------>WHITESPACE(    ) at 14294
 ------>STRING(Interfaces) at 14298
 ------>DOUBLEPOINT(:) at 14308
 ------>DOUBLEPOINT(:) at 14309
@@ -4238,9 +4495,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14331
 ------>STRING(hardwareInformation) at 14332
 ------>ENDOFCOMMAND(;) at 14351
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14352
+) at 14352
+------>WHITESPACE(    ) at 14354
 ------>DOXYGENCOMMENT(///) at 14358
 ------>WHITESPACE( ) at 14361
 ------>STRING(Holds) at 14362
@@ -4250,8 +4508,9 @@ WHITESPACE(
 ------>STRING(to) at 14378
 ------>WHITESPACE( ) at 14380
 ------>STRING(firmwareVersionInformation) at 14381
------->WHITESPACE(
-    ) at 14407
+------>NEWLINE(
+) at 14407
+------>WHITESPACE(    ) at 14408
 ------>STRING(Interfaces) at 14412
 ------>DOUBLEPOINT(:) at 14422
 ------>DOUBLEPOINT(:) at 14423
@@ -4260,9 +4519,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14452
 ------>STRING(firmwareVersionInformation) at 14453
 ------>ENDOFCOMMAND(;) at 14479
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14480
+) at 14480
+------>WHITESPACE(    ) at 14482
 ------>DOXYGENCOMMENT(///) at 14486
 ------>WHITESPACE( ) at 14489
 ------>STRING(Holds) at 14490
@@ -4276,8 +4536,9 @@ WHITESPACE(
 ------>STRING(protocol) at 14517
 ------>WHITESPACE( ) at 14525
 ------>STRING(type) at 14526
------->WHITESPACE(
-    ) at 14530
+------>NEWLINE(
+) at 14530
+------>WHITESPACE(    ) at 14531
 ------>STRING(Autogen) at 14535
 ------>DOUBLEPOINT(:) at 14542
 ------>DOUBLEPOINT(:) at 14543
@@ -4285,9 +4546,10 @@ WHITESPACE(
 ------>WHITESPACE( ) at 14559
 ------>STRING(comProtocolType) at 14560
 ------>ENDOFCOMMAND(;) at 14575
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14576
+) at 14576
+------>WHITESPACE(    ) at 14578
 ------>DOXYGENCOMMENT(///) at 14582
 ------>WHITESPACE( ) at 14585
 ------>STRING(The) at 14586
@@ -4326,15 +4588,17 @@ WHITESPACE(
 ------>COMMA(,) at 14679
 ------>WHITESPACE( ) at 14680
 ------>STRING(p2) at 14681
------->WHITESPACE(
-    ) at 14683
+------>NEWLINE(
+) at 14683
+------>WHITESPACE(    ) at 14684
 ------>STRING(LibRteProcessManager) at 14688
 ------>WHITESPACE( ) at 14708
 ------>STRING(processManager) at 14709
 ------>ENDOFCOMMAND(;) at 14723
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14724
+) at 14724
+------>WHITESPACE(    ) at 14726
 ------>DOXYGENCOMMENT(///) at 14730
 ------>WHITESPACE( ) at 14733
 ------>STRING(Abstract) at 14734
@@ -4344,16 +4608,18 @@ WHITESPACE(
 ------>STRING(process) at 14752
 ------>WHITESPACE( ) at 14759
 ------>STRING(handler) at 14760
------->WHITESPACE(
-    ) at 14767
+------>NEWLINE(
+) at 14767
+------>WHITESPACE(    ) at 14768
 ------>STRING(LibRteProcessHandler) at 14772
 ------>MULTIPLY(*) at 14792
 ------>WHITESPACE( ) at 14793
 ------>STRING(processP0Handler) at 14794
 ------>ENDOFCOMMAND(;) at 14810
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14811
+) at 14811
+------>WHITESPACE(    ) at 14813
 ------>DOXYGENCOMMENT(///) at 14817
 ------>WHITESPACE( ) at 14820
 ------>STRING(Abstract) at 14821
@@ -4363,16 +4629,18 @@ WHITESPACE(
 ------>STRING(process) at 14839
 ------>WHITESPACE( ) at 14846
 ------>STRING(handler) at 14847
------->WHITESPACE(
-    ) at 14854
+------>NEWLINE(
+) at 14854
+------>WHITESPACE(    ) at 14855
 ------>STRING(LibRteProcessHandler) at 14859
 ------>MULTIPLY(*) at 14879
 ------>WHITESPACE( ) at 14880
 ------>STRING(processP1Handler) at 14881
 ------>ENDOFCOMMAND(;) at 14897
------->WHITESPACE(
+------>NEWLINE(
 
-    ) at 14898
+) at 14898
+------>WHITESPACE(    ) at 14900
 ------>DOXYGENCOMMENT(///) at 14904
 ------>WHITESPACE( ) at 14907
 ------>STRING(Abstract) at 14908
@@ -4382,23 +4650,24 @@ WHITESPACE(
 ------>STRING(process) at 14926
 ------>WHITESPACE( ) at 14933
 ------>STRING(handler) at 14934
------->WHITESPACE(
-    ) at 14941
+------>NEWLINE(
+) at 14941
+------>WHITESPACE(    ) at 14942
 ------>STRING(LibRteProcessHandler) at 14946
 ------>MULTIPLY(*) at 14966
 ------>WHITESPACE( ) at 14967
 ------>STRING(processP2Handler) at 14968
 ------>ENDOFCOMMAND(;) at 14984
------->WHITESPACE(
+------>NEWLINE(
 
 ) at 14985
 
 ---->ENDOFCOMMAND(;) at 14988
----->WHITESPACE(
+---->NEWLINE(
 
 
 ) at 14989
 
 
-WHITESPACE(
+NEWLINE(
 ) at 14994

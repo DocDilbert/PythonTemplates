@@ -7,7 +7,6 @@ class Code(object):
 
 
 class Closure(Code):
-
     def __init__(self, begin_del=None, end_del=None, content=None):
         self.begin_del = begin_del
         self.end_del = end_del
@@ -95,3 +94,20 @@ class Token(Code):
 
     def __ne__(self, other):
         return not(self.__eq__(other))
+
+
+class TokenNewLine(Token):
+    def __init__(self, pos):
+        super().__init__("NEWLINE", "\n", pos)
+
+    def __str__(self):
+        return '%s(\\n) at %s' % (self.type, self.pos)
+
+    def __repr__(self):
+        return '(%s(\\n) at %s)' % (self.type, self.pos)   
+
+    def __eq__(self, other):
+        if isinstance(other, TokenNewLine):
+            return super().__eq__(other)
+        else:
+            return False

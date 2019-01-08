@@ -60,7 +60,15 @@ LEXER_TESTS = [
             Token('WHITESPACE', ' ', 5),
             Token('STRING', '_abc', 6)
         ]
-    }
+    }, {
+        'description': "lexer_test_8",
+        'input': ' \n ',
+        'output': [
+            Token('WHITESPACE', ' ', 0),
+            Token('NEWLINE', '\n', 1),
+            Token('WHITESPACE', ' ', 2)
+        ]
+    },
 ]
 
 
