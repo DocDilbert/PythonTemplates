@@ -12,14 +12,18 @@ class BlockCombine(object):
         for tok in tokens:
 
             if isinstance(tok, Block):
-                if (tok.begin_del.type == self.begin_token_type and tok.end_del.type == self.end_token_type):
-                    
-                    if len(tok.content)>0:
+                if (tok.begin_del.type == self.begin_token_type and
+                        tok.end_del.type == self.end_token_type):
+
+                    # Verarbeite keine Blöcke die keinen Inhalt haben
+                    if len(tok.content) > 0:
                         new_content = "".join([x.val for x in tok.content])
                         new_token = Token('STRING', new_content,
-                                        tok.content[0].pos)
+                                          tok.content[0].pos)
                         tok.content = [new_token]
+                        
                     output.append(tok)
+                    
                 else:
                     temp = list(tok.content)
                     tok.content = self.tree(temp)
