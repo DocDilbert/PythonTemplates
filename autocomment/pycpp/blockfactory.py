@@ -2,7 +2,7 @@ from pycpp.code import Token
 from pycpp.code import Closure
 
 
-class ClosureFinder(object):
+class BlockFactory(object):
     def __init__(self):
         self.tokens = []
 

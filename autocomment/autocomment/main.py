@@ -16,7 +16,7 @@ import time
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
-from pycpp.closurefinder import ClosureFinder
+from pycpp.blockfactory import BlockFactory
 
 
 def main():
@@ -47,7 +47,7 @@ def main():
     lexer.input(code)
     output = list(lexer.tokens())
 
-    closurefinder = ClosureFinder()
+    closurefinder = BlockFactory()
     closurefinder.input(output)
 
     output2 = closurefinder.tree()

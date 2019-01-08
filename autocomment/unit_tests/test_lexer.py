@@ -5,19 +5,19 @@ from pycpp.code import Token
 
 LEXER_TESTS = [
     {
-        'description': "lexer_basic_1",
+        'description': "lexer_test_1",
         'input': ' ',
         'output': [
             Token('WHITESPACE', ' ', 0)
         ]
     }, {
-        'description': "lexer_basic_2",
+        'description': "lexer_test_2",
         'input': '  ',
         'output': [
             Token('WHITESPACE', '  ', 0)
         ]
     }, {
-        'description': "lexer_basic_3",
+        'description': "lexer_test_3",
         'input': '// TEST',
         'output': [
             Token('COMMENT', '//', 0),
@@ -25,7 +25,7 @@ LEXER_TESTS = [
             Token('STRING', 'TEST', 3)
         ]
     }, {
-        'description': "lexer_basic_4",
+        'description': "lexer_test_4",
         'input': '{TEST}',
         'output': [
             Token('CB_BEGIN', '{', 0),
@@ -33,7 +33,7 @@ LEXER_TESTS = [
             Token('CB_END', '}', 5)
         ]
     }, {
-        'description': "lexer_basic_5",
+        'description': "lexer_test_5",
         'input': 'ab c de',
         'output': [
             Token('STRING', 'ab', 0),
@@ -43,7 +43,7 @@ LEXER_TESTS = [
             Token('STRING', 'de', 5),
         ]
     }, {
-        'description': "lexer_basic_6",
+        'description': "lexer_test_6",
         'input': '/*TEST*/',
         'output': [
             Token('COMMENT_BEGIN', '/*', 0),
@@ -51,7 +51,7 @@ LEXER_TESTS = [
             Token('COMMENT_END', '*/', 6)
         ]
     }, {
-        'description': "lexer_basic_7",
+        'description': "lexer_test_7",
         'input': 'erw = _abc',
         'output': [
             Token('STRING', 'erw', 0),
@@ -64,15 +64,15 @@ LEXER_TESTS = [
 ]
 
 
-@pytest.mark.parametrize("testdata", LEXER_TESTS)
-def test_lex(testdata):
+@pytest.mark.parametrize("data", LEXER_TESTS)
+def test_lex(data):
     lexer = Lexer()
-    lexer.input(testdata['input'])
+    lexer.input(data['input'])
 
     output = list(lexer.tokens())
 
     assert len(output) == len(
-        testdata['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
+        data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
 
-    for element in zip(output, testdata['output']):
-        assert element[0] == element[1], testdata['description']
+    for element in zip(output, data['output']):
+        assert element[0] == element[1], data['description']

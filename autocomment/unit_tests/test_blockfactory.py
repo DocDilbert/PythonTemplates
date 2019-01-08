@@ -1,12 +1,12 @@
 
 import pytest
-from pycpp.closurefinder import ClosureFinder
+from pycpp.blockfactory import BlockFactory
 from pycpp.code import Token
 from pycpp.code import Closure
 
-CLOSURE_FINDER_TESTS = [
+BLOCK_FACTORY_TESTS = [
     {
-        'description': "closure_finder_basic_1",
+        'description': "blockfactory_test_1",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_END', '}', 1)
@@ -20,7 +20,7 @@ CLOSURE_FINDER_TESTS = [
         ]
     },
     {
-        'description': "closure_finder_basic_2",
+        'description': "blockfactory_test_2",
         'input': [
             Token('CB_BEGIN', '{', 0),
             Token('CB_BEGIN', '{', 1),
@@ -42,7 +42,7 @@ CLOSURE_FINDER_TESTS = [
         ]
     },
     {
-        'description': "closure_finder_basic_3",
+        'description': "blockfactory_test_3",
         'input': [
             Closure(
                 [
@@ -61,7 +61,7 @@ CLOSURE_FINDER_TESTS = [
         ]
     },
     {
-        'description': "closure_finder_basic_4",
+        'description': "blockfactory_test_4",
         'input': [
             Closure(
                 Token('CB_BEGIN', '{', 0),
@@ -91,14 +91,14 @@ CLOSURE_FINDER_TESTS = [
     }]
 
 
-@pytest.mark.parametrize("testdata", CLOSURE_FINDER_TESTS)
-def test_closure_finder(testdata):
-    closurefinder = ClosureFinder()
-    closurefinder.input(testdata['input'])
+@pytest.mark.parametrize("data", BLOCK_FACTORY_TESTS)
+def test_blockfactory(data):
+    blockfactory = BlockFactory()
+    blockfactory.input(data['input'])
 
-    output = closurefinder.tree()
+    output = blockfactory.tree()
     assert len(output) == len(
-        testdata['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
+        data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
 
-    for element in zip(output, testdata['output']):
-        assert element[0] == element[1], testdata['description']
+    for element in zip(output, data['output']):
+        assert element[0] == element[1], data['description']
