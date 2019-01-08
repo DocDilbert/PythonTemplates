@@ -28,9 +28,9 @@ LEXER_TESTS = [
         'description': "lexer_test_4",
         'input': '{TEST}',
         'output': [
-            Token('CB_BEGIN', '{', 0),
+            Token('BEGIN', '{', 0),
             Token('STRING', 'TEST', 1),
-            Token('CB_END', '}', 5)
+            Token('END', '}', 5)
         ]
     }, {
         'description': "lexer_test_5",

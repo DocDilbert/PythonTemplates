@@ -35,10 +35,8 @@ CPP_RULES = [
     (r'//',              'COMMENT', token_factory),
     (r'/\*',             'COMMENT_BEGIN', token_factory),
     (r'\*/',             'COMMENT_END', token_factory),
-    # CB ist die Kurzform von Code Block
-    (r'{',               'CB_BEGIN', token_factory),
-    # CB ist die Kurzform von Code Block
-    (r'}',               'CB_END', token_factory),
+    (r'{',               'BEGIN', token_factory),
+    (r'}',               'END', token_factory),
     (r'\+',              'PLUS', token_factory),
     (r'\-',              'MINUS', token_factory),
     (r'\*',              'MULTIPLY', token_factory),

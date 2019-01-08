@@ -36,13 +36,18 @@ class Closure(Code):
                 output += t.print_closure(trailing)
             else:
                 if insert_trail:
-                    output += trailing 
-                    insert_trail=False
+                    output += trailing
+                    insert_trail = False
 
                 output += str(t)
                 if isinstance(t, TokenNewLine):
                     output += "\n"
                     insert_trail = True
+        else:
+            if len(self.content)==0:
+                output += trailing
+            if isinstance(self.end_del, TokenNewLine):
+                output += "\n" 
         return output
 
     def __str__(self):
@@ -111,7 +116,7 @@ class TokenNewLine(Token):
         return '%s("\\n"#%s)' % (self.type, self.pos)
 
     def __repr__(self):
-        return '(%s("\\n"#%s)' % (self.type, self.pos)   
+        return '(%s("\\n"#%s)' % (self.type, self.pos)
 
     def __eq__(self, other):
         if isinstance(other, TokenNewLine):

@@ -47,15 +47,19 @@ def main():
     lexer.input(code)
     output = list(lexer.tokens())
 
-    closurefinder = BlockFactory()
-    closurefinder.input(output)
+    cb_factory = BlockFactory()
+    cb_factory.input(output)
+    output2 = cb_factory.tree()
 
-    output2 = closurefinder.tree()
+    doxy_factory = BlockFactory(begin_token_type='DOXYGENCOMMENT', end_token_type='NL')
+    doxy_factory.input(output2)
+    output3 = doxy_factory.tree()
+
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
     with open("output", "w") as write_file:
-        for t in output2:
+        for t in output3:
             write_file.write(str(t))
             if isinstance(t,TokenNewLine):
                 write_file.write('\n')
