@@ -68,7 +68,9 @@ def main():
 
     comment_factory = BlockFactory(
         begin_del_type='COMMENT',
-        end_del_type='NL'
+        end_del_type='NL',
+        trail_start="",
+        trail_advance=""
     )
     output5 = comment_factory.tree(output4)
 
