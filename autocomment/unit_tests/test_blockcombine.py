@@ -83,7 +83,38 @@ BLOCK_COMBINE_TESTS = [
                 ]
             )
         ]
+    }, {
+        'description': "blockcombine_test_3",
+        'search_pattern': ('DOXYGENCOMMENT', 'NL'),
+        'input': [
+            Block(
+                Token('DOXYGENCOMMENT', '///', 0),
+                Token('NL', '\n', 7),
+                [
+                    Block(
+                        Token('DOXYGENCOMMENT', '///', 1),
+                        Token('NL', '\n', 6),
+                        [
+                            Token('WHITESPACE', ' ', 2),
+                            Token('WHITESPACE', ' ', 3),
+                            Token('WHITESPACE', ' ', 4),
+                            Token('WHITESPACE', ' ', 5),
+                        ]
+                    )
+                ]
+            )
+        ],
+        'output': [
+            Block(
+                Token('DOXYGENCOMMENT', '///', 0),
+                Token('NL', '\n', 7),
+                [
+                    Token('STRING',  '///    \n', 2),
+                ]
+            )
+        ]
     },
+    
 
 ]
 
