@@ -17,7 +17,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
 from pycpp.blockfactory import BlockFactory
-
+from pycpp.code import TokenNewLine
 
 def main():
     """Die Main Funktion
@@ -57,7 +57,8 @@ def main():
     with open("output", "w") as write_file:
         for t in output2:
             write_file.write(str(t))
-            write_file.write('\n')
+            if isinstance(t,TokenNewLine):
+                write_file.write('\n')
             
     #w = MainWindow(data)
     #w.setWindowTitle('Simple')

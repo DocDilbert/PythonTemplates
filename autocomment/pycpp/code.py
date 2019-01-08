@@ -30,13 +30,19 @@ class Closure(Code):
     def print_closure(self, trailing):
         trailing = "--" + trailing
         output = ""
+        insert_trail = True
         for t in self.content:
             if isinstance(t, Closure):
                 output += t.print_closure(trailing)
-                output += "\n"
             else:
-                output += trailing + str(t)
-                output += "\n"
+                if insert_trail:
+                    output += trailing 
+                    insert_trail=False
+
+                output += str(t)
+                if isinstance(t, TokenNewLine):
+                    output += "\n"
+                    insert_trail = True
         return output
 
     def __str__(self):
@@ -98,7 +104,7 @@ class Token(Code):
 
 class TokenNewLine(Token):
     def __init__(self, pos):
-        super().__init__("NEWLINE", "\n", pos)
+        super().__init__("NL", "\n", pos)
         self.testdata = 1
 
     def __str__(self):

@@ -14,9 +14,9 @@ def token_newline_factory(type_, val, pos):
     return TokenNewLine(pos)
 
 CPP_RULES = [
-    (r' +',              'WHITESPACE', token_factory),
+    (r' +',              'WS', token_factory),
     (r'\t+',             'TAB', token_factory),
-    (r'\n+',             'NEWLINE', token_newline_factory),
+    (r'\n',              'NL', token_newline_factory),
     (r'\d+',             'NUMBER', token_factory),
     (r'\\',              'BACKSLASH', token_factory),
     (r'&',               'AND', token_factory),
