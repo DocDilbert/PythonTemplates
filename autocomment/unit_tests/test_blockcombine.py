@@ -6,7 +6,7 @@ from pycpp.code import Block
 BLOCK_COMBINE_TESTS = [
     {
         'description': "blockcombine_test_0",
-        'search_pattern': ('BEGIN','END'),
+        'search_pattern': ('BEGIN', 'END'),
         'input': [
             Block(
                 Token('BEGIN', '{', 0),
@@ -28,9 +28,9 @@ BLOCK_COMBINE_TESTS = [
                 ]
             )
         ]
-    },{
+    }, {
         'description': "blockcombine_test_1",
-        'search_pattern': ('DOXYGENCOMMENT','NL'),
+        'search_pattern': ('DOXYGENCOMMENT', 'NL'),
         'input': [
             Block(
                 Token('BEGIN', '{', 0),
@@ -64,9 +64,9 @@ BLOCK_COMBINE_TESTS = [
                 ]
             )
         ]
-    },{
+    }, {
         'description': "blockcombine_test_2",
-        'search_pattern': ('BEGIN','END'),
+        'search_pattern': ('BEGIN', 'END'),
         'input': [
             Block(
                 Token('BEGIN', '{', 0),
@@ -84,13 +84,17 @@ BLOCK_COMBINE_TESTS = [
             )
         ]
     },
-    
+
 ]
+
 
 @pytest.mark.parametrize("data", BLOCK_COMBINE_TESTS)
 def test_blockcombine(data):
     search_pattern = data['search_pattern']
-    blockcombine = BlockCombine(begin_token_type=search_pattern[0], end_token_type=search_pattern[1])
+    blockcombine = BlockCombine(
+        begin_token_type=search_pattern[0],
+        end_token_type=search_pattern[1]
+    )
     output = blockcombine.tree(data['input'])
     assert len(output) == len(
         data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"

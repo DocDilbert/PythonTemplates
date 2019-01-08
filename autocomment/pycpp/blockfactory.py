@@ -3,10 +3,10 @@ from pycpp.code import Block
 
 
 class BlockFactory(object):
-    def __init__(self,*, begin_token_type="BEGIN", end_token_type="END"):
+    def __init__(self,*, begin_del_type="BEGIN", end_del_type="END"):
         self.tokens = []
-        self.begin_token_type = begin_token_type
-        self.end_token_type = end_token_type
+        self.begin_del_type = begin_del_type
+        self.end_del_type = end_del_type
 
     def tree(self, tokens):
         output = Block()
@@ -18,14 +18,15 @@ class BlockFactory(object):
                 output.add(Block(token.begin_del, token.end_del,
                                    self.tree(token.content)))
             else:
-                if token.type == self.begin_token_type:
+                if token.type == self.begin_del_type:
                     temp = Block()
                     temp.begin_del = token
                     closure_tree.append(actual)
                     actual.add(temp)
                     actual = temp
+
                 # do not use end tokens which have no corresponding begin token
-                elif token.type == self.end_token_type and len(closure_tree)>0:
+                elif token.type == self.end_del_type and len(closure_tree)>0:
                     actual.end_del = token
                     actual = closure_tree.pop()
                 else:
