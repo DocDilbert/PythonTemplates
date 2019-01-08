@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
 from pycpp.blockfactory import BlockFactory
+from pycpp.blockcombine import BlockCombine
 from pycpp.code import TokenNewLine
 
 def main():
@@ -55,11 +56,13 @@ def main():
     doxy_factory.input(output2)
     output3 = doxy_factory.tree()
 
+    doxy_combine = BlockCombine(begin_token_type='DOXYGENCOMMENT', end_token_type='NL')
+    output4 = doxy_combine.tree(output3)
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
     with open("output", "w") as write_file:
-        for t in output3:
+        for t in output4:
             write_file.write(str(t))
             if isinstance(t,TokenNewLine):
                 write_file.write('\n')
