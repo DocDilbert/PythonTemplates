@@ -3,9 +3,10 @@ from pycpp.code import Block
 
 
 class BlockCombine(object):
-    def __init__(self, *, begin_token_type="BEGIN", end_token_type="END"):
+    def __init__(self, *, subs_type='STRING', begin_token_type="BEGIN", end_token_type="END"):
         self.begin_token_type = begin_token_type
         self.end_token_type = end_token_type
+        self.subs_type = subs_type
 
     def tree(self, tokens):
         output = []
@@ -18,12 +19,12 @@ class BlockCombine(object):
                     # Verarbeite keine Blöcke die keinen Inhalt haben
                     if len(tok.content) > 0:
                         new_content = "".join([x.val for x in tok.content])
-                        new_token = Token('STRING', new_content,
+                        new_token = Token(self.subs_type, new_content,
                                           tok.content[0].pos)
                         tok.content = [new_token]
-                        
+
                     output.append(tok)
-                    
+
                 else:
                     temp = list(tok.content)
                     tok.content = self.tree(temp)
