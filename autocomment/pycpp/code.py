@@ -7,7 +7,16 @@ class Code(object):
 
 
 class Block(Code):
-    def __init__(self, begin_del=None, end_del=None, content=None):
+    def __init__(self, 
+                 begin_del=None, 
+                 end_del=None, 
+                 content=None,
+                 *,
+                 trail_start=">",
+                 trail_advance="--"
+                ):
+        self.trail_start = trail_start
+        self.trail_advance = trail_advance
         self.begin_del = begin_del
         self.end_del = end_del
         if content is not None:
@@ -27,13 +36,13 @@ class Block(Code):
                 output.append(t)
         return output
 
-    def print_closure(self, trailing):
-        trailing = "--" + trailing
+    def print_closure(self, trailing, init_insert_trail = True):
+        trailing = self.trail_advance + trailing
         output = ""
-        insert_trail = True
+        insert_trail = init_insert_trail
         for t in self.content:
             if isinstance(t, Block):
-                output += t.print_closure(trailing)
+                output += t.print_closure(trailing, False)
             else:
                 if insert_trail:
                     output += trailing
@@ -44,14 +53,13 @@ class Block(Code):
                     output += "\n"
                     insert_trail = True
         else:
-            if len(self.content)==0:
-                output += trailing
             if isinstance(self.end_del, TokenNewLine):
                 output += "\n" 
+                output += trailing
         return output
 
     def __str__(self):
-        trailing = ">"
+        trailing = self.trail_start
         return self.print_closure(trailing)
 
     def __repr__(self):

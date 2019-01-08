@@ -320,7 +320,6 @@ public:
         return static_cast<BOOL>(sendDeviceInformationDone);
     }
 
-
 private:
 
     /// Sends ethercat device information to the librte.
