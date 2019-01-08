@@ -1,6 +1,6 @@
 import pytest
 from pycpp.lexer import Lexer
-from pycpp.code import Token
+from pycpp.code import Token, TokenNewLine
 
 
 LEXER_TESTS = [
@@ -65,7 +65,7 @@ LEXER_TESTS = [
         'input': ' \n ',
         'output': [
             Token('WHITESPACE', ' ', 0),
-            Token('NEWLINE', '\n', 1),
+            TokenNewLine(1),
             Token('WHITESPACE', ' ', 2)
         ]
     },

@@ -4,11 +4,11 @@
 #
 
 import re
-import sys
 from pycpp.code import Token, TokenNewLine
 
 def token_factory(type_, val, pos):
     return Token(type_, val, pos)
+
 
 def token_newline_factory(type_, val, pos):
     return TokenNewLine(pos)
@@ -24,19 +24,21 @@ CPP_RULES = [
     (r'<',               'LESS', token_factory),
     (r'>',               'MORE', token_factory),
     (r':',               'DOUBLEPOINT', token_factory),
-    (r';',               'ENDOFCOMMAND', token_factory),
+    (r';',               'EOC', token_factory),
     (r',',               'COMMA', token_factory),
     (r'!',               'NOT', token_factory),
     (r'[a-zA-Z_]\w*',    'STRING', token_factory),
     (r'#',               'HASH', token_factory),
     (r'\?',              'QUESTIONMARK', token_factory),
-    (r'"',               'ASTERISK', token_factory),
+    (r'"',               'QUOTE', token_factory),
     (r'///',             'DOXYGENCOMMENT', token_factory),
     (r'//',              'COMMENT', token_factory),
     (r'/\*',             'COMMENT_BEGIN', token_factory),
     (r'\*/',             'COMMENT_END', token_factory),
-    (r'{',               'CB_BEGIN', token_factory),  # CB ist die Kurzform von Code Block
-    (r'}',               'CB_END', token_factory),   # CB ist die Kurzform von Code Block
+    # CB ist die Kurzform von Code Block
+    (r'{',               'CB_BEGIN', token_factory),
+    # CB ist die Kurzform von Code Block
+    (r'}',               'CB_END', token_factory),
     (r'\+',              'PLUS', token_factory),
     (r'\-',              'MINUS', token_factory),
     (r'\*',              'MULTIPLY', token_factory),
@@ -45,6 +47,7 @@ CPP_RULES = [
     (r'\)',              'RP', token_factory),
     (r'=',               'EQUALS', token_factory),
 ]
+
 
 class LexerError(Exception):
     """ Lexer error exception.
@@ -75,12 +78,14 @@ class Lexer(object):
         idx = 1
         regex_parts = []
         self.group_type = {}
+        self.factory = {}
         self.buf = None
         self.pos = 0
         for regex, type_, factory in CPP_RULES:
             groupname = 'GROUP%s' % idx
             regex_parts.append('(?P<%s>%s)' % (groupname, regex))
             self.group_type[groupname] = type_
+            self.factory[groupname] = factory
             idx += 1
 
         self.regex = re.compile('|'.join(regex_parts))
@@ -106,7 +111,8 @@ class Lexer(object):
             if m:
                 groupname = m.lastgroup
                 tok_type = self.group_type[groupname]
-                tok = Token(tok_type, m.group(groupname), self.pos)
+                tok_factory = self.factory[groupname]
+                tok = tok_factory(tok_type, m.group(groupname), self.pos)
                 self.pos = m.end()
                 return tok
             print(self.buf[self.pos-5:self.pos+5])

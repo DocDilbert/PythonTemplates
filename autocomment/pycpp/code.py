@@ -74,10 +74,10 @@ class Token(Code):
         self.pos = pos
 
     def __str__(self):
-        return '%s(%s) at %s' % (self.type, self.val, self.pos)
+        return '%s("%s"#%s)' % (self.type, self.val, self.pos)
 
     def __repr__(self):
-        return '(%s(%s) at %s)' % (self.type, self.val, self.pos)
+        return '(%s("%s"#%s)' % (self.type, self.val, self.pos)
 
     def __eq__(self, other):
 
@@ -99,12 +99,13 @@ class Token(Code):
 class TokenNewLine(Token):
     def __init__(self, pos):
         super().__init__("NEWLINE", "\n", pos)
+        self.testdata = 1
 
     def __str__(self):
-        return '%s(\\n) at %s' % (self.type, self.pos)
+        return '%s("\\n"#%s)' % (self.type, self.pos)
 
     def __repr__(self):
-        return '(%s(\\n) at %s)' % (self.type, self.pos)   
+        return '(%s("\\n"#%s)' % (self.type, self.pos)   
 
     def __eq__(self, other):
         if isinstance(other, TokenNewLine):
