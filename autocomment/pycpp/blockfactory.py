@@ -8,10 +8,7 @@ class BlockFactory(object):
         self.begin_token_type = begin_token_type
         self.end_token_type = end_token_type
 
-    def input(self, tokens):
-        self.tokens = tokens
-
-    def tree_recursive(self, tokens):
+    def tree(self, tokens):
         output = Block()
         actual = output
         closure_tree = []
@@ -19,7 +16,7 @@ class BlockFactory(object):
         for token in tokens:
             if isinstance(token, Block):
                 output.add(Block(token.begin_del, token.end_del,
-                                   self.tree_recursive(token.content)))
+                                   self.tree(token.content)))
             else:
                 if token.type == self.begin_token_type:
                     temp = Block()
@@ -36,5 +33,3 @@ class BlockFactory(object):
 
         return output.content
 
-    def tree(self):
-        return self.tree_recursive(self.tokens)

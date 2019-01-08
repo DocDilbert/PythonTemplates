@@ -49,20 +49,25 @@ def main():
     output = list(lexer.tokens())
 
     cb_factory = BlockFactory()
-    cb_factory.input(output)
-    output2 = cb_factory.tree()
+    output2 = cb_factory.tree(output)
 
     doxy_factory = BlockFactory(begin_token_type='DOXYGENCOMMENT', end_token_type='NL')
-    doxy_factory.input(output2)
-    output3 = doxy_factory.tree()
+    output3 = doxy_factory.tree(output2)
 
     doxy_combine = BlockCombine(begin_token_type='DOXYGENCOMMENT', end_token_type='NL')
     output4 = doxy_combine.tree(output3)
+
+    comment_factory = BlockFactory(begin_token_type='COMMENT', end_token_type='NL')
+    output5 = comment_factory.tree(output4)
+
+    comment_combine = BlockCombine(begin_token_type='COMMENT', end_token_type='NL')
+    output6 = comment_combine.tree(output5)
+
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
     with open("output", "w") as write_file:
-        for t in output4:
+        for t in output6:
             write_file.write(str(t))
             if isinstance(t,TokenNewLine):
                 write_file.write('\n')

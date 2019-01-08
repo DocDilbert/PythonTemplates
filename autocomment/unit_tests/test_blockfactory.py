@@ -176,9 +176,8 @@ BLOCK_FACTORY_TESTS = [
 def test_blockfactory(data):
     search_pattern = data['search_pattern']
     blockfactory = BlockFactory(begin_token_type=search_pattern[0], end_token_type=search_pattern[1])
-    blockfactory.input(data['input'])
 
-    output = blockfactory.tree()
+    output = blockfactory.tree(data['input'])
     assert len(output) == len(
         data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"
 
