@@ -16,6 +16,21 @@ PATTERN_SEARCH_TESTS = [
             'returns' : Token('STRING', 'void', 39),
             'name' : Token('STRING', 'testMethod', 44)
         }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'search_pattern': ('A', 'B'),
+        'input': '''
+            class testClass
+            {
+                // testMethod
+                void testMethod();
+            }
+        ''',
+        'output': [{
+            'returns' : Token('STRING', 'void', 89),
+            'name' : Token('STRING', 'testMethod', 94)
+        }]
     }
 ]
 

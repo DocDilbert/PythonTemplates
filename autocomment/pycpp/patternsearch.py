@@ -27,24 +27,24 @@ class PatternSearch:
         elements = elements[1].split(')')
         return(int(elements[0]))
 
-    def search_token_at_pos(self, pos):
-        for tok in self.tokens:
+    def search_token_at_pos(self, pos, tokens):
+        for tok in tokens:
             if isinstance(tok, Block):
-                pass
+                return self.search_token_at_pos(pos, tok.content)
             else:
                 if tok.pos == pos:
                     return tok
 
     def getToken(self, match, groupname):
         token_pos = self.isolate_pos(match.group(groupname))
-        token = self.search_token_at_pos(token_pos)
+        token = self.search_token_at_pos(token_pos, self.tokens)
         return token
 
     def search(self, tokens):
         serializer = Serializer()
         self.tokens = tokens
         self.buf = serializer.toString(tokens, getTokenSummary)
-        print(self.buf)
+        
         pattern = ''
         pattern += '(?P<returns>%sSTRING_)' % (LNPAT)
         pattern += '(%sWS_)' % (LNPAT)
@@ -54,7 +54,7 @@ class PatternSearch:
         pattern += '(%sEOC_)' % (LNPAT)
         self.regex = re.compile(pattern)
         self.pos = 0
-       
+
         while 1:
             match = self.search_pattern()
             if match is None:
