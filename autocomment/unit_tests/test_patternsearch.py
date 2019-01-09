@@ -14,7 +14,30 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns' : Token('STRING', 'void', 39),
-            'name' : Token('STRING', 'testMethod', 44)
+            'name' : Token('STRING', 'testMethod', 44),
+            'args' : []
+        }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'search_pattern': ('A', 'B'),
+        'input': '''
+            // testMethod
+            void testMethod(A1 a1, A2 a2);
+        ''',
+        'output': [{
+            'returns' : Token('STRING', 'void', 39),
+            'name' : Token('STRING', 'testMethod', 44),
+            'args' : [
+                {
+                    'type': Token('STRING','A1', 55),
+                    'name': Token('STRING','a1', 58)
+                },
+                {
+                    'type': Token('STRING','A2', 62),
+                    'name': Token('STRING','a2', 65)
+                }
+            ]
         }]
     },
     {
@@ -29,7 +52,8 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns' : Token('STRING', 'void', 89),
-            'name' : Token('STRING', 'testMethod', 94)
+            'name' : Token('STRING', 'testMethod', 94),
+            'args' : []
         }]
     },
     {
@@ -47,11 +71,13 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns' : Token('STRING', 'void', 90),
-            'name' : Token('STRING', 'testMethod1', 95)
+            'name' : Token('STRING', 'testMethod1', 95),
+            'args' : []
         },
         {
             'returns' : Token('STRING', 'int', 158),
-            'name' : Token('STRING', 'testMethod2', 162)
+            'name' : Token('STRING', 'testMethod2', 162),
+            'args' : []
         }
         ]
     }

@@ -39,6 +39,31 @@ class PatternSearch:
         token = self.search_token_at_pos(token_pos, self.tokens)
         return token
 
+    def isolate_arguments(self, argstr):
+        pattern = ''
+        pattern += '(?P<argtype>%sSTRING_)' % (LNPAT)
+        pattern += '(%sWS_)*' % (LNPAT)
+        pattern += '(?P<argname>%sSTRING_)' % (LNPAT)
+        pattern += '(%sWS_)*' % (LNPAT)
+        pattern += '(%sCOMMA_){0,1}' % (LNPAT)
+        pattern += '(%sWS_)*' % (LNPAT)
+
+
+        argregex = re.compile(pattern)
+        pos = 0
+        while(1):
+            argmatch = argregex.search(argstr, pos)
+            if argmatch:
+                pos = argmatch.end()
+                print(argmatch.group('argname'))
+
+                arg_parsed = {
+                    'name' : self.getToken(argmatch, 'argname'),
+                    'type' : self.getToken(argmatch, 'argtype'),
+                }
+                yield arg_parsed
+            else:
+                break
     def search(self, tokens):
         serializer = Serializer()
         self.tokens = tokens
@@ -49,6 +74,16 @@ class PatternSearch:
         pattern += '(%sWS_)' % (LNPAT)
         pattern += '(?P<name>%sSTRING_)' % (LNPAT)
         pattern += '(%sLP_)' % (LNPAT)
+        pattern += '(?P<arguments>'
+        pattern +=   '('
+        pattern +=      '(%sSTRING_)' % (LNPAT)
+        pattern +=      '(%sWS_)*' % (LNPAT)
+        pattern +=      '(%sSTRING_)' % (LNPAT)
+        pattern +=      '(%sWS_)*' % (LNPAT)
+        pattern +=      '(%sCOMMA_){0,1}' % (LNPAT)
+        pattern +=      '(%sWS_)*' % (LNPAT)
+        pattern +=   ')*'
+        pattern +=  ')'
         pattern += '(%sRP_)' % (LNPAT)
         pattern += '(%sEOC_)' % (LNPAT)
         self.regex = re.compile(pattern)
@@ -62,6 +97,8 @@ class PatternSearch:
                 match_parsed = {
                     'returns' : self.getToken(match, 'returns'),
                     'name' : self.getToken(match, 'name'),
+                    'args' : list(self.isolate_arguments( match.group('arguments')))
                 }
+
                 yield(match_parsed)
 
