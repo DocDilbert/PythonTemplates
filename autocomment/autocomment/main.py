@@ -21,6 +21,9 @@ from pycpp.blockcombine import BlockCombine
 from pycpp.code import TokenNewLine
 from pycpp.serializer import Serializer
 from pycpp.serializer import getTokenSummary
+from pycpp.patternsearch import PatternSearch
+
+import pprint
 
 def main():
     """Die Main Funktion
@@ -94,6 +97,14 @@ def main():
     serializer = Serializer()
     with open("output.cpp", "w") as write_file:
         write_file.write(serializer.toString(output6, getTokenSummary))
+
+    patsearch =  PatternSearch()
+    results = list(patsearch.search(output6))
+
+    pp = pprint.PrettyPrinter(indent=4)
+    with open("methods.txt", "w") as write_file:
+        write_file.write(pp.pformat(results))
+
     #w = MainWindow(data)
     # w.setWindowTitle('Simple')
     # w.show()
