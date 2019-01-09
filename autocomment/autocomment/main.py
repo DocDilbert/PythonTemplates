@@ -19,7 +19,7 @@ from pycpp.lexer import Lexer
 from pycpp.blockfactory import BlockFactory
 from pycpp.blockcombine import BlockCombine
 from pycpp.code import TokenNewLine
-
+from pycpp.serializer import Serializer
 
 def main():
     """Die Main Funktion
@@ -84,12 +84,15 @@ def main():
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
-    with open("output", "w") as write_file:
+    with open("output.txt", "w") as write_file:
         for t in output6:
             write_file.write(str(t))
             if isinstance(t, TokenNewLine):
                 write_file.write('\n')
 
+    serializer = Serializer()
+    with open("output.cpp", "w") as write_file:
+        write_file.write(serializer.toString(output6))
     #w = MainWindow(data)
     # w.setWindowTitle('Simple')
     # w.show()
