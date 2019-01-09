@@ -113,7 +113,7 @@ class Lexer(object):
                 tok = tok_factory(tok_type, m.group(groupname), self.pos)
                 self.pos = m.end()
                 return tok
-            print(self.buf[self.pos-5:self.pos+5])
+
             # if we're here, no rule matched
             raise LexerError(self.pos)
 
