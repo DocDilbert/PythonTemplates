@@ -16,7 +16,6 @@ class PatternSearch:
         else:
             m = self.regex.search(self.buf, self.pos)
             if m:
-                print(m)
                 self.pos = m.end()
                 return m
 
@@ -44,7 +43,7 @@ class PatternSearch:
         serializer = Serializer()
         self.tokens = tokens
         self.buf = serializer.toString(tokens, getTokenSummary)
-        
+
         pattern = ''
         pattern += '(?P<returns>%sSTRING_)' % (LNPAT)
         pattern += '(%sWS_)' % (LNPAT)
