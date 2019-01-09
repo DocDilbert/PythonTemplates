@@ -20,6 +20,7 @@ from pycpp.blockfactory import BlockFactory
 from pycpp.blockcombine import BlockCombine
 from pycpp.code import TokenNewLine
 from pycpp.serializer import Serializer
+from pycpp.serializer import getTokenSummary
 
 def main():
     """Die Main Funktion
@@ -92,7 +93,7 @@ def main():
 
     serializer = Serializer()
     with open("output.cpp", "w") as write_file:
-        write_file.write(serializer.toString(output6))
+        write_file.write(serializer.toString(output6, getTokenSummary))
     #w = MainWindow(data)
     # w.setWindowTitle('Simple')
     # w.show()
