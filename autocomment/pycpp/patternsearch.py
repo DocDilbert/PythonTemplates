@@ -8,62 +8,66 @@ LNPAT = r'(\(\d+\))'
 
 class PatternSearch:
     def __init__(self):
-        self.pos = 0
         self.buf = ''
-        self.regex = None
         self.tokens = None
 
-    def search_pattern(self):
-        if self.pos >= len(self.buf):
-            return None
-        else:
-            m = self.regex.search(self.buf, self.pos)
-            if m:
-                self.pos = m.end()
-                return m
+        pat = ''
+        pat += '(?P<returns>%sSTRING_)' % (LNPAT)
+        pat += '(%sWS_)' % (LNPAT)
+        pat += '(?P<name>%sSTRING_)' % (LNPAT)
+        pat += '(%sLP_)' % (LNPAT)
+        pat += '(?P<arguments>'
+        pat += '('
+        pat += '(%sSTRING_)' % (LNPAT)
+        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sSTRING_)' % (LNPAT)
+        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sCOMMA_){0,1}' % (LNPAT)
+        pat += '(%sWS_)*' % (LNPAT)
+        pat += ')*'
+        pat += ')'
+        pat += '(%sRP_)' % (LNPAT)
+        pat += '(%sEOC_)' % (LNPAT)
+        self.meth_regex = re.compile(pat)
 
-            return None
+        argpat = ''
+        argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
+        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
+        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(%sCOMMA_){0,1}' % (LNPAT)
+        argpat += '(%sWS_)*' % (LNPAT)
+        self.arg_regex = re.compile(argpat)
 
-    def isolate_pos(self, str_):
+    def __isolate_pos_from_string(self, str_):
         elements = str_.split('(')
         elements = elements[1].split(')')
-        return(int(elements[0]))
+        return int(elements[0])
 
-    def search_token_at_pos(self, pos, tokens):
+    def __search_for_token_at_pos(self, pos, tokens):
         for tok in tokens:
             if isinstance(tok, Block):
-                found_token = self.search_token_at_pos(pos, tok.content)
+                found_token = self.__search_for_token_at_pos(pos, tok.content)
                 if found_token:
                     return found_token
             else:
                 if tok.pos == pos:
                     return tok
 
-    def getToken(self, match, groupname):
-        token_pos = self.isolate_pos(match.group(groupname))
-        token = self.search_token_at_pos(token_pos, self.tokens)
+    def __getToken(self, match, groupname):
+        token_pos = self.__isolate_pos_from_string(match.group(groupname))
+        token = self.__search_for_token_at_pos(token_pos, self.tokens)
         return token
 
-    def isolate_arguments(self, argstr):
-        pattern = ''
-        pattern += '(?P<argtype>%sSTRING_)' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-        pattern += '(?P<argname>%sSTRING_)' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-        pattern += '(%sCOMMA_){0,1}' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-
-        argregex = re.compile(pattern)
+    def __isolate_arguments(self, argstr):
         pos = 0
-        while(1):
-            argmatch = argregex.search(argstr, pos)
+        while 1:
+            argmatch = self.arg_regex.search(argstr, pos)
             if argmatch:
                 pos = argmatch.end()
-                print(argmatch.group('argname'))
-
                 arg_parsed = {
-                    'name': self.getToken(argmatch, 'argname'),
-                    'type': self.getToken(argmatch, 'argtype'),
+                    'name': self.__getToken(argmatch, 'argname'),
+                    'type': self.__getToken(argmatch, 'argtype'),
                 }
                 yield arg_parsed
             else:
@@ -71,38 +75,22 @@ class PatternSearch:
 
     def search(self, tokens):
         serializer = Serializer()
+
         self.tokens = tokens
         self.buf = serializer.toString(tokens, getTokenSummary)
 
-        pattern = ''
-        pattern += '(?P<returns>%sSTRING_)' % (LNPAT)
-        pattern += '(%sWS_)' % (LNPAT)
-        pattern += '(?P<name>%sSTRING_)' % (LNPAT)
-        pattern += '(%sLP_)' % (LNPAT)
-        pattern += '(?P<arguments>'
-        pattern += '('
-        pattern += '(%sSTRING_)' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-        pattern += '(%sSTRING_)' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-        pattern += '(%sCOMMA_){0,1}' % (LNPAT)
-        pattern += '(%sWS_)*' % (LNPAT)
-        pattern += ')*'
-        pattern += ')'
-        pattern += '(%sRP_)' % (LNPAT)
-        pattern += '(%sEOC_)' % (LNPAT)
-        self.regex = re.compile(pattern)
-        self.pos = 0
+        pos = 0
 
         while 1:
-            match = self.search_pattern()
-            if match is None:
-                break
-            else:
+            match = self.meth_regex.search(self.buf, pos)
+            if match:
+                pos = match.end()
                 match_parsed = {
-                    'returns': self.getToken(match, 'returns'),
-                    'name': self.getToken(match, 'name'),
-                    'args': list(self.isolate_arguments(match.group('arguments')))
+                    'returns': self.__getToken(match, 'returns'),
+                    'name': self.__getToken(match, 'name'),
+                    'args': list(self.__isolate_arguments(match.group('arguments')))
                 }
 
-                yield(match_parsed)
+                yield match_parsed
+            else:
+                return

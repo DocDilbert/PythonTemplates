@@ -45,9 +45,10 @@ def main():
 
     code = ""
 
-    with open("LibRteDriver.h", "r") as read_file:
+    with open("UnifiedFileTransfer.h", "r") as read_file:
         code = read_file.read()
     start = time.time()
+
     lexer = Lexer()
     lexer.input(code)
     output = list(lexer.tokens())
@@ -85,6 +86,9 @@ def main():
     )
     output6 = comment_combine.tree(output5)
 
+    patsearch =  PatternSearch()
+    methods = list(patsearch.search(output6))
+
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
@@ -98,12 +102,10 @@ def main():
     with open("output.cpp", "w") as write_file:
         write_file.write(serializer.toString(output6, getTokenSummary))
 
-    patsearch =  PatternSearch()
-    results = list(patsearch.search(output6))
 
     pp = pprint.PrettyPrinter(indent=4)
     with open("methods.txt", "w") as write_file:
-        write_file.write(pp.pformat(results))
+        write_file.write(pp.pformat(methods))
 
     #w = MainWindow(data)
     # w.setWindowTitle('Simple')

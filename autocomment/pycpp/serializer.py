@@ -4,17 +4,20 @@ from pycpp.code import Block
 def getTokenValue(tok):
     return tok.val
 
+
 def getTokenType(tok):
     return tok.type
 
+
 def getTokenSummary(tok):
-    return '('+str(tok.pos)+')' +tok.type +'_'
- 
+    return '('+str(tok.pos)+')' + tok.type + '_'
+
+
 class Serializer:
     def __init__(self):
         pass
 
-    def toString(self, tokens, func_getTokenString = getTokenValue):
+    def toString(self, tokens, func_getTokenString=getTokenValue):
         output = ''
         for tok in tokens:
             if isinstance(tok, Block):

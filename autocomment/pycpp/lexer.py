@@ -43,7 +43,10 @@ CPP_RULES = [
     (r'\/',              'DIVIDE', token_factory),
     (r'\(',              'LP', token_factory),
     (r'\)',              'RP', token_factory),
+    (r'\[',              'LSQB', token_factory),
+    (r'\]',              'RSQB', token_factory),
     (r'=',               'EQUALS', token_factory),
+    (r'\$',               'DOLLAR', token_factory),
 ]
 
 
@@ -113,7 +116,7 @@ class Lexer(object):
                 tok = tok_factory(tok_type, m.group(groupname), self.pos)
                 self.pos = m.end()
                 return tok
-
+            print(self.buf[self.pos])
             # if we're here, no rule matched
             raise LexerError(self.pos)
 

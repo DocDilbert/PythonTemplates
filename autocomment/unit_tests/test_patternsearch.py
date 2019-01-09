@@ -6,8 +6,7 @@ from pycpp.lexer import Lexer
 
 PATTERN_SEARCH_TESTS = [
     {
-        'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
+        'description': "pattern_search_test_0",
         'input': '''
             // testMethod
             void testMethod();
@@ -20,7 +19,6 @@ PATTERN_SEARCH_TESTS = [
     },
     {
         'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
         'input': '''
             // testMethod
             void testMethod(A1 a1);
@@ -37,8 +35,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
+        'description': "pattern_search_test_2",
         'input': '''
             // testMethod
             void testMethod(A1 a1, A2 a2);
@@ -59,8 +56,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
+        'description': "pattern_search_test_3",
         'input': '''
             class testClass
             {
@@ -75,8 +71,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
+        'description': "pattern_search_test_4",
         'input': '''
             // testClass1
             class testClass1
@@ -96,8 +91,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
-        'search_pattern': ('A', 'B'),
+        'description': "pattern_search_test_5",
         'input': '''
             class testClass
             {
@@ -108,16 +102,17 @@ PATTERN_SEARCH_TESTS = [
                 int testMethod2();
             }
         ''',
-        'output': [{
-            'returns': Token('STRING', 'void', 90),
-            'name': Token('STRING', 'testMethod1', 95),
-            'args': []
-        },
+        'output': [
             {
-            'returns': Token('STRING', 'int', 158),
-            'name': Token('STRING', 'testMethod2', 162),
-            'args': []
-        }
+                'returns': Token('STRING', 'void', 90),
+                'name': Token('STRING', 'testMethod1', 95),
+                'args': []
+            },
+            {
+                'returns': Token('STRING', 'int', 158),
+                'name': Token('STRING', 'testMethod2', 162),
+                'args': []
+            }
         ]
     }
 ]
