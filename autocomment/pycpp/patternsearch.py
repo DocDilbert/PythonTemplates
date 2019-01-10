@@ -18,7 +18,10 @@ class PatternSearch:
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('
+        pat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
+        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
         pat += '(%sWS_)*' % (LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
         pat += '(%sWS_)*' % (LNPAT)
@@ -31,7 +34,10 @@ class PatternSearch:
         self.meth_regex = re.compile(pat)
 
         argpat = ''
+        argpat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
         argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
+        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
         argpat += '(%sWS_)*' % (LNPAT)
         argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)*' % (LNPAT)

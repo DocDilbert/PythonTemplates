@@ -35,6 +35,91 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
+        'description': "pattern_search_test_1",
+        'input': '''
+            // testMethod
+            void testMethod(A1 *a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 59)
+                }
+            ]
+        }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'input': '''
+            // testMethod
+            void testMethod(ABC::A1 *a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 60),
+                    'name': Token('STRING', 'a1', 64)
+                }
+            ]
+        }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'input': '''
+            // testMethod
+            void testMethod(A1* a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 59)
+                }
+            ]
+        }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'input': '''
+            // testMethod
+            void testMethod(A1 &a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 59)
+                }
+            ]
+        }]
+    },
+    {
+        'description': "pattern_search_test_1",
+        'input': '''
+            // testMethod
+            void testMethod(A1& a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 59)
+                }
+            ]
+        }]
+    },
+    {
         'description': "pattern_search_test_2",
         'input': '''
             // testMethod
