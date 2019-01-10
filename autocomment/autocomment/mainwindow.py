@@ -6,6 +6,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
 from autocomment.ui.ui_mainwindow import Ui_MainWindow
 from PyQt5.QtCore import Qt
 import pprint
+from autocomment.dialog import Dialog
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """ Die Klasse MainWindow ist eine Ableitung aus den Klasse QMainWindow sowie Ui_MainWindow. 
@@ -57,3 +58,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint(self.methods[row])
+
+        dialog = Dialog()
+        dialog.setWindowTitle("Dialog")
+        dialog.exec()
