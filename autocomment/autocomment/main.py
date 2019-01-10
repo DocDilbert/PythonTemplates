@@ -30,7 +30,11 @@ def main():
     """
 
     parser = argparse.ArgumentParser(description='Qt Tool Template.')
-
+    parser.add_argument(
+        'filename', 
+        type=str, 
+        help='an integer for the accumulator'
+    )
     # optional arguments:
     parser.add_argument(
         "-v",
@@ -45,7 +49,7 @@ def main():
 
     code = ""
 
-    with open("UnifiedFileTransfer.h", "r") as read_file:
+    with open(args.filename, "r") as read_file:
         code = read_file.read()
     start = time.time()
 

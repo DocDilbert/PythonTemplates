@@ -13,6 +13,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': []
         }]
@@ -25,6 +26,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -43,6 +45,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -61,6 +64,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -79,6 +83,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -97,6 +102,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -115,6 +121,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -133,6 +140,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 44),
             'args': [
                 {
@@ -159,6 +167,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 89),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 94),
             'args': []
         }]
@@ -179,6 +188,7 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [{
             'returns': Token('STRING', 'void', 205),
+            'pass_by': 'value',
             'name': Token('STRING', 'testMethod', 210),
             'args': []
         }]
@@ -198,16 +208,45 @@ PATTERN_SEARCH_TESTS = [
         'output': [
             {
                 'returns': Token('STRING', 'void', 90),
+                'pass_by': 'value',
                 'name': Token('STRING', 'testMethod1', 95),
                 'args': []
             },
             {
                 'returns': Token('STRING', 'int', 158),
+                'pass_by': 'value',
                 'name': Token('STRING', 'testMethod2', 162),
                 'args': []
             }
         ]
-    }
+    },
+    {
+        'description': "methodsearch_test_11",
+        'input': '''
+            // testMethod
+            void testMethod() const;
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': []
+        }]
+    },
+    {
+        'description': "methodsearch_test_12",
+        'input': '''
+            // testMethod
+            int* testMethod() const;
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'int', 39),
+            'pass_by': 'pointer',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': []
+        }]
+    },
+    
 ]
 
 

@@ -13,36 +13,41 @@ class MethodSearch:
 
         pat = ''
         pat += '(?P<returns>%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(?P<name>%sSTRING_)' % (LNPAT)
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('
         pat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)*' % (LNPAT)
-        pat += '(%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
-        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sCOMMA_){0,1}' % (LNPAT)
-        pat += '(%sWS_)*' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += ')*'
         pat += ')'
         pat += '(%sRP_)' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sSTRING_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sEOC_)' % (LNPAT)
         self.meth_regex = re.compile(pat)
 
         argpat = ''
         argpat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
         argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
-        argpat += '(%sWS_)*' % (LNPAT)
-        argpat += '(?P<ptr_ref>%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
-        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += '(?P<ptr_ref>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
-        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(%sCOMMA_){0,1}' % (LNPAT)
-        argpat += '(%sWS_)*' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
         self.arg_regex = re.compile(argpat)
 
     def __isolate_pos_from_string(self, str_):
@@ -72,21 +77,21 @@ class MethodSearch:
             if argmatch:
                 pos = argmatch.end()
 
-                passBy = ''
+                pass_by = ''
                 if argmatch.group('ptr_ref'):
-                    passBy = self.__getToken(argmatch, 'ptr_ref')
+                    pass_by = self.__getToken(argmatch, 'ptr_ref')
 
-                    if passBy.val == '*':
-                        passBy = 'pointer'
-                    elif passBy.val == '&':
-                        passBy = 'reference'
+                    if pass_by.val == '*':
+                        pass_by = 'pointer'
+                    elif pass_by.val == '&':
+                        pass_by = 'reference'
                 else:
-                    passBy = 'value'
+                    pass_by = 'value'
 
                 arg_parsed = {
                     'name': self.__getToken(argmatch, 'argname'),
                     'type': self.__getToken(argmatch, 'argtype'),
-                    'passBy': passBy,
+                    'passBy': pass_by,
                 }
                 yield arg_parsed
             else:
@@ -104,10 +109,22 @@ class MethodSearch:
             match = self.meth_regex.search(self.buf, pos)
             if match:
                 pos = match.end()
+                pass_by = ''
+                if match.group('pass_by'):
+                    pass_by = self.__getToken(match, 'pass_by')
+
+                    if pass_by.val == '*':
+                        pass_by = 'pointer'
+                    elif pass_by.val == '&':
+                        pass_by = 'reference'
+                else:
+                    pass_by = 'value'
+
                 match_parsed = {
                     'returns': self.__getToken(match, 'returns'),
                     'name': self.__getToken(match, 'name'),
-                    'args': list(self.__isolate_arguments(match.group('arguments')))
+                    'args': list(self.__isolate_arguments(match.group('arguments'))),
+                    'pass_by': pass_by
                 }
 
                 yield match_parsed
