@@ -30,7 +30,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'ptr_ref' : 'value',
+                    'passBy' : 'value',
                 }
             ]
         }]
@@ -48,7 +48,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'ptr_ref' : 'pointer',
+                    'passBy' : 'pointer',
                 }
             ]
         }]
@@ -66,7 +66,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 60),
                     'name': Token('STRING', 'a1', 64),
-                    'ptr_ref' : 'pointer',
+                    'passBy' : 'pointer',
                 }
             ]
         }]
@@ -84,7 +84,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'ptr_ref' : 'pointer',
+                    'passBy' : 'pointer',
                 }
             ]
         }]
@@ -102,7 +102,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'ptr_ref' : 'reference',
+                    'passBy' : 'reference',
                 }
             ]
         }]
@@ -120,7 +120,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'ptr_ref' : 'reference',
+                    'passBy' : 'reference',
                 }
             ]
         }]
@@ -138,12 +138,12 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'ptr_ref' : 'value',
+                    'passBy' : 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 62),
                     'name': Token('STRING', 'a2', 65),
-                    'ptr_ref' : 'value',
+                    'passBy' : 'value',
                 }
             ]
         }]

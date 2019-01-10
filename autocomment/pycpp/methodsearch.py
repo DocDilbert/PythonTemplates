@@ -71,22 +71,22 @@ class MethodSearch:
             argmatch = self.arg_regex.search(argstr, pos)
             if argmatch:
                 pos = argmatch.end()
-                
-                ptr_ref = ''
-                if argmatch.group('ptr_ref'):
-                    ptr_ref = self.__getToken(argmatch, 'ptr_ref')
 
-                    if ptr_ref.val == '*':
-                        ptr_ref = 'pointer'
-                    elif ptr_ref.val == '&':
-                        ptr_ref = 'reference'
-                else: 
-                    ptr_ref = 'value'
-                
+                passBy = ''
+                if argmatch.group('ptr_ref'):
+                    passBy = self.__getToken(argmatch, 'ptr_ref')
+
+                    if passBy.val == '*':
+                        passBy = 'pointer'
+                    elif passBy.val == '&':
+                        passBy = 'reference'
+                else:
+                    passBy = 'value'
+
                 arg_parsed = {
                     'name': self.__getToken(argmatch, 'argname'),
                     'type': self.__getToken(argmatch, 'argtype'),
-                    'ptr_ref' : ptr_ref,
+                    'passBy': passBy,
                 }
                 yield arg_parsed
             else:
