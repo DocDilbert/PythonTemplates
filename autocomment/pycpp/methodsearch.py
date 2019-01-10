@@ -12,6 +12,7 @@ class MethodSearch:
         self.tokens = None
 
         pat = ''
+        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         pat += '(?P<returns>%sSTRING_)' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
@@ -20,14 +21,17 @@ class MethodSearch:
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('
-        pat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sSTRING_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sCOMMA_){0,1}' % (LNPAT)
+        pat += '(%sCOMMA_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += ')*'
         pat += ')'
@@ -39,14 +43,17 @@ class MethodSearch:
         self.meth_regex = re.compile(pat)
 
         argpat = ''
-        argpat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += '(%sSTRING_)?' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(?P<ptr_ref>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        argpat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(%sCOMMA_){0,1}' % (LNPAT)
+        argpat += '(%sCOMMA_)?' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         self.arg_regex = re.compile(argpat)
 
@@ -78,8 +85,8 @@ class MethodSearch:
                 pos = argmatch.end()
 
                 pass_by = ''
-                if argmatch.group('ptr_ref'):
-                    pass_by = self.__getToken(argmatch, 'ptr_ref')
+                if argmatch.group('pass_by'):
+                    pass_by = self.__getToken(argmatch, 'pass_by')
 
                     if pass_by.val == '*':
                         pass_by = 'pointer'
@@ -91,7 +98,7 @@ class MethodSearch:
                 arg_parsed = {
                     'name': self.__getToken(argmatch, 'argname'),
                     'type': self.__getToken(argmatch, 'argtype'),
-                    'passBy': pass_by,
+                    'pass_by': pass_by,
                 }
                 yield arg_parsed
             else:

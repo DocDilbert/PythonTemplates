@@ -32,7 +32,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'passBy' : 'value',
+                    'pass_by' : 'value',
                 }
             ]
         }]
@@ -51,7 +51,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'passBy' : 'pointer',
+                    'pass_by' : 'pointer',
                 }
             ]
         }]
@@ -70,7 +70,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 60),
                     'name': Token('STRING', 'a1', 64),
-                    'passBy' : 'pointer',
+                    'pass_by' : 'pointer',
                 }
             ]
         }]
@@ -89,7 +89,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'passBy' : 'pointer',
+                    'pass_by' : 'pointer',
                 }
             ]
         }]
@@ -108,7 +108,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'passBy' : 'reference',
+                    'pass_by' : 'reference',
                 }
             ]
         }]
@@ -127,7 +127,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'passBy' : 'reference',
+                    'pass_by' : 'reference',
                 }
             ]
         }]
@@ -146,12 +146,12 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'passBy' : 'value',
+                    'pass_by' : 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 62),
                     'name': Token('STRING', 'a2', 65),
-                    'passBy' : 'value',
+                    'pass_by' : 'value',
                 }
             ]
         }]
@@ -244,6 +244,57 @@ PATTERN_SEARCH_TESTS = [
             'pass_by': 'pointer',
             'name': Token('STRING', 'testMethod', 44),
             'args': []
+        }]
+    },
+    {
+        'description': "methodsearch_test_13",
+        'input': '''
+            // testMethod
+            Namespace1::Namespace2::Var* testMethod() const;
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'Var', 63),
+            'pass_by': 'pointer',
+            'name': Token('STRING', 'testMethod', 68),
+            'args': []
+        }]
+    },
+    {
+        'description': "methodsearch_test_14",
+        'input': '''
+            // testMethod
+            void testMethod(Namespace1::Namespace2::A1 *a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 79),
+                    'name': Token('STRING', 'a1', 83),
+                    'pass_by' : 'pointer',
+                }
+            ]
+        }]
+    },
+    {
+        'description': "methodsearch_test_15",
+        'input': '''
+            // testMethod
+            void testMethod(const Namespace1::Namespace2::A1 *a1);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 85),
+                    'name': Token('STRING', 'a1', 89),
+                    'pass_by' : 'pointer',
+                }
+            ]
         }]
     },
     
