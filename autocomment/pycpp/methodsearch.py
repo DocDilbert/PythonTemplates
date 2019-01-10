@@ -31,7 +31,11 @@ class MethodSearch:
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sNL_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sCOMMA_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sNL_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += ')*'
         pat += ')'
@@ -53,7 +57,11 @@ class MethodSearch:
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
+        argpat += '(%sNL_)?' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(%sCOMMA_)?' % (LNPAT)
+        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += '(%sNL_)?' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         self.arg_regex = re.compile(argpat)
 

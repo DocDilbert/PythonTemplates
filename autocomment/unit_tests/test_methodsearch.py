@@ -297,6 +297,57 @@ PATTERN_SEARCH_TESTS = [
             ]
         }]
     },
+    {
+        'description': "methodsearch_test_16",
+        'input': '''
+            // testMethod
+            void testMethod(A1 a1, 
+                            A2 a2);
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 58),
+                    'pass_by' : 'value',
+                },
+                {
+                    'type': Token('STRING', 'A2', 91),
+                    'name': Token('STRING', 'a2', 94),
+                    'pass_by' : 'value',
+                }
+            ]
+        }]
+    },
+    {
+        'description': "methodsearch_test_17",
+        'input': '''
+            // testMethod
+            void testMethod(A1 a1, 
+                            A2 a2
+            );
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 55),
+                    'name': Token('STRING', 'a1', 58),
+                    'pass_by' : 'value',
+                },
+                {
+                    'type': Token('STRING', 'A2', 91),
+                    'name': Token('STRING', 'a2', 94),
+                    'pass_by' : 'value',
+                }
+            ]
+        }]
+    },
     
 ]
 
