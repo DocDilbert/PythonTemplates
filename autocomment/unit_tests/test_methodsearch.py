@@ -1,12 +1,12 @@
 import pytest
 from pycpp.code import Token, Block
 from pycpp.blockfactory import BlockFactory
-from pycpp.patternsearch import PatternSearch
+from pycpp.methodsearch import MethodSearch
 from pycpp.lexer import Lexer
 
 PATTERN_SEARCH_TESTS = [
     {
-        'description': "pattern_search_test_0",
+        'description': "methodsearch_test_0",
         'input': '''
             // testMethod
             void testMethod();
@@ -18,7 +18,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_1",
         'input': '''
             // testMethod
             void testMethod(A1 a1);
@@ -36,7 +36,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_2",
         'input': '''
             // testMethod
             void testMethod(A1 *a1);
@@ -54,7 +54,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_3",
         'input': '''
             // testMethod
             void testMethod(ABC::A1 *a1);
@@ -72,7 +72,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_4",
         'input': '''
             // testMethod
             void testMethod(A1* a1);
@@ -90,7 +90,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_5",
         'input': '''
             // testMethod
             void testMethod(A1 &a1);
@@ -108,7 +108,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_1",
+        'description': "methodsearch_test_6",
         'input': '''
             // testMethod
             void testMethod(A1& a1);
@@ -126,7 +126,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_2",
+        'description': "methodsearch_test_7",
         'input': '''
             // testMethod
             void testMethod(A1 a1, A2 a2);
@@ -149,7 +149,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_3",
+        'description': "methodsearch_test_8",
         'input': '''
             class testClass
             {
@@ -164,7 +164,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_4",
+        'description': "methodsearch_test_9",
         'input': '''
             // testClass1
             class testClass1
@@ -184,7 +184,7 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        'description': "pattern_search_test_5",
+        'description': "methodsearch_test_10",
         'input': '''
             class testClass
             {
@@ -212,7 +212,7 @@ PATTERN_SEARCH_TESTS = [
 
 
 @pytest.mark.parametrize("data", PATTERN_SEARCH_TESTS)
-def test_pattern_search(data):
+def test_methodsearch(data):
 
     lexer = Lexer()
     lexer.input(data['input'])
@@ -221,7 +221,7 @@ def test_pattern_search(data):
     cb_factory = BlockFactory()
     i2 = cb_factory.tree(i1)
 
-    patternsearch = PatternSearch()
+    patternsearch = MethodSearch()
 
     output = list(patternsearch.search(i2))
 

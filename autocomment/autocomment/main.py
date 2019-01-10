@@ -21,7 +21,7 @@ from pycpp.blockcombine import BlockCombine
 from pycpp.code import TokenNewLine
 from pycpp.serializer import Serializer
 from pycpp.serializer import getTokenSummary
-from pycpp.patternsearch import PatternSearch
+from pycpp.methodsearch import MethodSearch
 
 import pprint
 
@@ -86,7 +86,7 @@ def main():
     )
     output6 = comment_combine.tree(output5)
 
-    patsearch =  PatternSearch()
+    patsearch =  MethodSearch()
     methods = list(patsearch.search(output6))
 
     end = time.time()

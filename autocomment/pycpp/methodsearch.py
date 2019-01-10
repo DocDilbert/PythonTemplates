@@ -6,7 +6,7 @@ from pycpp.serializer import getTokenSummary
 LNPAT = r'(\(\d+\))'
 
 
-class PatternSearch:
+class MethodSearch:
     def __init__(self):
         self.buf = ''
         self.tokens = None
