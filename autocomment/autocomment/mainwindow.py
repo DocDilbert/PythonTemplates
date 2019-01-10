@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QMainWindow, QLabel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
 from autocomment.ui.ui_mainwindow import Ui_MainWindow
 from PyQt5.QtCore import Qt
+import pprint
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     """ Die Klasse MainWindow ist eine Ableitung aus den Klasse QMainWindow sowie Ui_MainWindow. 
@@ -25,7 +26,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         model = QStandardItemModel(self.listView)
         self.listView.setModel(model)
-
+        self.listView.doubleClicked.connect(self.doubleClicked)
+        self.methods = methods
         for idx, item in enumerate(methods):
             label = ""
             label += item['name'].val
@@ -49,3 +51,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
         # Connect up the buttons.
         self.exitButton.clicked.connect(self.close)
+
+    def doubleClicked(self, index):
+        row = index.row()
+
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(self.methods[row])
