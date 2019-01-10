@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QWidget, QMainWindow, QLabel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
 from autocomment.ui.ui_mainwindow import Ui_MainWindow
 from PyQt5.QtCore import Qt
-import pprint
 from autocomment.dialog import Dialog
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -20,7 +19,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def __init__(self, methods):
-        super(QMainWindow, self).__init__()
+        super(MainWindow, self).__init__()
 
         # Set up the user interface from Designer.
         self.setupUi(self)
@@ -55,10 +54,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def doubleClicked(self, index):
         row = index.row()
-
-        pp = pprint.PrettyPrinter(indent=4)
-        pp.pprint(self.methods[row])
-
-        dialog = Dialog()
+        method = self.methods[row]
+        dialog = Dialog(method)
         dialog.setWindowTitle("Dialog")
-        dialog.exec()
+        out = dialog.exec()
