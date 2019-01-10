@@ -37,7 +37,7 @@ class PatternSearch:
         argpat += '(%sSTRING_%s2COLONS_){0,1}' % (LNPAT, LNPAT)
         argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)*' % (LNPAT)
-        argpat += '(%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
+        argpat += '(?P<ptr_ref>%sMULTIPLY_|%sAND_)*' % (LNPAT, LNPAT)
         argpat += '(%sWS_)*' % (LNPAT)
         argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)*' % (LNPAT)
@@ -71,9 +71,22 @@ class PatternSearch:
             argmatch = self.arg_regex.search(argstr, pos)
             if argmatch:
                 pos = argmatch.end()
+                
+                ptr_ref = ''
+                if argmatch.group('ptr_ref'):
+                    ptr_ref = self.__getToken(argmatch, 'ptr_ref')
+
+                    if ptr_ref.val == '*':
+                        ptr_ref = 'pointer'
+                    elif ptr_ref.val == '&':
+                        ptr_ref = 'reference'
+                else: 
+                    ptr_ref = 'value'
+                
                 arg_parsed = {
                     'name': self.__getToken(argmatch, 'argname'),
                     'type': self.__getToken(argmatch, 'argtype'),
+                    'ptr_ref' : ptr_ref,
                 }
                 yield arg_parsed
             else:

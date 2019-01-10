@@ -29,7 +29,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58)
+                    'name': Token('STRING', 'a1', 58),
+                    'ptr_ref' : 'value',
                 }
             ]
         }]
@@ -46,7 +47,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59)
+                    'name': Token('STRING', 'a1', 59),
+                    'ptr_ref' : 'pointer',
                 }
             ]
         }]
@@ -63,7 +65,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 60),
-                    'name': Token('STRING', 'a1', 64)
+                    'name': Token('STRING', 'a1', 64),
+                    'ptr_ref' : 'pointer',
                 }
             ]
         }]
@@ -80,7 +83,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59)
+                    'name': Token('STRING', 'a1', 59),
+                    'ptr_ref' : 'pointer',
                 }
             ]
         }]
@@ -97,7 +101,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59)
+                    'name': Token('STRING', 'a1', 59),
+                    'ptr_ref' : 'reference',
                 }
             ]
         }]
@@ -114,7 +119,8 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59)
+                    'name': Token('STRING', 'a1', 59),
+                    'ptr_ref' : 'reference',
                 }
             ]
         }]
@@ -131,11 +137,13 @@ PATTERN_SEARCH_TESTS = [
             'args': [
                 {
                     'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58)
+                    'name': Token('STRING', 'a1', 58),
+                    'ptr_ref' : 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 62),
-                    'name': Token('STRING', 'a2', 65)
+                    'name': Token('STRING', 'a2', 65),
+                    'ptr_ref' : 'value',
                 }
             ]
         }]
