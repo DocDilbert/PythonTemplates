@@ -107,11 +107,11 @@ def main():
     with open("methods.txt", "w") as write_file:
         write_file.write(pp.pformat(methods))
 
-    #w = MainWindow(data)
-    # w.setWindowTitle('Simple')
-    # w.show()
+    w = MainWindow(methods)
+    w.setWindowTitle('Simple')
+    w.show()
 
-    # app.exec_()
+    app.exec_()
 
 
 if __name__ == "__main__":

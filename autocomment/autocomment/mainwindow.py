@@ -17,7 +17,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     """
 
 
-    def __init__(self, data):
+    def __init__(self, methods):
         super(QMainWindow, self).__init__()
 
         # Set up the user interface from Designer.
@@ -26,10 +26,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         model = QStandardItemModel(self.listView)
         self.listView.setModel(model)
 
-        for idx, item in enumerate(data):
+        for idx, item in enumerate(methods):
             label = ""
-            label += "name: "+ item['name'] + '\n'
-            label += "birthday: "+ item['birthday']
+            label += item['name'].val
 
             qitem = QStandardItem(label)
             qitem.setCheckable(False)
