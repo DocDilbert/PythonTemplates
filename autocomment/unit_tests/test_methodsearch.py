@@ -353,7 +353,6 @@ PATTERN_SEARCH_TESTS = [
 
 
 def arguments_factory(argList):
-
     output = [
         {
             'name': name,
@@ -363,6 +362,12 @@ def arguments_factory(argList):
     ]
     return output
 
+def method_factory(name, returns, pass_by, arguments_generator):
+    output = {'name': name,
+              'returns': returns,
+              'pass_by': pass_by,
+              'args': arguments_factory(arguments_generator)}
+    return output
 
 @pytest.mark.parametrize("data", PATTERN_SEARCH_TESTS)
 def test_methodsearch(data):
@@ -374,7 +379,7 @@ def test_methodsearch(data):
     cb_factory = BlockFactory()
     i2 = cb_factory.tree(i1)
 
-    patternsearch = MethodSearch(arguments_factory)
+    patternsearch = MethodSearch(method_factory)
 
     output = list(patternsearch.search(i2))
 

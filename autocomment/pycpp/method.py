@@ -14,3 +14,12 @@ class Method(object):
         self.returns_token = returns_token
         self.pass_by = pass_by
         self.arguments = arguments
+    
+    @property
+    def name(self):
+        return self.name_token.val
+
+    @property
+    def returns(self):
+        return self.returns_token.val
+        

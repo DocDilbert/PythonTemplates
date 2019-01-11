@@ -7,10 +7,10 @@ LNPAT = r'(\(\d+\))'
 
 
 class MethodSearch:
-    def __init__(self, arguments_factory):
+    def __init__(self, method_factory):
         self.buf = ''
         self.tokens = None
-        self.arguments_factory = arguments_factory
+        self.method_factory = method_factory
 
         pat = ''
         pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
@@ -131,11 +131,7 @@ class MethodSearch:
             else:
                 pass_by = 'value'
 
-  
-            match_parsed = {
-                'returns': self.__getToken(match, 'returns'),
-                'name': self.__getToken(match, 'name'),
-                'args': self.arguments_factory(self.__isolate_arguments(match.group('arguments'))),
-                'pass_by': pass_by
-            }
-            yield match_parsed
+            yield self.method_factory(self.__getToken(match, 'name'),
+                                      self.__getToken(match, 'returns'),
+                                      pass_by,
+                                      self.__isolate_arguments(match.group('arguments')))

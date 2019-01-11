@@ -23,6 +23,7 @@ from pycpp.serializer import Serializer
 from pycpp.serializer import getTokenSummary
 from pycpp.methodsearch import MethodSearch
 from pycpp.arguments import arguments_factory
+from pycpp.method import MethodFactory
 
 import pprint
 
@@ -91,7 +92,7 @@ def main():
     )
     output6 = comment_combine.tree(output5)
 
-    patsearch =  MethodSearch(arguments_factory)
+    patsearch =  MethodSearch(MethodFactory(arguments_factory))
     methods = list(patsearch.search(output6))
 
     end = time.time()

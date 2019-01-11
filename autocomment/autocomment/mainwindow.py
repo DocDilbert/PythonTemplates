@@ -28,9 +28,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.listView.setModel(model)
         self.listView.doubleClicked.connect(self.doubleClicked)
         self.methods = methods
-        for idx, item in enumerate(methods):
+        for idx, method in enumerate(methods):
             label = ""
-            label += item['name'].val
+            label += method.name
 
             qitem = QStandardItem(label)
             qitem.setCheckable(False)
@@ -45,8 +45,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 model.setData(model.index(idx, 0), QBrush(glitter), Qt.BackgroundRole)
 
             # Setze die Schriftfarbe jedes items auf rot welches das mark Attribut aufweist.
-            if "mark" in item and item["mark"]:
-                    model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.ForegroundRole)
+            #if "mark" in method and method["mark"]:
+            #        model.setData(model.index(idx, 0), QBrush(Qt.red), Qt.ForegroundRole)
 
     
         # Connect up the buttons.
