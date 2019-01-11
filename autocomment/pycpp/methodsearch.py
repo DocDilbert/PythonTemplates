@@ -22,7 +22,7 @@ class MethodSearch:
         pat += '(?P<arguments>'
         pat += '('
         pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sSTRING_)?' % (LNPAT)
+        pat += '(%sCONST_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         pat += '(%sSTRING_)' % (LNPAT)
@@ -41,14 +41,14 @@ class MethodSearch:
         pat += ')'
         pat += '(%sRP_)' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sSTRING_)?' % (LNPAT)
+        pat += '(%sCONST_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sEOC_)' % (LNPAT)
         self.meth_regex = re.compile(pat)
 
         argpat = ''
         argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(%sSTRING_)?' % (LNPAT)
+        argpat += '(%sCONST_)?' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)

@@ -28,6 +28,7 @@ CPP_RULES = [
     (r';',               'EOC', token_factory),
     (r',',               'COMMA', token_factory),
     (r'!',               'NOT', token_factory),
+    (r'const',           'CONST', token_factory),
     (r'[a-zA-Z_]\w*',    'STRING', token_factory),
     (r'#',               'HASH', token_factory),
     (r'\?',              'QUESTIONMARK', token_factory),
@@ -47,7 +48,7 @@ CPP_RULES = [
     (r'\[',              'LSQB', token_factory),
     (r'\]',              'RSQB', token_factory),
     (r'=',               'EQUALS', token_factory),
-    (r'\$',               'DOLLAR', token_factory),
+    (r'\$',              'DOLLAR', token_factory),
 ]
 
 

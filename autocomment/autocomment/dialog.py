@@ -14,6 +14,12 @@ class Dialog(QDialog, Ui_Dialog):
         sub_dialog = QDialog()
         sub_dialog.setWindowTitle("Sub Dialog")
  
-
-        pp = pprint.PrettyPrinter(indent=4)
-        self.textEdit.setText(pp.pformat(method))
+        code = ""
+        if len(method['args'])>0:
+            code = "/// Arguments:\n"
+            for arg in method['args']:
+                code+='///     %s\n' % (arg['name'].val)
+            code += "///\n"
+        code += "/// Returns:\n"
+        code += '///     [%s]\n' % (method['returns'].val)
+        self.textEdit.setText(code)
