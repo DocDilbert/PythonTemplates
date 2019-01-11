@@ -1,7 +1,8 @@
-def arguments_factory(generator):
-    args = Arguments()
-    [args.add(name_token, type_token, pass_by) for (name_token, type_token, pass_by) in generator]
-    return args
+class ArgumentsFactory(object):
+    def __call__(self,generator):
+        args = Arguments()
+        [args.add(name_token, type_token, pass_by) for (name_token, type_token, pass_by) in generator]
+        return args
 
 
 class Argument(object):

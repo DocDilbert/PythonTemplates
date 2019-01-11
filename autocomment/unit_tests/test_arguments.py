@@ -1,5 +1,5 @@
 from unittest.mock import Mock, MagicMock
-from pycpp.arguments import arguments_factory
+from pycpp.arguments import ArgumentsFactory
 from pycpp.arguments import Argument
 from pycpp.arguments import Arguments
 
@@ -12,6 +12,7 @@ def test_arguments_factory():
         ('name2', 'type2', 'pass_by2')
     ]
 
+    arguments_factory = ArgumentsFactory()
     args = arguments_factory(testvector)
 
     assert len(args.arglist) == 3

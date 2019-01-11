@@ -22,7 +22,7 @@ from pycpp.code import TokenNewLine
 from pycpp.serializer import Serializer
 from pycpp.serializer import getTokenSummary
 from pycpp.methodsearch import MethodSearch
-from pycpp.arguments import arguments_factory
+from pycpp.arguments import ArgumentsFactory
 from pycpp.method import MethodFactory
 
 import pprint
@@ -106,7 +106,7 @@ def main():
 
     patsearch = MethodSearch(
         MethodFactory(
-            arguments_factory,
+            ArgumentsFactory(),
             returns_description_lookup=lambda returns: descriptions['returns_description'].get(
                 returns, '')
         )
