@@ -7,14 +7,13 @@ class Code(object):
 
 
 class Block(Code):
-    def __init__(self, 
-                 begin_del=None, 
-                 end_del=None, 
+    def __init__(self,
+                 begin_del=None,
+                 end_del=None,
                  content=None,
                  *,
                  trail_start=">",
-                 trail_advance="--"
-                ):
+                 trail_advance="--"):
         self.trail_start = trail_start
         self.trail_advance = trail_advance
         self.begin_del = begin_del
@@ -36,26 +35,27 @@ class Block(Code):
                 output.append(t)
         return output
 
-    def print_closure(self, trailing, init_insert_trail = True):
+    def print_closure(self, trailing, init_insert_trail=True):
         trailing = self.trail_advance + trailing
         output = ""
         insert_trail = init_insert_trail
-        for t in self.content:
-            if isinstance(t, Block):
-                output += t.print_closure(trailing, False)
+        for tok in self.content:
+            if isinstance(tok, Block):
+                output += tok.print_closure(trailing, False)
             else:
                 if insert_trail:
                     output += trailing
                     insert_trail = False
 
-                output += str(t)
-                if isinstance(t, TokenNewLine):
+                output += str(tok)
+                if isinstance(tok, TokenNewLine):
                     output += "\n"
                     insert_trail = True
-        else:
-            if isinstance(self.end_del, TokenNewLine):
-                output += "\n" 
-                output += trailing
+
+        if isinstance(self.end_del, TokenNewLine):
+            output += "\n"
+            output += trailing
+
         return output
 
     def __str__(self):
@@ -79,7 +79,7 @@ class Block(Code):
         return True
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not self.__eq__(other)
 
 
 class Token(Code):
@@ -87,8 +87,8 @@ class Token(Code):
         Contains the token type, value and position.
     """
 
-    def __init__(self, type, val, pos):
-        self.type = type
+    def __init__(self, type_, val, pos):
+        self.type = type_
         self.val = val
         self.pos = pos
 
@@ -112,7 +112,7 @@ class Token(Code):
         return True
 
     def __ne__(self, other):
-        return not(self.__eq__(other))
+        return not self.__eq__(other)
 
 
 class TokenNewLine(Token):
