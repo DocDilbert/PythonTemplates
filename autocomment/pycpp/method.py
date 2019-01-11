@@ -24,15 +24,17 @@ class Method(object):
     def returns(self):
         return self.returns_token.val
 
+    def __repr__(self):
+        return self.__str__()
+        
     def __str__(self):
-        buf = ""
-
+        buf = "/// %s" % (self.name)
         if len(self.arguments) > 0:
+            buf += '\n'
             buf += str(self.arguments)
 
         if self.returns != "void":
-            if len(self.arguments) > 0:
-                buf += '\n'
+            buf += '\n'
             buf += '/// \\return'
             if self.return_description:
                 buf += ' %s' % (self.return_description)

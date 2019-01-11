@@ -1,20 +1,55 @@
-[   <pycpp.method.Method object at 0x00000000058BF748>,
-    <pycpp.method.Method object at 0x00000000058BFA20>,
-    <pycpp.method.Method object at 0x00000000058BFC88>,
-    <pycpp.method.Method object at 0x00000000058BFBE0>,
-    <pycpp.method.Method object at 0x00000000058BFC18>,
-    <pycpp.method.Method object at 0x00000000058BFCC0>,
-    <pycpp.method.Method object at 0x00000000058BFE10>,
-    <pycpp.method.Method object at 0x00000000058BFF60>,
-    <pycpp.method.Method object at 0x00000000058BF860>,
-    <pycpp.method.Method object at 0x00000000058C3160>,
-    <pycpp.method.Method object at 0x00000000058C32B0>,
-    <pycpp.method.Method object at 0x00000000058C3390>,
-    <pycpp.method.Method object at 0x00000000058C3358>,
-    <pycpp.method.Method object at 0x00000000058C3470>,
-    <pycpp.method.Method object at 0x00000000058C3438>,
-    <pycpp.method.Method object at 0x00000000058C3550>,
-    <pycpp.method.Method object at 0x00000000058C3518>,
-    <pycpp.method.Method object at 0x00000000058C3630>,
-    <pycpp.method.Method object at 0x00000000058C35C0>,
-    <pycpp.method.Method object at 0x00000000058C36D8>]
+[   /// registerComponents
+/// \param mocSetpoints
+/// \param actualValues
+/// \param controlLimits
+/// \param currentIdSignal
+/// \param currentControl,
+    /// init
+/// \param tSample
+/// \param tSlowSample
+/// \param limitAngleAlterationRate
+/// \return,
+    /// getOperationMode
+/// \return,
+    /// update,
+    /// updateSlow,
+    /// setInstanceNumbers
+/// \param axisInstanceNr
+/// \param componentInstanceNr,
+    /// registerDiagnosisInterfaceAtComponent
+/// \param triggerDiagnosisMessageInterface
+/// \return,
+    /// registerComponentAtComponentDirectory
+/// \param compDir
+/// \return,
+    /// data_writeValue
+/// \param dataId
+/// \param arrayStartIndex
+/// \param nrOfElements
+/// \param writeData
+/// \param nrOfWriteBytes
+/// \param writeBuffer
+/// \return,
+    /// getCascadeControl
+/// \return,
+    /// getEncoderlessControl
+/// \return,
+    /// getIpsSetpoints
+/// \return,
+    /// getElectricalSpeed
+/// \return,
+    /// getElectricalAngle
+/// \return,
+    /// getUnfilteredIqSetpoint
+/// \return,
+    /// isLimited
+/// \return,
+    /// isVelocityLimited
+/// \return,
+    /// dispose
+/// \param layerId
+/// \return,
+    /// reinit
+/// \param layerId
+/// \return,
+    /// initNotchFilters]

@@ -34,6 +34,9 @@ class Argument(object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __repr__(self):
+        return self.__str__()
+        
     def __str__(self):    
         buf = []
         buf.append(self.name)
@@ -62,4 +65,8 @@ class Arguments(object):
     def __str__(self):
         buf = '\n'.join([str(arg) for arg in self.arglist])
         return buf
+
+    def __repr__(self):
+        return self.__str__()
+        
             

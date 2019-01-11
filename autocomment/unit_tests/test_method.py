@@ -45,10 +45,26 @@ def test_method_str_0():
         'pass_by',
         mock
     )
-    assert str(method) == '/// \\return'
+    assert str(method) == '/// name0\n/// \\return'
 
+def test_method_str_1():
+    mock = MagicMock()
+    mock.__len__.return_value = 0
+    mock.__str__.return_value = None
+
+    method = Method(
+        Mock(val='name0'),
+        Mock(val='returns0'),
+        'pass_by',
+        mock
+    )
     method.return_description = "description"
-    assert str(method) == '/// \\return description'
+    assert str(method) == '/// name0\n/// \\return description'
+
+def test_method_str_2():
+    mock = MagicMock()
+    mock.__len__.return_value = 0
+    mock.__str__.return_value = None
 
     method = Method(
         Mock(val='name0'),
@@ -56,10 +72,10 @@ def test_method_str_0():
         'pass_by',
         mock
     )
-    assert str(method) == ''
+    assert str(method) == '/// name0'
 
 
-def test_method_str_1():
+def test_method_str_3():
     mock = MagicMock()
     mock.__len__.return_value = 1
     mock.__str__.return_value = "/// \\param para"
@@ -70,10 +86,26 @@ def test_method_str_1():
         'pass_by',
         mock
     )
-    assert str(method) == '/// \\param para\n/// \\return'
+    assert str(method) == '/// name0\n/// \\param para\n/// \\return'
 
+def test_method_str_4():
+    mock = MagicMock()
+    mock.__len__.return_value = 1
+    mock.__str__.return_value = "/// \\param para"
+
+    method = Method(
+        Mock(val='name0'),
+        Mock(val='returns0'),
+        'pass_by',
+        mock
+    )
     method.return_description = "description"
-    assert str(method) == '/// \\param para\n/// \\return description'
+    assert str(method) == '/// name0\n/// \\param para\n/// \\return description'
+
+def test_method_str_5():
+    mock = MagicMock()
+    mock.__len__.return_value = 1
+    mock.__str__.return_value = "/// \\param para"
 
     method = Method(
         Mock(val='name0'),
@@ -81,7 +113,18 @@ def test_method_str_1():
         'pass_by',
         mock
     )
-    assert str(method) == '/// \\param para'
+    assert str(method) == '/// name0\n/// \\param para'
 
+def test_method_str_6():
+    mock = MagicMock()
+    mock.__len__.return_value = 1
+    mock.__str__.return_value = "/// \\param para"
+
+    method = Method(
+        Mock(val='name0'),
+        Mock(val='void'),
+        'pass_by',
+        mock
+    )
     method.return_description = "description"
-    assert str(method) == '/// \\param para'
+    assert str(method) == '/// name0\n/// \\param para'
