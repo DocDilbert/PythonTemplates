@@ -51,11 +51,11 @@ class MethodSearch:
         argpat += '(%sCONST_)?' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
-        argpat += '(?P<argtype>%sSTRING_)' % (LNPAT)
+        argpat += '(?P<type>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(?P<argname>%sSTRING_)' % (LNPAT)
+        argpat += '(?P<name>%sSTRING_)' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
         argpat += '(%sNL_)?' % (LNPAT)
         argpat += '(%sWS_)?' % (LNPAT)
@@ -104,8 +104,8 @@ class MethodSearch:
                     pass_by = 'value'
 
                 arg_parsed = {
-                    'name': self.__getToken(argmatch, 'argname'),
-                    'type': self.__getToken(argmatch, 'argtype'),
+                    'name': self.__getToken(argmatch, 'name'),
+                    'type': self.__getToken(argmatch, 'type'),
                     'pass_by': pass_by,
                 }
                 yield arg_parsed
