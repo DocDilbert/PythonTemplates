@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import MagicMock
 from pycpp.arguments import arguments_factory
 from pycpp.arguments import Argument
 from pycpp.arguments import Arguments

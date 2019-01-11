@@ -1,4 +1,3 @@
-import unittest
 from pycpp.code import Block
 from pycpp.code import Token
 
