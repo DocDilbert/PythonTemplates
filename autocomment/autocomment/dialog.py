@@ -12,14 +12,14 @@ class Dialog(QDialog, Ui_Dialog):
          # Set up the user interface from Designer.
         self.setupUi(self)
         sub_dialog = QDialog()
-        sub_dialog.setWindowTitle("Sub Dialog")
+        sub_dialog.setWindowTitle("Suggested Comment")
  
         code = ""
         if len(method['args'])>0:
             code = "/// Arguments:\n"
-            for arg in (x.get_description() for x in method['args']):
+            for arg in method['args']:
 
-                code+='///     %s\n' % (arg['name'])
+                code+='///     %s\n' % (arg.name)
             code += "///\n"
         code += "/// Returns:\n"
         code += '///     [%s]\n' % (method['returns'].val)

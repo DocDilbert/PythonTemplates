@@ -44,7 +44,7 @@ def test_arguments_iter():
     assert len(results) == 2
     
 
-def test_argument_get_description():
+def test_argument_properties():
 
     name_token = MagicMock()
     name_token.val = "name"
@@ -58,10 +58,5 @@ def test_argument_get_description():
         'pass_by'
     )
 
-    results = arg.get_description()
-
-    assert results == { 
-        'name' : 'name',
-        'type' : 'type',
-        'pass_by' : 'pass_by'
-    }
+    assert arg.name == "name"
+    assert arg.type == "type"

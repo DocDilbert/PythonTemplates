@@ -22,13 +22,15 @@ class Argument(object):
 
         return True
 
-    def get_description(self):
-        return {
-            'name' : self.name_token.val,
-            'type' : self.type_token.val,
-            'pass_by' : self.pass_by
-        }
+    @property
+    def name(self):
+        return self.name_token.val
 
+    @property
+    def type(self):
+        return self.type_token.val
+
+    
     def __ne__(self, other):
         return not self.__eq__(other)
 
