@@ -98,20 +98,20 @@ def main():
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
-    with open("output.txt", "w") as write_file:
-        for t in output6:
-            write_file.write(str(t))
-            if isinstance(t, TokenNewLine):
-                write_file.write('\n')
+    # with open("output.txt", "w") as write_file:
+    #     for t in output6:
+    #         write_file.write(str(t))
+    #         if isinstance(t, TokenNewLine):
+    #             write_file.write('\n')
 
-    serializer = Serializer()
-    with open("output.cpp", "w") as write_file:
-        write_file.write(serializer.toString(output6, getTokenSummary))
+    # serializer = Serializer()
+    # with open("output.cpp", "w") as write_file:
+    #     write_file.write(serializer.toString(output6, getTokenSummary))
 
 
-    pp = pprint.PrettyPrinter(indent=4)
-    with open("methods.txt", "w") as write_file:
-        write_file.write(pp.pformat(methods))
+    # pp = pprint.PrettyPrinter(indent=4)
+    # with open("methods.txt", "w") as write_file:
+    #     write_file.write(pp.pformat(methods))
 
     w = MainWindow(methods)
     w.setWindowTitle('Simple')
