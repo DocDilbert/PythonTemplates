@@ -1,10 +1,15 @@
 class MethodFactory(object):
-    def __init__(self, attributes_factory):
+    def __init__(self, attributes_factory, returns_description_lookup = None):
         self.attributes_factory = attributes_factory
+        self.returns_description_lookup = returns_description_lookup
 
     def __call__(self, name_token, returns_token, pass_by, arguments_generator):
         method = Method(name_token, returns_token, pass_by,
                         self.attributes_factory(arguments_generator))
+
+        if self.returns_description_lookup:
+            method.return_description = self.returns_description_lookup(method.returns)
+            
         return method
 
 
@@ -26,7 +31,7 @@ class Method(object):
 
     def __repr__(self):
         return self.__str__()
-        
+
     def __str__(self):
         buf = "/// %s" % (self.name)
         if len(self.arguments) > 0:

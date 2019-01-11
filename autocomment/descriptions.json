@@ -1,0 +1,6 @@
+{
+    "returns_description": {
+        "FMCReturnCode" : "If everything is ok, RC_SUCCESS is returned. In case another value is return see FMCReturnCode.h for further reference."
+    }
+
+}

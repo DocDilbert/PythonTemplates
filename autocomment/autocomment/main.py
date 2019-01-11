@@ -11,7 +11,7 @@
 import argparse
 import sys
 import time
-
+import json
 # print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
@@ -27,14 +27,15 @@ from pycpp.method import MethodFactory
 
 import pprint
 
+
 def main():
     """Die Main Funktion
     """
 
     parser = argparse.ArgumentParser(description='Qt Tool Template.')
     parser.add_argument(
-        'filename', 
-        type=str, 
+        'filename',
+        type=str,
         help='an integer for the accumulator'
     )
     # optional arguments:
@@ -53,6 +54,17 @@ def main():
 
     with open(args.filename, "r") as read_file:
         code = read_file.read()
+
+    descriptions = {
+        'returns_description' : {}
+    }
+    try:
+        with open("descriptions.json", "r") as read_file:
+            descriptions = json.load(read_file)
+    except FileNotFoundError:
+        pass
+
+
     start = time.time()
 
     lexer = Lexer()
@@ -63,7 +75,7 @@ def main():
     output2 = cb_factory.tree(output)
 
     doxy_factory = BlockFactory(
-        begin_del_type='DOXYGENCOMMENT', 
+        begin_del_type='DOXYGENCOMMENT',
         end_del_type='NL',
         trail_start="",
         trail_advance=""
@@ -72,7 +84,7 @@ def main():
 
     doxy_combine = BlockCombine(
         subs_type='doxygencomment',
-        begin_token_type='DOXYGENCOMMENT', 
+        begin_token_type='DOXYGENCOMMENT',
         end_token_type='NL'
     )
     output4 = doxy_combine.tree(output3)
@@ -92,7 +104,13 @@ def main():
     )
     output6 = comment_combine.tree(output5)
 
-    patsearch =  MethodSearch(MethodFactory(arguments_factory))
+    patsearch = MethodSearch(
+        MethodFactory(
+            arguments_factory,
+            returns_description_lookup=lambda returns: descriptions['returns_description'].get(
+                returns, '')
+        )
+    )
     methods = list(patsearch.search(output6))
 
     end = time.time()
@@ -107,7 +125,6 @@ def main():
     # serializer = Serializer()
     # with open("output.cpp", "w") as write_file:
     #     write_file.write(serializer.toString(output6, getTokenSummary))
-
 
     # pp = pprint.PrettyPrinter(indent=4)
     # with open("methods.txt", "w") as write_file:
