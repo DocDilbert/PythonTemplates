@@ -1,4 +1,20 @@
-[   /// sendDeviceInformations
+[   /// initBase
+/// \param processP0Handler
+/// \param processP1Handler
+/// \param processP2Handler
+/// \param moduleConfig
+/// \param communicationInformation
+/// \param powerFailRTE
+/// \param chipReset
+/// \param pdIrq
+/// \param mbxIrq
+/// \param memory
+/// \param deviceShutdown
+/// \param reset
+/// \param hardwareInformation
+/// \param firmwareVersionInformation
+/// \return,
+    /// sendDeviceInformations
 /// \param deviceIdent
 /// \return,
     /// doLedTest
@@ -53,4 +69,7 @@
 /// \return,
     /// sendEtherCatDeviceIdentification
 /// \param explDevId
+/// \return,
+    /// sendProfiNetDeviceIdentification
+/// \param deviceIdent
 /// \return]

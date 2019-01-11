@@ -348,6 +348,27 @@ PATTERN_SEARCH_TESTS = [
             ]
         }]
     },
+    {
+        'description': "methodsearch_test_18",
+        'input': '''
+            // testMethod
+            void testMethod(
+                Namespace::A1 a1
+            );
+        ''',
+        'output': [{
+            'returns': Token('STRING', 'void', 39),
+            'pass_by': 'value',
+            'name': Token('STRING', 'testMethod', 44),
+            'args': [
+                {
+                    'type': Token('STRING', 'A1', 83),
+                    'name': Token('STRING', 'a1', 86),
+                    'pass_by': 'value',
+                }
+            ]
+        }]
+    },
 
 ]
 
