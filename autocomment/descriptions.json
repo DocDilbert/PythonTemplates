@@ -1,6 +1,9 @@
 {
     "returns_description": {
-        "FMCReturnCode" : "If everything is ok, RC_SUCCESS is returned. In case another value is return see FMCReturnCode.h for further reference."
+        "FMCReturnCode" : "If everything is ok, RC_SUCCESS is returned. In case another value is return see FMCReturnCode.h for further reference.",
+        "sc_pid_t" : "ID of acyclic process (SC_ILLEGAL_PID is returned in case of error)",
+        "LibRteDiagnosis" : "reference to diagnosis handler sub-component",
+        "IMemory" : "reference to memory management component for file access"
     },
 
     "argument_description" :{
@@ -10,7 +13,8 @@
         "communicationInformation": "interface for identifier of protocol variant EtherCAT, PROFINET, ...",
         "powerFailRTE" : "power fail output signal for RTE Controller",
         "memory" : "reference to memory management component for file access",
-        "deviceShutdown" : "reference to device shutdown component (this interface informs when a shutdown will happen)"
+        "deviceShutdown" : "reference to device shutdown component (this interface informs when a shutdown will happen)",
+        "deviceIdent" : "class providing device identification code"
     }
 
 }
