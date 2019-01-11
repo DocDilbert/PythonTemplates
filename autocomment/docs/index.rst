@@ -23,18 +23,7 @@ besteht aus dem Package :py:mod:`autocomment` welches wiederum aus folgenden Mod
 
     autocomment/mainwindow.py
 
-* Dem Modul :py:mod:`autocomment.calc`, sowie dem Modul :py:mod:`autocomment.employee`.
-  Diese Module dienen keinerlei Zweck, außer getestet zu werden. Siehe hierzu:: 
-
-    autocomment/calc.py
-    autocomment/employee.py
-
 Zusätzlich enthält das Projekt folgende Inhalte:
-
-* Ein paar Unit Tests Beispiele basierend auf :py:mod:`unittest` sowie :py:mod:`unittest.mock`. Siehe hierzu:: 
-
-    unit_tests/test_calc.py
-    unit_tests/test_employee.py
 
 * Eine Sphinx Dokumentation dieses Projektes. Siehe hierzu:: 
 

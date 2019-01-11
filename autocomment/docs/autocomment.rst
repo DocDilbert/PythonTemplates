@@ -18,20 +18,6 @@ autocomment.mainwindow module
     :show-inheritance:
 
 
-autocomment.calc module
--------------------------------
-.. automodule:: autocomment.calc
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-autocomment.employee module
--------------------------------
-.. automodule:: autocomment.employee
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 .. Module contents
 .. ---------------
