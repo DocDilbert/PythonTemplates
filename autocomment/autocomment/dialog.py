@@ -17,8 +17,9 @@ class Dialog(QDialog, Ui_Dialog):
         code = ""
         if len(method['args'])>0:
             code = "/// Arguments:\n"
-            for arg in method['args']:
-                code+='///     %s\n' % (arg['name'].val)
+            for arg in (x.get_description() for x in method['args']):
+
+                code+='///     %s\n' % (arg['name'])
             code += "///\n"
         code += "/// Returns:\n"
         code += '///     [%s]\n' % (method['returns'].val)

@@ -7,9 +7,10 @@ LNPAT = r'(\(\d+\))'
 
 
 class MethodSearch:
-    def __init__(self):
+    def __init__(self, arguments_factory):
         self.buf = ''
         self.tokens = None
+        self.arguments_factory = arguments_factory
 
         pat = ''
         pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
@@ -101,11 +102,11 @@ class MethodSearch:
             else:
                 pass_by = 'value'
 
-            arg_parsed = {
-                'name': self.__getToken(argmatch, 'name'),
-                'type': self.__getToken(argmatch, 'type'),
-                'pass_by': pass_by,
-            }
+            arg_parsed = (
+                self.__getToken(argmatch, 'name'),
+                self.__getToken(argmatch, 'type'),
+                pass_by
+            )
             yield arg_parsed
 
     def search(self, tokens):
@@ -118,7 +119,7 @@ class MethodSearch:
 
         for match in self.meth_regex.finditer(self.buf, pos):
             pos = match.end()
-            
+
             pass_by = ''
             if match.group('pass_by'):
                 pass_by = self.__getToken(match, 'pass_by')
@@ -130,10 +131,11 @@ class MethodSearch:
             else:
                 pass_by = 'value'
 
+  
             match_parsed = {
                 'returns': self.__getToken(match, 'returns'),
                 'name': self.__getToken(match, 'name'),
-                'args': list(self.__isolate_arguments(match.group('arguments'))),
+                'args': self.arguments_factory(self.__isolate_arguments(match.group('arguments'))),
                 'pass_by': pass_by
             }
             yield match_parsed

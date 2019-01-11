@@ -32,7 +32,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 }
             ]
         }]
@@ -51,7 +51,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'pass_by' : 'pointer',
+                    'pass_by': 'pointer',
                 }
             ]
         }]
@@ -70,7 +70,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 60),
                     'name': Token('STRING', 'a1', 64),
-                    'pass_by' : 'pointer',
+                    'pass_by': 'pointer',
                 }
             ]
         }]
@@ -89,7 +89,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'pass_by' : 'pointer',
+                    'pass_by': 'pointer',
                 }
             ]
         }]
@@ -108,7 +108,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'pass_by' : 'reference',
+                    'pass_by': 'reference',
                 }
             ]
         }]
@@ -127,7 +127,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 59),
-                    'pass_by' : 'reference',
+                    'pass_by': 'reference',
                 }
             ]
         }]
@@ -146,12 +146,12 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 62),
                     'name': Token('STRING', 'a2', 65),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 }
             ]
         }]
@@ -273,7 +273,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 79),
                     'name': Token('STRING', 'a1', 83),
-                    'pass_by' : 'pointer',
+                    'pass_by': 'pointer',
                 }
             ]
         }]
@@ -292,7 +292,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 85),
                     'name': Token('STRING', 'a1', 89),
-                    'pass_by' : 'pointer',
+                    'pass_by': 'pointer',
                 }
             ]
         }]
@@ -312,12 +312,12 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 91),
                     'name': Token('STRING', 'a2', 94),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 }
             ]
         }]
@@ -338,18 +338,30 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': Token('STRING', 'A1', 55),
                     'name': Token('STRING', 'a1', 58),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 },
                 {
                     'type': Token('STRING', 'A2', 91),
                     'name': Token('STRING', 'a2', 94),
-                    'pass_by' : 'value',
+                    'pass_by': 'value',
                 }
             ]
         }]
     },
-    
+
 ]
+
+
+def arguments_factory(argList):
+
+    output = [
+        {
+            'name': name,
+            'type': type_,
+            'pass_by': pass_by
+        } for (name, type_, pass_by) in argList
+    ]
+    return output
 
 
 @pytest.mark.parametrize("data", PATTERN_SEARCH_TESTS)
@@ -362,7 +374,7 @@ def test_methodsearch(data):
     cb_factory = BlockFactory()
     i2 = cb_factory.tree(i1)
 
-    patternsearch = MethodSearch()
+    patternsearch = MethodSearch(arguments_factory)
 
     output = list(patternsearch.search(i2))
 
