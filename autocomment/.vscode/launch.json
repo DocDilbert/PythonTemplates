@@ -23,7 +23,8 @@
             "env": {
                 "PYTHONPATH" : "${workspaceFolder}"
             },
-            "args": ["--verbose", "C:\\workspace\\ed_fw_cmmt_as\\ed_fw_platform\\BMC\\Control\\MotorControl\\MotorControl.h"] // add arguments to test command line arguments
+            "args": ["--verbose", 
+                "C:\\workspace\\ed_fw_cmmt_as\\DSL\\Drivers\\GeneralComManager\\LibRteDriver\\LibRteDriver.h"] // add arguments to test command line arguments
         },
         {
             "name": "Python: Current File (External Terminal)",

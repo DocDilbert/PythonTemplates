@@ -1,55 +1,56 @@
-[   /// registerComponents
-/// \param mocSetpoints
-/// \param actualValues
-/// \param controlLimits
-/// \param currentIdSignal
-/// \param currentControl,
-    /// init
-/// \param tSample
-/// \param tSlowSample
-/// \param limitAngleAlterationRate
+[   /// sendDeviceInformations
+/// \param deviceIdent
 /// \return,
-    /// getOperationMode
+    /// doLedTest
+/// \param state
 /// \return,
-    /// update,
-    /// updateSlow,
-    /// setInstanceNumbers
-/// \param axisInstanceNr
-/// \param componentInstanceNr,
-    /// registerDiagnosisInterfaceAtComponent
-/// \param triggerDiagnosisMessageInterface
+    /// enableProcessDataTransfer,
+    /// startCyclicOperation,
+    /// getPidP0
 /// \return,
-    /// registerComponentAtComponentDirectory
-/// \param compDir
+    /// getPidP1
 /// \return,
-    /// data_writeValue
-/// \param dataId
-/// \param arrayStartIndex
-/// \param nrOfElements
-/// \param writeData
-/// \param nrOfWriteBytes
-/// \param writeBuffer
+    /// getPidP2
 /// \return,
-    /// getCascadeControl
+    /// getDiagnosisHandler
 /// \return,
-    /// getEncoderlessControl
+    /// getMemoryChannel
 /// \return,
-    /// getIpsSetpoints
+    /// getBaseDriver
 /// \return,
-    /// getElectricalSpeed
+    /// getNrtDriver
 /// \return,
-    /// getElectricalAngle
+    /// updateWatchdog,
+    /// updateAsync,
+    /// checkDeviceShutdown,
+    /// getMailboxManager
 /// \return,
-    /// getUnfilteredIqSetpoint
+    /// getProcessManager
 /// \return,
-    /// isLimited
+    /// newPDxData
+/// \param data
+/// \param buf_size,
+    /// processPDxData
+/// \param buf
+/// \param buf_size
 /// \return,
-    /// isVelocityLimited
+    /// pdIrqSetState
+/// \param state,
+    /// mbxIrqSetState
+/// \param state,
+    /// sendCoeServiceDataReadRequest
+/// \param index
+/// \param subIndex
+/// \param dataSize
+/// \param completeAccess,
+    /// registerCoeServiceDataHandler
+/// \param serviceDataHandler,
+    /// registerFoeServiceDataHandler
+/// \param foeHandler,
+    /// registerProcessDataConfigurationHandler
+/// \param pdConfigHandler,
+    /// updateProfinetModuleConfiguration
 /// \return,
-    /// dispose
-/// \param layerId
-/// \return,
-    /// reinit
-/// \param layerId
-/// \return,
-    /// initNotchFilters]
+    /// sendEtherCatDeviceIdentification
+/// \param explDevId
+/// \return]
