@@ -1,6 +1,16 @@
 {
     "returns_description": {
         "FMCReturnCode" : "If everything is ok, RC_SUCCESS is returned. In case another value is return see FMCReturnCode.h for further reference."
+    },
+
+    "argument_description" :{
+        "processP0Handler" : "A reference to a librte process handler interface",
+        "processP1Handler" : "A reference to a librte process handler interface",
+        "processP2Handler" : "A reference to a librte process handler interface",
+        "communicationInformation": "interface for identifier of protocol variant EtherCAT, PROFINET, ...",
+        "powerFailRTE" : "power fail output signal for RTE Controller",
+        "memory" : "reference to memory management component for file access",
+        "deviceShutdown" : "reference to device shutdown component (this interface informs when a shutdown will happen)"
     }
 
 }

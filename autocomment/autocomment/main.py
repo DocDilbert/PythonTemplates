@@ -56,7 +56,8 @@ def main():
         code = read_file.read()
 
     descriptions = {
-        'returns_description' : {}
+        'returns_description' : {},
+        'argument_description' : {}
     }
     try:
         with open("descriptions.json", "r") as read_file:
@@ -106,9 +107,12 @@ def main():
 
     patsearch = MethodSearch(
         MethodFactory(
-            ArgumentsFactory(),
+            ArgumentsFactory(
+                description_lookup=lambda argname: descriptions['argument_description'].get(
+                argname, 'TODO')     
+            ),
             returns_description_lookup=lambda returns: descriptions['returns_description'].get(
-                returns, '')
+                returns, 'TODO')
         )
     )
     methods = list(patsearch.search(output6))

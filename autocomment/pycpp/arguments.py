@@ -1,7 +1,15 @@
 class ArgumentsFactory(object):
+    def __init__(self, description_lookup = None):
+        self.description_lookup = description_lookup
+
+
     def __call__(self,generator):
         args = Arguments()
         [args.add(name_token, type_token, pass_by) for (name_token, type_token, pass_by) in generator]
+
+        if self.description_lookup:
+            for arg in args:
+                arg.description = self.description_lookup(arg.name)
         return args
 
 
