@@ -7,7 +7,7 @@ import pprint
 class Dialog(QDialog, Ui_Dialog):
     
     def __init__(self, method):
-        super(Dialog, self).__init__()
+        super().__init__()
 
          # Set up the user interface from Designer.
         self.setupUi(self)

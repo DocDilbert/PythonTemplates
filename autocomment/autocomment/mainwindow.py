@@ -19,7 +19,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def __init__(self, methods):
-        super(MainWindow, self).__init__()
+        super().__init__()
 
         # Set up the user interface from Designer.
         self.setupUi(self)
