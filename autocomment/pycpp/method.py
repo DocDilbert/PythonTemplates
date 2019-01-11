@@ -14,7 +14,8 @@ class Method(object):
         self.returns_token = returns_token
         self.pass_by = pass_by
         self.arguments = arguments
-    
+        self.return_description = None
+
     @property
     def name(self):
         return self.name_token.val
@@ -22,4 +23,18 @@ class Method(object):
     @property
     def returns(self):
         return self.returns_token.val
-        
+
+    def __str__(self):
+        buf = ""
+
+        if len(self.arguments) > 0:
+            buf += str(self.arguments)
+
+        if self.returns != "void":
+            if len(self.arguments) > 0:
+                buf += '\n'
+            buf += '/// \\return'
+            if self.return_description:
+                buf += ' %s' % (self.return_description)
+
+        return buf

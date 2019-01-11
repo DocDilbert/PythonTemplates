@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import Mock, MagicMock
 from pycpp.arguments import arguments_factory
 from pycpp.arguments import Argument
 from pycpp.arguments import Arguments
@@ -59,3 +59,36 @@ def test_argument_properties():
 
     assert arg.name == "name"
     assert arg.type == "type"
+
+def test_argument_str():
+    arg = Argument(
+        Mock(val="name"),
+        Mock(val="type"),
+        'pass_by'
+    )
+
+    assert str(arg)== "/// \\param name"
+
+    arg.description = "description"
+    assert str(arg) == "/// \\param name description"
+
+def test_arguments_str():
+    args = Arguments()
+
+    assert str(args)== ""
+
+    args.add(Mock(val="name0"),
+             Mock(val="type0"),
+             'pass_by')
+    args.add(Mock(val="name1"),
+             Mock(val="type1"),
+             'pass_by')
+
+    assert str(args)== "/// \\param name0\n/// \\param name1"
+
+    argiter = iter(args)
+    next(argiter).description = "description0"
+    next(argiter).description = "description1"
+
+    assert str(args)== "/// \\param name0 description0\n/// \\param name1 description1"
+

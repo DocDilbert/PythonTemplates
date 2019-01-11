@@ -14,13 +14,5 @@ class Dialog(QDialog, Ui_Dialog):
         sub_dialog = QDialog()
         sub_dialog.setWindowTitle("Suggested Comment")
  
-        code = ""
-        if len(method.arguments)>0:
-            code = "/// Arguments:\n"
-            for arg in method.arguments:
-
-                code+='///     %s\n' % (arg.name)
-            code += "///\n"
-        code += "/// Returns:\n"
-        code += '///     [%s]\n' % (method.returns)
+        code = str(method)
         self.textEdit.setText(code)

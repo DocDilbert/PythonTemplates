@@ -9,6 +9,7 @@ class Argument(object):
         self.name_token = name_token
         self.type_token = type_token
         self.pass_by = pass_by
+        self.description = None
 
     def __eq__(self, other):
         if self.name_token != other.name_token:
@@ -30,9 +31,15 @@ class Argument(object):
     def type(self):
         return self.type_token.val
 
-    
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __str__(self):    
+        buf = []
+        buf.append(self.name)
+        if self.description:
+            buf.append(self.description)
+        return '/// \\param %s' % (" ".join(buf))
 
 class Arguments(object):
 
@@ -47,3 +54,12 @@ class Arguments(object):
 
     def __iter__(self):
         return iter(self.arglist)
+
+    def generate_comment(self, argument_lookup = None):
+        for argument in self:
+            return '/// \\param %s  \n' % (argument.name)
+
+    def __str__(self):
+        buf = '\n'.join([str(arg) for arg in self.arglist])
+        return buf
+            
