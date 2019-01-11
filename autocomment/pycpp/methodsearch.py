@@ -87,30 +87,26 @@ class MethodSearch:
 
     def __isolate_arguments(self, argstr):
         pos = 0
-        while 1:
-            argmatch = self.arg_regex.search(argstr, pos)
-            if argmatch:
-                pos = argmatch.end()
+        for argmatch in self.arg_regex.finditer(argstr, pos):
+            pos = argmatch.end()
 
-                pass_by = ''
-                if argmatch.group('pass_by'):
-                    pass_by = self.__getToken(argmatch, 'pass_by')
+            pass_by = ''
+            if argmatch.group('pass_by'):
+                pass_by = self.__getToken(argmatch, 'pass_by')
 
-                    if pass_by.val == '*':
-                        pass_by = 'pointer'
-                    elif pass_by.val == '&':
-                        pass_by = 'reference'
-                else:
-                    pass_by = 'value'
-
-                arg_parsed = {
-                    'name': self.__getToken(argmatch, 'name'),
-                    'type': self.__getToken(argmatch, 'type'),
-                    'pass_by': pass_by,
-                }
-                yield arg_parsed
+                if pass_by.val == '*':
+                    pass_by = 'pointer'
+                elif pass_by.val == '&':
+                    pass_by = 'reference'
             else:
-                break
+                pass_by = 'value'
+
+            arg_parsed = {
+                'name': self.__getToken(argmatch, 'name'),
+                'type': self.__getToken(argmatch, 'type'),
+                'pass_by': pass_by,
+            }
+            yield arg_parsed
 
     def search(self, tokens):
         serializer = Serializer()
@@ -120,28 +116,24 @@ class MethodSearch:
 
         pos = 0
 
-        while 1:
-            match = self.meth_regex.search(self.buf, pos)
-            if match:
-                pos = match.end()
-                pass_by = ''
-                if match.group('pass_by'):
-                    pass_by = self.__getToken(match, 'pass_by')
+        for match in self.meth_regex.finditer(self.buf, pos):
+            pos = match.end()
+            
+            pass_by = ''
+            if match.group('pass_by'):
+                pass_by = self.__getToken(match, 'pass_by')
 
-                    if pass_by.val == '*':
-                        pass_by = 'pointer'
-                    elif pass_by.val == '&':
-                        pass_by = 'reference'
-                else:
-                    pass_by = 'value'
-
-                match_parsed = {
-                    'returns': self.__getToken(match, 'returns'),
-                    'name': self.__getToken(match, 'name'),
-                    'args': list(self.__isolate_arguments(match.group('arguments'))),
-                    'pass_by': pass_by
-                }
-
-                yield match_parsed
+                if pass_by.val == '*':
+                    pass_by = 'pointer'
+                elif pass_by.val == '&':
+                    pass_by = 'reference'
             else:
-                return
+                pass_by = 'value'
+
+            match_parsed = {
+                'returns': self.__getToken(match, 'returns'),
+                'name': self.__getToken(match, 'name'),
+                'args': list(self.__isolate_arguments(match.group('arguments'))),
+                'pass_by': pass_by
+            }
+            yield match_parsed
