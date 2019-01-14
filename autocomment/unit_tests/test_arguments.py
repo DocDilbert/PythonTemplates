@@ -7,19 +7,36 @@ from pycpp.arguments import Arguments
 def test_arguments_factory():
 
     testvector = [
-        ('name0', 'type0', 'pass_by0'),
-        ('name1', 'type1', 'pass_by1'),
-        ('name2', 'type2', 'pass_by2')
+        (0, 1, 2),
+        (1, 2, 3),
+        (4, 5, 6)
     ]
-
-    arguments_factory = ArgumentsFactory()
+    tokens = [
+        Mock(pos=0),
+        Mock(pos=1),
+        Mock(pos=2),
+        Mock(pos=3),
+        Mock(pos=4),
+        Mock(pos=5),
+        Mock(pos=6),
+    ]
+    arguments_factory = ArgumentsFactory(tokens)
     args = arguments_factory(testvector)
 
     assert len(args.arglist) == 3
 
-    assert args.arglist[0] == Argument('name0', 'type0', 'pass_by0')
-    assert args.arglist[1] == Argument('name1', 'type1', 'pass_by1')
-    assert args.arglist[2] == Argument('name2', 'type2', 'pass_by2')
+    assert args.arglist[0].name_token.pos == 0
+    assert args.arglist[0].type_token.pos == 1
+    assert args.arglist[0].pass_by_token.pos  == 2
+
+    assert args.arglist[1].name_token.pos == 1
+    assert args.arglist[1].type_token.pos == 2
+    assert args.arglist[1].pass_by_token.pos  == 3
+
+    assert args.arglist[2].name_token.pos == 4
+    assert args.arglist[2].type_token.pos == 5
+    assert args.arglist[2].pass_by_token.pos  == 6
+
 
 
 def test_arguments_len():

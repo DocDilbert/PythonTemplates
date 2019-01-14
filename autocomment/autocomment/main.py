@@ -107,7 +107,9 @@ def main():
 
     patsearch = MethodSearch(
         MethodFactory(
+            output6,
             ArgumentsFactory(
+                output6,
                 description_lookup=lambda argname: descriptions['argument_description'].get(
                 argname, 'TODO')     
             ),

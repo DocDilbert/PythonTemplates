@@ -13,9 +13,9 @@ PATTERN_SEARCH_TESTS = [
             void testMethod();
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': []
         }]
     },
@@ -26,14 +26,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1 a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58),
-                    'pass_by': 'value',
+                    'type':  55,
+                    'name':  58,
+                    'pass_by': -1,
                 }
             ]
         }]
@@ -45,14 +45,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1 *a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59),
-                    'pass_by': 'pointer',
+                    'type': 55,
+                    'name': 59,
+                    'pass_by': 58,
                 }
             ]
         }]
@@ -64,14 +64,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(ABC::A1 *a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 60),
-                    'name': Token('STRING', 'a1', 64),
-                    'pass_by': 'pointer',
+                    'type': 60,
+                    'name': 64,
+                    'pass_by': 63,
                 }
             ]
         }]
@@ -83,14 +83,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1* a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59),
-                    'pass_by': 'pointer',
+                    'type': 55,
+                    'name': 59,
+                    'pass_by': 57,
                 }
             ]
         }]
@@ -102,14 +102,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1 &a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59),
-                    'pass_by': 'reference',
+                    'type': 55,
+                    'name': 59,
+                    'pass_by': 58,
                 }
             ]
         }]
@@ -121,14 +121,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1& a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 59),
-                    'pass_by': 'reference',
+                    'type': 55,
+                    'name': 59,
+                    'pass_by': 57,
                 }
             ]
         }]
@@ -140,19 +140,19 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(A1 a1, A2 a2);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58),
-                    'pass_by': 'value',
+                    'type': 55,
+                    'name': 58,
+                    'pass_by': -1,
                 },
                 {
-                    'type': Token('STRING', 'A2', 62),
-                    'name': Token('STRING', 'a2', 65),
-                    'pass_by': 'value',
+                    'type': 62,
+                    'name': 65,
+                    'pass_by': -1,
                 }
             ]
         }]
@@ -167,9 +167,9 @@ PATTERN_SEARCH_TESTS = [
             }
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 89),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 94),
+            'returns': 89,
+            'pass_by': -1,
+            'name': 94,
             'args': []
         }]
     },
@@ -188,9 +188,9 @@ PATTERN_SEARCH_TESTS = [
             }
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 205),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 210),
+            'returns': 205,
+            'pass_by': -1,
+            'name': 210,
             'args': []
         }]
     },
@@ -208,15 +208,15 @@ PATTERN_SEARCH_TESTS = [
         ''',
         'output': [
             {
-                'returns': Token('STRING', 'void', 90),
-                'pass_by': 'value',
-                'name': Token('STRING', 'testMethod1', 95),
+                'returns': 90,
+                'pass_by': -1,
+                'name': 95,
                 'args': []
             },
             {
-                'returns': Token('STRING', 'int', 158),
-                'pass_by': 'value',
-                'name': Token('STRING', 'testMethod2', 162),
+                'returns': 158,
+                'pass_by': -1,
+                'name': 162,
                 'args': []
             }
         ]
@@ -228,9 +228,9 @@ PATTERN_SEARCH_TESTS = [
             void testMethod() const;
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': []
         }]
     },
@@ -241,9 +241,9 @@ PATTERN_SEARCH_TESTS = [
             int* testMethod() const;
         ''',
         'output': [{
-            'returns': Token('STRING', 'int', 39),
-            'pass_by': 'pointer',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': 42,
+            'name': 44,
             'args': []
         }]
     },
@@ -254,9 +254,9 @@ PATTERN_SEARCH_TESTS = [
             Namespace1::Namespace2::Var* testMethod() const;
         ''',
         'output': [{
-            'returns': Token('STRING', 'Var', 63),
-            'pass_by': 'pointer',
-            'name': Token('STRING', 'testMethod', 68),
+            'returns': 63,
+            'pass_by': 66,
+            'name': 68,
             'args': []
         }]
     },
@@ -267,14 +267,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(Namespace1::Namespace2::A1 *a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 79),
-                    'name': Token('STRING', 'a1', 83),
-                    'pass_by': 'pointer',
+                    'type': 79,
+                    'name': 83,
+                    'pass_by': 82,
                 }
             ]
         }]
@@ -286,14 +286,14 @@ PATTERN_SEARCH_TESTS = [
             void testMethod(const Namespace1::Namespace2::A1 *a1);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 85),
-                    'name': Token('STRING', 'a1', 89),
-                    'pass_by': 'pointer',
+                    'type': 85,
+                    'name': 89,
+                    'pass_by' : 88,
                 }
             ]
         }]
@@ -306,19 +306,19 @@ PATTERN_SEARCH_TESTS = [
                             A2 a2);
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58),
-                    'pass_by': 'value',
+                    'type': 55,
+                    'name': 58,
+                    'pass_by': -1,
                 },
                 {
-                    'type': Token('STRING', 'A2', 91),
-                    'name': Token('STRING', 'a2', 94),
-                    'pass_by': 'value',
+                    'type': 91,
+                    'name': 94,
+                    'pass_by': -1,
                 }
             ]
         }]
@@ -332,19 +332,19 @@ PATTERN_SEARCH_TESTS = [
             );
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 55),
-                    'name': Token('STRING', 'a1', 58),
-                    'pass_by': 'value',
+                    'type': 55,
+                    'name': 58,
+                    'pass_by': -1,
                 },
                 {
-                    'type': Token('STRING', 'A2', 91),
-                    'name': Token('STRING', 'a2', 94),
-                    'pass_by': 'value',
+                    'type': 91,
+                    'name': 94,
+                    'pass_by': -1,
                 }
             ]
         }]
@@ -358,14 +358,14 @@ PATTERN_SEARCH_TESTS = [
             );
         ''',
         'output': [{
-            'returns': Token('STRING', 'void', 39),
-            'pass_by': 'value',
-            'name': Token('STRING', 'testMethod', 44),
+            'returns': 39,
+            'pass_by': -1,
+            'name': 44,
             'args': [
                 {
-                    'type': Token('STRING', 'A1', 83),
-                    'name': Token('STRING', 'a1', 86),
-                    'pass_by': 'value',
+                    'type': 83,
+                    'name': 86,
+                    'pass_by': -1,
                 }
             ]
         }]
@@ -377,17 +377,17 @@ PATTERN_SEARCH_TESTS = [
 def arguments_factory(argList):
     output = [
         {
-            'name': name,
-            'type': type_,
-            'pass_by': pass_by
-        } for (name, type_, pass_by) in argList
+            'name': name_pos,
+            'type': type_pos,
+            'pass_by': pass_by_pos
+        } for (name_pos, type_pos, pass_by_pos) in argList
     ]
     return output
 
-def method_factory(name, returns, pass_by, arguments_generator):
-    output = {'name': name,
-              'returns': returns,
-              'pass_by': pass_by,
+def method_factory(name_pos, returns_pos, pass_by_pos, arguments_generator):
+    output = {'name': name_pos,
+              'returns': returns_pos,
+              'pass_by': pass_by_pos,
               'args': arguments_factory(arguments_generator)}
     return output
 

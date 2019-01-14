@@ -1,11 +1,31 @@
+from pycpp.code import Block
+
 class ArgumentsFactory(object):
-    def __init__(self, description_lookup = None):
+    def __init__(self, tokens, description_lookup = None):
         self.description_lookup = description_lookup
+        self.tokens = tokens
+
+    def __search_for_token_at_pos(self, pos, tokens):
+        for tok in tokens:
+            if isinstance(tok, Block):
+                found_token = self.__search_for_token_at_pos(pos, tok.content)
+                if found_token:
+                    return found_token
+            else:
+                if tok.pos == pos:
+                    return tok
+
+        return None
 
 
-    def __call__(self,generator):
+    def __call__(self, generator):
         args = Arguments()
-        [args.add(name_token, type_token, pass_by) for (name_token, type_token, pass_by) in generator]
+        [args.add(
+            self.__search_for_token_at_pos(name_pos, self.tokens), 
+            self.__search_for_token_at_pos(type_pos, self.tokens), 
+            self.__search_for_token_at_pos(pass_by_pos, self.tokens))
+            for (name_pos, type_pos, pass_by_pos) in generator
+        ]
 
         if self.description_lookup:
             for arg in args:
@@ -14,10 +34,10 @@ class ArgumentsFactory(object):
 
 
 class Argument(object):
-    def __init__(self, name_token, type_token, pass_by):
+    def __init__(self, name_token, type_token, pass_by_token):
         self.name_token = name_token
         self.type_token = type_token
-        self.pass_by = pass_by
+        self.pass_by_token = pass_by_token
         self.description = None
 
     def __eq__(self, other):
@@ -27,7 +47,7 @@ class Argument(object):
         if self.type_token != other.type_token:
             return False
 
-        if self.pass_by != other.pass_by:
+        if self.pass_by_token != other.pass_by:
             return False
 
         return True

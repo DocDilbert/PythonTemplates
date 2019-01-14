@@ -2,23 +2,58 @@ from unittest.mock import Mock, MagicMock
 from pycpp.method import Method, MethodFactory
 
 
-def test_method_factory():
+def test_method_factory_1():
 
     arguments = Mock()
     argument_factory = Mock()
     argument_factory.return_value = arguments
-    method_factory = MethodFactory(argument_factory)
+
+    tokens = [
+        Mock(pos=1),
+        Mock(pos=2),
+        Mock(pos=3),
+        Mock(pos=4),
+    ]
+    method_factory = MethodFactory(tokens, argument_factory)
 
     method = method_factory(
-        'name_token0',
-        'returns0',
-        'pass_by0',
-        ['argument0', 'argument1'])
+        1,
+        2,
+        3,
+        [4, 5]
+    )
 
-    assert method.name_token == 'name_token0'
-    assert method.returns_token == 'returns0'
-    assert method.pass_by == 'pass_by0'
-    argument_factory.assert_called_with(['argument0', 'argument1'])
+    assert method.name_token.pos == 1
+    assert method.returns_token.pos == 2
+    assert method.pass_by_token.pos == 3
+    argument_factory.assert_called_with([4, 5])
+    assert method.arguments == arguments
+
+def test_method_factory_2():
+
+    arguments = Mock()
+    argument_factory = Mock()
+    argument_factory.return_value = arguments
+
+    tokens = [
+        Mock(pos=1),
+        Mock(pos=2),
+        Mock(pos=30),
+        Mock(pos=4),
+    ]
+    method_factory = MethodFactory(tokens, argument_factory)
+
+    method = method_factory(
+        1,
+        2,
+        3,
+        [4, 5]
+    )
+
+    assert method.name_token.pos == 1
+    assert method.returns_token.pos == 2
+    assert method.pass_by_token is None
+    argument_factory.assert_called_with([4, 5])
     assert method.arguments == arguments
 
 

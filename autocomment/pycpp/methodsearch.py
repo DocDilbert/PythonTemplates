@@ -71,40 +71,23 @@ class MethodSearch:
         elements = elements[1].split(')')
         return int(elements[0])
 
-    def __search_for_token_at_pos(self, pos, tokens):
-        for tok in tokens:
-            if isinstance(tok, Block):
-                found_token = self.__search_for_token_at_pos(pos, tok.content)
-                if found_token:
-                    return found_token
-            else:
-                if tok.pos == pos:
-                    return tok
 
-    def __getToken(self, match, groupname):
+    def __getTokenPos(self, match, groupname):
         token_pos = self.__isolate_pos_from_string(match.group(groupname))
-        token = self.__search_for_token_at_pos(token_pos, self.tokens)
-        return token
+        return token_pos
 
     def __isolate_arguments(self, argstr):
         pos = 0
         for argmatch in self.arg_regex.finditer(argstr, pos):
             pos = argmatch.end()
 
-            pass_by = ''
+            pass_by = -1
             if argmatch.group('pass_by'):
-                pass_by = self.__getToken(argmatch, 'pass_by')
-
-                if pass_by.val == '*':
-                    pass_by = 'pointer'
-                elif pass_by.val == '&':
-                    pass_by = 'reference'
-            else:
-                pass_by = 'value'
+                pass_by = self.__getTokenPos(argmatch, 'pass_by')
 
             arg_parsed = (
-                self.__getToken(argmatch, 'name'),
-                self.__getToken(argmatch, 'type'),
+                self.__getTokenPos(argmatch, 'name'),
+                self.__getTokenPos(argmatch, 'type'),
                 pass_by
             )
             yield arg_parsed
@@ -117,18 +100,11 @@ class MethodSearch:
         for match in self.meth_regex.finditer(self.buf, pos):
             pos = match.end()
 
-            pass_by = ''
+            pass_by = -1
             if match.group('pass_by'):
-                pass_by = self.__getToken(match, 'pass_by')
+                pass_by = self.__getTokenPos(match, 'pass_by')
 
-                if pass_by.val == '*':
-                    pass_by = 'pointer'
-                elif pass_by.val == '&':
-                    pass_by = 'reference'
-            else:
-                pass_by = 'value'
-
-            yield self.method_factory(self.__getToken(match, 'name'),
-                                      self.__getToken(match, 'returns'),
+            yield self.method_factory(self.__getTokenPos(match, 'name'),
+                                      self.__getTokenPos(match, 'returns'),
                                       pass_by,
                                       self.__isolate_arguments(match.group('arguments')))
