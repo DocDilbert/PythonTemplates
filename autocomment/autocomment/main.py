@@ -121,7 +121,7 @@ def main():
     serializer = Serializer()
 
     buf = serializer.toString(output6, getTokenSummary)
-    methods = list(patsearch.search(buf, output6))
+    methods = list(patsearch.search(buf))
 
     end = time.time()
 

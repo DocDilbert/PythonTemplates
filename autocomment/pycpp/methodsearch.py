@@ -7,7 +7,6 @@ LNPAT = r'(\(\d+\))'
 class MethodSearch:
     def __init__(self, method_factory):
         self.buf = ''
-        self.tokens = None
         self.method_factory = method_factory
 
         pat = ''
@@ -92,10 +91,9 @@ class MethodSearch:
             )
             yield arg_parsed
 
-    def search(self, buf, tokens):
+    def search(self, buf):
         pos = 0
         self.buf = buf
-        self.tokens = tokens
 
         for match in self.meth_regex.finditer(self.buf, pos):
             pos = match.end()
