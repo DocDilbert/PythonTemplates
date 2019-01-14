@@ -115,7 +115,11 @@ def main():
                 returns, 'TODO')
         )
     )
-    methods = list(patsearch.search(output6))
+
+    serializer = Serializer()
+
+    buf = serializer.toString(output6, getTokenSummary)
+    methods = list(patsearch.search(buf, output6))
 
     end = time.time()
 

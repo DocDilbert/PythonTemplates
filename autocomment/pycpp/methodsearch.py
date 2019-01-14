@@ -1,7 +1,5 @@
 import re
 from pycpp.code import Block
-from pycpp.serializer import Serializer
-from pycpp.serializer import getTokenSummary
 
 LNPAT = r'(\(\d+\))'
 
@@ -111,13 +109,10 @@ class MethodSearch:
             )
             yield arg_parsed
 
-    def search(self, tokens):
-        serializer = Serializer()
-
-        self.tokens = tokens
-        self.buf = serializer.toString(tokens, getTokenSummary)
-
+    def search(self, buf, tokens):
         pos = 0
+        self.buf = buf
+        self.tokens = tokens
 
         for match in self.meth_regex.finditer(self.buf, pos):
             pos = match.end()

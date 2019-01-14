@@ -3,6 +3,7 @@ from pycpp.code import Token, Block
 from pycpp.blockfactory import BlockFactory
 from pycpp.methodsearch import MethodSearch
 from pycpp.lexer import Lexer
+from pycpp.serializer import Serializer, getTokenSummary
 
 PATTERN_SEARCH_TESTS = [
     {
@@ -400,9 +401,14 @@ def test_methodsearch(data):
     cb_factory = BlockFactory()
     i2 = cb_factory.tree(i1)
 
+
     patternsearch = MethodSearch(method_factory)
 
-    output = list(patternsearch.search(i2))
+    serializer = Serializer()
+
+    buf = serializer.toString(i2, getTokenSummary)
+
+    output = list(patternsearch.search(buf, i2))
 
     assert len(output) == len(
         data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"

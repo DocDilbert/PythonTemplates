@@ -110,15 +110,16 @@ class Lexer(object):
         if self.pos >= len(self.buf):
             return None
         else:
-            m = self.regex.match(self.buf, self.pos)
-            if m:
-                groupname = m.lastgroup
+            match = self.regex.match(self.buf, self.pos)
+            if match:
+                groupname = match.lastgroup
                 tok_type = self.group_type[groupname]
                 tok_factory = self.factory[groupname]
-                tok = tok_factory(tok_type, m.group(groupname), self.pos)
-                self.pos = m.end()
+                tok = tok_factory(tok_type, match.group(groupname), self.pos)
+                self.pos = match.end()
                 return tok
-            print(self.buf[self.pos])
+
+            #print(self.buf[self.pos])
             # if we're here, no rule matched
             raise LexerError(self.pos)
 

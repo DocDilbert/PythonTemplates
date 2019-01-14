@@ -1,6 +1,5 @@
 from pycpp.code import Block
 
-
 def getTokenValue(tok):
     return tok.val
 
