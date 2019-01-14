@@ -420,10 +420,12 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
+        #
         # // testMethod
         # void testMethod(
         #   Namespace::A1 a1
         # );
+        #
         'description': "methodsearch_test_18",
         'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
                  "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_"
