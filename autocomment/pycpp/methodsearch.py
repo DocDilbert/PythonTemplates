@@ -17,6 +17,7 @@ class MethodSearch:
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sSTRING_%s2COLONS_)?' % (LNPAT,LNPAT)
         pat += '(?P<name>%sSTRING_)' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('

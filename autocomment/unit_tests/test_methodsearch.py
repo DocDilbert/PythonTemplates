@@ -498,6 +498,27 @@ PATTERN_SEARCH_TESTS = [
             ]
         }]
     },
+    {
+        #
+        # FLOAT32 method (FLOAT32 p);
+        #
+        'description': "methodsearch_test_21",
+        'input': "(0)WS_(1)NL_(2)WS_(10)STRING_(17)WS_(18)STRING_(24)WS_"
+                 "(25)LP_(26)STRING_(33)WS_(34)STRING_(35)RP_(36)EOC_"
+                 "(37)NL_(38)WS_",
+        'output': [{
+            'returns': 10,
+            'pass_by': -1,
+            'name': 18,
+            'args': [
+                {
+                    'type': 26,
+                    'name': 34,
+                    'pass_by': -1,
+                }
+            ]
+        }]
+    },
 ]
 
 
