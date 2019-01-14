@@ -29,6 +29,7 @@ CPP_RULES = [
     (r',',               'COMMA', token_factory),
     (r'!',               'NOT', token_factory),
     (r'const',           'CONST', token_factory),
+    (r'enum',            'ENUM', token_factory),
     (r'[a-zA-Z_ÜÄÖüöä]\w*',    'STRING', token_factory),
     (r'#',               'HASH', token_factory),
     (r'\?',              'QUESTIONMARK', token_factory),

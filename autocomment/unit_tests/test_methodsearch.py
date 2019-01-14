@@ -540,6 +540,27 @@ PATTERN_SEARCH_TESTS = [
             ]
         }]
     },
+    {
+        #
+        # FLOAT32 method (enum argument name);
+        #
+        'description': "methodsearch_test_23",
+        'input': "(0)WS_(1)NL_(2)WS_(10)STRING_(17)WS_(18)STRING_(24)WS_"
+                 "(25)LP_(26)ENUM_(30)WS_(31)STRING_(39)WS_(40)STRING_"
+                 "(44)RP_(45)EOC_(46)NL_(47)WS_",
+        'output': [{
+            'returns': 10,
+            'pass_by': -1,
+            'name': 18,
+            'args': [
+                {
+                    'type': 31,
+                    'name': 40,
+                    'pass_by': -1,
+                }
+            ]
+        }]
+    },
 ]
 
 

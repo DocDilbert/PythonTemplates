@@ -22,7 +22,7 @@ class MethodSearch:
         pat += '(?P<arguments>'
         pat += '('
         pat +=      WS_NL_WS
-        pat +=      '(%sCONST_)?' % (LNPAT)
+        pat +=      '(%sCONST_|%sENUM_)?' % (LNPAT, LNPAT)
         pat +=      WS_NL_WS
         pat +=      '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         pat +=      '(%sSTRING_)' % (LNPAT)
