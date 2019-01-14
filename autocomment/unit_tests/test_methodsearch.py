@@ -9,7 +9,8 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod();
         #
         'description': "methodsearch_test_0",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)RP_(56)EOC_(57)NL_(58)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_"
+                 "(43)WS_(44)STRING_(54)LP_(55)RP_(56)EOC_(57)NL_(58)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -23,7 +24,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1 a1);
         #
         'description': "methodsearch_test_1",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)STRING_(60)RP_(61)EOC_(62)NL_(63)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_"
+                 "(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)STRING_(60)RP_"
+                 "(61)EOC_(62)NL_(63)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -43,7 +46,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1 *a1);
         #
         'description': "methodsearch_test_2",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)MULTIPLY_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_"
+                 "(44)STRING_(54)LP_(55)STRING_(57)WS_(58)MULTIPLY_(59)STRING_(61)RP_"
+                 "(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -63,7 +68,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(ABC::A1 *a1);
         #
         'description': "methodsearch_test_3",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(58)2COLONS_(60)STRING_(62)WS_(63)MULTIPLY_(64)STRING_(66)RP_(67)EOC_(68)NL_(69)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_"
+                 "(44)STRING_(54)LP_(55)STRING_(58)2COLONS_(60)STRING_(62)WS_(63)MULTIPLY_"
+                 "(64)STRING_(66)RP_(67)EOC_(68)NL_(69)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -83,7 +90,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1* a1);
         #
         'description': "methodsearch_test_4",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)MULTIPLY_(58)WS_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_"
+                 "(44)STRING_(54)LP_(55)STRING_(57)MULTIPLY_(58)WS_(59)STRING_"
+                 "(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -103,7 +112,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1 &a1);
         #
         'description': "methodsearch_test_5",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)AND_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_"
+                 "(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_"
+                 "(58)AND_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -123,7 +134,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1& a1);
         #
         'description': "methodsearch_test_6",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)AND_(58)WS_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_"
+                 "(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)AND_"
+                 "(58)WS_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -143,7 +156,10 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(A1 a1, A2 a2);
         #
         'description': "methodsearch_test_7",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)STRING_(60)COMMA_(61)WS_(62)STRING_(64)WS_(65)STRING_(67)RP_(68)EOC_(69)NL_(70)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_"
+                 "(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_"
+                 "(58)STRING_(60)COMMA_(61)WS_(62)STRING_(64)WS_(65)STRING_"
+                 "(67)RP_(68)EOC_(69)NL_(70)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -171,7 +187,10 @@ PATTERN_SEARCH_TESTS = [
         # }
         #
         'description': "methodsearch_test_8",
-        'input': "(0)NL_(1)WS_(13)STRING_(18)WS_(19)STRING_(28)NL_(29)WS_(41)BEGIN_(42)NL_(43)WS_(59)COMMENT_(61)WS_(62)STRING_(72)NL_(73)WS_(89)STRING_(93)WS_(94)STRING_(104)LP_(105)RP_(106)EOC_(107)NL_(108)WS_(120)END_(121)NL_(122)WS_",
+        'input': "(0)NL_(1)WS_(13)STRING_(18)WS_(19)STRING_(28)NL_(29)WS_"
+                 "(41)BEGIN_(42)NL_(43)WS_(59)COMMENT_(61)WS_(62)STRING_"
+                 "(72)NL_(73)WS_(89)STRING_(93)WS_(94)STRING_(104)LP_"
+                 "(105)RP_(106)EOC_(107)NL_(108)WS_(120)END_(121)NL_(122)WS_",
         'output': [{
             'returns': 89,
             'pass_by': -1,
@@ -192,7 +211,14 @@ PATTERN_SEARCH_TESTS = [
         # }
         #
         'description': "methodsearch_test_9",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(44)WS_(45)STRING_(55)NL_(56)WS_(68)BEGIN_(69)NL_(70)WS_(86)COMMENT_(88)WS_(89)STRING_(99)NL_(100)WS_(116)STRING_(121)WS_(122)STRING_(132)NL_(133)WS_(149)BEGIN_(150)NL_(151)WS_(171)COMMENT_(173)WS_(174)STRING_(184)NL_(185)WS_(205)STRING_(209)WS_(210)STRING_(220)LP_(221)RP_(222)EOC_(223)NL_(224)WS_(240)END_(241)NL_(242)WS_(254)END_(255)NL_(256)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_"
+                 "(39)STRING_(44)WS_(45)STRING_(55)NL_(56)WS_(68)BEGIN_"
+                 "(69)NL_(70)WS_(86)COMMENT_(88)WS_(89)STRING_(99)NL_"
+                 "(100)WS_(116)STRING_(121)WS_(122)STRING_(132)NL_"
+                 "(133)WS_(149)BEGIN_(150)NL_(151)WS_(171)COMMENT_"
+                 "(173)WS_(174)STRING_(184)NL_(185)WS_(205)STRING_"
+                 "(209)WS_(210)STRING_(220)LP_(221)RP_(222)EOC_(223)NL_"
+                 "(224)WS_(240)END_(241)NL_(242)WS_(254)END_(255)NL_(256)WS_",
         'output': [{
             'returns': 205,
             'pass_by': -1,
@@ -212,7 +238,14 @@ PATTERN_SEARCH_TESTS = [
         # }
         #
         'description': "methodsearch_test_10",
-        'input': "(0)NL_(1)WS_(13)STRING_(18)WS_(19)STRING_(28)NL_(29)WS_(41)BEGIN_(42)NL_(43)WS_(59)COMMENT_(61)WS_(62)STRING_(73)NL_(74)WS_(90)STRING_(94)WS_(95)STRING_(106)LP_(107)RP_(108)EOC_(109)NL_(110)NL_(111)WS_(127)COMMENT_(129)WS_(130)STRING_(141)NL_(142)WS_(158)STRING_(161)WS_(162)STRING_(173)LP_(174)RP_(175)EOC_(176)NL_(177)WS_(189)END_(190)NL_(191)WS_",
+        'input': "(0)NL_(1)WS_(13)STRING_(18)WS_(19)STRING_(28)NL_"
+                 "(29)WS_(41)BEGIN_(42)NL_(43)WS_(59)COMMENT_(61)WS_"
+                 "(62)STRING_(73)NL_(74)WS_(90)STRING_(94)WS_"
+                 "(95)STRING_(106)LP_(107)RP_(108)EOC_(109)NL_"
+                 "(110)NL_(111)WS_(127)COMMENT_(129)WS_(130)STRING_"
+                 "(141)NL_(142)WS_(158)STRING_(161)WS_(162)STRING_"
+                 "(173)LP_(174)RP_(175)EOC_(176)NL_(177)WS_"
+                 "(189)END_(190)NL_(191)WS_",
         'output': [
             {
                 'returns': 90,
@@ -234,7 +267,9 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod() const;
         #
         'description': "methodsearch_test_11",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)RP_(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)RP_"
+                 "(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -248,7 +283,9 @@ PATTERN_SEARCH_TESTS = [
         # int* testMethod() const;
         #
         'description': "methodsearch_test_12",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(42)MULTIPLY_(43)WS_(44)STRING_(54)LP_(55)RP_(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(42)MULTIPLY_(43)WS_(44)STRING_"
+                 "(54)LP_(55)RP_(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
             'pass_by': 42,
@@ -262,7 +299,11 @@ PATTERN_SEARCH_TESTS = [
         # Namespace1::Namespace2::Var* testMethod() const;
         #
         'description': "methodsearch_test_13",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(49)2COLONS_(51)STRING_(61)2COLONS_(63)STRING_(66)MULTIPLY_(67)WS_(68)STRING_(78)LP_(79)RP_(80)WS_(81)CONST_(86)EOC_(87)NL_(88)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(49)2COLONS_(51)STRING_"
+                 "(61)2COLONS_(63)STRING_(66)MULTIPLY_(67)WS_"
+                 "(68)STRING_(78)LP_(79)RP_(80)WS_(81)CONST_"
+                 "(86)EOC_(87)NL_(88)WS_",
         'output': [{
             'returns': 63,
             'pass_by': 66,
@@ -276,7 +317,11 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(Namespace1::Namespace2::A1 *a1);
         #
         'description': "methodsearch_test_14",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(65)2COLONS_(67)STRING_(77)2COLONS_(79)STRING_(81)WS_(82)MULTIPLY_(83)STRING_(85)RP_(86)EOC_(87)NL_(88)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_"
+                 "(55)STRING_(65)2COLONS_(67)STRING_(77)2COLONS_"
+                 "(79)STRING_(81)WS_(82)MULTIPLY_(83)STRING_"
+                 "(85)RP_(86)EOC_(87)NL_(88)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -296,7 +341,11 @@ PATTERN_SEARCH_TESTS = [
         # void testMethod(const Namespace1::Namespace2::A1 *a1);
         #
         'description': "methodsearch_test_15",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)CONST_(60)WS_(61)STRING_(71)2COLONS_(73)STRING_(83)2COLONS_(85)STRING_(87)WS_(88)MULTIPLY_(89)STRING_(91)RP_(92)EOC_(93)NL_(94)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_"
+                 "(55)CONST_(60)WS_(61)STRING_(71)2COLONS_(73)STRING_"
+                 "(83)2COLONS_(85)STRING_(87)WS_(88)MULTIPLY_"
+                 "(89)STRING_(91)RP_(92)EOC_(93)NL_(94)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -305,7 +354,7 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': 85,
                     'name': 89,
-                    'pass_by' : 88,
+                    'pass_by': 88,
                 }
             ]
         }]
@@ -313,11 +362,14 @@ PATTERN_SEARCH_TESTS = [
     {
         #
         #  // testMethod
-        #  void testMethod(A1 a1, 
+        #  void testMethod(A1 a1,
         #                  A2 a2);
         #
         'description': "methodsearch_test_16",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)STRING_(60)COMMA_(61)WS_(62)NL_(63)WS_(91)STRING_(93)WS_(94)STRING_(96)RP_(97)EOC_(98)NL_(99)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_"
+                 "(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_"
+                 "(58)STRING_(60)COMMA_(61)WS_(62)NL_(63)WS_(91)STRING_"
+                 "(93)WS_(94)STRING_(96)RP_(97)EOC_(98)NL_(99)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -339,12 +391,16 @@ PATTERN_SEARCH_TESTS = [
     {
         #
         # // testMethod
-        # void testMethod(A1 a1, 
+        # void testMethod(A1 a1,
         #                 A2 a2
         # );
         #
         'description': "methodsearch_test_17",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_(57)WS_(58)STRING_(60)COMMA_(61)WS_(62)NL_(63)WS_(91)STRING_(93)WS_(94)STRING_(96)NL_(97)WS_(109)RP_(110)EOC_(111)NL_(112)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)STRING_"
+                 "(57)WS_(58)STRING_(60)COMMA_(61)WS_(62)NL_(63)WS_"
+                 "(91)STRING_(93)WS_(94)STRING_(96)NL_(97)WS_"
+                 "(109)RP_(110)EOC_(111)NL_(112)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -369,7 +425,11 @@ PATTERN_SEARCH_TESTS = [
         #   Namespace::A1 a1
         # );
         'description': "methodsearch_test_18",
-        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_(55)NL_(56)WS_(72)STRING_(81)2COLONS_(83)STRING_(85)WS_(86)STRING_(88)NL_(89)WS_(101)RP_(102)EOC_(103)NL_(104)WS_",
+        'input': "(0)NL_(1)WS_(13)COMMENT_(15)WS_(16)STRING_(26)NL_"
+                 "(27)WS_(39)STRING_(43)WS_(44)STRING_(54)LP_"
+                 "(55)NL_(56)WS_(72)STRING_(81)2COLONS_(83)STRING_"
+                 "(85)WS_(86)STRING_(88)NL_(89)WS_(101)RP_"
+                 "(102)EOC_(103)NL_(104)WS_",
         'output': [{
             'returns': 39,
             'pass_by': -1,
@@ -397,12 +457,14 @@ def arguments_factory(argList):
     ]
     return output
 
+
 def method_factory(name_pos, returns_pos, pass_by_pos, arguments_generator):
     output = {'name': name_pos,
               'returns': returns_pos,
               'pass_by': pass_by_pos,
               'args': arguments_factory(arguments_generator)}
     return output
+
 
 @pytest.mark.parametrize("data", PATTERN_SEARCH_TESTS)
 def test_methodsearch(data):
