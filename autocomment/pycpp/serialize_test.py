@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     inp = ''' 
         // testMethod
-        void testMethod(Namespace::A1 a1)
+        void Namespace::testMethod(Namespace::A1 a1)
         {
           Code
         }

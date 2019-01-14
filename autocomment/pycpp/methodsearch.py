@@ -15,6 +15,7 @@ class MethodSearch:
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sSTRING_%s2COLONS_)?' % (LNPAT,LNPAT)
         pat += '(?P<name>%sSTRING_)' % (LNPAT)
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'

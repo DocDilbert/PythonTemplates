@@ -446,13 +446,11 @@ PATTERN_SEARCH_TESTS = [
         }]
     },
     {
-        
         # // testMethod
         # void testMethod(Namespace::A1 a1)
         # {
         #   Code
         # }
-        
         'description': "methodsearch_test_19",
         'input': "(0)WS_(1)NL_(2)WS_(10)COMMENT_(12)WS_(13)STRING_(23)NL_"
                  "(24)WS_(32)STRING_(36)WS_(37)STRING_(47)LP_(48)STRING_"
@@ -467,6 +465,34 @@ PATTERN_SEARCH_TESTS = [
                 {
                     'type': 59,
                     'name': 62,
+                    'pass_by': -1,
+                }
+            ]
+        }]
+    },
+    {
+        #
+        # // testMethod
+        # void Namespace::testMethod(Namespace::A1 a1)
+        # {
+        #   Code
+        # }
+        #
+        'description': "methodsearch_test_20",
+        'input': "(0)WS_(1)NL_(2)WS_(10)COMMENT_(12)WS_(13)STRING_"
+                 "(23)NL_(24)WS_(32)STRING_(36)WS_(37)STRING_(46)2COLONS_"
+                 "(48)STRING_(58)LP_(59)STRING_(68)2COLONS_(70)STRING_"
+                 "(72)WS_(73)STRING_(75)RP_(76)NL_(77)WS_(85)BEGIN_"
+                 "(86)NL_(87)WS_(97)STRING_(101)NL_(102)WS_(110)END_"
+                 "(111)NL_(112)WS_",
+        'output': [{
+            'returns': 32,
+            'pass_by': -1,
+            'name': 48,
+            'args': [
+                {
+                    'type': 70,
+                    'name': 73,
                     'pass_by': -1,
                 }
             ]
