@@ -35,6 +35,16 @@ class MethodSearch:
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sNL_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sEQUALS_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sNL_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sSTRING_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sNL_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+
+
         pat += '(%sCOMMA_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sNL_)?' % (LNPAT)

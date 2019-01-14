@@ -5,7 +5,7 @@ from pycpp.blockfactory import BlockFactory
 if __name__ == "__main__":
 
     inp = ''' 
-        FLOAT32 method (FLOAT32 p);
+        FLOAT32 method (FLOAT32 p = TEXT);
         '''
     lexer = Lexer()
     lexer.input(inp)
