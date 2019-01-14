@@ -43,7 +43,9 @@ class MethodSearch:
         pat += '(%sWS_)?' % (LNPAT)
         pat += '(%sCONST_)?' % (LNPAT)
         pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sEOC_)' % (LNPAT)
+        pat += '(%sNL_)?' % (LNPAT)
+        pat += '(%sWS_)?' % (LNPAT)
+        pat += '(%sEOC_|%sBEGIN_)' % (LNPAT, LNPAT)
         self.meth_regex = re.compile(pat)
 
         argpat = ''

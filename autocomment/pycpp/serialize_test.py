@@ -4,11 +4,12 @@ from pycpp.blockfactory import BlockFactory
 
 if __name__ == "__main__":
 
-    inp = '''
-            // testMethod
-            void testMethod(
-                Namespace::A1 a1
-            );
+    inp = ''' 
+        // testMethod
+        void testMethod(Namespace::A1 a1)
+        {
+          Code
+        }
         '''
     lexer = Lexer()
     lexer.input(inp)

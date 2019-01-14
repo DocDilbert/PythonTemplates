@@ -49,6 +49,9 @@ CPP_RULES = [
     (r'\]',              'RSQB', token_factory),
     (r'=',               'EQUALS', token_factory),
     (r'\$',              'DOLLAR', token_factory),
+    (r'\'',              'APOSTROPHE', token_factory),
+    (r'\|',               'LINE', token_factory),
+    (r'\%',               'PERCENT', token_factory),
 ]
 
 
@@ -119,7 +122,7 @@ class Lexer(object):
                 self.pos = match.end()
                 return tok
 
-            #print(self.buf[self.pos])
+            print(self.buf[self.pos])
             # if we're here, no rule matched
             raise LexerError(self.pos)
 
