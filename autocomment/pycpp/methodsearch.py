@@ -2,81 +2,63 @@ import re
 from pycpp.code import Block
 
 LNPAT = r'(\(\d+\))'
-
+WS = '(%sWS_)?'% (LNPAT)
+WS_NL_WS = '(%sWS_)?(%sNL_)?(%sWS_)?'% (LNPAT, LNPAT, LNPAT)
 
 class MethodSearch:
     def __init__(self, method_factory):
         self.buf = ''
         self.method_factory = method_factory
-
         pat = ''
-        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
+        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT) 
         pat += '(?P<returns>%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat += WS_NL_WS
         pat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat += WS_NL_WS
         pat += '(%sSTRING_%s2COLONS_)?' % (LNPAT,LNPAT)
         pat += '(?P<name>%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat += WS_NL_WS
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sCONST_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
-        pat += '(%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sSTRING_)' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sEQUALS_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sSTRING_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-
-
-        pat += '(%sCOMMA_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sCONST_)?' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
+        pat +=      '(%sSTRING_)' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sSTRING_)' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sEQUALS_)?' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sSTRING_)?' % (LNPAT)
+        pat +=      WS_NL_WS
+        pat +=      '(%sCOMMA_)?' % (LNPAT)
+        pat +=      WS_NL_WS
         pat += ')*'
         pat += ')'
         pat += '(%sRP_)' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat += WS_NL_WS
         pat += '(%sCONST_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
-        pat += '(%sNL_)?' % (LNPAT)
-        pat += '(%sWS_)?' % (LNPAT)
+        pat += WS_NL_WS
         pat += '(%sEOC_|%sBEGIN_)' % (LNPAT, LNPAT)
         self.meth_regex = re.compile(pat)
 
         argpat = ''
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         argpat += '(%sCONST_)?' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         argpat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
         argpat += '(?P<type>%sSTRING_)' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         argpat += '(?P<pass_by>%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         argpat += '(?P<name>%sSTRING_)' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(%sNL_)?' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         argpat += '(%sCOMMA_)?' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
-        argpat += '(%sNL_)?' % (LNPAT)
-        argpat += '(%sWS_)?' % (LNPAT)
+        argpat += WS_NL_WS
         self.arg_regex = re.compile(argpat)
 
     def __isolate_pos_from_string(self, str_):
