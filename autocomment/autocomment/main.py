@@ -52,7 +52,7 @@ def main():
 
     code = ""
 
-    with open(args.filename, "r") as read_file:
+    with open(args.filename, "r", encoding='utf8') as read_file:
         code = read_file.read()
 
     descriptions = {

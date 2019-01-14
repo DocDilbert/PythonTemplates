@@ -24,7 +24,8 @@
                 "PYTHONPATH" : "${workspaceFolder}"
             },
             "args": ["--verbose", 
-                "C:\\workspace\\ed_fw_cmmt_as\\DSL\\Drivers\\GeneralComManager\\LibRteDriver\\LibRteDriver.cpp"] // add arguments to test command line arguments
+                //"C:\\workspace\\ed_fw_cmmt_as\\DSL\\Drivers\\GeneralComManager\\LibRteDriver\\LibRteCallbacks.h"] // add arguments to test command line arguments
+                "C:\\workspace\\ed_fw_cmmt_as\\ed_fw_platform\\Utilities\\FMCMath.h"]
         },
         {
             "name": "Python: Current File (External Terminal)",

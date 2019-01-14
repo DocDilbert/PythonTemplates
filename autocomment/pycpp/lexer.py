@@ -29,7 +29,7 @@ CPP_RULES = [
     (r',',               'COMMA', token_factory),
     (r'!',               'NOT', token_factory),
     (r'const',           'CONST', token_factory),
-    (r'[a-zA-Z_]\w*',    'STRING', token_factory),
+    (r'[a-zA-Z_ÜÄÖüöä]\w*',    'STRING', token_factory),
     (r'#',               'HASH', token_factory),
     (r'\?',              'QUESTIONMARK', token_factory),
     (r'"',               'QUOTE', token_factory),
@@ -50,8 +50,11 @@ CPP_RULES = [
     (r'=',               'EQUALS', token_factory),
     (r'\$',              'DOLLAR', token_factory),
     (r'\'',              'APOSTROPHE', token_factory),
+    (r'\`',              'APOSTROPHE2', token_factory),
     (r'\|',               'LINE', token_factory),
     (r'\%',               'PERCENT', token_factory),
+    (r'\^',               'CARET', token_factory),
+    (r'\~',               'TILDE', token_factory),
 ]
 
 
@@ -122,7 +125,7 @@ class Lexer(object):
                 self.pos = match.end()
                 return tok
 
-            print(self.buf[self.pos])
+            print(self.buf[self.pos-12:self.pos+12])
             # if we're here, no rule matched
             raise LexerError(self.pos)
 
