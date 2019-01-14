@@ -1,31 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Dieses Modul enthält das eigentliche Template für Qt Tools.
-
-.. note::
-
-       BLA BLA
-
+""" Dieses Modul ist der Startpunkt des autocomment Skriptes. Es enthält 
+    die main Funktion.
 """
 
 import argparse
 import sys
 import time
 import json
+
 # print(sys.path)
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
 from pycpp.blockfactory import BlockFactory
 from pycpp.blockcombine import BlockCombine
-from pycpp.code import TokenNewLine
 from pycpp.serializer import Serializer
 from pycpp.serializer import getTokenSummary
 from pycpp.methodsearch import MethodSearch
 from pycpp.arguments import ArgumentsFactory
 from pycpp.method import MethodFactory
-
-import pprint
 
 
 def main():
@@ -38,6 +32,7 @@ def main():
         type=str,
         help='an integer for the accumulator'
     )
+
     # optional arguments:
     parser.add_argument(
         "-v",
@@ -47,7 +42,6 @@ def main():
     )
 
     args = parser.parse_args()
-    print(args)
     app = QApplication(sys.argv)
 
     code = ""
@@ -105,44 +99,32 @@ def main():
     )
     output6 = comment_combine.tree(output5)
 
-    patsearch = MethodSearch(
+    method_search = MethodSearch(
         MethodFactory(
             output6,
             ArgumentsFactory(
                 output6,
                 description_lookup=lambda argname: descriptions['argument_description'].get(
-                argname, 'TODO')     
+                    argname, 'TODO'
+                )
             ),
             returns_description_lookup=lambda returns: descriptions['returns_description'].get(
-                returns, 'TODO')
+                returns, 'TODO'
+            )
         )
     )
 
     serializer = Serializer()
-
     buf = serializer.toString(output6, getTokenSummary)
-    methods = list(patsearch.search(buf))
+    methods = list(method_search.search(buf))
 
     end = time.time()
 
     print("Elapsed Time "+str(end - start)+" seconds")
-    # with open("output.txt", "w") as write_file:
-    #     for t in output6:
-    #         write_file.write(str(t))
-    #         if isinstance(t, TokenNewLine):
-    #             write_file.write('\n')
 
-    # serializer = Serializer()
-    # with open("output.cpp", "w") as write_file:
-    #     write_file.write(serializer.toString(output6, getTokenSummary))
-
-    # pp = pprint.PrettyPrinter(indent=4)
-    # with open("methods.txt", "w") as write_file:
-    #     write_file.write(pp.pformat(methods))
-
-    w = MainWindow(methods)
-    w.setWindowTitle('Simple')
-    w.show()
+    window = MainWindow(methods)
+    window.setWindowTitle('Simple')
+    window.show()
 
     app.exec_()
 

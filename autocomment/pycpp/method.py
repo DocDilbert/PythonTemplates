@@ -1,7 +1,19 @@
+"""Dieses Modul enthält die Definition des Datentyps Methode sowie eine
+Fabrikfunktion MethodFactory um denselbigen zu erstellen.
+"""
+
 from pycpp.code import Block
 
 
 class MethodFactory(object):
+    """Diese Klasse erstellt Methodenobjekte aus Token Positionen
+
+    Args:
+            tokens (Liste von Tokens): Die Token in der die Positionen gesucht werden sollen.
+            attributes_factory: Eine Fabrik Klasse für das erstellen von Argumenten.
+            returns_description_lookup: Das Dictionary das Methoden Return Beschreibungen enthält.
+    """
+
     def __init__(self, tokens, attributes_factory, returns_description_lookup=None):
         self.tokens = tokens
         self.attributes_factory = attributes_factory
@@ -36,6 +48,8 @@ class MethodFactory(object):
 
 
 class Method(object):
+    """ Diese Klasse dient als Daten Container für eine C++ Methode """
+
     def __init__(self, name_token, returns_token, pass_by_token, arguments):
         self.name_token = name_token
         self.returns_token = returns_token
@@ -45,10 +59,12 @@ class Method(object):
 
     @property
     def name(self):
+        """ Gibt als String den Namen der C++ Methode zurück"""
         return self.name_token.val
 
     @property
     def returns(self):
+        """ Gibt als String zurück welchen Typ die C++ Methode zurückgibt """
         return self.returns_token.val
 
     def __repr__(self):

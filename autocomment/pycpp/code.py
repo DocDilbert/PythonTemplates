@@ -1,12 +1,10 @@
-# code.py
-#
+""" Dieses Modul enthält die Klassen Block, Token und TokenNewLine
+"""
 
+class Block(object):
+    """ Ein Block enthält mehrere Tokens oder weitere Blöcke.
+    """
 
-class Code(object):
-    pass
-
-
-class Block(Code):
     def __init__(self,
                  begin_del=None,
                  end_del=None,
@@ -24,16 +22,9 @@ class Block(Code):
             self.content = list()
 
     def add(self, token):
+        """ Füge ein Token oder einen Block diesem Block hinzu
+        """
         self.content.append(token)
-
-    def serialize(self):
-        output = []
-        for t in self.content:
-            if isinstance(t, Block):
-                output += t.serialize_closure()
-            else:
-                output.append(t)
-        return output
 
     def print_closure(self, trailing, init_insert_trail=True):
         trailing = self.trail_advance + trailing
@@ -82,7 +73,7 @@ class Block(Code):
         return not self.__eq__(other)
 
 
-class Token(Code):
+class Token(object):
     """ A simple Token structure.
         Contains the token type, value and position.
     """
@@ -116,6 +107,9 @@ class Token(Code):
 
 
 class TokenNewLine(Token):
+    """ Equivalent zur Token Klasse. Allerdings wird der Newline
+        Charakter bei __str__ sowie __repr__ unterdrückt.
+    """
     def __init__(self, pos):
         super().__init__("NL", "\n", pos)
         self.testdata = 1

@@ -29,33 +29,6 @@ Zusätzlich enthält das Projekt folgende Inhalte:
 
     docs/*
 
-HowTo: QtDesigner
--------------------
-#. Das Qt-Programm `Designer` aufrufen. Das Programm ist bei Anaconda 3 dabei.
-#. Die UI im Designer erstellen. 
-    * Beim erstellen eines neuen UI, die Basisklasse auswählen (z.B. :py:class:`QMainWindow`)
-    * Als ersten Schritt sollte man der Hauptklasse (z.B. :py:class:`QMainWindow`) in der Objektanzeige ein Layout zuweisen. Hierzu rechte Maustaste und danach Layout.
-    * Das UI erstellen.
-#. Die uic Datei unter dem Package :py:mod:`autocomment.ui` speichern.
-#. Mit Hilfe des Tool pyuic5 die uic Datei in eine Python Datei umwandlen.
-#. Die Python Datei in den bestehenden Code einbinden.
-
-Das ganze ist schon im Modul :py:mod:`autocomment.mainwindow` beispielhaft vorbereitet worden. Siehe hierzu::
-
-    autocomment/mainwindow.py
-    autocomment/ui/mainWindow.ui
-    autocomment/ui/ui_mainwindow.py
-
-Um die Datei :file:`ui_mainWindow.py` zu aktualisieren gibt es das Make Target :code:`ui`.
-
-
-Sphinx-Referenz
--------------------
-Um beim schreiben einer Sphinx Dokumentation zu helfen sind zwei rst Dateien
-angehängt die die wichtigsten reStructuredText und Sphinx Kommandos enthalten:
-
-* :ref:`quick-rst`
-* :ref:`quick-sphinx`
 
 Nützliche Links
 -------------------
@@ -78,13 +51,13 @@ Inhaltsverzeichniss
 .. toctree::
    :maxdepth: 2
 
-   quick-rst.rst
-   quick-sphinx.rst
    autocomment.rst
+   pycpp.rst
 
 Indizes und Tabellen
 --------------------
 * :ref:`genindex`
 * :ref:`qttool_doc`
+* :ref:`pycpp_doc`
 * :ref:`search`
 

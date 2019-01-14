@@ -1,16 +1,15 @@
-# lexer.py
-#
-# A generic regex-based Lexer/tokenizer tool.
-#
+""" A generic regex-based Lexer/tokenizer tool. """
 
 import re
 from pycpp.code import Token, TokenNewLine
 
 def token_factory(type_, val, pos):
+    """ Diese Fabrik Funktion erstellt ein Token"""
     return Token(type_, val, pos)
 
 
 def token_newline_factory(type_, val, pos):
+    """ Diese Fabrik Funktion erstellt ein TokenNewLine"""
     return TokenNewLine(pos)
 
 CPP_RULES = [
@@ -29,8 +28,8 @@ CPP_RULES = [
     (r',',               'COMMA', token_factory),
     (r'!',               'NOT', token_factory),
     (r'const',           'CONST', token_factory),
-    (r'enum',            'ENUM', token_factory),
-    (r'[a-zA-Z_ÜÄÖüöä]\w*',    'STRING', token_factory),
+    (r'enum',             'ENUM', token_factory),
+    (r'[a-zA-Z_ÜÄÖüöä]\w*','STRING', token_factory),
     (r'#',               'HASH', token_factory),
     (r'\?',              'QUESTIONMARK', token_factory),
     (r'"',               'QUOTE', token_factory),
@@ -67,13 +66,12 @@ class LexerError(Exception):
     """
 
     def __init__(self, pos):
+        super().__init__(self)
         self.pos = pos
 
 
 class Lexer(object):
     """ A simple regex-based lexer/tokenizer.
-
-        See below for an example of usage.
     """
 
     def __init__(self):
@@ -139,15 +137,3 @@ class Lexer(object):
                 break
             yield tok
 
-
-if __name__ == '__main__':
-    pass
-
-    #lx = Lexer(rules, skip_whitespace=True)
-    #lx.input('erw = _abc + 12*(R4-623902)  ')
-
-    # try:
-   #     for tok in lx.tokens():
-   #         print(tok)
-   # except LexerError as err:
-   #     print('LexerError at position %s' % err.pos)
