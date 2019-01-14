@@ -33,7 +33,7 @@ class MethodSearch:
         pat +=      WS_NL_WS
         pat +=      '(%sEQUALS_)?' % (LNPAT)
         pat +=      WS_NL_WS
-        pat +=      '(%sSTRING_)?' % (LNPAT)
+        pat +=      '(%sSTRING_|%sNUMBER_)?' % (LNPAT, LNPAT)
         pat +=      WS_NL_WS
         pat +=      '(%sCOMMA_)?' % (LNPAT)
         pat +=      WS_NL_WS
