@@ -13,8 +13,8 @@ PATTERN_SEARCH_TESTS = [
                  "(43)WS_(44)STRING_(54)LP_(55)RP_(56)EOC_(57)NL_(58)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': []
         }]
     },
@@ -29,13 +29,13 @@ PATTERN_SEARCH_TESTS = [
                  "(61)EOC_(62)NL_(63)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type':  55,
-                    'name':  58,
-                    'pass_by': -1,
+                    'type_pos':  55,
+                    'name_pos':  58,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -51,13 +51,13 @@ PATTERN_SEARCH_TESTS = [
                  "(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 59,
-                    'pass_by': 58,
+                    'type_pos': 55,
+                    'name_pos': 59,
+                    'pass_by_pos': 58,
                 }
             ]
         }]
@@ -73,13 +73,13 @@ PATTERN_SEARCH_TESTS = [
                  "(64)STRING_(66)RP_(67)EOC_(68)NL_(69)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 60,
-                    'name': 64,
-                    'pass_by': 63,
+                    'type_pos': 60,
+                    'name_pos': 64,
+                    'pass_by_pos': 63,
                 }
             ]
         }]
@@ -95,13 +95,13 @@ PATTERN_SEARCH_TESTS = [
                  "(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 59,
-                    'pass_by': 57,
+                    'type_pos': 55,
+                    'name_pos': 59,
+                    'pass_by_pos': 57,
                 }
             ]
         }]
@@ -117,13 +117,13 @@ PATTERN_SEARCH_TESTS = [
                  "(58)AND_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 59,
-                    'pass_by': 58,
+                    'type_pos': 55,
+                    'name_pos': 59,
+                    'pass_by_pos': 58,
                 }
             ]
         }]
@@ -139,13 +139,13 @@ PATTERN_SEARCH_TESTS = [
                  "(58)WS_(59)STRING_(61)RP_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 59,
-                    'pass_by': 57,
+                    'type_pos': 55,
+                    'name_pos': 59,
+                    'pass_by_pos': 57,
                 }
             ]
         }]
@@ -162,18 +162,18 @@ PATTERN_SEARCH_TESTS = [
                  "(67)RP_(68)EOC_(69)NL_(70)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 58,
-                    'pass_by': -1,
+                    'type_pos': 55,
+                    'name_pos': 58,
+                    'pass_by_pos': -1,
                 },
                 {
-                    'type': 62,
-                    'name': 65,
-                    'pass_by': -1,
+                    'type_pos': 62,
+                    'name_pos': 65,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -193,8 +193,8 @@ PATTERN_SEARCH_TESTS = [
                  "(105)RP_(106)EOC_(107)NL_(108)WS_(120)END_(121)NL_(122)WS_",
         'output': [{
             'returns': 89,
-            'pass_by': -1,
-            'name': 94,
+            'pass_by_pos': -1,
+            'name_pos': 94,
             'args': []
         }]
     },
@@ -221,8 +221,8 @@ PATTERN_SEARCH_TESTS = [
                  "(224)WS_(240)END_(241)NL_(242)WS_(254)END_(255)NL_(256)WS_",
         'output': [{
             'returns': 205,
-            'pass_by': -1,
-            'name': 210,
+            'pass_by_pos': -1,
+            'name_pos': 210,
             'args': []
         }]
     },
@@ -232,7 +232,7 @@ PATTERN_SEARCH_TESTS = [
         # {
         #   // testMethod1
         #   void testMethod1();
-
+        #
         #   // testMethod2
         #   int testMethod2();
         # }
@@ -249,14 +249,14 @@ PATTERN_SEARCH_TESTS = [
         'output': [
             {
                 'returns': 90,
-                'pass_by': -1,
-                'name': 95,
+                'pass_by_pos': -1,
+                'name_pos': 95,
                 'args': []
             },
             {
                 'returns': 158,
-                'pass_by': -1,
-                'name': 162,
+                'pass_by_pos': -1,
+                'name_pos': 162,
                 'args': []
             }
         ]
@@ -272,8 +272,8 @@ PATTERN_SEARCH_TESTS = [
                  "(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': []
         }]
     },
@@ -288,8 +288,8 @@ PATTERN_SEARCH_TESTS = [
                  "(54)LP_(55)RP_(56)WS_(57)CONST_(62)EOC_(63)NL_(64)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': 42,
-            'name': 44,
+            'pass_by_pos': 42,
+            'name_pos': 44,
             'args': []
         }]
     },
@@ -306,8 +306,8 @@ PATTERN_SEARCH_TESTS = [
                  "(86)EOC_(87)NL_(88)WS_",
         'output': [{
             'returns': 63,
-            'pass_by': 66,
-            'name': 68,
+            'pass_by_pos': 66,
+            'name_pos': 68,
             'args': []
         }]
     },
@@ -324,13 +324,13 @@ PATTERN_SEARCH_TESTS = [
                  "(85)RP_(86)EOC_(87)NL_(88)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 79,
-                    'name': 83,
-                    'pass_by': 82,
+                    'type_pos': 79,
+                    'name_pos': 83,
+                    'pass_by_pos': 82,
                 }
             ]
         }]
@@ -348,13 +348,13 @@ PATTERN_SEARCH_TESTS = [
                  "(89)STRING_(91)RP_(92)EOC_(93)NL_(94)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 85,
-                    'name': 89,
-                    'pass_by': 88,
+                    'type_pos': 85,
+                    'name_pos': 89,
+                    'pass_by_pos': 88,
                 }
             ]
         }]
@@ -372,18 +372,18 @@ PATTERN_SEARCH_TESTS = [
                  "(93)WS_(94)STRING_(96)RP_(97)EOC_(98)NL_(99)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 58,
-                    'pass_by': -1,
+                    'type_pos': 55,
+                    'name_pos': 58,
+                    'pass_by_pos': -1,
                 },
                 {
-                    'type': 91,
-                    'name': 94,
-                    'pass_by': -1,
+                    'type_pos': 91,
+                    'name_pos': 94,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -403,18 +403,18 @@ PATTERN_SEARCH_TESTS = [
                  "(109)RP_(110)EOC_(111)NL_(112)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 55,
-                    'name': 58,
-                    'pass_by': -1,
+                    'type_pos': 55,
+                    'name_pos': 58,
+                    'pass_by_pos': -1,
                 },
                 {
-                    'type': 91,
-                    'name': 94,
-                    'pass_by': -1,
+                    'type_pos': 91,
+                    'name_pos': 94,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -434,13 +434,13 @@ PATTERN_SEARCH_TESTS = [
                  "(102)EOC_(103)NL_(104)WS_",
         'output': [{
             'returns': 39,
-            'pass_by': -1,
-            'name': 44,
+            'pass_by_pos': -1,
+            'name_pos': 44,
             'args': [
                 {
-                    'type': 83,
-                    'name': 86,
-                    'pass_by': -1,
+                    'type_pos': 83,
+                    'name_pos': 86,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -459,13 +459,13 @@ PATTERN_SEARCH_TESTS = [
                  "(91)WS_(99)END_(100)NL_(101)WS_",
         'output': [{
             'returns': 32,
-            'pass_by': -1,
-            'name': 37,
+            'pass_by_pos': -1,
+            'name_pos': 37,
             'args': [
                 {
-                    'type': 59,
-                    'name': 62,
-                    'pass_by': -1,
+                    'type_pos': 59,
+                    'name_pos': 62,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -487,13 +487,13 @@ PATTERN_SEARCH_TESTS = [
                  "(111)NL_(112)WS_",
         'output': [{
             'returns': 32,
-            'pass_by': -1,
-            'name': 48,
+            'pass_by_pos': -1,
+            'name_pos': 48,
             'args': [
                 {
-                    'type': 70,
-                    'name': 73,
-                    'pass_by': -1,
+                    'type_pos': 70,
+                    'name_pos': 73,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -508,13 +508,13 @@ PATTERN_SEARCH_TESTS = [
                  "(37)NL_(38)WS_",
         'output': [{
             'returns': 10,
-            'pass_by': -1,
-            'name': 18,
+            'pass_by_pos': -1,
+            'name_pos': 18,
             'args': [
                 {
-                    'type': 26,
-                    'name': 34,
-                    'pass_by': -1,
+                    'type_pos': 26,
+                    'name_pos': 34,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -529,13 +529,13 @@ PATTERN_SEARCH_TESTS = [
                  "(36)EQUALS_(37)WS_(38)STRING_(42)RP_(43)EOC_(44)NL_(45)WS_",
         'output': [{
             'returns': 10,
-            'pass_by': -1,
-            'name': 18,
+            'pass_by_pos': -1,
+            'name_pos': 18,
             'args': [
                 {
-                    'type': 26,
-                    'name': 34,
-                    'pass_by': -1,
+                    'type_pos': 26,
+                    'name_pos': 34,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -550,13 +550,13 @@ PATTERN_SEARCH_TESTS = [
                  "(44)RP_(45)EOC_(46)NL_(47)WS_",
         'output': [{
             'returns': 10,
-            'pass_by': -1,
-            'name': 18,
+            'pass_by_pos': -1,
+            'name_pos': 18,
             'args': [
                 {
-                    'type': 31,
-                    'name': 40,
-                    'pass_by': -1,
+                    'type_pos': 31,
+                    'name_pos': 40,
+                    'pass_by_pos': -1,
                 }
             ]
         }]
@@ -567,18 +567,18 @@ PATTERN_SEARCH_TESTS = [
 def __arguments_factory(argList):
     output = [
         {
-            'name': name_pos,
-            'type': type_pos,
-            'pass_by': pass_by_pos
+            'name_pos': name_pos,
+            'type_pos': type_pos,
+            'pass_by_pos': pass_by_pos
         } for (name_pos, type_pos, pass_by_pos) in argList
     ]
     return output
 
 
 def __method_factory(name_pos, returns_pos, pass_by_pos, arguments_generator):
-    output = {'name': name_pos,
+    output = {'name_pos': name_pos,
               'returns': returns_pos,
-              'pass_by': pass_by_pos,
+              'pass_by_pos': pass_by_pos,
               'args': __arguments_factory(arguments_generator)}
     return output
 
