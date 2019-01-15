@@ -7,7 +7,7 @@ from pycpp.code import Block
 class ArgumentsFactory(object):
     """ Diese Klasse erstellt Methoden Argumente aus Token Positionen
     """
-    def __init__(self, tokens, description_lookup = None):
+    def __init__(self, tokens, description_lookup=None):
         self.description_lookup = description_lookup
         self.tokens = tokens
 
@@ -25,14 +25,13 @@ class ArgumentsFactory(object):
 
     def __call__(self, generator):
         args = Arguments()
-        [
+        for (name_pos, type_pos, pass_by_pos) in generator:
             args.add(
                 self.__search_for_token_at_pos(name_pos, self.tokens),
                 self.__search_for_token_at_pos(type_pos, self.tokens),
                 self.__search_for_token_at_pos(pass_by_pos, self.tokens)
             )
-            for (name_pos, type_pos, pass_by_pos) in generator
-        ]
+
 
         if self.description_lookup:
             for arg in args:
@@ -41,7 +40,7 @@ class ArgumentsFactory(object):
 
 
 class Argument(object):
-    """ Diese Klasse ist ein Daten Container für ein einzelnes Argument 
+    """ Diese Klasse ist ein Daten Container für ein einzelnes Argument
         einer Methode.
     """
     def __init__(self, name_token, type_token, pass_by_token):
@@ -88,7 +87,7 @@ class Argument(object):
         return '/// \\param %s' % (" ".join(buf))
 
 class Arguments(object):
-    """ Diese Klasse dient als Container mehrerer Methoden Argumente 
+    """ Diese Klasse dient als Container mehrerer Methoden Argumente
     """
 
     def __init__(self):
