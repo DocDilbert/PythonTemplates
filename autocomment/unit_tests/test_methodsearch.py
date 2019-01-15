@@ -564,7 +564,7 @@ PATTERN_SEARCH_TESTS = [
 ]
 
 
-def arguments_factory(argList):
+def __arguments_factory(argList):
     output = [
         {
             'name': name_pos,
@@ -575,17 +575,17 @@ def arguments_factory(argList):
     return output
 
 
-def method_factory(name_pos, returns_pos, pass_by_pos, arguments_generator):
+def __method_factory(name_pos, returns_pos, pass_by_pos, arguments_generator):
     output = {'name': name_pos,
               'returns': returns_pos,
               'pass_by': pass_by_pos,
-              'args': arguments_factory(arguments_generator)}
+              'args': __arguments_factory(arguments_generator)}
     return output
 
 
 @pytest.mark.parametrize("data", PATTERN_SEARCH_TESTS)
 def test_methodsearch(data):
-    patternsearch = MethodSearch(method_factory)
+    patternsearch = MethodSearch(__method_factory)
     output = list(patternsearch.search(data['input']))
 
     assert len(output) == len(
