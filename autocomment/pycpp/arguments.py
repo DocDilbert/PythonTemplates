@@ -35,7 +35,12 @@ class ArgumentsFactory(object):
 
         if self.description_lookup:
             for arg in args:
-                arg.description = self.description_lookup(arg.name)
+                if arg.is_pass_by_pointer():
+                    arg.description = self.description_lookup("*"+arg.name)
+                elif arg.is_pass_by_reference():
+                    arg.description = self.description_lookup("&"+arg.name)
+                else:
+                    arg.description = self.description_lookup(arg.name)
         return args
 
 
@@ -60,6 +65,28 @@ class Argument(object):
             return False
 
         return True
+
+    def is_pass_by_pointer(self):
+        """ Gibt True zurück wenn es sich bei dem Argument um einen Pointer handelt.
+        """
+        if self.pass_by_token is None:
+            return False
+
+        if self.pass_by_token.val == '*':
+            return True
+
+        return False
+
+    def is_pass_by_reference(self):
+        """ Gibt True zurück wenn es sich bei dem Argument um eine Referenz handelt.
+        """
+        if self.pass_by_token is None:
+            return False
+
+        if self.pass_by_token.val == '&':
+            return True
+
+        return False
 
     @property
     def name(self):

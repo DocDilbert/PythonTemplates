@@ -41,8 +41,12 @@ class MethodFactory(object):
         )
 
         if self.returns_description_lookup:
-            method.return_description = self.returns_description_lookup(
-                method.returns)
+            if method.is_pass_by_pointer():
+                method.return_description = self.returns_description_lookup(method.returns+"*")
+            elif method.is_pass_by_reference():
+                method.return_description = self.returns_description_lookup(method.returns+"&")
+            else:
+                method.return_description = self.returns_description_lookup(method.returns)
 
         return method
 
@@ -56,6 +60,28 @@ class Method(object):
         self.pass_by_token = pass_by_token
         self.arguments = arguments
         self.return_description = None
+
+    def is_pass_by_pointer(self):
+        """ Gibt True zurück wenn es sich bei dem Return Type um einen Pointer handelt.
+        """
+        if self.pass_by_token is None:
+            return False
+
+        if self.pass_by_token.val == '*':
+            return True
+
+        return False
+
+    def is_pass_by_reference(self):
+        """ Gibt True zurück wenn es sich bei dem Return Type um eine Referenz handelt.
+        """
+        if self.pass_by_token is None:
+            return False
+
+        if self.pass_by_token.val == '&':
+            return True
+
+        return False
 
     @property
     def name(self):
@@ -71,7 +97,7 @@ class Method(object):
         return self.__str__()
 
     def __str__(self):
-        buf = "/// %s" % (self.name)
+        buf = "/// %s\n///" % (self.name)
         if len(self.arguments) > 0:
             buf += '\n'
             buf += str(self.arguments)

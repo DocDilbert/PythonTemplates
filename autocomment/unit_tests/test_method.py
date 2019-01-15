@@ -80,7 +80,7 @@ def test_method_str_0():
         'pass_by',
         mock
     )
-    assert str(method) == '/// name0\n/// \\return'
+    assert str(method) == '/// name0\n///\n/// \\return'
 
 def test_method_str_1():
     mock = MagicMock()
@@ -94,7 +94,7 @@ def test_method_str_1():
         mock
     )
     method.return_description = "description"
-    assert str(method) == '/// name0\n/// \\return description'
+    assert str(method) == '/// name0\n///\n/// \\return description'
 
 def test_method_str_2():
     mock = MagicMock()
@@ -107,7 +107,7 @@ def test_method_str_2():
         'pass_by',
         mock
     )
-    assert str(method) == '/// name0'
+    assert str(method) == '/// name0\n///'
 
 
 def test_method_str_3():
@@ -121,7 +121,7 @@ def test_method_str_3():
         'pass_by',
         mock
     )
-    assert str(method) == '/// name0\n/// \\param para\n/// \\return'
+    assert str(method) == '/// name0\n///\n/// \\param para\n/// \\return'
 
 def test_method_str_4():
     mock = MagicMock()
@@ -135,12 +135,12 @@ def test_method_str_4():
         mock
     )
     method.return_description = "description"
-    assert str(method) == '/// name0\n/// \\param para\n/// \\return description'
+    assert str(method) == '/// name0\n///\n/// \\param para\n/// \\return description'
 
 def test_method_str_5():
     mock = MagicMock()
     mock.__len__.return_value = 1
-    mock.__str__.return_value = "/// \\param para"
+    mock.__str__.return_value = "/// \\param para\n///"
 
     method = Method(
         Mock(val='name0'),
@@ -148,7 +148,7 @@ def test_method_str_5():
         'pass_by',
         mock
     )
-    assert str(method) == '/// name0\n/// \\param para'
+    assert str(method) == '/// name0\n///\n/// \\param para\n///'
 
 def test_method_str_6():
     mock = MagicMock()
@@ -162,4 +162,76 @@ def test_method_str_6():
         mock
     )
     method.return_description = "description"
-    assert str(method) == '/// name0\n/// \\param para'
+    assert str(method) == '/// name0\n///\n/// \\param para'
+
+def test_method_is_pass_by_pointer():
+
+    name_token = Mock(val="name")
+    returns_token = Mock(val="type")
+    pass_by_token = Mock(val="*")
+
+    method1 = Method(
+        name_token,
+        returns_token,
+        pass_by_token,
+        []
+    )
+
+    assert method1.is_pass_by_pointer() == True
+
+    pass_by_token = Mock(val="&")
+
+    method2 = Method(
+        name_token,
+        returns_token,
+        pass_by_token,
+        []
+    )
+
+    assert method2.is_pass_by_pointer() == False
+
+
+    method3 = Method(
+        name_token,
+        returns_token,
+        None,
+        []
+    )
+
+    assert method3.is_pass_by_pointer() == False
+
+def test_method_is_pass_by_reference():
+
+    name_token = Mock(val="name")
+    returns_token = Mock(val="type")
+    pass_by_token = Mock(val="*")
+
+    method1 = Method(
+        name_token,
+        returns_token,
+        pass_by_token,
+        []
+    )
+
+    assert method1.is_pass_by_reference() == False
+
+    pass_by_token = Mock(val="&")
+
+    method2 = Method(
+        name_token,
+        returns_token,
+        pass_by_token,
+        []
+    )
+
+    assert method2.is_pass_by_reference() == True
+
+
+    method3 = Method(
+        name_token,
+        returns_token,
+        None,
+        []
+    )
+
+    assert method3.is_pass_by_reference() == False

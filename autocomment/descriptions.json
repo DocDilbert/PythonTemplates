@@ -3,22 +3,36 @@
         "FMCReturnCode" : 
             "If everything is ok, RC_SUCCESS is returned. In case another value is returned see FMCReturnCode.h for further reference.",
         "sc_pid_t" : 
-            "ID of acyclic process (SC_ILLEGAL_PID is returned in case of error)",
-        "LibRteDiagnosis" : 
-            "reference to diagnosis handler sub-component",
-        "IMemory" : 
-            "reference to memory management component for file access"
+            "Returns an ID of an acyclic process (SC_ILLEGAL_PID is returned in case of error)",
+        "LibRteDiagnosis&" : 
+            "Returns a reference to diagnosis handler sub-component",
+        "IMemory&" : 
+            "Returns a reference to memory management interface. This is used for file access.",
+        "rte_driver_t*": "pointer to libRTE driver",
+        "LibRteMailboxManager&" : "A reference to a concrete Lib Rte Mailbox Manager",
+        "LibRteProcessManager&" : "A reference to a concrete Lib Rte Process Manager",
+        "LibRteNrtDriver&": "A reference to a LibRteNrtDriver instance"
     },
 
     "argument_description" :{
-        "processP0Handler" : "A reference to a librte process handler interface",
-        "processP1Handler" : "A reference to a librte process handler interface",
-        "processP2Handler" : "A reference to a librte process handler interface",
-        "communicationInformation": "interface for identifier of protocol variant EtherCAT, PROFINET, ...",
-        "powerFailRTE" : "power fail output signal for RTE Controller",
-        "memory" : "reference to memory management component for file access",
-        "deviceShutdown" : "reference to device shutdown component (this interface informs when a shutdown will happen)",
-        "deviceIdent" : "class providing device identification code"
+        "&processP0Handler" : "A reference to an abstract librte process handler.",
+        "&processP1Handler" : "A reference to an abstract librte process handler.",
+        "&processP2Handler" : "A reference to an abstract librte process handler.",
+        "&moduleConfig" : "A reference to an abstract LibRteModuleConfig object.",
+        "&communicationInformation": "A reference to an communicationInformation interface.\n///   This is used to identify the protocol variant EtherCAT, PROFINET, ...",
+        "&powerFailRTE" : "A reference to the power fail input/output signal of the RTE Controller",
+        "&chipReset" : "A reference to the chip reset input/output signal of the RTE Controller",
+        "&pdIrq" : "A reference to the process data irq input/output signal of the RTE Controller",
+        "&mbxIrq" : "A reference to the mailbox irq input/output signal of the RTE Controller",
+        "&memory" : "A reference to a memory management component for file access",
+        "&deviceShutdown" : "A reference to device shutdown component (this interface informs when a shutdown will happen)",
+        "&reset" : "A reference to a soft reset interface. This is used to perform a reset of the system",
+        "&hardwareInformation" : "A reference to a hardware information interface. Used to get the hardware version.",
+        "&firmwareVersionInformation" : "A reference to a firmware version information interface. Used to get the firmware version.",
+        "&deviceIdent" : "class providing device identification code",
+        "ledstates": "send led state",
+        "buf_size" : "Size of the buffer",
+        "*data" : "A pointer to a data buffer"
     }
 
 }

@@ -27,16 +27,15 @@ def test_arguments_factory():
 
     assert args.arglist[0].name_token.pos == 0
     assert args.arglist[0].type_token.pos == 1
-    assert args.arglist[0].pass_by_token.pos  == 2
+    assert args.arglist[0].pass_by_token.pos == 2
 
     assert args.arglist[1].name_token.pos == 1
     assert args.arglist[1].type_token.pos == 2
-    assert args.arglist[1].pass_by_token.pos  == 3
+    assert args.arglist[1].pass_by_token.pos == 3
 
     assert args.arglist[2].name_token.pos == 4
     assert args.arglist[2].type_token.pos == 5
-    assert args.arglist[2].pass_by_token.pos  == 6
-
+    assert args.arglist[2].pass_by_token.pos == 6
 
 
 def test_arguments_len():
@@ -59,15 +58,12 @@ def test_arguments_iter():
 
     results = list(args)
     assert len(results) == 2
-    
+
 
 def test_argument_properties():
 
-    name_token = MagicMock()
-    name_token.val = "name"
-
-    type_token = MagicMock()
-    type_token.val = "type"
+    name_token = Mock(val="name")
+    type_token = Mock(val="type")
 
     arg = Argument(
         name_token,
@@ -78,6 +74,7 @@ def test_argument_properties():
     assert arg.name == "name"
     assert arg.type == "type"
 
+
 def test_argument_str():
     arg = Argument(
         Mock(val="name"),
@@ -85,15 +82,16 @@ def test_argument_str():
         'pass_by'
     )
 
-    assert str(arg)== "/// \\param name"
+    assert str(arg) == "/// \\param name"
 
     arg.description = "description"
     assert str(arg) == "/// \\param name description"
 
+
 def test_arguments_str():
     args = Arguments()
 
-    assert str(args)== ""
+    assert str(args) == ""
 
     args.add(Mock(val="name0"),
              Mock(val="type0"),
@@ -102,11 +100,78 @@ def test_arguments_str():
              Mock(val="type1"),
              'pass_by')
 
-    assert str(args)== "/// \\param name0\n/// \\param name1"
+    assert str(args) == "/// \\param name0\n/// \\param name1"
 
     argiter = iter(args)
     next(argiter).description = "description0"
     next(argiter).description = "description1"
 
-    assert str(args)== "/// \\param name0 description0\n/// \\param name1 description1"
+    assert str(
+        args) == "/// \\param name0 description0\n/// \\param name1 description1"
 
+
+def test_argument_is_pass_by_pointer():
+
+    name_token = Mock(val="name")
+    type_token = Mock(val="type")
+    pass_by_token = Mock(val="*")
+
+    arg1 = Argument(
+        name_token,
+        type_token,
+        pass_by_token
+    )
+
+    assert arg1.is_pass_by_pointer() == True
+
+    pass_by_token = Mock(val="&")
+
+    arg2 = Argument(
+        name_token,
+        type_token,
+        pass_by_token
+    )
+
+    assert arg2.is_pass_by_pointer() == False
+
+
+    arg3 = Argument(
+        name_token,
+        type_token,
+        None
+    )
+
+    assert arg3.is_pass_by_pointer() == False
+
+def test_argument_is_pass_by_reference():
+
+    name_token = Mock(val="name")
+    type_token = Mock(val="type")
+    pass_by_token = Mock(val="*")
+
+    arg1 = Argument(
+        name_token,
+        type_token,
+        pass_by_token
+    )
+
+    assert arg1.is_pass_by_reference() == False
+
+    pass_by_token = Mock(val="&")
+
+    arg2 = Argument(
+        name_token,
+        type_token,
+        pass_by_token
+    )
+
+    assert arg2.is_pass_by_reference() == True
+
+
+    arg3 = Argument(
+        name_token,
+        type_token,
+        None
+    )
+
+    assert arg3.is_pass_by_reference() == False
