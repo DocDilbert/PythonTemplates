@@ -11,7 +11,8 @@
         "rte_driver_t*": "pointer to libRTE driver",
         "LibRteMailboxManager&" : "A reference to a concrete Lib Rte Mailbox Manager",
         "LibRteProcessManager&" : "A reference to a concrete Lib Rte Process Manager",
-        "LibRteNrtDriver&": "A reference to a LibRteNrtDriver instance"
+        "LibRteNrtDriver&": "A reference to a LibRteNrtDriver instance",
+        "PdState": "Process data status enum"
     },
 
     "argument_description" :{
@@ -32,6 +33,7 @@
         "&deviceIdent" : "class providing device identification code",
         "ledstates": "send led state",
         "buf_size" : "Size of the buffer",
+        "*buf" : "A pointer to a data buffer",
         "*data" : "A pointer to a data buffer"
     }
 
