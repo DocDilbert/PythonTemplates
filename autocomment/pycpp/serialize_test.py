@@ -1,10 +1,9 @@
 from pycpp.lexer import Lexer
-from pycpp.serializer import Serializer, getTokenSummary
+from pycpp.serializer import Serializer, get_token_summary
 from pycpp.blockfactory import BlockFactory
 
 if __name__ == "__main__":
-
-    inp = ''' 
+    inp = '''
         FLOAT32 method (enum argument name);
         '''
     lexer = Lexer()
@@ -16,6 +15,6 @@ if __name__ == "__main__":
 
     serializer = Serializer()
 
-    buf = serializer.toString(i2, getTokenSummary)
+    buf = serializer.to_string(i2, get_token_summary)
 
     print(buf)

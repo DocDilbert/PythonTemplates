@@ -1,62 +1,69 @@
-""" A generic regex-based Lexer/tokenizer tool. """
+""" A generic regex-based Lexer/tokenizer tool.
+"""
 
 import re
 from pycpp.code import Token, TokenNewLine
 
+
 def token_factory(type_, val, pos):
-    """ Diese Fabrik Funktion erstellt ein Token"""
+    """ Diese Fabrik Funktion erstellt ein Token
+    """
     return Token(type_, val, pos)
 
 
-def token_newline_factory(type_, val, pos):
-    """ Diese Fabrik Funktion erstellt ein TokenNewLine"""
+def token_newline_factory(unused1, unused2, pos):
+    """ Diese Fabrik Funktion erstellt ein TokenNewLine
+    """
+    del unused1
+    del unused2
+
     return TokenNewLine(pos)
 
-CPP_RULES = [
-    (r' +',              'WS', token_factory),
-    (r'\t+',             'TAB', token_factory),
-    (r'\n',              'NL', token_newline_factory),
-    (r'\d+',             'NUMBER', token_factory),
-    (r'\\',              'BACKSLASH', token_factory),
-    (r'&',               'AND', token_factory),
-    (r'\.',              'DOT', token_factory),
-    (r'<',               'LESS', token_factory),
-    (r'>',               'MORE', token_factory),
-    (r'::',              '2COLONS', token_factory),
-    (r':',               'COLON', token_factory),
-    (r';',               'EOC', token_factory),
-    (r',',               'COMMA', token_factory),
-    (r'!',               'NOT', token_factory),
-    (r'const',           'CONST', token_factory),
-    (r'enum',             'ENUM', token_factory),
-    (r'[a-zA-Z_ÜÄÖüöä]\w*','STRING', token_factory),
-    (r'#',               'HASH', token_factory),
-    (r'\?',              'QUESTIONMARK', token_factory),
-    (r'"',               'QUOTE', token_factory),
-    (r'///',             'DOXYGENCOMMENT', token_factory),
-    (r'//',              'COMMENT', token_factory),
-    (r'/\*',             'COMMENT_BEGIN', token_factory),
-    (r'\*/',             'COMMENT_END', token_factory),
-    (r'{',               'BEGIN', token_factory),
-    (r'}',               'END', token_factory),
-    (r'\+',              'PLUS', token_factory),
-    (r'\-',              'MINUS', token_factory),
-    (r'\*',              'MULTIPLY', token_factory),
-    (r'\/',              'DIVIDE', token_factory),
-    (r'\(',              'LP', token_factory),
-    (r'\)',              'RP', token_factory),
-    (r'\[',              'LSQB', token_factory),
-    (r'\]',              'RSQB', token_factory),
-    (r'=',               'EQUALS', token_factory),
-    (r'\$',              'DOLLAR', token_factory),
-    (r'\'',              'APOSTROPHE', token_factory),
-    (r'\`',              'APOSTROPHE2', token_factory),
-    (r'\|',               'LINE', token_factory),
-    (r'\%',               'PERCENT', token_factory),
-    (r'\^',               'CARET', token_factory),
-    (r'\~',               'TILDE', token_factory),
-]
 
+CPP_RULES = [
+    (r' +', 'WS', token_factory),
+    (r'\t+', 'TAB', token_factory),
+    (r'\n', 'NL', token_newline_factory),
+    (r'\d+', 'NUMBER', token_factory),
+    (r'\\', 'BACKSLASH', token_factory),
+    (r'&', 'AND', token_factory),
+    (r'\.', 'DOT', token_factory),
+    (r'<', 'LESS', token_factory),
+    (r'>', 'MORE', token_factory),
+    (r'::', '2COLONS', token_factory),
+    (r':', 'COLON', token_factory),
+    (r';', 'EOC', token_factory),
+    (r',', 'COMMA', token_factory),
+    (r'!', 'NOT', token_factory),
+    (r'const', 'CONST', token_factory),
+    (r'enum', 'ENUM', token_factory),
+    (r'[a-zA-Z_ÜÄÖüöä]\w*', 'STRING', token_factory),
+    (r'#', 'HASH', token_factory),
+    (r'\?', 'QUESTIONMARK', token_factory),
+    (r'"', 'QUOTE', token_factory),
+    (r'///', 'DOXYGENCOMMENT', token_factory),
+    (r'//', 'COMMENT', token_factory),
+    (r'/\*', 'COMMENT_BEGIN', token_factory),
+    (r'\*/', 'COMMENT_END', token_factory),
+    (r'{', 'BEGIN', token_factory),
+    (r'}', 'END', token_factory),
+    (r'\+', 'PLUS', token_factory),
+    (r'\-', 'MINUS', token_factory),
+    (r'\*', 'MULTIPLY', token_factory),
+    (r'\/', 'DIVIDE', token_factory),
+    (r'\(', 'LP', token_factory),
+    (r'\)', 'RP', token_factory),
+    (r'\[', 'LSQB', token_factory),
+    (r'\]', 'RSQB', token_factory),
+    (r'=', 'EQUALS', token_factory),
+    (r'\$', 'DOLLAR', token_factory),
+    (r'\'', 'APOSTROPHE', token_factory),
+    (r'\`', 'APOSTROPHE2', token_factory),
+    (r'\|', 'LINE', token_factory),
+    (r'\%', 'PERCENT', token_factory),
+    (r'\^', 'CARET', token_factory),
+    (r'\~', 'TILDE', token_factory),
+]
 
 class LexerError(Exception):
     """ Lexer error exception.
@@ -136,4 +143,3 @@ class Lexer(object):
             if tok is None:
                 break
             yield tok
-

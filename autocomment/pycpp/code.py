@@ -26,13 +26,16 @@ class Block(object):
         """
         self.content.append(token)
 
-    def print_closure(self, trailing, init_insert_trail=True):
+    def block_to_string(self, trailing, init_insert_trail=True):
+        """ Geht die hierachie eines Blockes durch und generiert
+            einen String.
+        """
         trailing = self.trail_advance + trailing
         output = ""
         insert_trail = init_insert_trail
         for tok in self.content:
             if isinstance(tok, Block):
-                output += tok.print_closure(trailing, False)
+                output += tok.block_to_string(trailing, False)
             else:
                 if insert_trail:
                     output += trailing
@@ -51,7 +54,7 @@ class Block(object):
 
     def __str__(self):
         trailing = self.trail_start
-        return self.print_closure(trailing)
+        return self.block_to_string(trailing)
 
     def __repr__(self):
         return self.__str__()

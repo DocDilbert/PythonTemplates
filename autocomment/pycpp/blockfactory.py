@@ -7,7 +7,7 @@ from pycpp.code import Block
 
 
 class BlockFactory(object):
-    """ Diese Klasse sucht in einer Liste von Tokens 
+    """ Diese Klasse sucht in einer Liste von Tokens
         Blöcke in dem sie nach einem start und end Token sucht.
     """
     def __init__(

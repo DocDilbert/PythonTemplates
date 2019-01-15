@@ -6,7 +6,7 @@ Tokens und Blöcken.
 
 from pycpp.code import Block
 
-def getTokenValue(tok):
+def get_token_value(tok):
     """ Diese Funktion gibt das Argument val des Eingangswertes zurück.
 
     Args:
@@ -18,7 +18,7 @@ def getTokenValue(tok):
     return tok.val
 
 
-def getTokenType(tok):
+def get_token_type(tok):
     """ Diese Funktion gibt das Argument type des Eingangswertes zurück.
 
     Args:
@@ -30,7 +30,7 @@ def getTokenType(tok):
     return tok.type
 
 
-def getTokenSummary(tok):
+def get_token_summary(tok):
     """ Diese Funktion gibt einen formatieren String der Art:
 
         "(pos)TokenType_"
@@ -55,13 +55,13 @@ class Serializer:
     def __init__(self):
         pass
 
-    def toString(self, tokens, func_getTokenString=getTokenValue):
-        """Wende auf die Token Liste tokens die Funktion func_getTokenString an
+    def to_string(self, tokens, func_get_token_string=get_token_value):
+        """Wende auf die Token Liste tokens die Funktion func_get_token_string an
            und füge die von dieser Funktion zurückgegebenen String zu einem zusammen.
 
         Args:
             tokens: Liste von Tokens
-            func_getTokenString: Funktion die angewendet werden soll. Defaults to getTokenValue.
+            func_get_token_string: Funktion die angewendet werden soll. Defaults to getTokenValue.
 
         Returns:
             [String]: Aneinandergereihter String
@@ -70,10 +70,10 @@ class Serializer:
         output = ''
         for tok in tokens:
             if isinstance(tok, Block):
-                output += func_getTokenString(tok.begin_del)
-                output += self.toString(tok.content, func_getTokenString)
-                output += func_getTokenString(tok.end_del)
+                output += func_get_token_string(tok.begin_del)
+                output += self.to_string(tok.content, func_get_token_string)
+                output += func_get_token_string(tok.end_del)
             else:
-                output += func_getTokenString(tok)
+                output += func_get_token_string(tok)
 
         return output

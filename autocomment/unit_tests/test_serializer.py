@@ -2,13 +2,13 @@ import pytest
 from pycpp.code import Token
 from pycpp.code import Block
 from pycpp.serializer import Serializer
-from pycpp.serializer import getTokenType
-from pycpp.serializer import getTokenValue
-from pycpp.serializer import getTokenSummary
+from pycpp.serializer import get_token_type
+from pycpp.serializer import get_token_value
+from pycpp.serializer import get_token_summary
 TO_STRING_TESTS = [
     {
         'description': "test_toString_0",
-        'funcTokenString': getTokenValue,
+        'funcTokenString': get_token_value,
         'input': [
             Token('A', 'a', 0),
             Token('B', 'b', 1),
@@ -20,7 +20,7 @@ TO_STRING_TESTS = [
     },
     {
         'description': "test_toString_1",
-        'funcTokenString': getTokenValue,
+        'funcTokenString': get_token_value,
         'input': [
             Block(
                 Token('A', 'a', 0),
@@ -36,7 +36,7 @@ TO_STRING_TESTS = [
     },
     {
         'description': "test_toString_2",
-        'funcTokenString': getTokenType,
+        'funcTokenString': get_token_type,
         'input': [
             Token('A', 'a', 0),
             Token('B', 'b', 1),
@@ -48,7 +48,7 @@ TO_STRING_TESTS = [
     },
     {
         'description': "test_toString_3",
-        'funcTokenString': getTokenSummary,
+        'funcTokenString': get_token_summary,
         'input': [
             Token('A', 'a', 0),
             Token('B', 'b', 1),
@@ -62,7 +62,7 @@ TO_STRING_TESTS = [
 @pytest.mark.parametrize("data", TO_STRING_TESTS)
 def test_to_string(data):
     serializer = Serializer()
-    output = list(serializer.toString(data['input'], data['funcTokenString']))
+    output = list(serializer.to_string(data['input'], data['funcTokenString']))
 
     assert len(output) == len(
         data['output']), "Test Muster unterscheiden sich hinsichtlich ihrer länge"

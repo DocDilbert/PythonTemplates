@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Dieses Modul ist der Startpunkt des autocomment Skriptes. Es enthält 
+""" Dieses Modul ist der Startpunkt des autocomment Skriptes. Es enthält
     die main Funktion.
 """
 
@@ -10,13 +10,13 @@ import time
 import json
 
 # print(sys.path)
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt5.QtWidgets import QApplication
 from autocomment.mainwindow import MainWindow
 from pycpp.lexer import Lexer
 from pycpp.blockfactory import BlockFactory
 from pycpp.blockcombine import BlockCombine
 from pycpp.serializer import Serializer
-from pycpp.serializer import getTokenSummary
+from pycpp.serializer import get_token_summary
 from pycpp.methodsearch import MethodSearch
 from pycpp.arguments import ArgumentsFactory
 from pycpp.method import MethodFactory
@@ -115,7 +115,7 @@ def main():
     )
 
     serializer = Serializer()
-    buf = serializer.toString(output6, getTokenSummary)
+    buf = serializer.to_string(output6, get_token_summary)
     methods = list(method_search.search(buf))
 
     end = time.time()

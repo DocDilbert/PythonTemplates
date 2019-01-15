@@ -1,4 +1,4 @@
-""" Dieses Modul enthält die Klasse BlockCombine. 
+""" Dieses Modul enthält die Klasse BlockCombine.
 """
 from pycpp.code import Token
 from pycpp.code import Block

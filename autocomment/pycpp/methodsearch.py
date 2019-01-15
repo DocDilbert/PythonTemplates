@@ -31,22 +31,25 @@ class MethodSearch:
         pat += '(%sLP_)' % (LNPAT)
         pat += '(?P<arguments>'
         pat += '('
-        pat +=      WS_NL_WS
-        pat +=      '(%sCONST_|%sENUM_)?' % (LNPAT, LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
-        pat +=      '(%sSTRING_)' % (LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sSTRING_)' % (LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sEQUALS_)?' % (LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sSTRING_|%sNUMBER_)?' % (LNPAT, LNPAT)
-        pat +=      WS_NL_WS
-        pat +=      '(%sCOMMA_)?' % (LNPAT)
-        pat +=      WS_NL_WS
+
+        # ARGUMENT LIST
+        pat += WS_NL_WS
+        pat += '(%sCONST_|%sENUM_)?' % (LNPAT, LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sSTRING_%s2COLONS_)*' % (LNPAT, LNPAT)
+        pat += '(%sSTRING_)' % (LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sMULTIPLY_|%sAND_)?' % (LNPAT, LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sSTRING_)' % (LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sEQUALS_)?' % (LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sSTRING_|%sNUMBER_)?' % (LNPAT, LNPAT)
+        pat += WS_NL_WS
+        pat += '(%sCOMMA_)?' % (LNPAT)
+        pat += WS_NL_WS
+
         pat += ')*'
         pat += ')'
         pat += '(%sRP_)' % (LNPAT)
@@ -87,7 +90,7 @@ class MethodSearch:
         return int(elements[0])
 
 
-    def __getTokenPos(self, match, groupname):
+    def __get_token_pos(self, match, groupname):
         """Diese Methode isoliert die Position in einem RegEx Gruppen Match.
 
         Args:
@@ -102,7 +105,7 @@ class MethodSearch:
         return token_pos
 
     def __isolate_arguments(self, argstr):
-        """Diese Methode dient dem separaten suchen von Methoden Argumenten und 
+        """Diese Methode dient dem separaten suchen von Methoden Argumenten und
            der Extraktion deren Position
 
         Args:
@@ -115,17 +118,17 @@ class MethodSearch:
 
             pass_by = -1
             if argmatch.group('pass_by'):
-                pass_by = self.__getTokenPos(argmatch, 'pass_by')
+                pass_by = self.__get_token_pos(argmatch, 'pass_by')
 
             yield (
-                self.__getTokenPos(argmatch, 'name'),
-                self.__getTokenPos(argmatch, 'type'),
+                self.__get_token_pos(argmatch, 'name'),
+                self.__get_token_pos(argmatch, 'type'),
                 pass_by
             )
 
     def search(self, buf):
         """Suche in einem Token String der Form
-         
+
             "(Pos1)Token1_(Pos2)Token2_(Pos3)Token3_"
 
            nach einer C++ Methodendefinition.
@@ -145,11 +148,11 @@ class MethodSearch:
 
             pass_by = -1
             if match.group('pass_by'):
-                pass_by = self.__getTokenPos(match, 'pass_by')
+                pass_by = self.__get_token_pos(match, 'pass_by')
 
             yield self.method_factory(
-                self.__getTokenPos(match, 'name'),
-                self.__getTokenPos(match, 'returns'),
+                self.__get_token_pos(match, 'name'),
+                self.__get_token_pos(match, 'returns'),
                 pass_by,
                 self.__isolate_arguments(match.group('arguments'))
             )
