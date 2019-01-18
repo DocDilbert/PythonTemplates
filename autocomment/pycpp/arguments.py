@@ -1,4 +1,4 @@
-"""Diess Modul enhält die Klassen ArgumentsFactory sowie Arguments.
+"""Diess Modul enhält die Klassen :class:`~ArgumentsFactory` sowie Arguments.
 """
 
 
@@ -46,7 +46,7 @@ class ArgumentsFactory(object):
 
 class Argument(object):
     """ Diese Klasse ist ein Daten Container für ein einzelnes Argument
-        einer Methode.
+    einer Methode.
     """
     def __init__(self, name_token, type_token, pass_by_token):
         self.name_token = name_token

@@ -54,7 +54,15 @@ class MethodFactory(object):
 
 class Method(object):
     """ Diese Klasse dient als Daten Container für eine C++ Methode 
+    
+    Args:
+        name_token: Token welches den Namen der Methode enthält
+        returns_token: Token welches den Return-Type der Methode 
+        pass_by_token: Token welches den Pass-By des Return Typs enthält
+        arguments [Arguments]: Argument Liste
+    
     """
+
 
     def __init__(self, name_token, returns_token, pass_by_token, arguments):
         self.name_token = name_token

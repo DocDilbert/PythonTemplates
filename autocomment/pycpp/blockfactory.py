@@ -1,4 +1,4 @@
-""" Dieses Modul enthält die Klasse BlockFactory. Diese
+""" Dieses Modul enthält die Klasse :class:`~BlockFactory`. Diese
 Klasse sucht in einer Liste von Tokens Blöcke in dem sie
 nach einem start und end Token sucht.
 """
@@ -7,8 +7,11 @@ from pycpp.code import Block
 
 
 class BlockFactory(object):
-    """ Diese Klasse sucht in einer Liste von Tokens
-        Blöcke in dem sie nach einem start und end Token sucht.
+    """ Diese Klasse sucht in einer Liste von Tokens start und stop Marken.
+    
+    Wird ein solcher Bereich  gefunden wird dieser zu einem :class:`~Block`
+    zusammengefasst.
+    
     """
     def __init__(
             self, *,
