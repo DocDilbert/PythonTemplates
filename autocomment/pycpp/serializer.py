@@ -1,4 +1,4 @@
-""" Dieses Modul enthält die Klasse Serializer.
+""" Dieses Modul enthält die Klasse :class:`~.Serializer`.
 Diese Klasse dient der Anwendung einer Funktion auf eine Liste von
 Tokens und Blöcken.
 
@@ -50,8 +50,9 @@ def get_token_summary(tok):
 
 class Serializer:
     """ Die Aufgabe dieser Klasse ist eine Liste von Tokens und Blöcken
-    zu einem String zusammenzufassen
+    zu einem String zusammenzufassen.
     """
+
     def __init__(self):
         pass
 

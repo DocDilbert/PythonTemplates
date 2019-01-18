@@ -11,6 +11,7 @@ class MethodFactory(object):
     Args:
             tokens (Liste von Tokens): Die Token in der die Positionen gesucht werden sollen.
             attributes_factory: Eine Fabrik Klasse für das erstellen von Argumenten.
+                               (Siehe: :class:`~.ArgumentsFactory`)
             returns_description_lookup: Das Dictionary das Methoden Return Beschreibungen enthält.
     """
 

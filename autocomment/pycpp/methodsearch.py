@@ -1,5 +1,5 @@
 """
-Dieses Modul enthält die Klasse MethodSearch. Diese Klasse dient
+Dieses Modul enthält die Klasse :class:`~.MethodSearch`. Diese Klasse dient
 den auffinden von Methoden Signaturen in einem Token String.
 """
 
@@ -10,7 +10,7 @@ WS = '(%sWS_)?'% (LNPAT)
 WS_NL_WS = '(%sWS_)?(%sNL_)?(%sWS_)?'% (LNPAT, LNPAT, LNPAT)
 
 class MethodSearch:
-    """Die Klasse MethodSearch sucht nach  C++ Methoden Signaturen in einem
+    """Die Klasse :class:`~.MethodSearch` sucht nach C++ Methoden Signaturen in einem
        String der Form:
 
        (Pos1)Token1_(Pos2)Token2_(Pos3)Token3_
