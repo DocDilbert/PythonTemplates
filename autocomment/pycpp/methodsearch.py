@@ -12,6 +12,7 @@ WS_NL_WS = '(%sWS_)?(%sNL_)?(%sWS_)?'% (LNPAT, LNPAT, LNPAT)
 class MethodSearch:
     """Die Klasse :class:`~.MethodSearch` sucht nach C++ Methoden Signaturen in einem
        String der Form:
+       ::
 
        (Pos1)Token1_(Pos2)Token2_(Pos3)Token3_
     """
@@ -127,14 +128,18 @@ class MethodSearch:
             )
 
     def search(self, buf):
-        """Suche in einem Token String der Form
+        """Suche in einem Token String eine C++ Methodendefinition.
 
-            "(Pos1)Token1_(Pos2)Token2_(Pos3)Token3_"
+        Der Token String muss folgende Form haben:
+        ::
 
-           nach einer C++ Methodendefinition.
+        (Pos1)Token1_(Pos2)Token2_(Pos3)Token3_
+
+        Um ein geeignet Token String zu erzeugen kann die Klasse :class:`~Serializer`
+        verwendet werden.
 
         Args:
-            buf ([string]): Token Steing
+            buf ([String]): Token Steing
 
         Returns:
             Ein Iterator der die Positionen der gefundenen Methoden enthält.
@@ -142,7 +147,7 @@ class MethodSearch:
 
         pos = 0
         self.buf = buf
-
+        
         for match in self.meth_regex.finditer(self.buf, pos):
             pos = match.end()
 

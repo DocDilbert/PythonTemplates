@@ -1,23 +1,23 @@
-"""Dieses Modul enthält die Definition des Datentyps Methode sowie eine
-Fabrikfunktion MethodFactory um denselbigen zu erstellen.
+"""Dieses Modul enthält die Definition des Datentyps :class:`~Methode` sowie eine
+Fabrikfunktion :class:`~MethodFactory` um denselbigen zu erstellen.
 """
 
 from pycpp.code import Block
 
 
 class MethodFactory(object):
-    """Diese Klasse erstellt Methodenobjekte aus Token Positionen
+    """Diese Klasse erstellt ein :class:`~Method` Objekte aus Positionen von Tokens.
 
     Args:
             tokens (Liste von Tokens): Die Token in der die Positionen gesucht werden sollen.
-            attributes_factory: Eine Fabrik Klasse für das erstellen von Argumenten.
+            argument_factory: Eine Fabrik Klasse für das erstellen von Argumenten.
                                (Siehe: :class:`~.ArgumentsFactory`)
             returns_description_lookup: Das Dictionary das Methoden Return Beschreibungen enthält.
     """
 
-    def __init__(self, tokens, attributes_factory, returns_description_lookup=None):
+    def __init__(self, tokens, argument_factory, returns_description_lookup=None):
         self.tokens = tokens
-        self.attributes_factory = attributes_factory
+        self.argument_factory = argument_factory
         self.returns_description_lookup = returns_description_lookup
 
     def __search_for_token_at_pos(self, pos, tokens):
@@ -38,7 +38,7 @@ class MethodFactory(object):
             self.__search_for_token_at_pos(name_pos, self.tokens),
             self.__search_for_token_at_pos(returns_pos, self.tokens),
             self.__search_for_token_at_pos(pass_by_pos, self.tokens),
-            self.attributes_factory(arguments_generator)
+            self.argument_factory(arguments_generator)
         )
 
         if self.returns_description_lookup:
@@ -53,7 +53,8 @@ class MethodFactory(object):
 
 
 class Method(object):
-    """ Diese Klasse dient als Daten Container für eine C++ Methode """
+    """ Diese Klasse dient als Daten Container für eine C++ Methode 
+    """
 
     def __init__(self, name_token, returns_token, pass_by_token, arguments):
         self.name_token = name_token
@@ -65,6 +66,7 @@ class Method(object):
     def is_pass_by_pointer(self):
         """ Gibt True zurück wenn es sich bei dem Return Type um einen Pointer handelt.
         """
+
         if self.pass_by_token is None:
             return False
 
@@ -76,6 +78,7 @@ class Method(object):
     def is_pass_by_reference(self):
         """ Gibt True zurück wenn es sich bei dem Return Type um eine Referenz handelt.
         """
+        
         if self.pass_by_token is None:
             return False
 
@@ -86,12 +89,16 @@ class Method(object):
 
     @property
     def name(self):
-        """ Gibt als String den Namen der C++ Methode zurück"""
+        """ Gibt als String den Namen der C++ Methode zurück
+        """
+
         return self.name_token.val
 
     @property
     def returns(self):
-        """ Gibt als String zurück welchen Typ die C++ Methode zurückgibt """
+        """ Gibt als String zurück welchen Typ die C++ Methode zurückgibt
+        """
+
         return self.returns_token.val
 
     def __repr__(self):
@@ -99,7 +106,7 @@ class Method(object):
 
     def __str__(self):
         buf = "/// %s\n///" % (self.name)
-        if len(self.arguments) > 0:
+        if self.arguments: # sequence with elements in it evals to true
             buf += '\n'
             buf += str(self.arguments)
 

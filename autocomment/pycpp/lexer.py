@@ -6,13 +6,13 @@ from pycpp.code import Token, TokenNewLine
 
 
 def token_factory(type_, val, pos):
-    """ Diese Fabrik Funktion erstellt ein Token
+    """ Diese Fabrik Funktion erstellt ein :class::`~Token`
     """
     return Token(type_, val, pos)
 
 
 def token_newline_factory(unused1, unused2, pos):
-    """ Diese Fabrik Funktion erstellt ein TokenNewLine
+    """ Diese Fabrik Funktion erstellt ein :class:`~TokenNewLine` Object
     """
     del unused1
     del unused2

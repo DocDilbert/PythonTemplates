@@ -7,7 +7,7 @@ Tokens und Blöcken.
 from pycpp.code import Block
 
 def get_token_value(tok):
-    """ Diese Funktion gibt das Argument val des Eingangswertes zurück.
+    """ Diese Funktion gibt das Attribut val des gegebenen Tokens zurück.
 
     Args:
         tok ([Token]): Das Token welches abgefragt werden soll
@@ -19,7 +19,7 @@ def get_token_value(tok):
 
 
 def get_token_type(tok):
-    """ Diese Funktion gibt das Argument type des Eingangswertes zurück.
+    """ Diese Funktion gibt das Attribut type des gegeben Tokens zurück.
 
     Args:
         tok ([Token]): Das Token welches abgefragt werden soll
@@ -31,12 +31,15 @@ def get_token_type(tok):
 
 
 def get_token_summary(tok):
-    """ Diese Funktion gibt einen formatieren String der Art:
+    """ Diese Funktion gibt für ein Token einen formatieren String aus.:
+    
+    Der ausgebene String hat folgende Form:
+    :: 
+    
+    (pos)TokenType_
 
-        "(pos)TokenType_"
-
-        zurück. Diese Art String wird von der Klasse MethodSearch
-        vorrausgesetzt.
+    Diese Art String wird von der Klasse :class:`~MethodSearch`
+    vorrausgesetzt.
 
     Args:
         tok ([Token]): Das Token welches abgefragt werden soll
@@ -50,7 +53,8 @@ def get_token_summary(tok):
 
 class Serializer:
     """ Die Aufgabe dieser Klasse ist eine Liste von Tokens und Blöcken
-    zu einem String zusammenzufassen.
+    zu einem String zusammenzufassen. Welcher Teilstring für ein Token
+    verwendet wird, kann vorgegeben werden.
     """
 
     def __init__(self):
@@ -58,7 +62,7 @@ class Serializer:
 
     def to_string(self, tokens, func_get_token_string=get_token_value):
         """Wende auf die Token Liste tokens die Funktion func_get_token_string an
-           und füge die von dieser Funktion zurückgegebenen String zu einem zusammen.
+        und füge die von dieser Funktion zurückgegebenen String zu einem zusammen.
 
         Args:
             tokens: Liste von Tokens
