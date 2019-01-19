@@ -114,7 +114,7 @@ class Method(object):
 
     def __str__(self):
         buf = "/// %s\n///" % (self.name)
-        if self.arguments: # sequence with elements in it evals to true
+        if len(self.arguments)>0: 
             buf += '\n'
             buf += str(self.arguments)
 
