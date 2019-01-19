@@ -1,5 +1,5 @@
 update:
-	 python -m cogapp -r cppstate.cpp
+	 python -m cogapp -d -o cppstate_generated.cpp cppstate.cpp
 
 clean:
 	$(MAKE) -C ./docs clean
