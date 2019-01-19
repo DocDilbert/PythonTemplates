@@ -45,7 +45,7 @@ def get_token_summary(tok):
         tok ([Token]): Das Token welches abgefragt werden soll
 
     Returns:
-        [String]: String der Form "(pos)TokenType_"
+        [String]: String der Form :code:`(pos)TokenType_`
 
     """
     return '('+str(tok.pos)+')' + tok.type + '_'

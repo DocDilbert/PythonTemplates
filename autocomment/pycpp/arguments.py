@@ -1,11 +1,13 @@
-"""Diess Modul enhält die Klassen :class:`~ArgumentsFactory` sowie Arguments.
+"""Diess Modul enhält die Klassen :class:`~ArgumentsFactory`, :class:`~Arguments`,
+:class:`~Argument`.
 """
 
 
 from pycpp.code import Block
 
 class ArgumentsFactory(object):
-    """ Diese Klasse erstellt Methoden Argumente aus Token Positionen
+    """ Diese Klasse erstellt ein :class:`~Argumentes` Objekt aus einer
+    Liste von Token Positionen.
     """
     def __init__(self, tokens, description_lookup=None):
         self.description_lookup = description_lookup
@@ -45,7 +47,7 @@ class ArgumentsFactory(object):
 
 
 class Argument(object):
-    """ Diese Klasse ist ein Daten Container für ein einzelnes Argument
+    """ Diese Klasse ist ein Daten Container für ein einzelnes :class:`~Argument`
     einer Methode.
     """
     def __init__(self, name_token, type_token, pass_by_token):
@@ -67,7 +69,8 @@ class Argument(object):
         return True
 
     def is_pass_by_pointer(self):
-        """ Gibt True zurück wenn es sich bei dem Argument um einen Pointer handelt.
+        """ Gibt True zurück wenn es sich bei dem gespeicherten Argument 
+        um einen Pointer handelt.
         """
         if self.pass_by_token is None:
             return False
@@ -114,7 +117,7 @@ class Argument(object):
         return '/// \\param %s' % (" ".join(buf))
 
 class Arguments(object):
-    """ Diese Klasse dient als Container mehrerer Methoden Argumente
+    """ Diese Klasse dient als Container mehrerer Methoden :class:`~Argumente`
     """
 
     def __init__(self):

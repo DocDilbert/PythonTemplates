@@ -1,4 +1,5 @@
-""" Dieses Modul enthält die Klassen Block, Token und TokenNewLine
+""" Dieses Modul enthält die Klassen :class:`~Block`, :class:`~Token` 
+und :class:`~TokenNewLine`.
 """
 
 class Block(object):
@@ -27,8 +28,8 @@ class Block(object):
         self.content.append(token)
 
     def block_to_string(self, trailing, init_insert_trail=True):
-        """ Geht die hierachie eines Blockes durch und generiert
-            einen String.
+        """ Geht die Hierachie eines Blockes durch und generiert
+        einen String.
         """
         trailing = self.trail_advance + trailing
         output = ""
@@ -78,7 +79,7 @@ class Block(object):
 
 class Token(object):
     """ A simple Token structure.
-        Contains the token type, value and position.
+    Contains the token type, value and position.
     """
 
     def __init__(self, type_, val, pos):
@@ -110,8 +111,8 @@ class Token(object):
 
 
 class TokenNewLine(Token):
-    """ Equivalent zur Token Klasse. Allerdings wird der Newline
-        Charakter bei __str__ sowie __repr__ unterdrückt.
+    """ Equivalent zur :class:`~Token` Klasse. Allerdings wird der Newline
+    Charakter bei __str__ sowie __repr__ unterdrückt.
     """
     def __init__(self, pos):
         super().__init__("NL", "\n", pos)

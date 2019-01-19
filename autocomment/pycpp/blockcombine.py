@@ -1,11 +1,11 @@
-""" Dieses Modul enthält die Klasse BlockCombine.
+""" Dieses Modul enthält die Klasse :class:`~BlockCombine`.
 """
 from pycpp.code import Token
 from pycpp.code import Block
 
 class BlockCombine(object):
-    """ Die Klasse BlockBine dient dem zusammenfassen
-        des Inhaltes eines Blockes zu einem einzelnen STRING Token.
+    """ Die Klasse :class:`~BlockCombine` dient dem zusammenfassen
+    des Inhaltes eines Blockes zu einem einzelnen STRING Token.
     """
     def __init__(self, *, subs_type='STRING', begin_token_type="BEGIN", end_token_type="END"):
         self.begin_token_type = begin_token_type
@@ -14,7 +14,7 @@ class BlockCombine(object):
 
     def tree(self, tokens):
         """ Diese Method sucht in der Liste tokens nach den angegebenen Blöcken und
-            fasst deren Inhalt zu einem STRING Token zusammen
+        fasst deren Inhalt zu einem STRING Token zusammen.
         """
         output = []
         for tok in tokens:

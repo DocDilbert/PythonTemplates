@@ -8,10 +8,9 @@ from pycpp.code import Block
 
 class BlockFactory(object):
     """ Diese Klasse sucht in einer Liste von Tokens start und stop Marken.
-    
+
     Wird ein solcher Bereich  gefunden wird dieser zu einem :class:`~Block`
     zusammengefasst.
-    
     """
     def __init__(
             self, *,
@@ -27,10 +26,11 @@ class BlockFactory(object):
         self.end_del_type = end_del_type
 
     def tree(self, tokens):
-        """ Die eigentliche Methode die nach start und end Blöcken sucht
+        """ Diese Methode sucht in einer Liste von :class:`~Token` Objekten
+        nach start und end Token.
 
-            Returns:
-                Eine neue Liste die die gefundenen Blöcke enthält
+        Returns:
+            Eine neue Liste die die gefundenen Blöcke enthält
         """
         output = Block()
         actual = output

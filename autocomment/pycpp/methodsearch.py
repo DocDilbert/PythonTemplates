@@ -80,7 +80,7 @@ class MethodSearch:
            zurück.
 
         Args:
-            buf (string): String der Form "(Position)Token_"
+            buf (string): String der Form :code:`(Position)Token_`
 
         Returns:
             int: Position
