@@ -1,6 +1,16 @@
 {
 	"states" : [
 		"StateA",
-		"StateB"
-	]	
+		"StateB",
+		"StateC",
+		"StateD"
+	],
+
+	"transitions" : [
+		{"from":"StateA", "to":"StateB", "name":"TransitionFromAtoB"},
+		{"from":"StateA", "to":"StateD", "name":"TransitionFromAtoD"},
+		{"from":"StateC", "to":"StateA", "name":"TransitionFromCtoA"}
+	]
+
+
 }
