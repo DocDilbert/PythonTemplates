@@ -16,6 +16,6 @@
 
 class IStateMachine
 {
-  public:
+public:
   	virtual void setNextState(StateId state) = 0;
 };

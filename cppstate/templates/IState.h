@@ -14,13 +14,14 @@
 
 enum StateId
 {
-  //[[[cog cog.outl(",\n".join(states_ids.values())) ]]]
-  //[[[end]]]
+    UNDEFINED,
+    //[[[cog cog.outl(",\n".join(states_ids.values()))]]]
+    //[[[end]]]
 };
 
 class IState 
 {
-  public:
+public:
 
     /// This method returns the Id of the state
     virtual StateId getId() = 0;

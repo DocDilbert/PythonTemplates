@@ -33,8 +33,8 @@ public:
         //]]]
         //[[[end]]]
     {
-
     }
+
     IState* getIStateFromId(StateId stateId)
     {
         switch(stateId)
@@ -56,25 +56,24 @@ public:
 
     void update()
     {
-        if (callEntry)
+        if (lastState!=UNDEFINED)
         {
           // only call entry once 
           istate->entry(lastState);
-          callEntry = false;
+          lastState = UNDEFINED;
         }
         istate->update();
     }
 
     void setNextState(StateId state)
     {
-        lastState = istate->getId();
+        // self transitions also call entry()
+        lastState = istate->getId();  
         istate = getIStateFromId(state);
-        callEntry = true; // self transitions also call entry()
     }
 
 private:
     IState *istate;
-    bool callEntry;
     StateId lastState;
 
     //[[[cog 
