@@ -1,7 +1,7 @@
 update:
-	 python -m cogapp -d -o cppstate_generated.cpp cppstate.cpp
+	 python -m generate
 
 clean:
-	$(MAKE) -C ./docs clean
+	rm -r autogen
 
 .PHONY: test html clean ui

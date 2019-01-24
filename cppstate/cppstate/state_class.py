@@ -1,11 +1,11 @@
 import cog
+
 class StateClass:
     def __init__(self, name, transitions=None):
         self.__name = name
         self.__indent = ""
         self.__indentSpaceCount = 0
-        self.__transitions=transitions
-        cog.msg(str(transitions))
+        self.__transitions=transitions       
 
     def get_id(self):
         return "ID_"+self.__name.upper()
@@ -119,7 +119,6 @@ class StateClass:
         self.out_end()
         self.out_nl()
 
-
         # getId
         self.out_method_prototype(name="getId", returns="StateId")
         self.out_begin()
@@ -128,7 +127,6 @@ class StateClass:
         self.lower_indent()
         self.out_end()
         self.out_nl()
-
 
         # check methods
         self.out_state_checks()
@@ -142,7 +140,6 @@ class StateClass:
         self.lower_indent()
         self.out_end()
         self.out_nl()
-
 
         # update
         self.out_method_prototype(name="update")
