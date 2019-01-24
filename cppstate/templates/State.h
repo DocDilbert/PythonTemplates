@@ -30,6 +30,11 @@ public:
     {
     }
 
+    void init()
+    {
+        // Insert init code here
+    }
+
     StateId getId()
     {
         //[[[cog 

@@ -35,6 +35,15 @@ public:
     {
     }
 
+    void init()
+    {
+        //[[[cog 
+        //  for state_name in states:
+        //    cog.outl("{}.init();".format(state_name.lower()))
+        //]]]
+        //[[[end]]]
+    }
+    
     IState* getIStateFromId(StateId stateId)
     {
         switch(stateId)
