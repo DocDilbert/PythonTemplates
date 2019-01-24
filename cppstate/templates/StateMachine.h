@@ -10,26 +10,36 @@
 //  transitions = config['transitions']
 //]]]
 //[[[end]]]
+#pragma once
+
 #include "IState.h"
 #include "IStateMachine.h"
+//[[[cog 
+//  for state_name in states:
+//      cog.outl('#include "{}.h"'.format(state_name))
+//]]]
+//[[[end]]]
 
 class StateMachine : public IStateMachine
 {
 public:
     IState* getIStateFromId(StateId stateId)
     {
-        //[[[cog 
-        //  last_state = states[-1]
-        //  for state_name in states:
-        //    sid = states_ids[state_name]
-        //    cog.outl("case {}:".format(sid))
-        //    cog.outl("{")
-        //    cog.outl("    return &{};".format(state_name.lower()))
-        //    cog.outl("}")
-        //    if state_name != last_state:
-        //      cog.outl()
-        //]]]
-        //[[[end]]]
+        switch(stateId)
+        {
+            //[[[cog 
+            //  last_state = states[-1]
+            //  for state_name in states:
+            //    sid = states_ids[state_name]
+            //    cog.outl("case {}:".format(sid))
+            //    cog.outl("{")
+            //    cog.outl("    return &{};".format(state_name.lower()))
+            //    cog.outl("}")
+            //    if state_name != last_state:
+            //      cog.outl()
+            //]]]
+            //[[[end]]]
+        }
     }
 
     void update()
@@ -45,14 +55,13 @@ public:
 
     void setNextState(StateId state)
     {
-      this.istate = getIStateFromId(state);
-      this.callEntry = true; // self transitions also call entry()
+        istate = getIStateFromId(state);
+        callEntry = true; // self transitions also call entry()
     }
 
 private:
-    StateId state;
     IState *istate;
-    BOOL callEntry;
+    bool callEntry;
 
     //[[[cog 
     //  last_state = states[-1]
@@ -60,4 +69,4 @@ private:
     //    cog.outl("{} {};".format(state_name, state_name.lower()))
     //]]]
     //[[[end]]]
-}
+};

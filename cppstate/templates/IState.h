@@ -10,12 +10,13 @@
 //  transitions = config['transitions']
 //]]]
 //[[[end]]]
+#pragma once
 
 enum StateId
 {
-  //[[[cog cog.outl("\n".join(states_ids.values())) ]]]
+  //[[[cog cog.outl(",\n".join(states_ids.values())) ]]]
   //[[[end]]]
-}
+};
 
 class IState 
 {
@@ -31,4 +32,4 @@ class IState
     /// The update method is called every time when the state is 
     /// active
     virtual void update() = 0;
-}
+};

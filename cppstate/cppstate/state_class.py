@@ -7,8 +7,11 @@ class StateClass:
         self.__indentSpaceCount = 0
         self.__transitions=transitions       
 
-    def get_id(self):
-        return "ID_"+self.__name.upper()
+    def get_id(self, from_=None):
+        if from_:
+            return "ID_"+from_.upper()
+        else:
+            return "ID_"+self.__name.upper()
 
     def out_indent(self, str):
         cog.outl("{}{}".format(self.__indent, str))
@@ -30,7 +33,7 @@ class StateClass:
         if initializer_list:
             ilist=":"
 
-        self.out_indent("{}::{}() {}".format(self.__name, self.__name, ilist))
+        self.out_indent("{}(IStateMachine& stateMachine) {}".format(self.__name, ilist))
 
     def out_begin(self):
         self.out_indent("{")
@@ -55,7 +58,7 @@ class StateClass:
         ))
 
     def out_state_check(self, name):
-        self.out_method_prototype(name="check{}".format(name), returns="BOOL")
+        self.out_method_prototype(name="check{}".format(name), returns="bool")
         self.out_begin()
         self.raise_indent()
         self.out_comment("If transition must be executed return true.")
@@ -83,7 +86,7 @@ class StateClass:
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
-        self.out_code("setNextState({})".format(to_state))
+        self.out_code("setNextState({})".format(self.get_id(to_state)))
         self.out_code("return")
         self.lower_indent()
         self.out_end()
@@ -112,7 +115,8 @@ class StateClass:
         self.raise_indent()
         
         # Constructor
-        self.out_constructor_prototype(False)
+        self.out_constructor_prototype(True)
+        self.out_indent("stateMachine(stateMachine)")
         self.out_begin()
         self.raise_indent()
         self.lower_indent()
@@ -169,4 +173,4 @@ class StateClass:
 
         self.out_member(type="IStateMachine&", name="stateMachine" )
         self.lower_indent()
-        self.out_end()
+        self.out_code("}")

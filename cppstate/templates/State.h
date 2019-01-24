@@ -9,6 +9,8 @@
 //  transitions = config['transitions']
 //]]]
 //[[[end]]]
+#pragma once
+
 #include "IState.h"
 #include "IStateMachine.h"
 
@@ -16,7 +18,6 @@
 //  state_transitions = [transition for transition in transitions if transition['from']==state_name]
 //  state_obj = cppstate.state_class.StateClass(state_name, state_transitions)
 //  state_obj.out()
-//  cog.out(state_name)
 //]]]
 //[[[end]]]
 
