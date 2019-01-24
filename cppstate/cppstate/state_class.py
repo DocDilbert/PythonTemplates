@@ -19,22 +19,6 @@ class StateClass:
     def out_nl(self):
         self.out_indent("")
 
-    def out_private(self):
-        self.out_indent("private:")
-
-    def out_public(self):
-        self.out_indent("public:")
-
-    def out_class(self):
-        self.out_indent("class {} : public IState".format(self.__name))
-
-    def out_constructor_prototype(self, initializer_list = True):
-        ilist = ""
-        if initializer_list:
-            ilist=":"
-
-        self.out_indent("{}(IStateMachine& stateMachine) {}".format(self.__name, ilist))
-
     def out_begin(self):
         self.out_indent("{")
 
@@ -57,22 +41,7 @@ class StateClass:
             arguments
         ))
 
-    def out_state_check(self, name):
-        self.out_method_prototype(name="check{}".format(name), returns="bool")
-        self.out_begin()
-        self.raise_indent()
-        self.out_comment("If transition must be executed return true.")
-        self.out_code("return false")
-        self.lower_indent()
-        self.out_end()
-
-    def out_state_checks(self):
-        if not self.__transitions:
-            return
-
-        for transition in self.__transitions:
-            self.out_state_check(transition['name'])
-            self.out_nl()
+    
 
     def raise_indent(self):
         self.__indentSpaceCount=self.__indentSpaceCount+4
@@ -82,7 +51,8 @@ class StateClass:
         self.__indentSpaceCount=self.__indentSpaceCount-4
         self.__indent=" "*self.__indentSpaceCount   
 
-    def generate_transition_check(self, name, to_state):
+
+    def out_transition_check(self, name, to_state):
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
@@ -99,7 +69,7 @@ class StateClass:
         if self.__transitions:
             last = self.__transitions[-1]
             for transition in self.__transitions:
-                self.generate_transition_check(transition['name'], transition['to'])
+                self.out_transition_check(transition['name'], transition['to'])
 
                 if transition!=last:
                     self.out_nl()
@@ -108,69 +78,19 @@ class StateClass:
         self.lower_indent()
         self.out_end()
 
-    def out(self):
-        self.out_class()
-        self.out_begin()
-        self.out_public()
-        self.raise_indent()
-        
-        # Constructor
-        self.out_constructor_prototype(True)
-        self.out_indent("stateMachine(stateMachine)")
+    def out_state_check(self, name):
+        self.out_method_prototype(name="check{}".format(name), returns="bool")
         self.out_begin()
         self.raise_indent()
-        self.lower_indent()
-        self.out_end()
-        self.out_nl()
-
-        # getId
-        self.out_method_prototype(name="getId", returns="StateId")
-        self.out_begin()
-        self.raise_indent()
-        self.out_code("return "+self.get_id())
-        self.lower_indent()
-        self.out_end()
-        self.out_nl()
-
-        # check methods
-        self.out_state_checks()
-        self.generate_processTransitions()
-        self.out_nl()
-
-         # entry
-        self.out_method_prototype(name="entry")
-        self.out_begin()
-        self.raise_indent()
-        self.lower_indent()
-        self.out_end()
-        self.out_nl()
-
-        # update
-        self.out_method_prototype(name="update")
-        self.out_begin()
-        self.raise_indent()
-        self.out_code("processTransitions()")
-        self.out_nl()
-        self.out_comment("Insert state code here")
+        self.out_comment("If transition must be executed return true.")
+        self.out_code("return false")
         self.lower_indent()
         self.out_end()
 
-        self.out_nl()
+    def generate_state_checks(self):
+        if not self.__transitions:
+            return
 
-        self.lower_indent()
-        self.out_private()
-        self.raise_indent()
-
-        # setNextState
-        self.out_method_prototype(name="setNextState", arguments="StateId state")
-        self.out_begin()
-        self.raise_indent()
-        self.out_code("stateMachine.setNextState(state)")
-        self.lower_indent()
-        self.out_end()
-
-        self.out_nl()
-
-        self.out_member(type="IStateMachine&", name="stateMachine" )
-        self.lower_indent()
-        self.out_code("}")
+        for transition in self.__transitions:
+            self.out_state_check(transition['name'])
+            self.out_nl()

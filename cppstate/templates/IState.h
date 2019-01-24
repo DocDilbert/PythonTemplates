@@ -27,7 +27,7 @@ class IState
 
     /// The entry method is called by statemachine the first time this
     /// state is executed
-    virtual void entry() = 0;
+    virtual void entry(StateId lastState) = 0;
 
     /// The update method is called every time when the state is 
     /// active

@@ -13,5 +13,5 @@
 
 int main()
 {
-
+    StateMachine stateMachine;
 }

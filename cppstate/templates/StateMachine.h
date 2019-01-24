@@ -23,6 +23,18 @@
 class StateMachine : public IStateMachine
 {
 public:
+    StateMachine() :
+        //[[[cog 
+        //  last_state = states[-1]
+        //  for state_name in states:
+        //    cog.out("{}(*this)".format(state_name.lower()))
+        //    if state_name != last_state:
+        //      cog.outl(",")
+        //]]]
+        //[[[end]]]
+    {
+
+    }
     IState* getIStateFromId(StateId stateId)
     {
         switch(stateId)
@@ -47,7 +59,7 @@ public:
         if (callEntry)
         {
           // only call entry once 
-          istate->entry();
+          istate->entry(lastState);
           callEntry = false;
         }
         istate->update();
@@ -55,6 +67,7 @@ public:
 
     void setNextState(StateId state)
     {
+        lastState = istate->getId();
         istate = getIStateFromId(state);
         callEntry = true; // self transitions also call entry()
     }
@@ -62,6 +75,7 @@ public:
 private:
     IState *istate;
     bool callEntry;
+    StateId lastState;
 
     //[[[cog 
     //  last_state = states[-1]
