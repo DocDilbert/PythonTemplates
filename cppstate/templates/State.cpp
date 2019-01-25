@@ -84,9 +84,25 @@
 }
 
 //[[[cog 
+//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n}}\n".format(state_name, sname) for sname in states]
+//   cog.out("\n".join(exitTos))
+//]]]
+//[[[end]]]
+
+//[[[cog 
 //  cog.outl('void {}::setNextState(StateId state)'.format(state_name))
 //]]]
 //[[[end]]]
 {
+    switch(state)
+    {
+        //[[[cog 
+        //   cases = []
+        //   cases += ["case ID_{}:\n{{\n    exitCallBackTo{}();\n    break;\n}}".format(case.upper(), case) for case in states]
+        //   cases += ["default:\n{\n    break;\n}"]
+        //   cog.outl("\n".join(cases))
+        //]]]
+        //[[[end]]]
+    }
     stateMachine.setNextState(state);
 }

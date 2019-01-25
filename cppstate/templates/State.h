@@ -49,6 +49,12 @@ public:
     void update();
 
 private:
+    //[[[cog 
+    //   exitTos = ["// callback when exiting to {}\n void exitCallBackTo{}();\n".format(sname, sname) for sname in states]
+    //   cog.out("\n".join(exitTos))
+    //]]]
+    //[[[end]]]
+
     ///
     void setNextState(StateId state);
 
