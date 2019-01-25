@@ -31,18 +31,6 @@ class StateClass:
     def out_comment(self, comment):
         self.out_indent("// {}".format(comment))
 
-    def out_member(self, *, name, type):
-        self.out_indent("{} {};".format(type, name))
-
-    def out_method_prototype(self,*, name, arguments="", returns="void"):
-        self.out_indent("{} {}({})".format(
-            returns,
-            name, 
-            arguments
-        ))
-
-    
-
     def raise_indent(self):
         self.__indentSpaceCount=self.__indentSpaceCount+4
         self.__indent=" "*self.__indentSpaceCount
@@ -62,7 +50,9 @@ class StateClass:
         self.out_end()
 
     def generate_processTransitions(self):
-        self.out_method_prototype(name="processTransitions")
+        self.out_indent("void {}::processTransitions()".format(
+            self.__name
+        ))
         self.out_begin()
         self.raise_indent()
 
@@ -79,7 +69,10 @@ class StateClass:
         self.out_end()
 
     def out_state_check(self, name):
-        self.out_method_prototype(name="check{}".format(name), returns="bool")
+        self.out_indent("bool {}::{}()".format(
+            self.__name, 
+            "check{}".format(name)
+        ))
         self.out_begin()
         self.raise_indent()
         self.out_comment("If transition must be executed return true.")
@@ -87,10 +80,24 @@ class StateClass:
         self.lower_indent()
         self.out_end()
 
+    def out_state_check_prototype(self, name):
+        self.out_indent("///")
+        self.out_indent("bool {}();".format(
+            "check{}".format(name)
+        ))
+        
     def generate_state_checks(self):
         if not self.__transitions:
             return
 
         for transition in self.__transitions:
             self.out_state_check(transition['name'])
+            self.out_nl()
+    
+    def generate_state_check_prototypes(self):
+        if not self.__transitions:
+            return
+
+        for transition in self.__transitions:
+            self.out_state_check_prototype(transition['name'])
             self.out_nl()

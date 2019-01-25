@@ -2,7 +2,7 @@ update:
 	 python -m generate
 
 compile:
-	 gcc -o autogen/main.exe autogen/main.cpp
+	 $(MAKE) -C ./autogen all
 
 clean:
 	rm -r autogen

@@ -22,48 +22,34 @@
 //[[[end]]] 
 {
 public:
+    /// Constructor
     //[[[cog 
-    //  # Constructor
-    //  cog.out("{}(IStateMachine& stateMachine) : stateMachine(stateMachine)".format(state_name))
-    //]]]
-    //[[[end]]]
-    {
-    }
-
-    void init()
-    {
-        // Insert init code here
-    }
-
-    StateId getId()
-    {
-        //[[[cog 
-        //  cog.out("return ID_{};".format(state_name.upper()))
-        //]]]
-        //[[[end]]]
-    }
-
-    //[[[cog 
-    //  state_obj.generate_state_checks()
-    //  state_obj.generate_processTransitions()
+    //  cog.out("{}(IStateMachine& stateMachine);".format(state_name));
     //]]]
     //[[[end]]]
 
-    void entry(StateId lastState)
-    {
-    }
+    ///
+    void init();
 
-    void update()
-    {
-        processTransitions();
-        // Insert state code here
-    }
+    ///
+    StateId getId();
+
+    //[[[cog 
+    //  state_obj.generate_state_check_prototypes()
+    //]]]
+    //[[[end]]]
+    ///
+    void processTransitions();
+
+    ///
+    void entry(StateId lastState);
+    
+    ///
+    void update();
 
 private:
-    void setNextState(StateId state)
-    {
-        stateMachine.setNextState(state);
-    }
+    ///
+    void setNextState(StateId state);
 
     IStateMachine& stateMachine;
 };

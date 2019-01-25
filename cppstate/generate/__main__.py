@@ -38,6 +38,11 @@ for state_name in states:
         outfile= "autogen/{}.h".format(state_name),
         defines={"state_name": state_name}
     )
+    call_cog(
+        infile="templates/State.cpp",
+        outfile= "autogen/{}.cpp".format(state_name),
+        defines={"state_name": state_name}
+    )
 
 call_cog(
     infile="templates/IState.h",
@@ -52,6 +57,14 @@ call_cog(
     outfile= "autogen/StateMachine.h"
 )
 call_cog(
+    infile="templates/StateMachine.cpp",
+    outfile= "autogen/StateMachine.cpp"
+)
+call_cog(
     infile="templates/main.cpp",
     outfile= "autogen/main.cpp"
+)
+call_cog(
+    infile="templates/Makefile",
+    outfile= "autogen/Makefile"
 )

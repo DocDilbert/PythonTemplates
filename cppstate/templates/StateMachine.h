@@ -23,63 +23,20 @@
 class StateMachine : public IStateMachine
 {
 public:
-    StateMachine() :
-        //[[[cog 
-        //  last_state = states[-1]
-        //  for state_name in states:
-        //    cog.out("{}(*this)".format(state_name.lower()))
-        //    if state_name != last_state:
-        //      cog.outl(",")
-        //]]]
-        //[[[end]]]
-    {
-    }
+    ///
+    StateMachine();
 
-    void init()
-    {
-        //[[[cog 
-        //  for state_name in states:
-        //    cog.outl("{}.init();".format(state_name.lower()))
-        //]]]
-        //[[[end]]]
-    }
-    
-    IState* getIStateFromId(StateId stateId)
-    {
-        switch(stateId)
-        {
-            //[[[cog 
-            //  last_state = states[-1]
-            //  for state_name in states:
-            //    sid = states_ids[state_name]
-            //    cog.outl("case {}:".format(sid))
-            //    cog.outl("{")
-            //    cog.outl("    return &{};".format(state_name.lower()))
-            //    cog.outl("}")
-            //    if state_name != last_state:
-            //      cog.outl()
-            //]]]
-            //[[[end]]]
-        }
-    }
+    ///
+    void init();
 
-    void update()
-    {
-        if (lastState!=UNDEFINED)
-        {
-          // only call entry once 
-          istate->entry(lastState);
-          lastState = UNDEFINED;
-        }
-        istate->update();
-    }
+    ///
+    IState* getIStateFromId(StateId stateId);
 
-    void setNextState(StateId state)
-    {
-        // self transitions also call entry()
-        lastState = istate->getId();  
-        istate = getIStateFromId(state);
-    }
+    ///
+    void update();
+
+    ///
+    void setNextState(StateId state);
 
 private:
     IState *istate;

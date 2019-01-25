@@ -9,9 +9,11 @@
 //  transitions = config['transitions']
 //]]]
 //[[[end]]]
+#include <stdio.h>
 #include "StateMachine.h"
 
 int main()
 {
     StateMachine stateMachine;
+    printf("HALLO WELT");
 }
