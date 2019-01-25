@@ -16,7 +16,13 @@ OUT_O_DIR = objs
 
 all: main.exe
 
-main.exe: $(OUT_O_DIR)/main.o $(OUT_O_DIR)/StateMachine.o States
+#[[[cog 
+#  objects = []
+#  objects += ["$(OUT_O_DIR)/main.o", "$(OUT_O_DIR)/StateMachine.o"]
+#  objects += ['$(OUT_O_DIR)/{}.o'.format(name) for name in states]
+#  cog.out('main.exe: {}'.format(' '.join(objects)))
+#]]]
+#[[[end]]]
 	#[[[cog 
 	#  states_o = ['$(OUT_O_DIR)/{}.o'.format(name) for name in states]
 	#  states_o += ['$(OUT_O_DIR)/main.o', '$(OUT_O_DIR)/StateMachine.o']
@@ -33,21 +39,15 @@ $(OUT_O_DIR)/StateMachine.o: StateMachine.cpp
 	g++ -c $< -o $@
 
 #[[[cog 
-#  states_cpp = ['$(OUT_O_DIR)/{}.o'.format(name) for name in states]
-#  cog.out('States: {}'.format(' '.join(states_cpp)))
-#]]]
-#[[[end]]]
-
-#[[[cog 
 #  for state_name in states:
 #      cog.outl('$(OUT_O_DIR)/{}.o: {}.cpp'.format(state_name, state_name))
+#      cog.outl('\t$(dir_guard)')
 #      cog.outl('\tg++ -c $< -o $@')
 #      cog.outl()
 #]]]
 #[[[end]]]
-
 clean:
 	rm -rf $(OUT_O_DIR)
 	rm -f main.exe
-	
+
 .PHONY: all

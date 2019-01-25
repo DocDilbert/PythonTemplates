@@ -42,6 +42,7 @@ public:
 private:
     IState *istate;
     StateId lastState;
+    bool callEntry;
 
     //[[[cog 
     //  last_state = states[-1]

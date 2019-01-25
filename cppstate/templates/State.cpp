@@ -11,6 +11,7 @@
 //  state_obj = cppstate.state_class.StateClass(state_name, state_transitions)
 //]]]
 //[[[end]]]
+#include <stdio.h>
 //[[[cog 
 //  cog.outl('#include "{}.h"'.format(state_name))
 //]]]
@@ -60,6 +61,11 @@
 //]]]
 //[[[end]]]
 {
+    // TODO: Debug code
+    //[[[cog 
+    //  cog.outl('printf("entry: {}\\n");'.format(state_name))
+    //]]]
+    //[[[end]]]
 }
 
 //[[[cog 
@@ -69,6 +75,12 @@
 {
     processTransitions();
     // Insert state code here
+
+    // TODO: Debug code
+    //[[[cog 
+    //  cog.outl('printf("update: {}\\n");'.format(state_name))
+    //]]]
+    //[[[end]]]
 }
 
 //[[[cog 

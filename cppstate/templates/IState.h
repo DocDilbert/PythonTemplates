@@ -14,7 +14,6 @@
 
 enum StateId
 {
-    UNDEFINED,
     //[[[cog cog.outl(",\n".join(states_ids.values()))]]]
     //[[[end]]]
 };

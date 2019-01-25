@@ -14,11 +14,12 @@
 
 StateMachine::StateMachine() :
     //[[[cog 
-    //  last_state = states[-1]
-    //  for state_name in states:
-    //    cog.out("{}(*this)".format(state_name.lower()))
-    //    if state_name != last_state:
-    //      cog.outl(",")
+    //  initializers = []
+    //  initializers += ["istate(&{})".format(states[0].lower())]
+    //  initializers += ["lastState(ID_{})".format(states[0].upper())]
+    //  initializers += ["callEntry(true)"]
+    //  initializers += ["{}(*this)".format(state_name.lower()) for state_name in states]
+    //  cog.outl(",\n".join(initializers))
     //]]]
     //[[[end]]]
 {
@@ -54,11 +55,11 @@ IState* StateMachine::getIStateFromId(StateId stateId)
     
 void StateMachine::update()
 {
-    if (lastState!=UNDEFINED)
+    if (callEntry)
     {
         // only call entry once 
         istate->entry(lastState);
-        lastState = UNDEFINED;
+        callEntry = false;
     }
     istate->update();
 }
@@ -66,6 +67,8 @@ void StateMachine::update()
 void StateMachine::setNextState(StateId state)
 {
     // self transitions also call entry()
+    callEntry = true;
+
     lastState = istate->getId();  
     istate = getIStateFromId(state);
 }
