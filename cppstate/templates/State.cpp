@@ -73,7 +73,6 @@
 //]]]
 //[[[end]]]
 {
-    processTransitions();
     // Insert state code here
 
     // TODO: Debug code
@@ -81,10 +80,12 @@
     //  cog.outl('printf("update: {}\\n");'.format(state_name))
     //]]]
     //[[[end]]]
+
+    processTransitions();
 }
 
 //[[[cog 
-//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n}}\n".format(state_name, sname) for sname in states]
+//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n    printf(\"exitCallBackTo{}()\\n\");\n}}\n".format(state_name, sname, sname) for sname in states]
 //   cog.out("\n".join(exitTos))
 //]]]
 //[[[end]]]
