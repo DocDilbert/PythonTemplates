@@ -15,7 +15,8 @@
 
 #include "IState.h"
 #include "IStateMachine.h"
- 
+#include "StateData.h"
+
 //[[[cog 
 //  cog.out("class {} : public IState".format(state_name))
 //]]]
@@ -29,7 +30,7 @@ public:
     //[[[end]]]
 
     ///
-    void init();
+    void init(StateData& stateData);
 
     ///
     StateId getId();
@@ -51,6 +52,7 @@ private:
     ///
     void setNextState(StateId state);
 
+    StateData* stateData;
     IStateMachine& stateMachine;
 };
 

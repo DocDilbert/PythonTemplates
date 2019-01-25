@@ -24,11 +24,11 @@ StateMachine::StateMachine() :
 {
 }
 
-void StateMachine::init()
+void StateMachine::init(StateData& stateData)
 {
     //[[[cog 
     //  for state_name in states:
-    //    cog.outl("{}.init();".format(state_name.lower()))
+    //    cog.outl("{}.init(stateData);".format(state_name.lower()))
     //]]]
     //[[[end]]]
 }

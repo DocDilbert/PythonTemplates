@@ -15,5 +15,9 @@
 int main()
 {
     StateMachine stateMachine;
+    StateData stateData;
+
+    stateMachine.init(stateData);
+    
     printf("HALLO WELT");
 }

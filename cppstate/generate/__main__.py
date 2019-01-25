@@ -65,6 +65,10 @@ call_cog(
     outfile= "autogen/main.cpp"
 )
 call_cog(
+    infile="templates/StateData.h",
+    outfile= "autogen/StateData.h"
+)
+call_cog(
     infile="templates/Makefile",
     outfile= "autogen/Makefile"
 )

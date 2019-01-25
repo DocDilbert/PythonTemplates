@@ -26,10 +26,12 @@
 }
 
 //[[[cog 
-//  cog.outl('void {}::init()'.format(state_name))
+//  cog.outl('void {}::init(StateData& stateData)'.format(state_name))
 //]]]
 //[[[end]]]
 {
+    this->stateData = &stateData;
+
     // Insert init code here
 }
 

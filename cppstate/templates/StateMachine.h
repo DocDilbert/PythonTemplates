@@ -14,6 +14,7 @@
 
 #include "IState.h"
 #include "IStateMachine.h"
+#include "StateData.h"
 //[[[cog 
 //  for state_name in states:
 //      cog.outl('#include "{}.h"'.format(state_name))
@@ -27,7 +28,7 @@ public:
     StateMachine();
 
     ///
-    void init();
+    void init(StateData& stateData);
 
     ///
     IState* getIStateFromId(StateId stateId);
