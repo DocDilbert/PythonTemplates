@@ -1,14 +1,12 @@
 //[[[cog 
 //  import cog
-//  import json
-//  import cppstate.state_class
-//  with open('config.json') as f:
-//    config = json.load(f)
-//  states = config['states']
-//  states_ids = {state: 'ID_'+state.upper() for state in states}
-//  transitions = config['transitions']
+//  import cppstate.helper
+//  
+//  # load configuration
+//  states, states_ids, transitions = cppstate.helper.load_config()
+//
 //  state_transitions = [transition for transition in transitions if transition['from']==state_name]
-//  state_obj = cppstate.state_class.StateClass(state_name, state_transitions)
+//  state_obj = cppstate.helper.Helper(state_name, state_transitions)
 //]]]
 //[[[end]]]
 #pragma once
