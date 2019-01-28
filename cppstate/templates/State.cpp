@@ -97,7 +97,7 @@
     {
         //[[[cog 
         //   cases = []
-        //   cases += ["case ID_{}:\n{{\n    exitCallBackTo{}();\n    break;\n}}".format(case.upper(), case) for case in states]
+        //   cases += ["case ID_{}:\n{{\n    exitCallBackTo{}();\n    break;\n}}".format(state.upper(), state) for state in states]
         //   cases += ["default:\n{\n    break;\n}"]
         //   cog.outl("\n".join(cases))
         //]]]

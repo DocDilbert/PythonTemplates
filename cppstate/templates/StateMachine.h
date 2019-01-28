@@ -13,38 +13,47 @@
 #include "IStateMachine.h"
 #include "StateData.h"
 //[[[cog 
-//  for state_name in states:
-//      cog.outl('#include "{}.h"'.format(state_name))
+//  for state in states:
+//      cog.outl('#include "{}.h"'.format(state))
 //]]]
 //[[[end]]]
 
+/// A generic state machine implementation
 class StateMachine : public IStateMachine
 {
 public:
-    ///
+    /// Constructor
     StateMachine();
 
-    ///
+    /// This method initializes the state machine
+    /// \param stateData data structure used by all states
     void init(StateData& stateData);
 
-    ///
-    IState* getIStateFromId(StateId stateId);
-
-    ///
+    /// Cyclic update method of the state machine
     void update();
 
-    ///
+private:
+    /// Returns a pointer to an object which implements the IState interface. 
+    /// \param stateId id of the requested state 
+    /// \returns a pointer to an object which implements the IState interface. 
+    IState* getIStateFromId(StateId stateId);
+
+    /// \copydoc IStateMachine::update
     void setNextState(StateId state);
 
-private:
+    /// Active state
     IState *istate;
-    StateId lastState;
-    bool callEntry;
 
+    /// Id of the last active state
+    StateId lastState;
+
+    /// true when the entry method has to be called
+    bool callEntry;
     //[[[cog 
     //  last_state = states[-1]
-    //  for state_name in states:
-    //    cog.outl("{} {};".format(state_name, state_name.lower()))
+    //  for state in states:
+    //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
+    //    cog.outl("{} {};".format(state, state.lower()))
     //]]]
     //[[[end]]]
 };

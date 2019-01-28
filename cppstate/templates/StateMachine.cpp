@@ -15,7 +15,7 @@ StateMachine::StateMachine() :
     //  initializers += ["istate(&{})".format(states[0].lower())]
     //  initializers += ["lastState(ID_{})".format(states[0].upper())]
     //  initializers += ["callEntry(true)"]
-    //  initializers += ["{}(*this)".format(state_name.lower()) for state_name in states]
+    //  initializers += ["{}(*this)".format(state.lower()) for state in states]
     //  cog.outl(",\n".join(initializers))
     //]]]
     //[[[end]]]
@@ -25,29 +25,10 @@ StateMachine::StateMachine() :
 void StateMachine::init(StateData& stateData)
 {
     //[[[cog 
-    //  for state_name in states:
-    //    cog.outl("{}.init(stateData);".format(state_name.lower()))
+    //  for state in states:
+    //    cog.outl("{}.init(stateData);".format(state.lower()))
     //]]]
     //[[[end]]]
-}
-
-IState* StateMachine::getIStateFromId(StateId stateId)
-{
-    switch(stateId)
-    {
-        //[[[cog 
-        //  last_state = states[-1]
-        //  for state_name in states:
-        //    sid = id_of_state[state_name]
-        //    cog.outl("case {}:".format(sid))
-        //    cog.outl("{")
-        //    cog.outl("    return &{};".format(state_name.lower()))
-        //    cog.outl("}")
-        //    if state_name != last_state:
-        //      cog.outl()
-        //]]]
-        //[[[end]]]
-    }
 }
     
 void StateMachine::update()
@@ -61,6 +42,25 @@ void StateMachine::update()
     istate->update();
 }
 
+IState* StateMachine::getIStateFromId(StateId stateId)
+{
+    switch(stateId)
+    {
+        //[[[cog 
+        //  last_state = states[-1]
+        //  for state in states:
+        //    sid = id_of_state[state]
+        //    cog.outl("case {}:".format(sid))
+        //    cog.outl("{")
+        //    cog.outl("    return &{};".format(state.lower()))
+        //    cog.outl("}")
+        //    if state != last_state:
+        //      cog.outl()
+        //]]]
+        //[[[end]]]
+    }
+}
+
 void StateMachine::setNextState(StateId state)
 {
     // self transitions also call entry()
@@ -69,3 +69,4 @@ void StateMachine::setNextState(StateId state)
     lastState = istate->getId();  
     istate = getIStateFromId(state);
 }
+
