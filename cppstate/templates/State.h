@@ -1,7 +1,7 @@
 //[[[cog 
 //  import cog
 //  import json
-//  import cppstate
+//  import cppstate.state_class
 //  with open('config.json') as f:
 //    config = json.load(f)
 //  states = config['states']
