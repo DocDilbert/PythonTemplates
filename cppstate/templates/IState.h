@@ -9,12 +9,14 @@
 //[[[end]]]
 #pragma once
 
+/// Enumerates all possible states
 enum StateId
 {
     //[[[cog cog.outl(",\n".join(id_of_state.values()))]]]
     //[[[end]]]
 };
 
+/// Abstract interface to a state
 class IState 
 {
 public:
@@ -26,10 +28,11 @@ public:
     /// state is executed
     virtual void entry(StateId lastState) = 0;
 
-    /// The exit method is called by the statemachine the before the state is left.
-    virtual void exit(StateId lastState) = 0;
-
     /// The update method is called every time when the state is 
     /// active
     virtual void update() = 0;
+
+    /// The exit method is called by the statemachine the before the state is left.
+    virtual void exit(StateId lastState) = 0;
+
 };

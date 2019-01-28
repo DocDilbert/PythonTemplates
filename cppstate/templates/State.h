@@ -50,10 +50,14 @@ private:
     //  state_obj.generate_state_check_prototypes()
     //]]]
     //[[[end]]]
-    /// 
+    /// This method processes all possible state transition checks from this state to other states
     void processTransitions();
 
-    StateData* stateData;
+    /// A pointer to the StateData structure. This structure is a container for all
+    /// references needed by each state.
+    StateData* stateData; 
+
+    /// A reference to the statemachine. Used to set the next state
     IStateMachine& stateMachine;
 };
 
