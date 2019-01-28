@@ -46,15 +46,6 @@
 }
 
 //[[[cog 
-//  state_obj.generate_state_checks()
-//]]]
-//[[[end]]]
-//[[[cog 
-//  state_obj.generate_processTransitions()
-//]]]
-//[[[end]]]
-
-//[[[cog 
 //  cog.outl('void {}::entry(StateId lastState)'.format(active_state))
 //]]]
 //[[[end]]]
@@ -93,4 +84,13 @@
     //]]]
     //[[[end]]]
 }
+
+//[[[cog 
+//  state_obj.generate_state_checks()
+//]]]
+//[[[end]]]
+//[[[cog 
+//  state_obj.generate_processTransitions()
+//]]]
+//[[[end]]]
 

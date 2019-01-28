@@ -15,6 +15,7 @@
 #include "IStateMachine.h"
 #include "StateData.h"
 
+/// Definition of a state class
 //[[[cog 
 //  cog.out("class {} : public IState".format(active_state))
 //]]]
@@ -27,29 +28,30 @@ public:
     //]]]
     //[[[end]]]
 
-    ///
+    /// Constructor
     void init(StateData& stateData);
 
-    ///
+    /// Returns the id of this state
     StateId getId();
 
+    /// This method is called at the entry point of the state
+    /// \param lastState The id of the state from which the transition occured
+    void entry(StateId lastState);
+    
+    /// This method is called when the state is active
+    void update();
+
+    /// This method is called at the exit point of the state
+    /// \param nextState The id of the state to which the transition will lead
+    void exit(StateId nextState);
+
+private:
     //[[[cog 
     //  state_obj.generate_state_check_prototypes()
     //]]]
     //[[[end]]]
-    ///
+    /// 
     void processTransitions();
-
-    ///
-    void entry(StateId lastState);
-    
-    ///
-    void update();
-
-     ///
-    void exit(StateId nextState);
-
-private:
 
     StateData* stateData;
     IStateMachine& stateMachine;
