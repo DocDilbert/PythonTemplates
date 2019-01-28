@@ -11,7 +11,6 @@
 dir_guard = @mkdir -p $(@D)
 OUT_O_DIR = objs
 
-
 all: main.exe
 
 #[[[cog 
