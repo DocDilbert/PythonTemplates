@@ -17,12 +17,12 @@ all: main.exe
 #[[[cog 
 #  objects = []
 #  objects += ["$(OUT_O_DIR)/main.o", "$(OUT_O_DIR)/StateMachine.o"]
-#  objects += ['$(OUT_O_DIR)/{}.o'.format(name) for name in states]
+#  objects += ['$(OUT_O_DIR)/{}.o'.format(state) for state in states]
 #  cog.out('main.exe: {}'.format(' '.join(objects)))
 #]]]
 #[[[end]]]
 	#[[[cog 
-	#  states_o = ['$(OUT_O_DIR)/{}.o'.format(name) for name in states]
+	#  states_o = ['$(OUT_O_DIR)/{}.o'.format(state) for state in states]
 	#  states_o += ['$(OUT_O_DIR)/main.o', '$(OUT_O_DIR)/StateMachine.o']
 	#  cog.outl('g++ -o main.exe {}'.format(' '.join(states_o)))
 	#]]]
@@ -37,8 +37,8 @@ $(OUT_O_DIR)/StateMachine.o: StateMachine.cpp
 	g++ -c $< -o $@
 
 #[[[cog 
-#  for state_name in states:
-#      cog.outl('$(OUT_O_DIR)/{}.o: {}.cpp'.format(state_name, state_name))
+#  for state in states:
+#      cog.outl('$(OUT_O_DIR)/{}.o: {}.cpp'.format(state, state))
 #      cog.outl('\t$(dir_guard)')
 #      cog.outl('\tg++ -c $< -o $@')
 #      cog.outl()

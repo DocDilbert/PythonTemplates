@@ -5,27 +5,27 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  state_transitions = [transition for transition in transitions if transition['from']==state_name]
-//  state_obj = cppstate.helper.Helper(state_name, state_transitions)
+//  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
+//  state_obj = cppstate.helper.Helper(active_state, active_state_transitions)
 //]]]
 //[[[end]]]
 #include <stdio.h>
 //[[[cog 
-//  cog.outl('#include "{}.h"'.format(state_name))
+//  cog.outl('#include "{}.h"'.format(active_state))
 //]]]
 //[[[end]]]
 
 
 //[[[cog 
 //  # Constructor
-//  cog.out("{}::{}(IStateMachine& stateMachine) : stateMachine(stateMachine)".format(state_name, state_name))
+//  cog.out("{}::{}(IStateMachine& stateMachine) : stateMachine(stateMachine)".format(active_state, active_state))
 //]]]
 //[[[end]]]
 {
 }
 
 //[[[cog 
-//  cog.outl('void {}::init(StateData& stateData)'.format(state_name))
+//  cog.outl('void {}::init(StateData& stateData)'.format(active_state))
 //]]]
 //[[[end]]]
 {
@@ -35,12 +35,12 @@
 }
 
 //[[[cog 
-//  cog.outl('StateId {}::getId()'.format(state_name))
+//  cog.outl('StateId {}::getId()'.format(active_state))
 //]]]
 //[[[end]]]
 {
     //[[[cog 
-    //  cog.out("return ID_{};".format(state_name.upper()))
+    //  cog.out("return ID_{};".format(active_state.upper()))
     //]]]
     //[[[end]]]
 }
@@ -55,19 +55,19 @@
 //[[[end]]]
 
 //[[[cog 
-//  cog.outl('void {}::entry(StateId lastState)'.format(state_name))
+//  cog.outl('void {}::entry(StateId lastState)'.format(active_state))
 //]]]
 //[[[end]]]
 {
     // TODO: Debug code
     //[[[cog 
-    //  cog.outl('printf("entry: {}\\n");'.format(state_name))
+    //  cog.outl('printf("entry: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 }
 
 //[[[cog 
-//  cog.outl('void {}::update()'.format(state_name))
+//  cog.outl('void {}::update()'.format(active_state))
 //]]]
 //[[[end]]]
 {
@@ -75,7 +75,7 @@
 
     // TODO: Debug code
     //[[[cog 
-    //  cog.outl('printf("update: {}\\n");'.format(state_name))
+    //  cog.outl('printf("update: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 
@@ -83,13 +83,13 @@
 }
 
 //[[[cog 
-//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n    printf(\"exitCallBackTo{}()\\n\");\n}}\n".format(state_name, sname, sname) for sname in states]
+//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n    printf(\"exitCallBackTo{}()\\n\");\n}}\n".format(active_state, sname, sname) for sname in states]
 //   cog.out("\n".join(exitTos))
 //]]]
 //[[[end]]]
 
 //[[[cog 
-//  cog.outl('void {}::setNextState(StateId state)'.format(state_name))
+//  cog.outl('void {}::setNextState(StateId state)'.format(active_state))
 //]]]
 //[[[end]]]
 {

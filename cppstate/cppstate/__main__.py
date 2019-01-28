@@ -30,16 +30,16 @@ states = config['states']
 state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
 
-for state_name in states:
+for active_state in states:
     call_cog(
         infile="templates/State.h",
-        outfile= "autogen/{}.h".format(state_name),
-        defines={"state_name": state_name}
+        outfile= "autogen/{}.h".format(active_state),
+        defines={"active_state": active_state}
     )
     call_cog(
         infile="templates/State.cpp",
-        outfile= "autogen/{}.cpp".format(state_name),
-        defines={"state_name": state_name}
+        outfile= "autogen/{}.cpp".format(active_state),
+        defines={"active_state": active_state}
     )
 
 call_cog(
