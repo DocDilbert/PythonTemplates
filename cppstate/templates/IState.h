@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, states_ids, transitions = cppstate.helper.load_config()
+//  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //]]]
 //[[[end]]]
@@ -11,7 +11,7 @@
 
 enum StateId
 {
-    //[[[cog cog.outl(",\n".join(states_ids.values()))]]]
+    //[[[cog cog.outl(",\n".join(id_of_state.values()))]]]
     //[[[end]]]
 };
 

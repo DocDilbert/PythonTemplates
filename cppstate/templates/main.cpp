@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, states_ids, transitions = cppstate.helper.load_config()
+//  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //]]]
 //[[[end]]]

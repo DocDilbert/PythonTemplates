@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, states_ids, transitions = cppstate.helper.load_config()
+//  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //]]]
 //[[[end]]]
@@ -38,7 +38,7 @@ IState* StateMachine::getIStateFromId(StateId stateId)
         //[[[cog 
         //  last_state = states[-1]
         //  for state_name in states:
-        //    sid = states_ids[state_name]
+        //    sid = id_of_state[state_name]
         //    cog.outl("case {}:".format(sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state_name.lower()))

@@ -3,7 +3,7 @@
 //  import cppstate.helper
 //  
 //  # load configuration
-//  states, states_ids, transitions = cppstate.helper.load_config()
+//  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //  state_transitions = [transition for transition in transitions if transition['from']==state_name]
 //  state_obj = cppstate.helper.Helper(state_name, state_transitions)
