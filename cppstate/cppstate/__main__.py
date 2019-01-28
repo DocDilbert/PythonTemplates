@@ -3,8 +3,6 @@ import os, errno
 import json
 from cogapp import Cog
 
-global testvar
-testvar = "HALLO"
 cogapp = Cog()
 def call_cog(infile, outfile, defines=None):
     
