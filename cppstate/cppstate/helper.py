@@ -4,11 +4,10 @@ import json
 def load_config():
     with open('config.json') as f:
         config = json.load(f)
+
     states = config['states']
     id_of_state = {state: 'ID_'+state.upper() for state in states}
     transitions = config['transitions']
-    
-
     return (states, id_of_state, transitions)
 
 class Helper:
@@ -20,9 +19,9 @@ class Helper:
 
     def get_id(self, from_=None):
         if from_:
-            return "ID_"+from_.upper()
+            return "ID_" + from_.upper()
         else:
-            return "ID_"+self.__name.upper()
+            return "ID_" + self.__name.upper()
 
     def out_indent(self, str):
         cog.outl("{}{}".format(self.__indent, str))
@@ -49,7 +48,6 @@ class Helper:
     def lower_indent(self):
         self.__indentSpaceCount=self.__indentSpaceCount-4
         self.__indent=" "*self.__indentSpaceCount   
-
 
     def out_transition_check(self, name, to_state):
         self.out_indent("if (check{}())".format(name))
@@ -92,7 +90,7 @@ class Helper:
         self.out_end()
 
     def out_state_check_prototype(self, name):
-        self.out_indent("///")
+        self.out_indent("/// Returns true when a transition is requested.")
         self.out_indent("bool {}();".format(
             "check{}".format(name)
         ))
