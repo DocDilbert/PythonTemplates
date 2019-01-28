@@ -46,15 +46,10 @@ public:
     ///
     void update();
 
-private:
-    //[[[cog 
-    //   exitTos = ["// callback when exiting to {}\n void exitCallBackTo{}();\n".format(state, state) for state in states]
-    //   cog.out("\n".join(exitTos))
-    //]]]
-    //[[[end]]]
+     ///
+    void exit(StateId nextState);
 
-    ///
-    void setNextState(StateId state);
+private:
 
     StateData* stateData;
     IStateMachine& stateMachine;

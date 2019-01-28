@@ -22,9 +22,12 @@ public:
     /// This method returns the Id of the state
     virtual StateId getId() = 0;
 
-    /// The entry method is called by statemachine the first time this
+    /// The entry method is called by the statemachine the first time this
     /// state is executed
     virtual void entry(StateId lastState) = 0;
+
+    /// The exit method is called by the statemachine the before the state is left.
+    virtual void exit(StateId lastState) = 0;
 
     /// The update method is called every time when the state is 
     /// active

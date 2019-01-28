@@ -55,7 +55,7 @@ class Helper:
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
-        self.out_code("setNextState({})".format(self.get_id(to_state)))
+        self.out_code("stateMachine.setNextState({})".format(self.get_id(to_state)))
         self.out_code("return")
         self.lower_indent()
         self.out_end()

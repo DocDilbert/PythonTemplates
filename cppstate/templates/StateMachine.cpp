@@ -65,7 +65,7 @@ void StateMachine::setNextState(StateId state)
 {
     // self transitions also call entry()
     callEntry = true;
-
+    istate->exit(state); // call exit method of state
     lastState = istate->getId();  
     istate = getIStateFromId(state);
 }

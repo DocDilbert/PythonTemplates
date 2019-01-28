@@ -59,7 +59,7 @@
 //]]]
 //[[[end]]]
 {
-    // TODO: Debug code
+    // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("entry: {}\\n");'.format(active_state))
     //]]]
@@ -73,7 +73,7 @@
 {
     // Insert state code here
 
-    // TODO: Debug code
+    // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("update: {}\\n");'.format(active_state))
     //]]]
@@ -83,25 +83,14 @@
 }
 
 //[[[cog 
-//   exitTos = ["void {}::exitCallBackTo{}()\n{{\n    // insert callback code here\n    printf(\"exitCallBackTo{}()\\n\");\n}}\n".format(active_state, sname, sname) for sname in states]
-//   cog.out("\n".join(exitTos))
-//]]]
-//[[[end]]]
-
-//[[[cog 
-//  cog.outl('void {}::setNextState(StateId state)'.format(active_state))
+//  cog.outl('void {}::exit(StateId nextState)'.format(active_state))
 //]]]
 //[[[end]]]
 {
-    switch(state)
-    {
-        //[[[cog 
-        //   cases = []
-        //   cases += ["case ID_{}:\n{{\n    exitCallBackTo{}();\n    break;\n}}".format(state.upper(), state) for state in states]
-        //   cases += ["default:\n{\n    break;\n}"]
-        //   cog.outl("\n".join(cases))
-        //]]]
-        //[[[end]]]
-    }
-    stateMachine.setNextState(state);
+    // TODO: Remove debug code
+    //[[[cog 
+    //  cog.outl('printf("exit: {}\\n");'.format(active_state))
+    //]]]
+    //[[[end]]]
 }
+
