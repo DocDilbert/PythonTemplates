@@ -4,6 +4,8 @@ OUT_DIR = graphs
 GRAPHS = $(OUT_DIR)/graph1.pdf
 GRAPHS += $(OUT_DIR)/graph2.pdf
 GRAPHS += $(OUT_DIR)/graph3.pdf
+GRAPHS += $(OUT_DIR)/graph4.pdf
+GRAPHS += $(OUT_DIR)/graph5.pdf
 
 all: $(GRAPHS)
 
