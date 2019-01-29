@@ -1,0 +1,11 @@
+// State Machine of the power stage release pattern generator
+digraph G {
+    ocrInit -> orcOperational [label=" [switchOnTimerElapsed()]"];
+    orcOperational -> ocrWaitForUser [label="[isFault()]"];
+    ocrWaitForUser -> ocrGenerateErrorResetPatternTop [label=" user ack from tool"];
+    ocrGenerateErrorResetPatternTop -> ocrGenerateErrorResetPatternWaitState
+    ocrGenerateErrorResetPatternWaitState -> ocrGenerateErrorResetPatternBottom
+    ocrGenerateErrorResetPatternBottom -> ocrDisabled [weight=2]
+    ocrDisabled->ocrWaitForUser [weight=3, label=" [isFault() == true]"];
+    ocrDisabled->orcOperational [weight=5, label=" [isFault() == false]"];
+}
