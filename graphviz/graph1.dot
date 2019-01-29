@@ -1,3 +1,4 @@
+// Drawing of small graph
 digraph G {
     main -> parse -> execute;
     main -> init;
