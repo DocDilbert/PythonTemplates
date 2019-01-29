@@ -3,13 +3,11 @@ OUT_DIR = graphs
 
 GRAPHS = $(OUT_DIR)/graph1.pdf
 GRAPHS += $(OUT_DIR)/graph2.pdf
+GRAPHS += $(OUT_DIR)/graph3.pdf
+
 all: $(GRAPHS)
 
-$(OUT_DIR)/graph1.pdf: graph1.dot 
-	$(DIR_GUARD)
-	dot -Tpdf $< -o $@
-
-$(OUT_DIR)/graph2.pdf: graph2.dot 
+$(OUT_DIR)/%.pdf: %.dot 
 	$(DIR_GUARD)
 	dot -Tpdf $< -o $@
 
