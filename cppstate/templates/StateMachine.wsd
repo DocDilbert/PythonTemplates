@@ -16,8 +16,12 @@
 '  from_count = {}
 '  max_count = {}
 '  for transition in transitions:
-'    from_count[transition['from']] = from_count.get(transition['from'], -1) + 1
-'    cog.outl("{} --> {} : {}check{}()".format(transition['from'], transition['to'], '<&media-record>'*from_count[transition['from']], transition['name'])) 
+'    max_count[transition['from']] = max_count.get(transition['from'], -1) +1
+'
+'  for transition in transitions:
+'    from_count[transition['from']] =  from_count.get(transition['from'], -1) +1
+'    count = max_count[transition['from']] - from_count[transition['from']]
+'    cog.outl("{} --> {} : {}check{}()".format(transition['from'], transition['to'], '<&media-record>'*count, transition['name'])) 
 '  for state in states:
 '    cog.outl("{}: <i>entry(lastState)</i>".format(state))
 '    cog.outl("{}: <i>update()</i>".format(state)) 
