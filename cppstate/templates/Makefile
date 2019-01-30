@@ -8,6 +8,11 @@
 #]]]
 #[[[end]]]
 
+JAVA = java
+PLANTUML_JAR = /usr/local/Cellar/plantuml/1.2019.0/libexec/plantuml.jar
+
+PLANTUML = @$(JAVA) -Dapple.awt.UIElement=true -jar $(PLANTUML_JAR)
+
 dir_guard = @mkdir -p $(@D)
 OUT_O_DIR = objs
 
@@ -46,5 +51,8 @@ $(OUT_O_DIR)/StateMachine.o: StateMachine.cpp
 clean:
 	rm -rf $(OUT_O_DIR)
 	rm -f main.exe
+
+doc: StateMachine.wsd
+	$(PLANTUML) StateMachine.wsd
 
 .PHONY: all

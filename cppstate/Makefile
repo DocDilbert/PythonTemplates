@@ -7,6 +7,9 @@ compile:
 run: compile
 	./autogen/main.exe
 
+doc: 
+	$(MAKE) -C ./autogen doc
+
 clean:
 	rm -r autogen
 

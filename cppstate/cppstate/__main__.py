@@ -70,3 +70,8 @@ call_cog(
     infile="templates/Makefile",
     outfile= "autogen/Makefile"
 )
+
+call_cog(
+    infile="templates/StateMachine.wsd",
+    outfile= "autogen/StateMachine.wsd"
+)

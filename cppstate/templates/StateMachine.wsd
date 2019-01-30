@@ -1,0 +1,27 @@
+'[[[cog 
+'  import cog
+'  import cppstate
+'  
+'  # load configuration
+'  states, id_of_state, transitions = cppstate.helper.load_config()
+'
+']]]
+'[[[end]]]
+
+@startuml
+
+'[[[cog 
+'  first_state = states[0]
+'  cog.outl("[*] --> {}".format(first_state)) 
+'  from_count = {}
+'  max_count = {}
+'  for transition in transitions:
+'    from_count[transition['from']] = from_count.get(transition['from'], -1) + 1
+'    cog.outl("{} --> {} : {}check{}()".format(transition['from'], transition['to'], '<&media-record>'*from_count[transition['from']], transition['name'])) 
+'  for state in states:
+'    cog.outl("{}: <i>entry(lastState)</i>".format(state))
+'    cog.outl("{}: <i>update()</i>".format(state)) 
+'    cog.outl("{}: <i>exit(nextState)</i>".format(state)) 
+']]]
+'[[[end]]]
+@enduml 
