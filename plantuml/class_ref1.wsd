@@ -1,4 +1,5 @@
 @startuml
+' Dies ist ein Kommentar
 Class01 <|-- Class02
 Class03 *-- Class04
 Class05 o-- Class06
