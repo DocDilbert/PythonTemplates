@@ -15,5 +15,6 @@
 
     "python.linting.pylintArgs": [
         "--extension-pkg-whitelist=PyQt5"
-    ]
+    ],
+    "python.pythonPath": "/anaconda3/bin/python"
 }

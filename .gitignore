@@ -108,3 +108,4 @@ venv.bak/
 
 autogen/
 /graphviz/graphs
+/plantuml/diags
