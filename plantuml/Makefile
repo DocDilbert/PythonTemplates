@@ -11,6 +11,7 @@ DIAGS += class_ref1
 DIAGS += class_ref2
 DIAGS += class_ref3
 DIAGS += EtherCatImplementation
+DIAGS += ProfiNetImplementation
 DIAGS += GeneralComManager
 
 DIAGS_PNG = $(foreach diag,$(DIAGS),$(OUT_DIR)/$(diag).png)

@@ -1,0 +1,37 @@
+@startuml
+
+interface ILibRteProcessHandler
+interface ILibRteModuleConfig
+
+LibRteDriver -- ILibRteModuleConfig 
+LibRteDriver -- ILibRteProcessHandler
+
+ProfiNetImplementation *-- LibRteProcessHandlerP0ProfiNet
+ProfiNetImplementation *-- LibRteProcessHandlerP1ProfiNet
+ProfiNetImplementation *-- LibRteProcessHandlerP2ProfiNet
+ProfiNetImplementation *-- LibRteModuleConfigProfiNet
+ProfiNet --* ProfiNetImplementation 
+LibRteDriver --o ProfiNetImplementation 
+ProfiDrive --o ProfiNetImplementation 
+
+
+LibRteProcessHandlerP0ProfiNet ..|> ILibRteProcessHandler
+LibRteProcessHandlerP1ProfiNet ..|> ILibRteProcessHandler
+LibRteProcessHandlerP2ProfiNet ..|> ILibRteProcessHandler
+LibRteModuleConfigProfiNet ..|> ILibRteModuleConfig
+
+class ProfiDrive
+note top: <b>Feldbus Profil.</b>\nWird von außen vorgegeben.\nAktuell noch konkret!
+
+class LibRteDriver
+note top: Wird durch den GeneralComManager\nbei der Initialisierung übergeben.
+
+class ProfiNet
+note top: Plattform Implementierung ProfiNet
+
+interface ILibRteProcessHandler
+note bottom: Interface des LibRteDriver für azyklische arbeiten.
+
+interface ILibRteModuleConfig
+note bottom: Abfrage der LibRte Modul Konfiguration
+@enduml

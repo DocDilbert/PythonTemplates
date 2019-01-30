@@ -16,7 +16,10 @@ GeneralComManager --  Cia402
 GeneralComManager --  ProfiDrive
 GeneralComManager *-- LibRteDriver
 EtherCatImplementation o-- LibRteDriver
+EtherCatImplementation o-- Cia402
 ProfiNetImplementation o-- LibRteDriver
+ProfiNetImplementation o-- ProfiDrive
+
 
 class GeneralComManager
 note left: Von außen sichtbar
