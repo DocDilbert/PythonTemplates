@@ -10,12 +10,13 @@ DIAG_PNG =
 DIAG_PNG += $(OUT_DIR)/class_ref1.png
 DIAG_PNG += $(OUT_DIR)/class_ref2.png
 DIAG_PNG += $(OUT_DIR)/class_ref3.png
+DIAG_PNG += $(OUT_DIR)/general_com_manager.png
 
 DIAG_SVG = 
 DIAG_SVG += $(OUT_DIR)/class_ref1.svg
 DIAG_SVG += $(OUT_DIR)/class_ref2.svg
 DIAG_SVG += $(OUT_DIR)/class_ref3.svg
-
+DIAG_SVG += $(OUT_DIR)/general_com_manager.svg
 
 
 all: $(DIAG_PNG) $(DIAG_SVG)

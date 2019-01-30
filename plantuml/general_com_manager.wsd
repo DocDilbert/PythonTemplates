@@ -1,8 +1,25 @@
 @startuml
+
+package GeneralComManager/LibRteDriver{
+    class LibRteDriver
+}
+package GeneralComManager
+{
+    class GeneralComManager
+    class ProfiNetImplementation
+    class EtherCatImplementation
+}
+
 EtherCatImplementation --*  GeneralComManager
 ProfiNetImplementation --*  GeneralComManager 
-GeneralComManager --  ProfiDrive
 GeneralComManager --  Cia402
+GeneralComManager --  ProfiDrive
+GeneralComManager *-- LibRteDriver
+EtherCatImplementation o-- LibRteDriver
+ProfiNetImplementation o-- LibRteDriver
+
+class GeneralComManager
+note left: Von außen sichtbar
 
 class EtherCatImplementation
 note top: Enthält EtherCat Protokoll Objekte
@@ -11,8 +28,11 @@ class ProfiNetImplementation
 note top: Enthält ProfiNet Protokoll Objekte
 
 class ProfiDrive
-note bottom: Feldbus Profil.\nWird von außen vorgegeben
+note bottom: <b>Feldbus Profil</b>.\nWird von außen vorgegeben.\nAktuell noch konkret!
 
 class Cia402
-note bottom: Feldbus Profil.\nWird von außen vorgegeben
+note bottom: <b>Feldbus Profil.</b>\nWird von außen vorgegeben.\nAktuell noch konkret!
+
+class LibRteDriver
+note bottom: Fassade um die LibRte Library
 @enduml
