@@ -1,0 +1,18 @@
+@startuml
+EtherCatImplementation --*  GeneralComManager
+ProfiNetImplementation --*  GeneralComManager 
+GeneralComManager --  ProfiDrive
+GeneralComManager --  Cia402
+
+class EtherCatImplementation
+note top: Enthält EtherCat Protokoll Objekte
+
+class ProfiNetImplementation
+note top: Enthält ProfiNet Protokoll Objekte
+
+class ProfiDrive
+note bottom: Feldbus Profil.\nWird von außen vorgegeben
+
+class Cia402
+note bottom: Feldbus Profil.\nWird von außen vorgegeben
+@enduml

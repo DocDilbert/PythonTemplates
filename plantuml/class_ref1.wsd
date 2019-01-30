@@ -1,8 +1,18 @@
 @startuml
 ' Dies ist ein Kommentar
+
+' Generalisierung (Vererbung)
 Class01 <|-- Class02
+
+' Komposition
 Class03 *-- Class04
+
+' Aggregation
 Class05 o-- Class06
+
+
 Class07 .. Class08
+
+' Assoziation
 Class09 -- Class10
 @enduml
