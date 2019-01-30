@@ -22,4 +22,4 @@ $(OUT_DIR)/%.svg: %.wsd
 .PHONY: clean
 
 clean:
-	rm -rf graphs
+	rm -rf $(OUT_DIR)
