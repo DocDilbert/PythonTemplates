@@ -8,5 +8,6 @@ Class15 ..> Class16
 
 ' Interface Implementierung
 Class17 ..|> Class18
+
 Class19 <--* Class20
 @enduml
