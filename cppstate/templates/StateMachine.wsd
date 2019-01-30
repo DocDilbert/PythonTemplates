@@ -8,7 +8,7 @@
 ']]]
 '[[[end]]]
 
-@startuml
+@startuml StateMachine
 
 '[[[cog 
 '  first_state = states[0]
