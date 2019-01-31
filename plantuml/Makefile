@@ -1,6 +1,6 @@
 
 JAVA = java
-PLANTUML_JAR = /usr/local/Cellar/plantuml/1.2019.0/libexec/plantuml.jar
+PLANTUML_JAR = c:\Dev\PlantUml\plantuml.jar
 
 PLANTUML = @$(JAVA) -Dapple.awt.UIElement=true -jar $(PLANTUML_JAR)
 DIR_GUARD = @mkdir -p $(@D)
