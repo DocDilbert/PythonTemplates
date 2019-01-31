@@ -18,7 +18,9 @@
 
 //[[[cog 
 //  # Constructor
-//  cog.out("{}::{}(IStateMachine& stateMachine) : stateMachine(stateMachine)".format(active_state, active_state))
+//  cog.outl("{}::{}(IStateMachine& stateMachine) :".format(active_state, active_state))
+//  cog.out("    stateData(nullptr),")
+//  cog.out("    stateMachine(stateMachine)")
 //]]]
 //[[[end]]]
 {

@@ -89,10 +89,12 @@ class Helper:
         self.lower_indent()
         self.out_end()
 
-    def out_state_check_prototype(self, name):
-        self.out_indent("/// Returns true when a transition is requested.")
+    def out_state_check_prototype(self, transition_from, transition_to, transition_name):
+        self.out_indent(
+            "/// Returns true when a transition from {} to {} is requested.".format(transition_from, transition_to)
+        )
         self.out_indent("bool {}();".format(
-            "check{}".format(name)
+            "check{}".format(transition_name)
         ))
         
     def generate_state_checks(self):
@@ -108,5 +110,5 @@ class Helper:
             return
 
         for transition in self.__transitions:
-            self.out_state_check_prototype(transition['name'])
+            self.out_state_check_prototype(transition['from'], transition['to'],transition['name'])
             self.out_nl()
