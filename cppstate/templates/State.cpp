@@ -6,9 +6,15 @@
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
-//  state_obj = cppstate.helper.Helper(active_state, active_state_transitions)
+//  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
 //]]]
 //[[[end]]]
+///
+/// \file
+/// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
+/// \author TODO
+///
+
 #include <stdio.h>
 //[[[cog 
 //  cog.outl('#include "{}.h"'.format(active_state))
@@ -88,11 +94,11 @@
 }
 
 //[[[cog 
-//  state_obj.generate_state_checks()
+//  state_helper.generate_state_checks()
 //]]]
 //[[[end]]]
 //[[[cog 
-//  state_obj.generate_processTransitions()
+//  state_helper.generate_processTransitions()
 //]]]
 //[[[end]]]
 

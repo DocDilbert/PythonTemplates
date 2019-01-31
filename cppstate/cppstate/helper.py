@@ -10,7 +10,7 @@ def load_config():
     transitions = config['transitions']
     return (states, id_of_state, transitions)
 
-class Helper:
+class StateHelper:
     def __init__(self, name, transitions=None):
         self.__name = name
         self.__indent = ""

@@ -7,6 +7,12 @@
 //
 //]]]
 //[[[end]]]
+///
+/// \file
+/// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
+/// \author TODO
+///
+
 #pragma once
 
 /// Enumerates all possible states

@@ -6,9 +6,15 @@
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
-//  state_obj = cppstate.helper.Helper(active_state, active_state_transitions)
+//  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
 //]]]
 //[[[end]]]
+///
+/// \file
+/// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
+/// \author TODO
+///
+
 #pragma once
 
 #include "IState.h"
@@ -47,7 +53,7 @@ public:
 
 private:
     //[[[cog 
-    //  state_obj.generate_state_check_prototypes()
+    //  state_helper.generate_state_check_prototypes()
     //]]]
     //[[[end]]]
     /// This method processes all possible state transition checks from this state to other states
