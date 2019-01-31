@@ -1,5 +1,5 @@
 update:
-	 python3 -m cppstate
+	 python -m cppstate
 
 compile:
 	 $(MAKE) -C ./autogen all

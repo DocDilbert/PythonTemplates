@@ -9,7 +9,7 @@
 #[[[end]]]
 
 JAVA = java
-PLANTUML_JAR = /usr/local/Cellar/plantuml/1.2019.0/libexec/plantuml.jar
+PLANTUML_JAR = C:/Dev/PlantUml/plantuml.1.2019.0.jar
 
 PLANTUML = @$(JAVA) -Dapple.awt.UIElement=true -jar $(PLANTUML_JAR)
 
