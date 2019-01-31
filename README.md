@@ -1,2 +1,3 @@
-# PythonTemplates
+PythonTemplates
+------------------
 Usefull python project templates
