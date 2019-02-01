@@ -34,7 +34,7 @@ public:
     //]]]
     //[[[end]]]
 
-    /// Constructor
+    /// Init Method
     void init(StateData& stateData);
 
     /// Returns the id of this state

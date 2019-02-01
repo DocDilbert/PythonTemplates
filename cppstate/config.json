@@ -10,9 +10,11 @@
 		{"from":"StateA", "to":"StateB", "name":"TransitionFromAtoB"},
 		{"from":"StateA", "to":"StateD", "name":"TransitionFromAtoD"},
 		{"from":"StateA", "to":"StateC", "name":"TransitionFromAtoC"},
+		{"from":"StateA", "to":"StateA", "name":"TransitionFromAtoA"},
 		{"from":"StateC", "to":"StateA", "name":"TransitionFromCtoA"},
 		{"from":"StateC", "to":"StateD", "name":"TransitionFromCtoD"},
-		{"from":"StateB", "to":"StateC", "name":"TransitionFromBtoC"}
+		{"from":"StateB", "to":"StateC", "name":"TransitionFromBtoC"},
+		{"from":"StateD", "to":"StateB", "name":"TransitionFromDtoB"}
 	]
 
 
