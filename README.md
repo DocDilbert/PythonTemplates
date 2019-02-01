@@ -1,3 +1,3 @@
-PythonTemplates
+WorkTemplates
 ------------------
-Usefull python project templates
+Usefull templates I can use at work
