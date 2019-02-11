@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "make",
             "args": [
-                "tests"
+                "all"
             ],
             "group": {
                 "kind": "build",

@@ -24,8 +24,8 @@ OBJECTS += $(OUT_O_DIR)/tests.o
 
 INCLUDES =
 INCLUDES += ../libs/catch/
-tests: tests.exe
-	@./tests.exe
+
+all: tests.exe
 
 tests.exe: $(OBJECTS)
 	g++ -o tests.exe $(OBJECTS)
@@ -41,4 +41,4 @@ clean:
 doc: StateMachine.wsd
 	$(PLANTUML) StateMachine.wsd
 
-.PHONY: tests
+.PHONY: clean 
