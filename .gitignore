@@ -109,3 +109,5 @@ venv.bak/
 autogen/
 /graphviz/graphs
 /plantuml/diags
+/patterns/tests.exe
+/patterns/objs
