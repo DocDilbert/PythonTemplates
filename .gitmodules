@@ -1,0 +1,3 @@
+[submodule "patterns/googletest"]
+	path = patterns/googletest
+	url = https://github.com/google/googletest.git
