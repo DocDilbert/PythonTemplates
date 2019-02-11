@@ -11,26 +11,43 @@ unsigned int Factorial( unsigned int number ) {
 }
 
 
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
-
+TEST_CASE( "Observer Tests") 
+{
     WeatherData weatherStation;
-    Client one(1), two(2), three(3);
+    Client A, B, C;
 
-    float temp, humidity, pressure;
+    weatherStation.registerObserver(&A);
+    weatherStation.registerObserver(&B);
+    weatherStation.registerObserver(&C);
 
-    weatherStation.registerObserver(&one);
-    weatherStation.registerObserver(&two);
-    weatherStation.registerObserver(&three);
+    weatherStation.setState(1.0,2.0,3.0);
 
-    weatherStation.setState(temp,humidity,pressure);
+    REQUIRE( A.temp == Approx( 1.0 ) );
+    REQUIRE( A.humidity ==Approx( 2.0 ) );
+    REQUIRE( A.pressure == Approx( 3.0 ) );
 
-    weatherStation.removeObserver(&two);
+    REQUIRE( B.temp == Approx( 1.0 ) );
+    REQUIRE( B.humidity ==Approx( 2.0 ) );
+    REQUIRE( B.pressure == Approx( 3.0 ) );
 
-    weatherStation.setState(temp,humidity,pressure);
+    REQUIRE( C.temp == Approx( 1.0 ) );
+    REQUIRE( C.humidity ==Approx( 2.0 ) );
+    REQUIRE( C.pressure == Approx( 3.0 ) );
+
+    weatherStation.removeObserver(&B);
+    weatherStation.setState(1.0,1.0,1.0);
+
+    REQUIRE( A.temp == Approx( 1.0 ) );
+    REQUIRE( A.humidity ==Approx( 1.0 ) );
+    REQUIRE( A.pressure == Approx( 1.0 ) );
+
+    REQUIRE( B.temp == Approx( 1.0 ) );
+    REQUIRE( B.humidity ==Approx( 2.0 ) );
+    REQUIRE( B.pressure == Approx( 3.0 ) );
+
+    REQUIRE( C.temp == Approx( 1.0 ) );
+    REQUIRE( C.humidity ==Approx( 1.0 ) );
+    REQUIRE( C.pressure == Approx( 1.0 ) );
 
 }
 

@@ -1,15 +1,13 @@
 #include "Client.h"
 
-void Client::update(float temp, float humidity, float pressure) 
+Client::Client() 
 {
-    // print the changed values
-    std::cout << "---Client (" << id << ") Data---\tTemperature: " << temp
-              << "\tHumidity: " << humidity
-              << "\tPressure: " << pressure
-              << std::endl;
 }
 
-Client::Client(int id) 
+void Client::update(float temp, float humidity, float pressure) 
 {
-    this->id = id;
+    this->temp = temp;
+    this->humidity = humidity;
+    this->pressure = pressure;
 }
+

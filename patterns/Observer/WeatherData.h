@@ -23,12 +23,10 @@ public:
 
     void notifyObservers() override;
 
-    /**
-     * Set the new state of the weather station
-     * @param temp new temperature
-     * @param humidity new humidity
-     * @param pressure new pressure
-     */
+    /// Set the new state of the weather station
+    /// @param temp new temperature
+    /// @param humidity new humidity
+    /// @param pressure new pressure
     void setState(float temp, float humidity, float pressure);
 
 };

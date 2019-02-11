@@ -1,19 +1,19 @@
 #pragma once
 
-#include <iostream>
-
 #include "Observer.h"
 
 
 // Ein Client der das Observer Interface implementiert
 class Client : public Observer 
 {
-    int id;
-
 public:
+    float temp;
+    float humidity;
+    float pressure;
+    
+    Client();
 
-    Client(int id);
-
+private:
     virtual void update(float temp, float humidity, float pressure) override;
 
 };
