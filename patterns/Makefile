@@ -21,10 +21,14 @@ OUT_O_DIR = objs
 
 OBJECTS = 
 OBJECTS += $(OUT_O_DIR)/tests.o
+OBJECTS += $(OUT_O_DIR)/Client.o
+OBJECTS += $(OUT_O_DIR)/WeatherData.o
 
 INCLUDES =
-INCLUDES += ../libs/catch/
+INCLUDES += -I../libs/catch/
+INCLUDES += -I./Observer
 
+VPATH += ./Observer
 all: tests.exe
 
 tests.exe: $(OBJECTS)
@@ -32,7 +36,7 @@ tests.exe: $(OBJECTS)
 
 $(OUT_O_DIR)/%.o: %.cpp
 	$(dir_guard)
-	g++ -O0 -I$(INCLUDES) -c $< -o $@
+	g++ -O0 $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -rf $(OUT_O_DIR)
