@@ -10,16 +10,17 @@ void WeatherData::removeObserver(Observer *observer)
     // find the observer
     auto iterator = std::find(observers.begin(), observers.end(), observer);
 
-    if (iterator != observers.end()) 
-    { // observer found
+    if (iterator != observers.end()) // observer found
+    {
         observers.erase(iterator); // remove the observer
     }
 }
 
 void WeatherData::notifyObservers() 
 {
+    // notify all observers
     for (Observer *observer : observers) 
-    { // notify all observers
+    { 
         observer->update(temp, humidity, pressure);
     }
 }

@@ -22,13 +22,16 @@ OUT_O_DIR = objs
 OBJECTS = 
 OBJECTS += $(OUT_O_DIR)/tests.o
 OBJECTS += $(OUT_O_DIR)/Client.o
+OBJECTS += $(OUT_O_DIR)/CoffeeFlavor.o
 OBJECTS += $(OUT_O_DIR)/WeatherData.o
 
 INCLUDES =
 INCLUDES += -I../libs/catch/
 INCLUDES += -I./Observer
+INCLUDES += -I./FlyWeight
 
 VPATH += ./Observer
+VPATH += ./FlyWeight
 all: tests.exe
 
 tests.exe: $(OBJECTS)

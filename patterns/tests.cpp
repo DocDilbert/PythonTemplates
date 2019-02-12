@@ -1,15 +1,39 @@
 #include <stdio.h>
 #include "observer.h"
-#include "WeatherData.h"
 #include "Client.h"
+#include "WeatherData.h"
+
+#include "CoffeeOrderFactory.h"
+
 
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
-}
 
+
+TEST_CASE( "FlyWeight Tests") 
+{
+    // Durch Zwischenspeicherung der Geschmäcker in einer Map in der Factory wird
+    // jeweils nur ein Objekt des gleichen Geschmacks erzeugt und damit Speicherplatz gespart. 
+    CoffeeFlavorFactory flavorFactory;
+    
+    auto flavor1 = flavorFactory.getCoffeeFlavor("Cappuccino");
+    auto flavor2 = flavorFactory.getCoffeeFlavor("Frappe");
+    auto flavor3 = flavorFactory.getCoffeeFlavor("Cappuccino");
+
+    REQUIRE( flavor1.id == 0 );
+    REQUIRE( flavor2.id == 1 );
+    REQUIRE( flavor1.id == flavor3.id );
+
+    // Diese Daten werden von jedem FlyWeight geteilt. 
+    // An den Tischen können verschiedene Kaffeesorten serviert werden.
+    auto context_table_1 = CoffeeOrderContext(1);
+    auto context_table_2 = CoffeeOrderContext(2);
+
+    // Die verschiedenen Kaffeesorten an verschiedene Tische servieren
+    flavor1.serveCoffee(context_table_1);
+    flavor1.serveCoffee(context_table_2);
+}
 
 TEST_CASE( "Observer Tests") 
 {
