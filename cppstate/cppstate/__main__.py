@@ -31,10 +31,10 @@ states = config['states']
 state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
 settings = config['settings']
-states_namespace = settings['states_namespace']
+namespace_of_states = settings['namespace_of_states']
 
 try:
-    os.makedirs("autogen/"+states_namespace)
+    os.makedirs("autogen/"+namespace_of_states)
 except OSError as e:
     if e.errno != errno.EEXIST:
         raise
@@ -42,12 +42,12 @@ except OSError as e:
 for active_state in states:
     call_cog(
         infile="templates/State.h",
-        outfile= "autogen/{}/{}.h".format(states_namespace, active_state),
+        outfile= "autogen/{}/{}.h".format(namespace_of_states, active_state),
         defines={"active_state": active_state}
     )
     call_cog(
         infile="templates/State.cpp",
-        outfile= "autogen/{}/{}.cpp".format(states_namespace, active_state),
+        outfile= "autogen/{}/{}.cpp".format(namespace_of_states, active_state),
         defines={"active_state": active_state}
     )
 

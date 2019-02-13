@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_header()
+//  nameSpaceGenerator.generate_namespace_header()
 //]]]
 //[[[end]]]
 
@@ -29,6 +29,6 @@ struct StateData
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_footer()
+//  nameSpaceGenerator.generate_namespace_footer()
 //]]]
 //[[[end]]]

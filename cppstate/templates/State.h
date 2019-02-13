@@ -23,7 +23,7 @@
 #include "StateData.h"
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_header_for_states()
+//  nameSpaceGenerator.generate_namespace_header_for_states()
 //]]]
 //[[[end]]]
 
@@ -74,6 +74,6 @@ private:
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_footer_for_states()
+//  nameSpaceGenerator.generate_namespace_footer_for_states()
 //]]]
 //[[[end]]]

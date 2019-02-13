@@ -12,7 +12,7 @@
 #include "StateMachine.h"
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_header()
+//  nameSpaceGenerator.generate_namespace_header()
 //]]]
 //[[[end]]]
 int main()
@@ -30,7 +30,7 @@ int main()
 }
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespaces_footer()
+//  nameSpaceGenerator.generate_namespace_footer()
 //]]]
 //[[[end]]]
 

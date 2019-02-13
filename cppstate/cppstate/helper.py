@@ -17,31 +17,31 @@ class NameSpaceGenerator:
             config = json.load(f)
 
         settings = config['settings']
-        self.namespaces = settings['namespace'].split('/')
-        self.states_namespaces = list(self.namespaces)
-        self.states_namespaces.append(settings['states_namespace'])
+        self.namespace = settings['namespace'].split('/')
+        self.namespace_of_states = list(self.namespace)
+        self.namespace_of_states.append(settings['namespace_of_states'])
 
     def get_path(self):
-        return "::".join(self.namespaces)
+        return "::".join(self.namespace)
 
     def get_path_to_state(self):
-        return self.states_namespaces[-1]
+        return self.namespace_of_states[-1]
 
-    def generate_namespaces_header(self):
-        for namespace in self.namespaces:
-            cog.outl("namespace {}\n{{".format(namespace))
+    def generate_namespace_header(self):
+        for name in self.namespace:
+            cog.outl("namespace {}\n{{".format(name))
 
-    def generate_namespaces_footer(self):
-        for namespace in self.namespaces:
-            cog.outl("}}".format(namespace))
+    def generate_namespace_footer(self):
+        for name in self.namespace:
+            cog.outl("}}".format(name))
 
-    def generate_namespaces_header_for_states(self):
-        for namespace in self.states_namespaces:
-            cog.outl("namespace {}\n{{".format(namespace))
+    def generate_namespace_header_for_states(self):
+        for name in self.namespace_of_states:
+            cog.outl("namespace {}\n{{".format(name))
 
-    def generate_namespaces_footer_for_states(self):
-        for namespace in self.states_namespaces:
-            cog.outl("}}".format(namespace))
+    def generate_namespace_footer_for_states(self):
+        for name in self.namespace_of_states:
+            cog.outl("}}".format(name))
 
 class StateHelper:
     def __init__(self, name, transitions=None):
