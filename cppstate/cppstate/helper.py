@@ -3,8 +3,11 @@ import json
 
 class Config:
     def __init__(self, parsed_json):
-        self.states = [state['name'] for state in parsed_json['states']]
-        self.id_of_state = {state: 'ID_'+state.upper() for state in self.states}
+        state_list = [state for state in parsed_json['states']] 
+        self.states = [state['name'] for state in state_list]
+        self.state_ids = [state['id'] for state in state_list]
+        self.id_of_state = {state: state_id for state, state_id in zip(self.states, self.state_ids)}
+        self.init_state_id = self.id_of_state[self.states[0]]
         self.transitions = parsed_json['transitions']
 
 def load_config():
@@ -47,17 +50,18 @@ class NameSpaceGenerator:
             cog.outl("}}".format())
 
 class StateHelper:
-    def __init__(self, name, transitions=None):
+    def __init__(self, name, config):
         self.__name = name
         self.__indent = ""
         self.__indentSpaceCount = 0
-        self.__transitions=transitions       
+        self.__id_of_state=config.id_of_state
+        self.__transitions=[transition for transition in config.transitions if transition['from']==name]
 
     def get_id(self, from_=None):
         if from_:
-            return "ID_" + from_.upper()
+            return self.__id_of_state[from_]
         else:
-            return "ID_" + self.__name.upper()
+            return self.__id_of_state[self.__name]
 
     def out_indent(self, str):
         cog.outl("{}{}".format(self.__indent, str))

@@ -5,8 +5,7 @@
 //  # load configuration
 //  config = cppstate.helper.load_config()
 //
-//  active_state_transitions = [transition for transition in config.transitions if transition['from']==active_state]
-//  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
+//  state_helper = cppstate.helper.StateHelper(active_state, config)
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]

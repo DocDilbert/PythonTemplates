@@ -25,7 +25,7 @@ StateMachine::StateMachine() :
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(config.states[0].lower())]
-    //  initializers += ["lastState({}::ID_{})".format(ns_gen.get_path_to_state(), config.states[0].upper())]
+    //  initializers += ["lastState({}::{})".format(ns_gen.get_path_to_state(), config.init_state_id)]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in config.states]
     //  cog.outl(",\n".join(initializers))

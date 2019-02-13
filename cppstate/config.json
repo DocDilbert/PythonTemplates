@@ -5,10 +5,10 @@
 	},
 	
 	"states" : [
-		{"name":"StateA"},
-		{"name":"StateB"},
-		{"name":"StateC"},
-		{"name":"StateD"}
+		{"name":"StateA", "id":"ID_StateA"},
+		{"name":"StateB", "id":"ID_StateB"},
+		{"name":"StateC", "id":"ID_StateC"},
+		{"name":"StateD", "id":"ID_StateD"}
 	],
 
 	"transitions" : [
