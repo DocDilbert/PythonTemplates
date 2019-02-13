@@ -24,7 +24,7 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_header()
+//  nameSpaceGenerator.generate_namespaces_header_for_states()
 //]]]
 //[[[end]]]
 
@@ -109,6 +109,6 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_footer()
+//  nameSpaceGenerator.generate_namespaces_footer_for_states()
 //]]]
 //[[[end]]]

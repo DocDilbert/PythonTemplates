@@ -16,17 +16,31 @@ class NameSpaceGenerator:
         with open('config.json') as f:
             config = json.load(f)
 
-        self.namespaces = config['namespace'].split('/')
-    
+        settings = config['settings']
+        self.namespaces = settings['namespace'].split('/')
+        self.states_namespaces = list(self.namespaces)
+        self.states_namespaces.append(settings['states_namespace'])
+
     def get_path(self):
         return "::".join(self.namespaces)
 
-    def generate_header(self):
+    def get_path_to_state(self):
+        return self.states_namespaces[-1]
+
+    def generate_namespaces_header(self):
         for namespace in self.namespaces:
             cog.outl("namespace {}\n{{".format(namespace))
 
-    def generate_footer(self):
+    def generate_namespaces_footer(self):
         for namespace in self.namespaces:
+            cog.outl("}}".format(namespace))
+
+    def generate_namespaces_header_for_states(self):
+        for namespace in self.states_namespaces:
+            cog.outl("namespace {}\n{{".format(namespace))
+
+    def generate_namespaces_footer_for_states(self):
+        for namespace in self.states_namespaces:
             cog.outl("}}".format(namespace))
 
 class StateHelper:

@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  nameSpaceGenerator.generate_header()
+//  nameSpaceGenerator.generate_namespaces_header()
 //]]]
 //[[[end]]]
 
@@ -50,6 +50,6 @@ public:
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_footer()
+//  nameSpaceGenerator.generate_namespaces_footer()
 //]]]
 //[[[end]]]

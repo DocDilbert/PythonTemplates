@@ -17,7 +17,7 @@
 #include "StateMachine.h"
 
 //[[[cog 
-//  nameSpaceGenerator.generate_header()
+//  nameSpaceGenerator.generate_namespaces_header()
 //]]]
 //[[[end]]]
 
@@ -83,6 +83,6 @@ void StateMachine::setNextState(StateId state)
 }
 
 //[[[cog 
-//  nameSpaceGenerator.generate_footer()
+//  nameSpaceGenerator.generate_namespaces_footer()
 //]]]
 //[[[end]]]

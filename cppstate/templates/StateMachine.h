@@ -26,7 +26,7 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_header()
+//  nameSpaceGenerator.generate_namespaces_header()
 //]]]
 //[[[end]]]
 
@@ -65,12 +65,12 @@ private:
     //  last_state = states[-1]
     //  for state in states:
     //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
-    //    cog.outl("{} {};".format(state, state.lower()))
+    //    cog.outl("{}::{} {};".format(nameSpaceGenerator.get_path_to_state(), state, state.lower()))
     //]]]
     //[[[end]]]
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_footer()
+//  nameSpaceGenerator.generate_namespaces_footer()
 //]]]
 //[[[end]]]
