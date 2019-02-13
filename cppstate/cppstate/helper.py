@@ -1,6 +1,12 @@
 import cog
 import json
 
+class Config:
+    def __init__(self, parsed_json):
+        self.states = [state['name'] for state in parsed_json['states']]
+        self.id_of_state = {state: 'ID_'+state.upper() for state in self.states}
+        self.transitions = parsed_json['transitions']
+
 def load_config():
     with open('config.json') as f:
         config = json.load(f)
@@ -8,12 +14,8 @@ def load_config():
     states = [state['name'] for state in config['states']]
     id_of_state = {state: 'ID_'+state.upper() for state in states}
     transitions = config['transitions']
-    config = {
-        "states" : states,
-        "id_of_state" : id_of_state,
-        "transitions" : transitions
-    }
-    return (states, id_of_state, transitions, config)
+    
+    return (states, id_of_state, transitions, Config(config))
 
 class NameSpaceGenerator:
     def __init__(self, filename):
