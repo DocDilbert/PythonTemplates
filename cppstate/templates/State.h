@@ -43,18 +43,27 @@ public:
     void init(StateData& stateData);
 
     /// Returns the id of this state
-    StateId getId();
+    //[[[cog 
+    //  cog.outl("{}::StateId getId();".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
 
     /// This method is called at the entry point of the state.
     /// \param lastState The id of the state from which the transition occured
-    void entry(StateId lastState);
+    //[[[cog 
+    //  cog.outl("void entry({}::StateId lastState);".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
     
     /// This method is called when the state is active.
     void update();
 
     /// This method is called at the exit point of the state.
     /// \param nextState The id of the state to which the transition will lead
-    void exit(StateId nextState);
+    //[[[cog 
+    //  cog.outl("void exit({}::StateId lastState);".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
 
 private:
     //[[[cog 

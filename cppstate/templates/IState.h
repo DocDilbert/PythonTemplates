@@ -29,19 +29,28 @@ class IState
 public:
 
     /// This method returns the Id of the state
-    virtual StateId getId() = 0;
+    //[[[cog 
+    //  cog.outl("virtual {}::StateId getId() = 0;".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
 
     /// The entry method is called by the statemachine the first time this
     /// state is executed
-    virtual void entry(StateId lastState) = 0;
+    //[[[cog 
+    //  cog.outl("virtual void entry({}::StateId lastState) = 0;".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
+    
 
     /// The update method is called every time when the state is 
     /// active
     virtual void update() = 0;
 
     /// The exit method is called by the statemachine the before the state is left.
-    virtual void exit(StateId lastState) = 0;
-
+    //[[[cog 
+    //  cog.outl("virtual void exit({}::StateId lastState) = 0;".format(ns_gen.get_path_to_id()))
+    //]]]
+    //[[[end]]]
 };
 
 //[[[cog 

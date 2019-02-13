@@ -48,18 +48,18 @@
 }
 
 //[[[cog 
-//  cog.outl('StateId {}::getId()'.format(active_state))
+//  cog.outl('{}::StateId {}::getId()'.format(ns_gen.get_path_to_id(), active_state))
 //]]]
 //[[[end]]]
 {
     //[[[cog 
-    //  cog.out("return {};".format(config.id_of_state[active_state]))
+    //  cog.out("return {}::{};".format(ns_gen.get_path_to_id(), config.id_of_state[active_state]))
     //]]]
     //[[[end]]]
 }
 
 //[[[cog 
-//  cog.outl('void {}::entry(StateId lastState)'.format(active_state))
+//  cog.outl('void {}::entry({}::StateId lastState)'.format(active_state, ns_gen.get_path_to_id()))
 //]]]
 //[[[end]]]
 {
@@ -87,7 +87,7 @@
 }
 
 //[[[cog 
-//  cog.outl('void {}::exit(StateId nextState)'.format(active_state))
+//  cog.outl('void {}::exit({}::StateId nextState)'.format(active_state, ns_gen.get_path_to_id()))
 //]]]
 //[[[end]]]
 {

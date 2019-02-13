@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  ns_gen.generate_namespace_header_for_states()
+//  ns_gen.generate_namespace_header_for_ids()
 //]]]
 //[[[end]]]
 
@@ -29,6 +29,6 @@ enum StateId
 };
 
 //[[[cog 
-//  ns_gen.generate_namespace_footer_for_states()
+//  ns_gen.generate_namespace_footer_for_ids()
 //]]]
 //[[[end]]]
