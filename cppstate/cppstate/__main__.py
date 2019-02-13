@@ -32,9 +32,16 @@ state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
 settings = config['settings']
 namespace_of_states = settings['namespace_of_states']
+namespace_of_ids = settings['namespace_of_ids']
 
 try:
     os.makedirs("autogen/"+namespace_of_states)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
+
+try:
+    os.makedirs("autogen/"+namespace_of_ids)
 except OSError as e:
     if e.errno != errno.EEXIST:
         raise
@@ -57,7 +64,7 @@ call_cog(
 )
 call_cog(
     infile="templates/StateIds.h",
-    outfile= "autogen/{}/StateIds.h".format(namespace_of_states),
+    outfile= "autogen/{}/StateIds.h".format(namespace_of_ids),
 )
 call_cog(
     infile="templates/IStateMachine.h",
