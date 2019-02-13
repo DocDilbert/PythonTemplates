@@ -8,7 +8,12 @@ def load_config():
     states = [state['name'] for state in config['states']]
     id_of_state = {state: 'ID_'+state.upper() for state in states}
     transitions = config['transitions']
-    return (states, id_of_state, transitions)
+    config = {
+        "states" : states,
+        "id_of_state" : id_of_state,
+        "transitions" : transitions
+    }
+    return (states, id_of_state, transitions, config)
 
 class NameSpaceGenerator:
     def __init__(self, filename):
