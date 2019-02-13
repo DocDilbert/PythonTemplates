@@ -48,16 +48,28 @@ private:
     /// Returns a pointer to an object which implements the IState interface. 
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
-    IState* getIStateFromId(StateId stateId);
+    //[[[cog 
+    //  cog.outl("{0}::IState* getIStateFromId({0}::StateId stateId);".format(nameSpaceGenerator.get_path_to_state()))
+    //]]]
+    //[[[end]]]
 
     /// \copydoc IStateMachine::update
-    void setNextState(StateId state);
+    //[[[cog 
+    //  cog.outl("void setNextState({}::StateId state);".format(nameSpaceGenerator.get_path_to_state()))
+    //]]]
+    //[[[end]]]
 
     /// Active state
-    IState *istate;
+    //[[[cog 
+    //  cog.outl("{}::IState *istate;".format(nameSpaceGenerator.get_path_to_state()))
+    //]]]
+    //[[[end]]]
 
     /// Id of the last active state
-    StateId lastState;
+    //[[[cog 
+    //  cog.outl("{}::StateId lastState;".format(nameSpaceGenerator.get_path_to_state()))
+    //]]]
+    //[[[end]]]
 
     /// true when the entry method has to be called
     bool callEntry;

@@ -25,7 +25,7 @@ StateMachine::StateMachine() :
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(states[0].lower())]
-    //  initializers += ["lastState(ID_{})".format(states[0].upper())]
+    //  initializers += ["lastState({}::ID_{})".format(nameSpaceGenerator.get_path_to_state(), states[0].upper())]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in states]
     //  cog.outl(",\n".join(initializers))
@@ -54,7 +54,10 @@ void StateMachine::update()
     istate->update();
 }
 
-IState* StateMachine::getIStateFromId(StateId stateId)
+//[[[cog 
+//  cog.outl("{0}::IState* StateMachine::getIStateFromId({0}::StateId stateId)".format(nameSpaceGenerator.get_path_to_state()))
+//]]]
+//[[[end]]]
 {
     switch(stateId)
     {
@@ -62,7 +65,7 @@ IState* StateMachine::getIStateFromId(StateId stateId)
         //  last_state = states[-1]
         //  for state in states:
         //    sid = id_of_state[state]
-        //    cog.outl("case {}:".format(sid))
+        //    cog.outl("case {}::{}:".format(nameSpaceGenerator.get_path_to_state(), sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state.lower()))
         //    cog.outl("}")
@@ -73,7 +76,10 @@ IState* StateMachine::getIStateFromId(StateId stateId)
     }
 }
 
-void StateMachine::setNextState(StateId state)
+//[[[cog 
+//  cog.outl("void StateMachine::setNextState({}::StateId state)".format(nameSpaceGenerator.get_path_to_state()))
+//]]]
+//[[[end]]]
 {
     // self transitions also call entry()
     callEntry = true;

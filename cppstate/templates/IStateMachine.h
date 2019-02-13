@@ -29,7 +29,10 @@ class IStateMachine
 public:
 	/// Set the next state of the state machine
 	/// \param state the next state 
-  	virtual void setNextState(StateId state) = 0;
+	//[[[cog 
+	//  cog.outl("virtual void setNextState({}::StateId state) = 0;".format(nameSpaceGenerator.get_path_to_state()))
+	//]]]
+	//[[[end]]]
 };
 
 //[[[cog 

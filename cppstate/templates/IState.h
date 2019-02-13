@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  nameSpaceGenerator.generate_namespace_header_for_states()
 //]]]
 //[[[end]]]
 
@@ -50,6 +50,6 @@ public:
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  nameSpaceGenerator.generate_namespace_footer_for_states()
 //]]]
 //[[[end]]]

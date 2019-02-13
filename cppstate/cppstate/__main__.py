@@ -53,7 +53,7 @@ for active_state in states:
 
 call_cog(
     infile="templates/IState.h",
-    outfile= "autogen/IState.h",
+    outfile= "autogen/{}/IState.h".format(namespace_of_states),
 )
 call_cog(
     infile="templates/IStateMachine.h",
