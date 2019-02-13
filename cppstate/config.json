@@ -1,7 +1,7 @@
 {
 	"settings":{
-		"namespace": "namespace1/namespace2/namespace3",
-		"states_namespace": "namespace_states"
+		"namespace": "Namespace1/Namespace2/Namespace3",
+		"states_namespace": "States"
 	},
 	
 	"states" : [

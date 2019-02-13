@@ -23,22 +23,31 @@ except OSError as e:
     if e.errno != errno.EEXIST:
         raise
 
+
 with open('config.json') as f:
     config = json.load(f)
 
 states = config['states']
 state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
+settings = config['settings']
+states_namespace = settings['states_namespace']
+
+try:
+    os.makedirs("autogen/"+states_namespace)
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
 
 for active_state in states:
     call_cog(
         infile="templates/State.h",
-        outfile= "autogen/{}.h".format(active_state),
+        outfile= "autogen/{}/{}.h".format(states_namespace, active_state),
         defines={"active_state": active_state}
     )
     call_cog(
         infile="templates/State.cpp",
-        outfile= "autogen/{}.cpp".format(active_state),
+        outfile= "autogen/{}/{}.cpp".format(states_namespace, active_state),
         defines={"active_state": active_state}
     )
 

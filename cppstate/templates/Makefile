@@ -4,7 +4,8 @@
 #  
 #  # load configuration
 #  states, id_of_state, transitions = cppstate.helper.load_config()
-#
+# 
+#  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 #]]]
 #[[[end]]]
 
@@ -22,6 +23,11 @@ OUT_O_DIR = objs
 #  objects += ['$(OUT_O_DIR)/{}.o'.format(state) for state in states]
 #  cog.outl('OBJECTS = ')
 #  cog.out('\n'.join("OBJECTS += {}".format(obj) for obj in objects))
+#  cog.outl('\n')
+#  cog.outl("VPATH += ./{}".format(nameSpaceGenerator.get_path_to_state()))
+#  cog.outl('\n')
+#  cog.outl('INCLUDES  = -I.')
+#  cog.outl("INCLUDES += -I./{}".format(nameSpaceGenerator.get_path_to_state()))
 #]]]
 #[[[end]]]
 
@@ -32,7 +38,7 @@ main.exe: $(OBJECTS)
 
 $(OUT_O_DIR)/%.o: %.cpp
 	$(dir_guard)
-	g++ -c $< -o $@
+	g++ $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -rf $(OUT_O_DIR)
