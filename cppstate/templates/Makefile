@@ -5,7 +5,7 @@
 #  # load configuration
 #  states, id_of_state, transitions = cppstate.helper.load_config()
 # 
-#  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+#  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 #]]]
 #[[[end]]]
 
@@ -24,10 +24,10 @@ OUT_O_DIR = objs
 #  cog.outl('OBJECTS = ')
 #  cog.out('\n'.join("OBJECTS += {}".format(obj) for obj in objects))
 #  cog.outl('\n')
-#  cog.outl("VPATH += ./{}".format(nameSpaceGenerator.get_path_to_state()))
+#  cog.outl("VPATH += ./{}".format(ns_gen.get_path_to_state()))
 #  cog.outl('\n')
 #  cog.outl('INCLUDES  = -I.')
-#  cog.outl("INCLUDES += -I./{}".format(nameSpaceGenerator.get_path_to_state()))
+#  cog.outl("INCLUDES += -I./{}".format(ns_gen.get_path_to_state()))
 #]]]
 #[[[end]]]
 

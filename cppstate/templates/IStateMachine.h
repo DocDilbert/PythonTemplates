@@ -5,7 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  ns_gen.generate_namespace_header()
 //]]]
 //[[[end]]]
 
@@ -30,12 +30,12 @@ public:
 	/// Set the next state of the state machine
 	/// \param state the next state 
 	//[[[cog 
-	//  cog.outl("virtual void setNextState({}::StateId state) = 0;".format(nameSpaceGenerator.get_path_to_state()))
+	//  cog.outl("virtual void setNextState({}::StateId state) = 0;".format(ns_gen.get_path_to_state()))
 	//]]]
 	//[[[end]]]
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  ns_gen.generate_namespace_footer()
 //]]]
 //[[[end]]]

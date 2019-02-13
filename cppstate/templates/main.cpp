@@ -5,14 +5,14 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 #include <stdio.h>
 #include "StateMachine.h"
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  ns_gen.generate_namespace_header()
 //]]]
 //[[[end]]]
 int main()
@@ -30,14 +30,14 @@ int main()
 }
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  ns_gen.generate_namespace_footer()
 //]]]
 //[[[end]]]
 
 int main()
 {
     //[[[cog 
-    //  cog.outl("return {}::main();".format(nameSpaceGenerator.get_path()))
+    //  cog.outl("return {}::main();".format(ns_gen.get_path()))
     //]]]
     //[[[end]]]
 }

@@ -8,7 +8,7 @@
 //  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
 //  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -24,7 +24,7 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header_for_states()
+//  ns_gen.generate_namespace_header_for_states()
 //]]]
 //[[[end]]]
 
@@ -109,6 +109,6 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer_for_states()
+//  ns_gen.generate_namespace_footer_for_states()
 //]]]
 //[[[end]]]

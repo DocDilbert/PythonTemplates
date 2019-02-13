@@ -5,7 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -26,7 +26,7 @@
 //[[[end]]]
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  ns_gen.generate_namespace_header()
 //]]]
 //[[[end]]]
 
@@ -49,25 +49,25 @@ private:
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
     //[[[cog 
-    //  cog.outl("{0}::IState* getIStateFromId({0}::StateId stateId);".format(nameSpaceGenerator.get_path_to_state()))
+    //  cog.outl("{0}::IState* getIStateFromId({0}::StateId stateId);".format(ns_gen.get_path_to_state()))
     //]]]
     //[[[end]]]
 
     /// \copydoc IStateMachine::update
     //[[[cog 
-    //  cog.outl("void setNextState({}::StateId state);".format(nameSpaceGenerator.get_path_to_state()))
+    //  cog.outl("void setNextState({}::StateId state);".format(ns_gen.get_path_to_state()))
     //]]]
     //[[[end]]]
 
     /// Active state
     //[[[cog 
-    //  cog.outl("{}::IState *istate;".format(nameSpaceGenerator.get_path_to_state()))
+    //  cog.outl("{}::IState *istate;".format(ns_gen.get_path_to_state()))
     //]]]
     //[[[end]]]
 
     /// Id of the last active state
     //[[[cog 
-    //  cog.outl("{}::StateId lastState;".format(nameSpaceGenerator.get_path_to_state()))
+    //  cog.outl("{}::StateId lastState;".format(ns_gen.get_path_to_state()))
     //]]]
     //[[[end]]]
 
@@ -77,12 +77,12 @@ private:
     //  last_state = states[-1]
     //  for state in states:
     //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
-    //    cog.outl("{}::{} {};".format(nameSpaceGenerator.get_path_to_state(), state, state.lower()))
+    //    cog.outl("{}::{} {};".format(ns_gen.get_path_to_state(), state, state.lower()))
     //]]]
     //[[[end]]]
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  ns_gen.generate_namespace_footer()
 //]]]
 //[[[end]]]

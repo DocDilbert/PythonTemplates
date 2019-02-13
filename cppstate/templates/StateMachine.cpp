@@ -5,7 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -17,7 +17,7 @@
 #include "StateMachine.h"
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  ns_gen.generate_namespace_header()
 //]]]
 //[[[end]]]
 
@@ -25,7 +25,7 @@ StateMachine::StateMachine() :
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(states[0].lower())]
-    //  initializers += ["lastState({}::ID_{})".format(nameSpaceGenerator.get_path_to_state(), states[0].upper())]
+    //  initializers += ["lastState({}::ID_{})".format(ns_gen.get_path_to_state(), states[0].upper())]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in states]
     //  cog.outl(",\n".join(initializers))
@@ -55,7 +55,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("{0}::IState* StateMachine::getIStateFromId({0}::StateId stateId)".format(nameSpaceGenerator.get_path_to_state()))
+//  cog.outl("{0}::IState* StateMachine::getIStateFromId({0}::StateId stateId)".format(ns_gen.get_path_to_state()))
 //]]]
 //[[[end]]]
 {
@@ -65,7 +65,7 @@ void StateMachine::update()
         //  last_state = states[-1]
         //  for state in states:
         //    sid = id_of_state[state]
-        //    cog.outl("case {}::{}:".format(nameSpaceGenerator.get_path_to_state(), sid))
+        //    cog.outl("case {}::{}:".format(ns_gen.get_path_to_state(), sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state.lower()))
         //    cog.outl("}")
@@ -77,7 +77,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("void StateMachine::setNextState({}::StateId state)".format(nameSpaceGenerator.get_path_to_state()))
+//  cog.outl("void StateMachine::setNextState({}::StateId state)".format(ns_gen.get_path_to_state()))
 //]]]
 //[[[end]]]
 {
@@ -89,6 +89,6 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  ns_gen.generate_namespace_footer()
 //]]]
 //[[[end]]]

@@ -5,7 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
-//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -17,7 +17,7 @@
 #pragma once
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_header()
+//  ns_gen.generate_namespace_header()
 //]]]
 //[[[end]]]
 
@@ -29,6 +29,6 @@ struct StateData
 };
 
 //[[[cog 
-//  nameSpaceGenerator.generate_namespace_footer()
+//  ns_gen.generate_namespace_footer()
 //]]]
 //[[[end]]]
