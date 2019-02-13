@@ -5,6 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -14,6 +15,11 @@
 ///
 
 #include "StateMachine.h"
+
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
+//]]]
+//[[[end]]]
 
 StateMachine::StateMachine() :
     //[[[cog 
@@ -76,3 +82,7 @@ void StateMachine::setNextState(StateId state)
     istate = getIStateFromId(state);
 }
 
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]

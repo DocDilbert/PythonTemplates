@@ -10,6 +10,25 @@ def load_config():
     transitions = config['transitions']
     return (states, id_of_state, transitions)
 
+class NameSpaceGenerator:
+    def __init__(self, filename):
+        config = None
+        with open('config.json') as f:
+            config = json.load(f)
+
+        self.namespaces = config['namespace'].split('/')
+    
+    def get_path(self):
+        return "::".join(self.namespaces)
+
+    def generate_header(self):
+        for namespace in self.namespaces:
+            cog.outl("namespace {}\n{{".format(namespace))
+
+    def generate_footer(self):
+        for namespace in self.namespaces:
+            cog.outl("}}".format(namespace))
+
 class StateHelper:
     def __init__(self, name, transitions=None):
         self.__name = name

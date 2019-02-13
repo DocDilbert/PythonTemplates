@@ -1,12 +1,14 @@
 //[[[cog 
 //  import cog
-//  import cppstate.helper
+//  import cppstate
 //  
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
 //  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
 //  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
+//
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -21,6 +23,10 @@
 //]]]
 //[[[end]]]
 
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
+//]]]
+//[[[end]]]
 
 //[[[cog 
 //  # Constructor
@@ -102,3 +108,7 @@
 //]]]
 //[[[end]]]
 
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]

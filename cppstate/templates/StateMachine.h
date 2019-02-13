@@ -5,6 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -21,6 +22,11 @@
 //[[[cog 
 //  for state in states:
 //      cog.outl('#include "{}.h"'.format(state))
+//]]]
+//[[[end]]]
+
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
 //]]]
 //[[[end]]]
 
@@ -63,3 +69,8 @@ private:
     //]]]
     //[[[end]]]
 };
+
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]

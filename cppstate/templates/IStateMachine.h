@@ -5,6 +5,7 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -14,6 +15,11 @@
 ///
 
 #pragma once
+
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
+//]]]
+//[[[end]]]
 
 #include "IState.h"
 
@@ -25,3 +31,8 @@ public:
 	/// \param state the next state 
   	virtual void setNextState(StateId state) = 0;
 };
+
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]

@@ -7,6 +7,7 @@
 //
 //  active_state_transitions = [transition for transition in transitions if transition['from']==active_state]
 //  state_helper = cppstate.helper.StateHelper(active_state, active_state_transitions)
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 ///
@@ -20,6 +21,11 @@
 #include "IState.h"
 #include "IStateMachine.h"
 #include "StateData.h"
+
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
+//]]]
+//[[[end]]]
 
 /// Definition of a state class.
 //[[[cog 
@@ -67,3 +73,7 @@ private:
     IStateMachine& stateMachine;
 };
 
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]

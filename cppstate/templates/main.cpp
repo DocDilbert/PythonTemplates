@@ -5,11 +5,16 @@
 //  # load configuration
 //  states, id_of_state, transitions = cppstate.helper.load_config()
 //
+//  nameSpaceGenerator = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
 #include <stdio.h>
 #include "StateMachine.h"
 
+//[[[cog 
+//  nameSpaceGenerator.generate_header()
+//]]]
+//[[[end]]]
 int main()
 {
     StateMachine stateMachine;
@@ -22,4 +27,17 @@ int main()
         printf("%i:\n",i);
         stateMachine.update();
     }
+}
+
+//[[[cog 
+//  nameSpaceGenerator.generate_footer()
+//]]]
+//[[[end]]]
+
+int main()
+{
+    //[[[cog 
+    //  cog.outl("return {}::main();".format(nameSpaceGenerator.get_path()))
+    //]]]
+    //[[[end]]]
 }
