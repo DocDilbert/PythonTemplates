@@ -3,7 +3,7 @@
 #  import cppstate
 #  
 #  # load configuration
-#  states, id_of_state, transitions, config = cppstate.helper.load_config()
+#  config = cppstate.helper.load_config()
 # 
 #  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 #]]]
@@ -20,7 +20,7 @@ OUT_O_DIR = objs
 #[[[cog 
 #  objects = []
 #  objects += ["$(OUT_O_DIR)/main.o", "$(OUT_O_DIR)/StateMachine.o"]
-#  objects += ['$(OUT_O_DIR)/{}.o'.format(state) for state in states]
+#  objects += ['$(OUT_O_DIR)/{}.o'.format(state) for state in config.states]
 #  cog.outl('OBJECTS = ')
 #  cog.out('\n'.join("OBJECTS += {}".format(obj) for obj in objects))
 #  cog.outl('\n')

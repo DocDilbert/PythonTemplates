@@ -3,7 +3,7 @@
 '  import cppstate
 '  
 '  # load configuration
-'  states, id_of_state, transitions, config = cppstate.helper.load_config()
+'  config = cppstate.helper.load_config()
 '
 ']]]
 '[[[end]]]
@@ -11,18 +11,18 @@
 @startuml StateMachine
 
 '[[[cog 
-'  first_state = states[0]
+'  first_state = config.states[0]
 '  cog.outl("[*] --> {}".format(first_state)) 
 '  from_count = {}
 '  max_count = {}
-'  for transition in transitions:
+'  for transition in config.transitions:
 '    max_count[transition['from']] = max_count.get(transition['from'], -1) +1
 '
-'  for transition in transitions:
+'  for transition in config.transitions:
 '    from_count[transition['from']] =  from_count.get(transition['from'], -1) +1
 '    count = max_count[transition['from']] - from_count[transition['from']]
 '    cog.outl("{} --> {} : {}check{}()".format(transition['from'], transition['to'], '<&media-record>'*count, transition['name'])) 
-'  for state in states:
+'  for state in config.states:
 '    cog.outl("{}: <i>entry(lastState)</i>".format(state))
 '    cog.outl("{}: <i>update()</i>".format(state)) 
 '    cog.outl("{}: <i>exit(nextState)</i>".format(state)) 

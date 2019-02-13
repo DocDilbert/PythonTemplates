@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, id_of_state, transitions, config = cppstate.helper.load_config()
+//  config = cppstate.helper.load_config()
 //
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
@@ -24,10 +24,10 @@
 StateMachine::StateMachine() :
     //[[[cog 
     //  initializers = []
-    //  initializers += ["istate(&{})".format(states[0].lower())]
-    //  initializers += ["lastState({}::ID_{})".format(ns_gen.get_path_to_state(), states[0].upper())]
+    //  initializers += ["istate(&{})".format(config.states[0].lower())]
+    //  initializers += ["lastState({}::ID_{})".format(ns_gen.get_path_to_state(), config.states[0].upper())]
     //  initializers += ["callEntry(true)"]
-    //  initializers += ["{}(*this)".format(state.lower()) for state in states]
+    //  initializers += ["{}(*this)".format(state.lower()) for state in config.states]
     //  cog.outl(",\n".join(initializers))
     //]]]
     //[[[end]]]
@@ -37,7 +37,7 @@ StateMachine::StateMachine() :
 void StateMachine::init(StateData& stateData)
 {
     //[[[cog 
-    //  for state in states:
+    //  for state in config.states:
     //    cog.outl("{}.init(stateData);".format(state.lower()))
     //]]]
     //[[[end]]]
@@ -62,9 +62,9 @@ void StateMachine::update()
     switch(stateId)
     {
         //[[[cog 
-        //  last_state = states[-1]
-        //  for state in states:
-        //    sid = id_of_state[state]
+        //  last_state = config.states[-1]
+        //  for state in config.states:
+        //    sid = config.id_of_state[state]
         //    cog.outl("case {}::{}:".format(ns_gen.get_path_to_state(), sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state.lower()))

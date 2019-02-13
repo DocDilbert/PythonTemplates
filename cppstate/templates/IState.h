@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, id_of_state, transitions, config = cppstate.helper.load_config()
+//  config = cppstate.helper.load_config()
 //
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
@@ -24,7 +24,7 @@
 /// Enumerates all possible states
 enum StateId
 {
-    //[[[cog cog.outl(",\n".join(id_of_state.values()))]]]
+    //[[[cog cog.outl(",\n".join(config.id_of_state.values()))]]]
     //[[[end]]]
 };
 

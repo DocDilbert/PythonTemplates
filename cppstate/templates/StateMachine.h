@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, id_of_state, transitions, config = cppstate.helper.load_config()
+//  config = cppstate.helper.load_config()
 //
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
@@ -20,7 +20,7 @@
 #include "IStateMachine.h"
 #include "StateData.h"
 //[[[cog 
-//  for state in states:
+//  for state in config.states:
 //      cog.outl('#include "{}.h"'.format(state))
 //]]]
 //[[[end]]]
@@ -74,8 +74,8 @@ private:
     /// true when the entry method has to be called
     bool callEntry;
     //[[[cog 
-    //  last_state = states[-1]
-    //  for state in states:
+    //  last_state = config.states[-1]
+    //  for state in config.states:
     //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
     //    cog.outl("{}::{} {};".format(ns_gen.get_path_to_state(), state, state.lower()))
     //]]]

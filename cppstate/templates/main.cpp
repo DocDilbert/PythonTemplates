@@ -3,7 +3,7 @@
 //  import cppstate
 //  
 //  # load configuration
-//  states, id_of_state, transitions, config = cppstate.helper.load_config()
+//  config = cppstate.helper.load_config()
 //
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
