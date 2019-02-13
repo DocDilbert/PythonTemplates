@@ -16,17 +16,12 @@
 
 #pragma once
 
+#include "StateIds.h"
+
 //[[[cog 
 //  ns_gen.generate_namespace_header_for_states()
 //]]]
 //[[[end]]]
-
-/// Enumerates all possible states
-enum StateId
-{
-    //[[[cog cog.outl(",\n".join(config.id_of_state.values()))]]]
-    //[[[end]]]
-};
 
 /// Abstract interface to a state
 class IState 

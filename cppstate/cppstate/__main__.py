@@ -56,6 +56,10 @@ call_cog(
     outfile= "autogen/{}/IState.h".format(namespace_of_states),
 )
 call_cog(
+    infile="templates/StateIds.h",
+    outfile= "autogen/{}/StateIds.h".format(namespace_of_states),
+)
+call_cog(
     infile="templates/IStateMachine.h",
     outfile= "autogen/IStateMachine.h",
 )
