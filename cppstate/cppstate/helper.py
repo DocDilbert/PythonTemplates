@@ -32,16 +32,16 @@ class NameSpaceGenerator:
             cog.outl("namespace {}\n{{".format(name))
 
     def generate_namespace_footer(self):
-        for name in self.namespace:
-            cog.outl("}}".format(name))
+        for _ in self.namespace:
+            cog.outl("}}".format())
 
     def generate_namespace_header_for_states(self):
         for name in self.namespace_of_states:
             cog.outl("namespace {}\n{{".format(name))
 
     def generate_namespace_footer_for_states(self):
-        for name in self.namespace_of_states:
-            cog.outl("}}".format(name))
+        for _ in self.namespace_of_states:
+            cog.outl("}}".format())
 
 class StateHelper:
     def __init__(self, name, transitions=None):
@@ -59,7 +59,7 @@ class StateHelper:
     def out_indent(self, str):
         cog.outl("{}{}".format(self.__indent, str))
    
-    def out_nl(self):
+    def __out_nl(self):
         self.out_indent("")
 
     def out_begin(self):
@@ -91,7 +91,7 @@ class StateHelper:
         self.lower_indent()
         self.out_end()
 
-    def generate_processTransitions(self):
+    def generate_process_transitions(self):
         self.out_indent("void {}::processTransitions()".format(
             self.__name
         ))
@@ -104,13 +104,13 @@ class StateHelper:
                 self.out_transition_check(transition['name'], transition['to'])
 
                 if transition!=last:
-                    self.out_nl()
+                    self.__out_nl()
         else:
             self.out_comment("Check for transitions here ...")
         self.lower_indent()
         self.out_end()
 
-    def out_state_check(self, name):
+    def __out_state_check(self, name):
         self.out_indent("bool {}::{}()".format(
             self.__name, 
             "check{}".format(name)
@@ -122,7 +122,7 @@ class StateHelper:
         self.lower_indent()
         self.out_end()
 
-    def out_state_check_prototype(self, transition_from, transition_to, transition_name):
+    def __out_state_check_prototype(self, transition_from, transition_to, transition_name):
         self.out_indent(
             "/// Returns true when a transition from {} to {} is requested.".format(transition_from, transition_to)
         )
@@ -135,13 +135,13 @@ class StateHelper:
             return
 
         for transition in self.__transitions:
-            self.out_state_check(transition['name'])
-            self.out_nl()
+            self.__out_state_check(transition['name'])
+            self.__out_nl()
     
     def generate_state_check_prototypes(self):
         if not self.__transitions:
             return
 
         for transition in self.__transitions:
-            self.out_state_check_prototype(transition['from'], transition['to'],transition['name'])
-            self.out_nl()
+            self.__out_state_check_prototype(transition['from'], transition['to'],transition['name'])
+            self.__out_nl()

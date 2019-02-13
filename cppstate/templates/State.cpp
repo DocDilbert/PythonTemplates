@@ -104,7 +104,7 @@
 //]]]
 //[[[end]]]
 //[[[cog 
-//  state_helper.generate_processTransitions()
+//  state_helper.generate_process_transitions()
 //]]]
 //[[[end]]]
 
