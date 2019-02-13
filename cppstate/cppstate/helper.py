@@ -5,7 +5,7 @@ def load_config():
     with open('config.json') as f:
         config = json.load(f)
 
-    states = config['states']
+    states = [state['name'] for state in config['states']]
     id_of_state = {state: 'ID_'+state.upper() for state in states}
     transitions = config['transitions']
     return (states, id_of_state, transitions)

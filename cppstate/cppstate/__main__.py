@@ -27,7 +27,7 @@ except OSError as e:
 with open('config.json') as f:
     config = json.load(f)
 
-states = config['states']
+states = [state['name'] for state in config['states']]
 state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
 settings = config['settings']
