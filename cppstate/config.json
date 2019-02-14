@@ -1,16 +1,17 @@
 {
 	"settings":{
-		"namespace": "Namespace1::Namespace2::Namespace3",
-		"namespace_of_states": "Namespace1::Namespace2::Namespace3::StatesNamespace",
-		"namespace_of_ids": "Autogen::StateIds",
+		"namespace": "NamespaceA::NamespaceB::NamespaceC",
+		"namespace_of_states": "NamespaceA::NamespaceB::NamespaceC::GenericStates",
+		"namespace_of_ids": "Autogen::CiaStateMachineIds",
 
 		"states_are_in_subnamespace" : true,
+		"ids_are_in_subnamespace" : false,
 
-		"typename_of_state_machine" : "GenericStateMachine",
-		"typename_of_state_interface" : "StateInterface",
-		"typename_of_state_machine_interface" : "StateMachineInterface",
-		"typename_of_state_data_structure" : "GenericStateData",
-		"typename_of_ids" : "StateIdEnum"
+		"typename_of_state_machine" : "Cia402StateMachine",
+		"typename_of_state_interface" : "ICia402State",
+		"typename_of_state_machine_interface" : "ICia402StateMachine",
+		"typename_of_state_data_structure" : "Cia402StateData",
+		"typename_of_ids" : "Cia402StateIds"
 	},
 	
 	"init_state" : {"id": "ID_InitStateId"},

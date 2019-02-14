@@ -17,6 +17,7 @@ class Config:
         self.typename_of_state_machine_interface = settings['typename_of_state_machine_interface']
         self.typename_of_state_data_structure = settings['typename_of_state_data_structure']
         self.typename_of_state_machine = settings['typename_of_state_machine']
+
 def load_config():
     with open('config.json') as f:
         config = json.load(f)
@@ -34,6 +35,7 @@ class NameSpaceGenerator:
         self.namespace_of_states = settings['namespace_of_states'].split("::")
         self.namespace_of_ids =settings['namespace_of_ids'].split("::")
         self.states_are_in_subnamespace = settings['states_are_in_subnamespace']
+        self.ids_are_in_subnamespace = settings['ids_are_in_subnamespace']
 
     def get_path_to_id_file(self):
         return self.namespace_of_ids[-1]
@@ -56,11 +58,13 @@ class NameSpaceGenerator:
         else:
             return "::".join(self.namespace_of_states)+"::"
 
-        
-
+    
     def get_namespace_to_id(self):
-        return "::".join(self.namespace_of_ids)
-
+        if self.ids_are_in_subnamespace:
+            return self.namespace_of_ids[-1]+"::"
+        else:
+            return "::".join(self.namespace_of_ids)
+            
     def generate_namespace_header(self):
         for name in self.namespace:
             cog.outl("namespace {}\n{{".format(name))
