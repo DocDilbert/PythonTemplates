@@ -50,7 +50,7 @@ private:
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
     //[[[cog 
-    //  cog.outl("{}::{}* getIStateFromId({}::{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //  cog.outl("{}{}* getIStateFromId({}::{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
@@ -62,7 +62,7 @@ private:
 
     /// Active state
     //[[[cog 
-    //  cog.outl("{}::{} *istate;".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface))
+    //  cog.outl("{}{} *istate;".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface))
     //]]]
     //[[[end]]]
 
@@ -78,7 +78,7 @@ private:
     //  last_state = config.states[-1]
     //  for state in config.states:
     //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
-    //    cog.outl("{}::{} {};".format(ns_gen.get_namespace_to_state(), state, state.lower()))
+    //    cog.outl("{}{} {};".format(ns_gen.get_namespace_to_state(), state, state.lower()))
     //]]]
     //[[[end]]]
 };

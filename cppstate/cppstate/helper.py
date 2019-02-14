@@ -49,7 +49,12 @@ class NameSpaceGenerator:
             return "::".join(self.namespace)+"::"
 
     def get_namespace_to_state(self):
-        return "::".join(self.namespace_of_states)
+        if self.states_are_in_subnamespace:
+            return self.namespace_of_states[-1]+"::"
+        else:
+            return "::".join(self.namespace_of_states)+"::"
+
+        
 
     def get_namespace_to_id(self):
         return "::".join(self.namespace_of_ids)
