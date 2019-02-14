@@ -33,6 +33,7 @@ transitions = config['transitions']
 settings = config['settings']
 namespace_of_states = settings['namespace_of_states']
 namespace_of_ids = settings['namespace_of_ids']
+typename_of_ids = settings['typename_of_ids']
 
 try:
     os.makedirs("autogen/"+namespace_of_states)
@@ -64,7 +65,7 @@ call_cog(
 )
 call_cog(
     infile="templates/StateIds.h",
-    outfile= "autogen/{}/StateIds.h".format(namespace_of_ids),
+    outfile= "autogen/{}/{}.h".format(namespace_of_ids, typename_of_ids),
 )
 call_cog(
     infile="templates/IStateMachine.h",
