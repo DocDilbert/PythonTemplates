@@ -29,8 +29,7 @@ class NameSpaceGenerator:
         self.namespace = settings['namespace'].split('/')
         self.namespace_of_states = list(self.namespace)
         self.namespace_of_states.append(settings['namespace_of_states'])
-        self.namespace_of_ids = []
-        self.namespace_of_ids.append(settings['namespace_of_ids'])
+        self.namespace_of_ids =settings['namespace_of_ids'].split("::")
 
     def get_path(self):
         return "::".join(self.namespace)
@@ -38,7 +37,10 @@ class NameSpaceGenerator:
     def get_path_to_state(self):
         return self.namespace_of_states[-1]
 
-    def get_path_to_id(self):
+    def get_namespace_to_id(self):
+        return "::".join(self.namespace_of_ids)
+
+    def get_path_to_id_file(self):
         return self.namespace_of_ids[-1]
 
     def generate_namespace_header(self):
@@ -110,7 +112,7 @@ class StateHelper:
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
-        self.out_code("stateMachine.setNextState({}::{})".format(self.__ns_gen.get_path_to_id(), self.get_id(to_state)))
+        self.out_code("stateMachine.setNextState({}::{})".format(self.__ns_gen.get_namespace_to_id(), self.get_id(to_state)))
         self.out_code("return")
         self.lower_indent()
         self.out_end()

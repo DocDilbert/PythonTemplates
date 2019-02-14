@@ -25,7 +25,7 @@ StateMachine::StateMachine() :
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(config.states[0].lower())]
-    //  initializers += ["lastState({}::{})".format(ns_gen.get_path_to_id(), config.init_state_id)]
+    //  initializers += ["lastState({}::{})".format(ns_gen.get_namespace_to_id(), config.init_state_id)]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in config.states]
     //  cog.outl(",\n".join(initializers))
@@ -55,7 +55,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("{}::IState* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_path_to_state(), ns_gen.get_path_to_id(), config.typename_of_ids))
+//  cog.outl("{}::IState* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_path_to_state(), ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
@@ -65,7 +65,7 @@ void StateMachine::update()
         //  last_state = config.states[-1]
         //  for state in config.states:
         //    sid = config.id_of_state[state]
-        //    cog.outl("case {}::{}:".format(ns_gen.get_path_to_id(), sid))
+        //    cog.outl("case {}::{}:".format(ns_gen.get_namespace_to_id(), sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state.lower()))
         //    cog.outl("}")
@@ -77,7 +77,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("void StateMachine::setNextState({}::{} state)".format(ns_gen.get_path_to_id(), config.typename_of_ids))
+//  cog.outl("void StateMachine::setNextState({}::{} state)".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
