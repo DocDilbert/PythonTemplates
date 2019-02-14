@@ -50,6 +50,9 @@ public:
     /// Cyclic update method of the state machine
     void update();
 
+    /// This method resets the statemachine to its init state and init transition
+    void reset();
+    
 private:
     /// Returns a pointer to an object which implements the IState interface. 
     /// \param stateId id of the requested state 

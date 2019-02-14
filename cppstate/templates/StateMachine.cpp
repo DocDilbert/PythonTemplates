@@ -44,6 +44,7 @@
     //    cog.outl("{}.init(stateData);".format(state.lower()))
     //]]]
     //[[[end]]]
+    reset();
 }
     
 
@@ -57,6 +58,17 @@
         callEntry = false;
     }
     istate->execute();
+}
+
+//[[[cog cog.out('void {}::reset()'.format(config.typename_of_state_machine))]]]
+//[[[end]]] 
+{
+    //[[[cog 
+    //  cog.outl("istate = &{};".format(config.states[0].lower()))
+    //  cog.outl('lastState = {}::{};'.format(ns_gen.get_namespace_to_id(), config.init_state_id))
+    //]]]
+    //[[[end]]]   
+    callEntry = true;  
 }
 
 //[[[cog 

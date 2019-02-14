@@ -13,6 +13,8 @@
 		"typename_of_ids" : "StateIdEnum"
 	},
 	
+	"init_state" : {"id": "ID_InitStateId"},
+	
 	"states" : [
 		{"name":"StateA", "id":"ID_StateA"},
 		{"name":"StateB", "id":"ID_StateB"},
