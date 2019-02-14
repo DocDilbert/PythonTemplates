@@ -26,7 +26,7 @@ class NameSpaceGenerator:
             config = json.load(f)
 
         settings = config['settings']
-        self.namespace = settings['namespace'].split('/')
+        self.namespace = settings['namespace'].split("::")
         self.namespace_of_states = settings['namespace_of_states'].split("::")
         self.namespace_of_ids =settings['namespace_of_ids'].split("::")
 
