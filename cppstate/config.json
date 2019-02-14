@@ -1,7 +1,7 @@
 {
 	"settings":{
 		"namespace": "Namespace1::Namespace2::Namespace3",
-		"namespace_of_states": "NamespaceXXX::StatesNamespace",
+		"namespace_of_states": "Namespace1::Namespace2::Namespace3::StatesNamespace",
 		"namespace_of_ids": "Autogen::StateIds",
 		"typename_of_ids" : "StateIdEnum"
 	},
