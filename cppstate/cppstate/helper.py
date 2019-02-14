@@ -31,6 +31,7 @@ class NameSpaceGenerator:
         self.namespace = settings['namespace'].split("::")
         self.namespace_of_states = settings['namespace_of_states'].split("::")
         self.namespace_of_ids =settings['namespace_of_ids'].split("::")
+        self.states_are_in_subnamespace = settings['states_are_in_subnamespace']
 
     def get_path_to_id_file(self):
         return self.namespace_of_ids[-1]
@@ -42,7 +43,10 @@ class NameSpaceGenerator:
         return "::".join(self.namespace)
 
     def get_namespace_to_statemachine(self):
-        return "::".join(self.namespace)+"::"
+        if self.states_are_in_subnamespace:
+            return ""
+        else:
+            return "::".join(self.namespace)+"::"
 
     def get_namespace_to_state(self):
         return "::".join(self.namespace_of_states)
