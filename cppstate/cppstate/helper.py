@@ -15,7 +15,7 @@ class Config:
         self.typename_of_state_interface = settings['typename_of_state_interface']
         self.typename_of_state_machine_interface = settings['typename_of_state_machine_interface']
         self.typename_of_state_data_structure = settings['typename_of_state_data_structure']
-
+        self.typename_of_state_machine = settings['typename_of_state_machine']
 def load_config():
     with open('config.json') as f:
         config = json.load(f)

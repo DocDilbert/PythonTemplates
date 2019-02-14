@@ -8,12 +8,12 @@
 //  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
 //]]]
 //[[[end]]]
-#include <stdio.h>
-#include "StateMachine.h"
 
-//[[[cog 
-//  ns_gen.generate_namespace_header()
-//]]]
+#include <stdio.h>
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine))]]]
+//[[[end]]] 
+
+//[[[cog ns_gen.generate_namespace_header()]]]
 //[[[end]]]
 int main()
 {

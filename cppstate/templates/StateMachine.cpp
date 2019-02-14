@@ -14,7 +14,8 @@
 /// \author TODO
 ///
 
-#include "StateMachine.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine))]]]
+//[[[end]]] 
 
 //[[[cog 
 //  ns_gen.generate_namespace_header()

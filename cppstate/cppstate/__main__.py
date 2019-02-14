@@ -37,7 +37,7 @@ typename_of_ids = settings['typename_of_ids']
 typename_of_state_interface = settings['typename_of_state_interface']
 typename_of_state_machine_interface=settings['typename_of_state_machine_interface']
 typename_of_state_data_structure = settings['typename_of_state_data_structure']
-
+typename_of_state_machine = settings['typename_of_state_machine']
 try:
     os.makedirs("autogen/"+namespace_of_states)
 except OSError as e:
@@ -76,11 +76,11 @@ call_cog(
 )
 call_cog(
     infile="templates/StateMachine.h",
-    outfile= "autogen/StateMachine.h"
+    outfile= "autogen/{}.h".format(typename_of_state_machine)
 )
 call_cog(
     infile="templates/StateMachine.cpp",
-    outfile= "autogen/StateMachine.cpp"
+    outfile= "autogen/{}.cpp".format(typename_of_state_machine)
 )
 call_cog(
     infile="templates/main.cpp",
