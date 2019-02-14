@@ -6,6 +6,7 @@ Vorraussetzungen
 1) Python Version 3
     - Cog - Code - Generator für Python
 2) PlantUml - Für die Generierung des Zustandsdiagrams
+3) GraphViz - Vorraussetzungen von PlantUml zur Erzeugung von Graphen
 
 Kurzanleitung
 ------------------
