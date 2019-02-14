@@ -26,7 +26,7 @@ class NameSpaceGenerator:
         self.namespace = settings['namespace'].split('/')
         self.namespace_of_states = list(self.namespace)
         self.namespace_of_states.append(settings['namespace_of_states'])
-        self.namespace_of_ids = list(self.namespace)
+        self.namespace_of_ids = []
         self.namespace_of_ids.append(settings['namespace_of_ids'])
 
     def get_path(self):
