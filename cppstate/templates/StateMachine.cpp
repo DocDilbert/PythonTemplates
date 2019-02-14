@@ -22,7 +22,8 @@
 //]]]
 //[[[end]]]
 
-StateMachine::StateMachine() :
+//[[[cog cog.out('{0}::{0}() :'.format(config.typename_of_state_machine))]]]
+//[[[end]]] 
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(config.states[0].lower())]
@@ -35,7 +36,7 @@ StateMachine::StateMachine() :
 {
 }
 
-//[[[cog cog.out('void StateMachine::init({}& stateData)'.format(config.typename_of_state_data_structure))]]]
+//[[[cog cog.out('void {}::init({}& stateData)'.format(config.typename_of_state_machine, config.typename_of_state_data_structure))]]]
 //[[[end]]] 
 {
     //[[[cog 
@@ -45,7 +46,9 @@ StateMachine::StateMachine() :
     //[[[end]]]
 }
     
-void StateMachine::update()
+
+//[[[cog cog.out('void {}::update()'.format(config.typename_of_state_machine))]]]
+//[[[end]]] 
 {
     if (callEntry)
     {
@@ -57,7 +60,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("{}{}* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//  cog.outl("{}{}* {}::getIStateFromId({}::{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
@@ -79,7 +82,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("void StateMachine::setNextState({}::{} state)".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//  cog.outl("void {}::setNextState({}::{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {

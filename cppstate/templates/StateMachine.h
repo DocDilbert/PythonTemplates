@@ -34,13 +34,13 @@
 //[[[end]]]
 
 /// A generic state machine implementation
-//[[[cog cog.out('class StateMachine : public {}'.format(config.typename_of_state_machine_interface))]]]
+//[[[cog cog.out('class {} : public {}'.format(config.typename_of_state_machine, config.typename_of_state_machine_interface))]]]
 //[[[end]]] 
 {
 public:
     /// Constructor
-    StateMachine();
-
+    //[[[cog cog.out('{}();'.format(config.typename_of_state_machine))]]]
+    //[[[end]]] 
 
     /// This method initializes the state machine
     /// \param stateData data structure used by all states

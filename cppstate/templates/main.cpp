@@ -17,8 +17,9 @@
 //[[[end]]]
 int main()
 {
-    StateMachine stateMachine;
+    
     //[[[cog 
+    //  cog.outl("{} stateMachine;".format(config.typename_of_state_machine))
     //  cog.outl("{} stateData;".format(config.typename_of_state_data_structure))
     //]]]
     //[[[end]]]
