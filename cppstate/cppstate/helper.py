@@ -31,17 +31,17 @@ class NameSpaceGenerator:
         self.namespace_of_states.append(settings['namespace_of_states'])
         self.namespace_of_ids =settings['namespace_of_ids'].split("::")
 
-    def get_path(self):
+    def get_path_to_id_file(self):
+        return self.namespace_of_ids[-1]
+
+    def get_namespace(self):
         return "::".join(self.namespace)
 
-    def get_path_to_state(self):
+    def get_namespace_to_state(self):
         return self.namespace_of_states[-1]
 
     def get_namespace_to_id(self):
         return "::".join(self.namespace_of_ids)
-
-    def get_path_to_id_file(self):
-        return self.namespace_of_ids[-1]
 
     def generate_namespace_header(self):
         for name in self.namespace:

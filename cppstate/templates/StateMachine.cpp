@@ -55,7 +55,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("{}::IState* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_path_to_state(), ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//  cog.outl("{}::IState* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_namespace_to_state(), ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
