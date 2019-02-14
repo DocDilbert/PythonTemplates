@@ -1,11 +1,13 @@
 {
 	"settings":{
 		"namespace": "Namespace1::Namespace2::Namespace3",
+		
 		"namespace_of_states": "Namespace1::Namespace2::Namespace3::StatesNamespace",
 		"states_are_in_subnamespace" : true,
+		"typename_of_state_interface" : "StateInterface",
+
 		"namespace_of_ids": "Autogen::StateIds",
-		"typename_of_ids" : "StateIdEnum",
-		"typename_of_state_interface" : "StateInterface"
+		"typename_of_ids" : "StateIdEnum"
 	},
 	
 	"states" : [
