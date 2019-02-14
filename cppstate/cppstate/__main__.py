@@ -31,7 +31,7 @@ states = [state['name'] for state in config['states']]
 state_to_id = {state: 'ID_'+state.upper() for state in states}
 transitions = config['transitions']
 settings = config['settings']
-namespace_of_states = settings['namespace_of_states']
+namespace_of_states = settings['namespace_of_states'].split("::")[-1]
 namespace_of_ids = settings['namespace_of_ids'].split("::")[-1]
 typename_of_ids = settings['typename_of_ids']
 
