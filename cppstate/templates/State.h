@@ -56,7 +56,7 @@ public:
     //[[[end]]]
     
     /// This method is called when the state is active.
-    void update();
+    void execute();
 
     /// This method is called at the exit point of the state.
     /// \param nextState The id of the state to which the transition will lead

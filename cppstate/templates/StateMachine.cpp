@@ -51,7 +51,7 @@ void StateMachine::update()
         istate->entry(lastState);
         callEntry = false;
     }
-    istate->update();
+    istate->execute();
 }
 
 //[[[cog 

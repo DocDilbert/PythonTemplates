@@ -42,9 +42,9 @@ public:
     //[[[end]]]
     
 
-    /// The update method is called every time when the state is 
+    /// The execute method is called every time when the state is 
     /// active
-    virtual void update() = 0;
+    virtual void execute() = 0;
 
     /// The exit method is called by the statemachine the before the state is left.
     //[[[cog 

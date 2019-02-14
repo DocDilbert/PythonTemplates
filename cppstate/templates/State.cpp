@@ -71,7 +71,7 @@
 }
 
 //[[[cog 
-//  cog.outl('void {}::update()'.format(active_state))
+//  cog.outl('void {}::execute()'.format(active_state))
 //]]]
 //[[[end]]]
 {
@@ -79,7 +79,7 @@
 
     // TODO: Remove debug code
     //[[[cog 
-    //  cog.outl('printf("update: {}\\n");'.format(active_state))
+    //  cog.outl('printf("execute: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 
