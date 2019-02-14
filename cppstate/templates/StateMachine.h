@@ -57,6 +57,7 @@ private:
     /// Returns a pointer to an object which implements the IState interface. 
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
+    ///          If the stateId is unknown a nullptr is returned. 
     //[[[cog 
     //  cog.outl("{}{}* getIStateFromId({}{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]

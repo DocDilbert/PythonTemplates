@@ -90,6 +90,9 @@
         //      cog.outl()
         //]]]
         //[[[end]]]
+
+        default:
+            return nullptr;
     }
 }
 
