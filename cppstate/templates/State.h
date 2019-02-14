@@ -34,18 +34,15 @@
 {
 public:
     /// Constructor
-    //[[[cog 
-    //  cog.out("{}(IStateMachine& stateMachine);".format(active_state));
-    //]]]
+    //[[[cog cog.out("{}({}::IStateMachine& stateMachine);".format(active_state, ns_gen.get_namespace()));]]]
     //[[[end]]]
 
     /// Init Method
-    void init(StateData& stateData);
+    //[[[cog cog.out("void init({}::StateData& stateData);".format(ns_gen.get_namespace()));]]]
+    //[[[end]]]
 
     /// Returns the id of this state
-    //[[[cog 
-    //  cog.outl("{}::{} getId();".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
-    //]]]
+    //[[[cog cog.outl("{}::{} getId();".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
     /// This method is called at the entry point of the state.
@@ -60,28 +57,24 @@ public:
 
     /// This method is called at the exit point of the state.
     /// \param nextState The id of the state to which the transition will lead
-    //[[[cog 
-    //  cog.outl("void exit({}::{} lastState);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
-    //]]]
+    //[[[cog cog.outl("void exit({}::{} lastState);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
 private:
-    //[[[cog 
-    //  state_helper.generate_state_check_prototypes()
-    //]]]
+    //[[[cog state_helper.generate_state_check_prototypes()]]]
     //[[[end]]]
     /// This method processes all possible state transition checks from this state to other states.
     void processTransitions();
 
     /// A pointer to the StateData structure. This structure is a container for all
     /// references needed by each state.
-    StateData* stateData; 
+    //[[[cog cog.out("{}::StateData* stateData; ".format(ns_gen.get_namespace()));]]]
+    //[[[end]]]
 
     /// A reference to the statemachine. Used to set the next state.
-    IStateMachine& stateMachine;
+    //[[[cog cog.outl("{}::IStateMachine& stateMachine;".format(ns_gen.get_namespace(), ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[end]]]
 };
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer_for_states()
-//]]]
+//[[[cog ns_gen.generate_namespace_footer_for_states()]]]
 //[[[end]]]

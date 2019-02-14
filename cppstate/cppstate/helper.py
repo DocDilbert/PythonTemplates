@@ -33,11 +33,14 @@ class NameSpaceGenerator:
     def get_path_to_id_file(self):
         return self.namespace_of_ids[-1]
 
+    def get_path_to_state_file(self):
+        return self.namespace_of_states[-1]
+
     def get_namespace(self):
         return "::".join(self.namespace)
 
     def get_namespace_to_state(self):
-        return self.namespace_of_states[-1]
+        return "::".join(self.namespace_of_states)
 
     def get_namespace_to_id(self):
         return "::".join(self.namespace_of_ids)

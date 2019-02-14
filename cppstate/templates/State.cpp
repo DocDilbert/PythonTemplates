@@ -29,7 +29,7 @@
 
 //[[[cog 
 //  # Constructor
-//  cog.outl("{}::{}(IStateMachine& stateMachine) :".format(active_state, active_state))
+//  cog.outl("{}::{}({}::IStateMachine& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace()))
 //  cog.out("    stateData(nullptr),")
 //  cog.out("    stateMachine(stateMachine)")
 //]]]
@@ -37,9 +37,7 @@
 {
 }
 
-//[[[cog 
-//  cog.outl('void {}::init(StateData& stateData)'.format(active_state))
-//]]]
+//[[[cog cog.out("void {}::init({}::StateData& stateData)".format(active_state, ns_gen.get_namespace()));]]]
 //[[[end]]]
 {
     this->stateData = &stateData;
@@ -47,14 +45,10 @@
     // Insert init code here
 }
 
-//[[[cog 
-//  cog.outl('{}::{} {}::getId()'.format(ns_gen.get_namespace_to_id(), config.typename_of_ids, active_state))
-//]]]
+//[[[cog cog.outl('{}::{} {}::getId()'.format(ns_gen.get_namespace_to_id(), config.typename_of_ids, active_state))]]]
 //[[[end]]]
 {
-    //[[[cog 
-    //  cog.out("return {}::{};".format(ns_gen.get_namespace_to_id(), config.id_of_state[active_state]))
-    //]]]
+    //[[[cogcog.out("return {}::{};".format(ns_gen.get_namespace_to_id(), config.id_of_state[active_state]))]]]
     //[[[end]]]
 }
 
