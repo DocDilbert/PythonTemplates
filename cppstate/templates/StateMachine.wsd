@@ -24,7 +24,7 @@
 '    cog.outl("{} --> {} : {}check{}()".format(transition['from'], transition['to'], '<&media-record>'*count, transition['name'])) 
 '  for state in config.states:
 '    cog.outl("{}: <i>entry(lastState)</i>".format(state))
-'    cog.outl("{}: <i>update()</i>".format(state)) 
+'    cog.outl("{}: <i>execute()</i>".format(state)) 
 '    cog.outl("{}: <i>exit(nextState)</i>".format(state)) 
 ']]]
 '[[[end]]]
