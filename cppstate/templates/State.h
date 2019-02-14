@@ -44,14 +44,14 @@ public:
 
     /// Returns the id of this state
     //[[[cog 
-    //  cog.outl("{}::StateId getId();".format(ns_gen.get_path_to_id()))
+    //  cog.outl("{}::{} getId();".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
     /// This method is called at the entry point of the state.
     /// \param lastState The id of the state from which the transition occured
     //[[[cog 
-    //  cog.outl("void entry({}::StateId lastState);".format(ns_gen.get_path_to_id()))
+    //  cog.outl("void entry({}::{} lastState);".format(ns_gen.get_path_to_id(),config.typename_of_ids))
     //]]]
     //[[[end]]]
     
@@ -61,7 +61,7 @@ public:
     /// This method is called at the exit point of the state.
     /// \param nextState The id of the state to which the transition will lead
     //[[[cog 
-    //  cog.outl("void exit({}::StateId lastState);".format(ns_gen.get_path_to_id()))
+    //  cog.outl("void exit({}::{} lastState);".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 

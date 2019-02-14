@@ -2,7 +2,8 @@
 	"settings":{
 		"namespace": "Namespace1/Namespace2/Namespace3",
 		"namespace_of_states": "States",
-		"namespace_of_ids": "StateIds"
+		"namespace_of_ids": "StateIds",
+		"typename_of_ids" : "StateIdEnum"
 	},
 	
 	"states" : [

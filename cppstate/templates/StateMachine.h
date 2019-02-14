@@ -49,13 +49,13 @@ private:
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
     //[[[cog 
-    //  cog.outl("{0}::IState* getIStateFromId({1}::StateId stateId);".format(ns_gen.get_path_to_state(), ns_gen.get_path_to_id()))
+    //  cog.outl("{}::IState* getIStateFromId({}::{} stateId);".format(ns_gen.get_path_to_state(), ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
     /// \copydoc IStateMachine::update
     //[[[cog 
-    //  cog.outl("void setNextState({}::StateId state);".format(ns_gen.get_path_to_id()))
+    //  cog.outl("void setNextState({}::{} state);".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
@@ -67,7 +67,7 @@ private:
 
     /// Id of the last active state
     //[[[cog 
-    //  cog.outl("{}::StateId lastState;".format(ns_gen.get_path_to_id()))
+    //  cog.outl("{}::{} lastState;".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 

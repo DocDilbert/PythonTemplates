@@ -22,7 +22,8 @@
 //[[[end]]]
 
 /// Enumerates all possible states
-enum StateId
+//[[[cog cog.outl("enum {}".format(config.typename_of_ids))]]]
+//[[[end]]]
 {
     //[[[cog cog.outl(",\n".join(config.id_of_state.values()))]]]
     //[[[end]]]

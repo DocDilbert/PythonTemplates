@@ -30,14 +30,14 @@ public:
 
     /// This method returns the Id of the state
     //[[[cog 
-    //  cog.outl("virtual {}::StateId getId() = 0;".format(ns_gen.get_path_to_id()))
+    //  cog.outl("virtual {}::{} getId() = 0;".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
     /// The entry method is called by the statemachine the first time this
     /// state is executed
     //[[[cog 
-    //  cog.outl("virtual void entry({}::StateId lastState) = 0;".format(ns_gen.get_path_to_id()))
+    //  cog.outl("virtual void entry({}::{} lastState) = 0;".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
     
@@ -48,7 +48,7 @@ public:
 
     /// The exit method is called by the statemachine the before the state is left.
     //[[[cog 
-    //  cog.outl("virtual void exit({}::StateId lastState) = 0;".format(ns_gen.get_path_to_id()))
+    //  cog.outl("virtual void exit({}::{} lastState) = 0;".format(ns_gen.get_path_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 };

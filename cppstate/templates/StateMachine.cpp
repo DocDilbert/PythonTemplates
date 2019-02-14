@@ -55,7 +55,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("{0}::IState* StateMachine::getIStateFromId({1}::StateId stateId)".format(ns_gen.get_path_to_state(), ns_gen.get_path_to_id()))
+//  cog.outl("{}::IState* StateMachine::getIStateFromId({}::{} stateId)".format(ns_gen.get_path_to_state(), ns_gen.get_path_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
@@ -77,7 +77,7 @@ void StateMachine::update()
 }
 
 //[[[cog 
-//  cog.outl("void StateMachine::setNextState({}::StateId state)".format(ns_gen.get_path_to_id()))
+//  cog.outl("void StateMachine::setNextState({}::{} state)".format(ns_gen.get_path_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {

@@ -10,6 +10,9 @@ class Config:
         self.init_state_id = self.id_of_state[self.states[0]]
         self.transitions = parsed_json['transitions']
 
+        settings = parsed_json['settings']
+        self.typename_of_ids = settings['typename_of_ids']
+
 def load_config():
     with open('config.json') as f:
         config = json.load(f)
