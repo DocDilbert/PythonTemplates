@@ -34,7 +34,8 @@ StateMachine::StateMachine() :
 {
 }
 
-void StateMachine::init(StateData& stateData)
+//[[[cog cog.out('void StateMachine::init({}& stateData)'.format(config.typename_of_state_data_structure))]]]
+//[[[end]]] 
 {
     //[[[cog 
     //  for state in config.states:

@@ -37,7 +37,7 @@ public:
     //[[[end]]]
 
     /// Init Method
-    //[[[cog cog.out("void init({}StateData& stateData);".format(ns_gen.get_namespace_to_statemachine()));]]]
+    //[[[cog cog.out("void init({}{}& stateData);".format(ns_gen.get_namespace_to_statemachine(), config.typename_of_state_data_structure));]]]
     //[[[end]]]
 
     /// Returns the id of this state
@@ -67,7 +67,7 @@ private:
 
     /// A pointer to the StateData structure. This structure is a container for all
     /// references needed by each state.
-    //[[[cog cog.out("{}StateData* stateData; ".format(ns_gen.get_namespace_to_statemachine()));]]]
+    //[[[cog cog.out("{}{}* stateData; ".format(ns_gen.get_namespace_to_statemachine(),config.typename_of_state_data_structure));]]]
     //[[[end]]]
 
     /// A reference to the statemachine. Used to set the next state.

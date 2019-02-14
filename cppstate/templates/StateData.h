@@ -23,7 +23,8 @@
 
 /// This struct is a container for all references which are
 /// needed by the state machine.
-struct StateData
+//[[[cog cog.out('struct {}'.format(config.typename_of_state_data_structure))]]]
+//[[[end]]] 
 {
     int dummy;
 };

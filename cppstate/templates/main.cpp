@@ -18,8 +18,10 @@
 int main()
 {
     StateMachine stateMachine;
-    StateData stateData;
-
+    //[[[cog 
+    //  cog.outl("{} stateData;".format(config.typename_of_state_data_structure))
+    //]]]
+    //[[[end]]]
     stateMachine.init(stateData);
 
     for (int i=0;i<5;i++)

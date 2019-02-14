@@ -41,9 +41,11 @@ public:
     /// Constructor
     StateMachine();
 
+
     /// This method initializes the state machine
     /// \param stateData data structure used by all states
-    void init(StateData& stateData);
+    //[[[cog cog.out('void init({}& stateData);'.format(config.typename_of_state_data_structure))]]]
+    //[[[end]]] 
 
     /// Cyclic update method of the state machine
     void update();

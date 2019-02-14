@@ -37,7 +37,7 @@
 {
 }
 
-//[[[cog cog.out("void {}::init({}StateData& stateData)".format(active_state, ns_gen.get_namespace_to_statemachine()));]]]
+//[[[cog cog.out("void {}::init({}{}& stateData)".format(active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_data_structure));]]]
 //[[[end]]]
 {
     this->stateData = &stateData;
