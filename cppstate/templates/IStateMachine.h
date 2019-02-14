@@ -22,7 +22,8 @@
 //[[[end]]]
 
 /// Abstract interface to a state machine
-class IStateMachine
+//[[[cog cog.out('class {}'.format(config.typename_of_state_machine_interface))]]]
+//[[[end]]] 
 {
 public:
 	/// Set the next state of the state machine

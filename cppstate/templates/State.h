@@ -32,7 +32,7 @@
 {
 public:
     /// Constructor
-    //[[[cog cog.out("{}({}IStateMachine& stateMachine);".format(active_state, ns_gen.get_namespace_to_statemachine()));]]]
+    //[[[cog cog.out("{}({}{}& stateMachine);".format(active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_machine_interface));]]]
     //[[[end]]]
 
     /// Init Method
@@ -70,7 +70,7 @@ private:
     //[[[end]]]
 
     /// A reference to the statemachine. Used to set the next state.
-    //[[[cog cog.outl("{}IStateMachine& stateMachine;".format(ns_gen.get_namespace_to_statemachine(), ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[cog cog.outl("{}{}& stateMachine;".format(ns_gen.get_namespace_to_statemachine(),config.typename_of_state_machine_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 };
 

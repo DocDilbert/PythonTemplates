@@ -29,9 +29,9 @@
 
 //[[[cog 
 //  # Constructor
-//  cog.outl("{}::{}({}IStateMachine& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace_to_statemachine()))
-//  cog.out("    stateData(nullptr),")
-//  cog.out("    stateMachine(stateMachine)")
+//  cog.outl("{}::{}({}{}& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_machine_interface))
+//  cog.outl("    stateData(nullptr),")
+//  cog.outl("    stateMachine(stateMachine)")
 //]]]
 //[[[end]]]
 {

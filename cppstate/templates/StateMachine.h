@@ -33,7 +33,8 @@
 //[[[end]]]
 
 /// A generic state machine implementation
-class StateMachine : public IStateMachine
+//[[[cog cog.out('class StateMachine : public {}'.format(config.typename_of_state_machine_interface))]]]
+//[[[end]]] 
 {
 public:
     /// Constructor
