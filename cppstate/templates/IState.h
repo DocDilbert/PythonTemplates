@@ -23,7 +23,8 @@
 //[[[end]]]
 
 /// Abstract interface to a state
-class IState 
+//[[[cog cog.outl("class {}".format(config.typename_of_state_interface))]]]
+//[[[end]]]
 {
 public:
 

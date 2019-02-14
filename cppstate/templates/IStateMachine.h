@@ -15,13 +15,11 @@
 ///
 
 #pragma once
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
+//[[[end]]] 
 
-//[[[cog 
-//  ns_gen.generate_namespace_header()
-//]]]
+//[[[cog ns_gen.generate_namespace_header()]]]
 //[[[end]]]
-
-#include "IState.h"
 
 /// Abstract interface to a state machine
 class IStateMachine

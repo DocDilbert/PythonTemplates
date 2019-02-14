@@ -16,7 +16,8 @@
 
 #pragma once
 
-#include "IState.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
+//[[[end]]] 
 #include "IStateMachine.h"
 #include "StateData.h"
 //[[[cog 
@@ -49,7 +50,7 @@ private:
     /// \param stateId id of the requested state 
     /// \returns a pointer to an object which implements the IState interface. 
     //[[[cog 
-    //  cog.outl("{}::IState* getIStateFromId({}::{} stateId);".format(ns_gen.get_namespace_to_state(), ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //  cog.outl("{}::{}* getIStateFromId({}::{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 
@@ -61,7 +62,7 @@ private:
 
     /// Active state
     //[[[cog 
-    //  cog.outl("{}::IState *istate;".format(ns_gen.get_namespace_to_state()))
+    //  cog.outl("{}::{} *istate;".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface))
     //]]]
     //[[[end]]]
 

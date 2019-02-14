@@ -12,6 +12,8 @@ class Config:
 
         settings = parsed_json['settings']
         self.typename_of_ids = settings['typename_of_ids']
+        self.typename_of_state_interface = settings['typename_of_state_interface']
+
 
 def load_config():
     with open('config.json') as f:

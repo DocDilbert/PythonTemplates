@@ -34,7 +34,7 @@ settings = config['settings']
 namespace_of_states = settings['namespace_of_states'].split("::")[-1]
 namespace_of_ids = settings['namespace_of_ids'].split("::")[-1]
 typename_of_ids = settings['typename_of_ids']
-
+typename_of_state_interface = settings['typename_of_state_interface']
 try:
     os.makedirs("autogen/"+namespace_of_states)
 except OSError as e:
@@ -61,7 +61,7 @@ for active_state in states:
 
 call_cog(
     infile="templates/IState.h",
-    outfile= "autogen/{}/IState.h".format(namespace_of_states),
+    outfile= "autogen/{}/{}.h".format(namespace_of_states, typename_of_state_interface),
 )
 call_cog(
     infile="templates/StateIds.h",

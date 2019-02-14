@@ -17,19 +17,17 @@
 
 #pragma once
 
-#include "IState.h"
+
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
+//[[[end]]] 
 #include "IStateMachine.h"
 #include "StateData.h"
 
-//[[[cog 
-//  ns_gen.generate_namespace_header_for_states()
-//]]]
+//[[[cog ns_gen.generate_namespace_header_for_states()]]]
 //[[[end]]]
 
 /// Definition of a state class.
-//[[[cog 
-//  cog.out("class {} : public IState".format(active_state))
-//]]]
+//[[[cog cog.out("class {} : public {}".format(active_state, config.typename_of_state_interface))]]]
 //[[[end]]] 
 {
 public:
