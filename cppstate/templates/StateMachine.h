@@ -18,7 +18,8 @@
 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
 //[[[end]]] 
-#include "IStateMachine.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
+//[[[end]]] 
 #include "StateData.h"
 //[[[cog 
 //  for state in config.states:

@@ -17,10 +17,10 @@
 
 #pragma once
 
-
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
 //[[[end]]] 
-#include "IStateMachine.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
+//[[[end]]] 
 #include "StateData.h"
 
 //[[[cog ns_gen.generate_namespace_header_for_states()]]]

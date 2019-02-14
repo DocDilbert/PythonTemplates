@@ -35,6 +35,8 @@ namespace_of_states = settings['namespace_of_states'].split("::")[-1]
 namespace_of_ids = settings['namespace_of_ids'].split("::")[-1]
 typename_of_ids = settings['typename_of_ids']
 typename_of_state_interface = settings['typename_of_state_interface']
+typename_of_state_machine_interface=settings['typename_of_state_machine_interface']
+
 try:
     os.makedirs("autogen/"+namespace_of_states)
 except OSError as e:
@@ -69,7 +71,7 @@ call_cog(
 )
 call_cog(
     infile="templates/IStateMachine.h",
-    outfile= "autogen/IStateMachine.h",
+    outfile= "autogen/{}.h".format(typename_of_state_machine_interface),
 )
 call_cog(
     infile="templates/StateMachine.h",
