@@ -21,7 +21,8 @@
 //[[[end]]] 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
 //[[[end]]] 
-#include "StateData.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_data_structure))]]]
+//[[[end]]] 
 
 //[[[cog ns_gen.generate_namespace_header_for_states()]]]
 //[[[end]]]

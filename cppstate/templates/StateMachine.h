@@ -20,7 +20,8 @@
 //[[[end]]] 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
 //[[[end]]] 
-#include "StateData.h"
+//[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_data_structure))]]]
+//[[[end]]] 
 //[[[cog 
 //  for state in config.states:
 //      cog.outl('#include "{}.h"'.format(state))

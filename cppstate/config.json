@@ -7,6 +7,8 @@
 		"typename_of_state_interface" : "StateInterface",
 
 		"typename_of_state_machine_interface" : "StateMachineInterface",
+
+		"typename_of_state_data_structure" : "GenericStateData",
 		
 		"namespace_of_ids": "Autogen::StateIds",
 		"typename_of_ids" : "StateIdEnum"

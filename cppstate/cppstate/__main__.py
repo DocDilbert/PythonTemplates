@@ -36,6 +36,7 @@ namespace_of_ids = settings['namespace_of_ids'].split("::")[-1]
 typename_of_ids = settings['typename_of_ids']
 typename_of_state_interface = settings['typename_of_state_interface']
 typename_of_state_machine_interface=settings['typename_of_state_machine_interface']
+typename_of_state_data_structure = settings['typename_of_state_data_structure']
 
 try:
     os.makedirs("autogen/"+namespace_of_states)
@@ -87,7 +88,7 @@ call_cog(
 )
 call_cog(
     infile="templates/StateData.h",
-    outfile= "autogen/StateData.h"
+    outfile= "autogen/{}.h".format(typename_of_state_data_structure)
 )
 call_cog(
     infile="templates/Makefile",
