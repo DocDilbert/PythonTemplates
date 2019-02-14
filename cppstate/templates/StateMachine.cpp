@@ -27,7 +27,7 @@
     //[[[cog 
     //  initializers = []
     //  initializers += ["istate(&{})".format(config.states[0].lower())]
-    //  initializers += ["lastState({}::{})".format(ns_gen.get_namespace_to_id(), config.init_state_id)]
+    //  initializers += ["lastState({}{})".format(ns_gen.get_namespace_to_id(), config.init_state_id)]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in config.states]
     //  cog.outl(",\n".join(initializers))
@@ -65,14 +65,14 @@
 {
     //[[[cog 
     //  cog.outl("istate = &{};".format(config.states[0].lower()))
-    //  cog.outl('lastState = {}::{};'.format(ns_gen.get_namespace_to_id(), config.init_state_id))
+    //  cog.outl('lastState = {}{};'.format(ns_gen.get_namespace_to_id(), config.init_state_id))
     //]]]
     //[[[end]]]   
     callEntry = true;  
 }
 
 //[[[cog 
-//  cog.outl("{}{}* {}::getIStateFromId({}::{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//  cog.outl("{}{}* {}::getIStateFromId({}{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {
@@ -82,7 +82,7 @@
         //  last_state = config.states[-1]
         //  for state in config.states:
         //    sid = config.id_of_state[state]
-        //    cog.outl("case {}::{}:".format(ns_gen.get_namespace_to_id(), sid))
+        //    cog.outl("case {}{}:".format(ns_gen.get_namespace_to_id(), sid))
         //    cog.outl("{")
         //    cog.outl("    return &{};".format(state.lower()))
         //    cog.outl("}")
@@ -94,7 +94,7 @@
 }
 
 //[[[cog 
-//  cog.outl("void {}::setNextState({}::{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//  cog.outl("void {}::setNextState({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
 //[[[end]]]
 {

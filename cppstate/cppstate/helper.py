@@ -63,7 +63,7 @@ class NameSpaceGenerator:
         if self.ids_are_in_subnamespace:
             return self.namespace_of_ids[-1]+"::"
         else:
-            return "::".join(self.namespace_of_ids)
+            return "::".join(self.namespace_of_ids)+"::"
             
     def generate_namespace_header(self):
         for name in self.namespace:
@@ -134,7 +134,7 @@ class StateHelper:
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
-        self.out_code("stateMachine.setNextState({}::{})".format(self.__ns_gen.get_namespace_to_id(), self.get_id(to_state)))
+        self.out_code("stateMachine.setNextState({}{})".format(self.__ns_gen.get_namespace_to_id(), self.get_id(to_state)))
         self.out_code("return")
         self.lower_indent()
         self.out_end()

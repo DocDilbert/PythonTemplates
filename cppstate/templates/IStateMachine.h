@@ -29,7 +29,7 @@ public:
 	/// Set the next state of the state machine
 	/// \param state the next state 
 	//[[[cog 
-	//  cog.outl("virtual void setNextState({}::{} state) = 0;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+	//  cog.outl("virtual void setNextState({}{} state) = 0;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
 	//]]]
 	//[[[end]]]
 };
