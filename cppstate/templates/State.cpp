@@ -29,7 +29,7 @@
 
 //[[[cog 
 //  # Constructor
-//  cog.outl("{}::{}({}::IStateMachine& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace()))
+//  cog.outl("{}::{}({}IStateMachine& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace_to_statemachine()))
 //  cog.out("    stateData(nullptr),")
 //  cog.out("    stateMachine(stateMachine)")
 //]]]
@@ -37,7 +37,7 @@
 {
 }
 
-//[[[cog cog.out("void {}::init({}::StateData& stateData)".format(active_state, ns_gen.get_namespace()));]]]
+//[[[cog cog.out("void {}::init({}StateData& stateData)".format(active_state, ns_gen.get_namespace_to_statemachine()));]]]
 //[[[end]]]
 {
     this->stateData = &stateData;

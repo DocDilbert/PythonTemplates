@@ -38,8 +38,11 @@ class NameSpaceGenerator:
     def get_path_to_state_file(self):
         return self.namespace_of_states[-1]
 
-    def get_namespace(self):
+    def get_main_namespace(self):
         return "::".join(self.namespace)
+
+    def get_namespace_to_statemachine(self):
+        return "::".join(self.namespace)+"::"
 
     def get_namespace_to_state(self):
         return "::".join(self.namespace_of_states)

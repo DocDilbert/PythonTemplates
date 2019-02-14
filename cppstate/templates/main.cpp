@@ -37,7 +37,7 @@ int main()
 int main()
 {
     //[[[cog 
-    //  cog.outl("return {}::main();".format(ns_gen.get_namespace()))
+    //  cog.outl("return {}::main();".format(ns_gen.get_main_namespace()))
     //]]]
     //[[[end]]]
 }

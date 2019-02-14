@@ -56,7 +56,7 @@ private:
 
     /// \copydoc IStateMachine::update
     //[[[cog 
-    //  cog.outl("void setNextState({}::{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //  cog.outl("void setNextState({}::{} state) override;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 

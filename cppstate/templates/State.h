@@ -32,11 +32,11 @@
 {
 public:
     /// Constructor
-    //[[[cog cog.out("{}({}::IStateMachine& stateMachine);".format(active_state, ns_gen.get_namespace()));]]]
+    //[[[cog cog.out("{}({}IStateMachine& stateMachine);".format(active_state, ns_gen.get_namespace_to_statemachine()));]]]
     //[[[end]]]
 
     /// Init Method
-    //[[[cog cog.out("void init({}::StateData& stateData);".format(ns_gen.get_namespace()));]]]
+    //[[[cog cog.out("void init({}StateData& stateData);".format(ns_gen.get_namespace_to_statemachine()));]]]
     //[[[end]]]
 
     /// Returns the id of this state
@@ -46,16 +46,16 @@ public:
     /// This method is called at the entry point of the state.
     /// \param lastState The id of the state from which the transition occured
     //[[[cog 
-    //  cog.outl("void entry({}::{} lastState);".format(ns_gen.get_namespace_to_id(),config.typename_of_ids))
+    //  cog.outl("void entry({}::{} lastState) override;".format(ns_gen.get_namespace_to_id(),config.typename_of_ids))
     //]]]
     //[[[end]]]
     
     /// This method is called when the state is active.
-    void execute();
+    void execute() override;
 
     /// This method is called at the exit point of the state.
     /// \param nextState The id of the state to which the transition will lead
-    //[[[cog cog.outl("void exit({}::{} lastState);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[cog cog.outl("void exit({}::{} lastState) override;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
 private:
@@ -66,11 +66,11 @@ private:
 
     /// A pointer to the StateData structure. This structure is a container for all
     /// references needed by each state.
-    //[[[cog cog.out("{}::StateData* stateData; ".format(ns_gen.get_namespace()));]]]
+    //[[[cog cog.out("{}StateData* stateData; ".format(ns_gen.get_namespace_to_statemachine()));]]]
     //[[[end]]]
 
     /// A reference to the statemachine. Used to set the next state.
-    //[[[cog cog.outl("{}::IStateMachine& stateMachine;".format(ns_gen.get_namespace(), ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[cog cog.outl("{}IStateMachine& stateMachine;".format(ns_gen.get_namespace_to_statemachine(), ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 };
 
