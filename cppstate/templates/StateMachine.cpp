@@ -26,7 +26,7 @@
 //[[[end]]] 
     //[[[cog 
     //  initializers = []
-    //  initializers += ["istate(&{})".format(config.states[0].lower())]
+    //  initializers += ["istate(&{})".format(config.init_state.lower())]
     //  initializers += ["lastState({}{})".format(ns_gen.get_namespace_to_id(), config.init_state_id)]
     //  initializers += ["callEntry(true)"]
     //  initializers += ["{}(*this)".format(state.lower()) for state in config.states]
@@ -64,7 +64,7 @@
 //[[[end]]] 
 {
     //[[[cog 
-    //  cog.outl("istate = &{};".format(config.states[0].lower()))
+    //  cog.outl("istate = &{};".format(config.init_state.lower()))
     //  cog.outl('lastState = {}{};'.format(ns_gen.get_namespace_to_id(), config.init_state_id))
     //]]]
     //[[[end]]]   

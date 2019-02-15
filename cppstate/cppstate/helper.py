@@ -7,6 +7,7 @@ class Config:
         self.states = [state['name'] for state in state_list]
         self.state_ids = [state['id'] for state in state_list]
         self.id_of_state = {state: state_id for state, state_id in zip(self.states, self.state_ids)}
+        self.init_state = parsed_json['init_state']['to']
         self.init_state_id = parsed_json['init_state']['id']
         self.transitions = parsed_json['transitions']
 
