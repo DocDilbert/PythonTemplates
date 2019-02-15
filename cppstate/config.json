@@ -14,7 +14,7 @@
 		"typename_of_ids" : "Cia402StateIds"
 	},
 	
-	"init_state" : {"id": "ID_InitStateId"},
+	"init_transition" : {"to":"StateSD12Parking", "id": "ID_InitStateId"},
 	
 	"states" : [
 		{"name":"StateA", "id":"ID_StateA"},

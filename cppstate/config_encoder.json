@@ -14,20 +14,20 @@
 		"typename_of_ids" : "ProfiDriveSensorState"
 	},
 	
-	"init_state" : {"to":"StateSD12Parking", "id": "ID_SD0_INIT"},
+	"init_transition" : {"to":"StateSD12Parking", "id": "ID_SD0_INIT"},
 	
 	"states" : [
-		{"name":"StateSD01NormalOperation", "id":"ID_SD1_NORMAL_OPERATION"},
-		{"name":"StateSD02ErrorAcknowledgement", "id":"ID_SD2_ERROR_ACKNOWLEDGEMENT"},
-		{"name":"StateSD03Error", "id":"ID_SD3_ERROR"},
-		{"name":"StateSD04ReferenceValueInGXist2", "id":"ID_SD4_REFERENCE_VALUE_IN_GX_XIST2"},
-		{"name":"StateSD05WaitForReferenceMarks", "id":"ID_SD5_WAIT_FOR_REFERENCE_MARKS"},
-		{"name":"StateSD07ShiftHomePosition", "id":"ID_SD7_SET_SHIFT_HOME_POSITION"},
-		{"name":"StateSD10WaitForMeasuredValue", "id":"ID_SD10_WAIT_FOR_MEASURED_VALUE"},
-		{"name":"StateSD11MeasuredValueInXist2", "id":"ID_SD11_MEASURED_VALUE_IN_XIST2"},
-		{"name":"StateSD12Parking", "id":"ID_SD12_PARKING"},
-		{"name":"StateSD13ParkingAndError", "id":"ID_SD13_PARKING_AND_ERROR"},
-		{"name":"StateSD14ParkingAndErrorAck", "id":"ID_SD14_PARKING_AND_ERROR_ACK"}
+		{"name":"StateSD01NormalOperation", 		"id":"ID_SD01_NORMAL_OPERATION"},
+		{"name":"StateSD02ErrorAcknowledgement", 	"id":"ID_SD02_ERROR_ACKNOWLEDGEMENT"},
+		{"name":"StateSD03Error", 					"id":"ID_SD03_ERROR"},
+		{"name":"StateSD04ReferenceValueInGXist2", 	"id":"ID_SD04_REFERENCE_VALUE_IN_GX_XIST2"},
+		{"name":"StateSD05WaitForReferenceMarks", 	"id":"ID_SD05_WAIT_FOR_REFERENCE_MARKS"},
+		{"name":"StateSD07ShiftHomePosition", 		"id":"ID_SD07_SET_SHIFT_HOME_POSITION"},
+		{"name":"StateSD10WaitForMeasuredValue", 	"id":"ID_SD10_WAIT_FOR_MEASURED_VALUE"},
+		{"name":"StateSD11MeasuredValueInXist2", 	"id":"ID_SD11_MEASURED_VALUE_IN_XIST2"},
+		{"name":"StateSD12Parking", 				"id":"ID_SD12_PARKING"},
+		{"name":"StateSD13ParkingAndError", 		"id":"ID_SD13_PARKING_AND_ERROR"},
+		{"name":"StateSD14ParkingAndErrorAck", 		"id":"ID_SD14_PARKING_AND_ERROR_ACK"}
 	],
 	"transitions" : [
 

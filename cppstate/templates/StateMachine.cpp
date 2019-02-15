@@ -92,7 +92,9 @@
         //[[[end]]]
 
         default:
+        {
             return nullptr;
+        }
     }
 }
 
