@@ -2,10 +2,7 @@
 	"settings":{
 		"namespace": "COM::Profiles::ProfiDrive::Sensor",
 		"namespace_of_states": "COM::Profiles::ProfiDrive::Sensor::States",
-		"namespace_of_ids": "COM::Profiles::ProfiDrive::Sensor",
-
-		"states_are_in_subnamespace" : true,
-		"ids_are_in_subnamespace" : true,
+		"namespace_of_ids": "Autogen::Profiles::ProfiDrive::Sensor",
 
 		"typename_of_state_machine" : "ProfiDriveSensorStateMachine",
 		"typename_of_state_interface" : "IProfiDriveSensorState",
@@ -29,7 +26,7 @@
 		{"name":"StateSD13ParkingAndError", 		"id":"ID_SD13_PARKING_AND_ERROR"},
 		{"name":"StateSD14ParkingAndErrorAck", 		"id":"ID_SD14_PARKING_AND_ERROR_ACK"}
 	],
-	
+
 	"transitions" : [
 		{
 			"from":"StateSD01NormalOperation", 
