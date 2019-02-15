@@ -1,13 +1,13 @@
 //[[[cog 
 //  import cog
-//  import cppstate
+//  from cppstate.config import load_config
+//  from cppstate.statehelper import StateHelper
+//  from cppstate.namespacegenerator import NameSpaceGenerator
 //  
 //  # load configuration
-//  config = cppstate.config.load_config(config_file)
-//
-//  state_helper = cppstate.statehelper.StateHelper(active_state, config)
-//
-//  ns_gen = cppstate.namespacegenerator.NameSpaceGenerator(config)
+//  config = load_config(config_file)
+//  state_helper = StateHelper(active_state, config)
+//  ns_gen = NameSpaceGenerator(config)
 //]]]
 //[[[end]]]
 ///
