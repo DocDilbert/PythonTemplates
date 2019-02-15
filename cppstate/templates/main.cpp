@@ -3,9 +3,9 @@
 //  import cppstate
 //  
 //  # load configuration
-//  config = cppstate.helper.load_config()
+//  config = cppstate.helper.load_config(config_file)
 //
-//  ns_gen = cppstate.helper.NameSpaceGenerator("config.json")
+//  ns_gen = cppstate.helper.NameSpaceGenerator(config)
 //]]]
 //[[[end]]]
 

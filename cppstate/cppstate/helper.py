@@ -12,30 +12,32 @@ class Config:
 
         settings = parsed_json['settings']
         
+        self.namespace=settings['namespace']
+        self.namespace_of_states=settings['namespace_of_states']
+        self.namespace_of_ids=settings['namespace_of_ids']
+
+        self.states_are_in_subnamespace=settings['states_are_in_subnamespace']
+        self.ids_are_in_subnamespace=settings['ids_are_in_subnamespace']
+
         self.typename_of_ids = settings['typename_of_ids']
         self.typename_of_state_interface = settings['typename_of_state_interface']
         self.typename_of_state_machine_interface = settings['typename_of_state_machine_interface']
         self.typename_of_state_data_structure = settings['typename_of_state_data_structure']
         self.typename_of_state_machine = settings['typename_of_state_machine']
 
-def load_config():
-    with open('config.json') as f:
+def load_config(filename):
+    with open(filename) as f:
         config = json.load(f)
     
     return Config(config)
 
 class NameSpaceGenerator:
-    def __init__(self, filename):
-        config = None
-        with open('config.json') as f:
-            config = json.load(f)
-
-        settings = config['settings']
-        self.namespace = settings['namespace'].split("::")
-        self.namespace_of_states = settings['namespace_of_states'].split("::")
-        self.namespace_of_ids =settings['namespace_of_ids'].split("::")
-        self.states_are_in_subnamespace = settings['states_are_in_subnamespace']
-        self.ids_are_in_subnamespace = settings['ids_are_in_subnamespace']
+    def __init__(self, config):
+        self.namespace = config.namespace.split("::")
+        self.namespace_of_states = config.namespace_of_states.split("::")
+        self.namespace_of_ids =config.namespace_of_ids.split("::")
+        self.states_are_in_subnamespace = config.states_are_in_subnamespace
+        self.ids_are_in_subnamespace = config.ids_are_in_subnamespace
 
     def get_path_to_id_file(self):
         return self.namespace_of_ids[-1]
@@ -96,7 +98,7 @@ class StateHelper:
         self.__indentSpaceCount = 0
         self.__id_of_state=config.id_of_state
         self.__transitions=[transition for transition in config.transitions if transition['from']==name]
-        self.__ns_gen = NameSpaceGenerator("config.json")
+        self.__ns_gen = NameSpaceGenerator(config)
 
     def get_id(self, from_=None):
         if from_:

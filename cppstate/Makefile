@@ -1,5 +1,5 @@
 update:
-	 python -m cppstate
+	 python -m cppstate config.json
 
 compile:
 	 $(MAKE) -C ./autogen all
