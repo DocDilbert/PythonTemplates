@@ -2,7 +2,7 @@
 	"settings":{
 		"namespace": "COM::Profiles::ProfiDrive::Sensor",
 		"namespace_of_states": "COM::Profiles::ProfiDrive::Sensor::States",
-		"namespace_of_ids": "COM::Profiles::ProfiDrive::Sensor::Ids",
+		"namespace_of_ids": "COM::Profiles::ProfiDrive::Sensor",
 
 		"states_are_in_subnamespace" : true,
 		"ids_are_in_subnamespace" : true,
@@ -11,7 +11,7 @@
 		"typename_of_state_interface" : "IProfiDriveSensorState",
 		"typename_of_state_machine_interface" : "IProfiDriveSensorStateMachine",
 		"typename_of_state_data_structure" : "ProfiDriveSensorStateData",
-		"typename_of_ids" : "ProfiDriveSensorState"
+		"typename_of_ids" : "ProfiDriveSensorStateId"
 	},
 	
 	"init_transition" : {"to":"StateSD12Parking", "id": "ID_SD0_INIT"},
@@ -29,14 +29,13 @@
 		{"name":"StateSD13ParkingAndError", 		"id":"ID_SD13_PARKING_AND_ERROR"},
 		{"name":"StateSD14ParkingAndErrorAck", 		"id":"ID_SD14_PARKING_AND_ERROR_ACK"}
 	],
+	
 	"transitions" : [
-
 		{
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD03Error", 
 			"name":"TransitionTD20fromBD1toSD03"
 		},
-
 		{
 			"from":"StateSD04ReferenceValueInGXist2", 
 			"to":"StateSD03Error", 
@@ -62,8 +61,6 @@
 			"to":"StateSD03Error", 
 			"name":"TransitionTD20fromBD1toSD03"
 		},
-
-
 		{
 			"from":"StateSD02ErrorAcknowledgement", 
 			"to":"StateSD12Parking", 
