@@ -22,7 +22,7 @@ class Config:
         self.typename_of_state_machine_interface = settings['typename_of_state_machine_interface']
         self.typename_of_state_data_structure = settings['typename_of_state_data_structure']
         self.typename_of_state_machine = settings['typename_of_state_machine']
-
+        self.typename_of_base_state = settings['typename_of_base_state']
 def load_config(filename):
     input_str = ""  
     with open(filename,'r') as f:

@@ -56,7 +56,16 @@ def main():
             outfile= "autogen/{}/{}.cpp".format(config.namespace_of_states.split('::')[-1], active_state),
             defines={"active_state": active_state, "config_file":config_file},
         )
-
+    call_cog(
+        infile="templates/BaseState.h",
+        outfile= "autogen/{}/{}.h".format(config.namespace_of_states.split('::')[-1], config.typename_of_base_state),
+        defines={"config_file":config_file},
+    )
+    call_cog(
+        infile="templates/BaseState.cpp",
+        outfile= "autogen/{}/{}.cpp".format(config.namespace_of_states.split('::')[-1], config.typename_of_base_state),
+        defines={"config_file":config_file},
+    )
     call_cog(
         infile="templates/IState.h",
         outfile= "autogen/{}/{}.h".format(config.namespace_of_states.split('::')[-1], config.typename_of_state_interface),
