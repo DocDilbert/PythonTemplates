@@ -65,15 +65,6 @@ private:
     //[[[end]]]
     /// This method processes all possible state transition checks from this state to other states.
     void processTransitions();
-
-    /// A pointer to the StateData structure. This structure is a container for all
-    /// references needed by each state.
-    //[[[cog cog.out("{}{}* stateData; ".format(ns_gen.get_namespace_to_statemachine(),config.typename_of_state_data_structure));]]]
-    //[[[end]]]
-
-    /// A reference to the statemachine. Used to set the next state.
-    //[[[cog cog.outl("{}{}& stateMachine;".format(ns_gen.get_namespace_to_statemachine(),config.typename_of_state_machine_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
-    //[[[end]]]
 };
 
 //[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]

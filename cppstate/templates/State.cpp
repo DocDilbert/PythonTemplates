@@ -28,9 +28,7 @@
 //[[[cog 
 //  # Constructor
 //  cog.outl("{}::{}({}{}& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_machine_interface))
-//  cog.outl("    {}(stateMachine),".format(config.typename_of_base_state))
-//  cog.outl("    stateData(nullptr),")
-//  cog.outl("    stateMachine(stateMachine)")
+//  cog.outl("    {}(stateMachine)".format(config.typename_of_base_state))
 //]]]
 //[[[end]]]
 {
@@ -39,7 +37,8 @@
 //[[[cog cog.out("void {}::init({}{}& stateData)".format(active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_data_structure));]]]
 //[[[end]]]
 {
-    this->stateData = &stateData;
+    //[[[cog cog.outl("{}::init(stateData);".format(config.typename_of_base_state))]]]
+    //[[[end]]]
 
     // Insert init code here
 }
