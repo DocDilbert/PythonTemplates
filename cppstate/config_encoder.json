@@ -6,7 +6,7 @@
 
 		"typename_of_state_machine" : "ProfiDriveSensorStateMachine",
 		"typename_of_state_interface" : "IProfiDriveSensorState",
-		"typename_of_base_state" : "ProfiDriveSensorStateBase",
+		"typename_of_base_state" : "StateBase",
 		"typename_of_state_machine_interface" : "IProfiDriveSensorStateMachine",
 		"typename_of_state_data_structure" : "ProfiDriveSensorStateData",
 		"typename_of_ids" : "ProfiDriveSensorStateId"
