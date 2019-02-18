@@ -28,191 +28,238 @@
 	],
 
 	"transitions" : [
-		{
+
+		// FROM SD1 TO XXX
+		{ // P0
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD03Error", 
 			"name":"TransitionTD20fromBD1toSD03"
 		},
-		{
-			"from":"StateSD04ReferenceValueInGXist2", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD20fromBD1toSD03"
-		},
-		{
-			"from":"StateSD05WaitForReferenceMarks", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD20fromBD1toSD03"
-		},
-		{
-			"from":"StateSD07ShiftHomePosition", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD20fromBD1toSD03"
-		},
-		{
-			"from":"StateSD10WaitForMeasuredValue", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD20fromBD1toSD03"
-		},
-		{
-			"from":"StateSD11MeasuredValueInXist2", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD20fromBD1toSD03"
-		},
-		{
-			"from":"StateSD02ErrorAcknowledgement", 
+		{ // P1
+			"from":"StateSD01NormalOperation", 
 			"to":"StateSD12Parking", 
-			"name":"TransitionTD23fromBD2toSD12"
+			"name":"TransitionTD16fromBD1toSD12"
 		},
-		{
-			"from":"StateSD03Error", 
-			"to":"StateSD12Parking", 
-			"name":"TransitionTD23fromBD2toSD12"
-		},
-		{
-			"from":"StateSD13ParkingAndError", 
-			"to":"StateSD12Parking", 
-			"name":"TransitionTD23fromBD2toSD12"
-		},
-		{
-			"from":"StateSD14ParkingAndErrorAck", 
-			"to":"StateSD12Parking", 
-			"name":"TransitionTD23fromBD2toSD12"
-		},
-
-		{
-			"from":"StateSD02ErrorAcknowledgement", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD01fromSD02toSD01"
-		},
-		{
-			"from":"StateSD04ReferenceValueInGXist2", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD02fromSD04toSD01"
-		},
-		{
+		{ // P3
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD04ReferenceValueInGXist2", 
 			"name":"TransitionTD03fromSD01toSD04"
 		},
-		{
-			"from":"StateSD05WaitForReferenceMarks", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD04fromSD05toSD01"
-		},
-		{
-			"from":"StateSD05WaitForReferenceMarks", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD05fromSD05toSD01"
-		},
-		{
+		{ // P3
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD05WaitForReferenceMarks", 
 			"name":"TransitionTD06fromSD01toSD05"
 		},
-		{
-			"from":"StateSD01NormalOperation", 
-			"to":"StateSD07ShiftHomePosition", 
-			"name":"TransitionTD07fromSD01toSD07"
-		},
-		{
-			"from":"StateSD07ShiftHomePosition", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD08fromSD07toSD01"
-		},
-		{
+
+		{ // P3
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD10WaitForMeasuredValue", 
 			"name":"TransitionTD11fromSD01toSD10"
 		},
-		{
-			"from":"StateSD01NormalOperation", 
-			"to":"StateSD10WaitForMeasuredValue", 
-			"name":"TransitionTD12fromSD01toSD10"
-		},
-		{
-			"from":"StateSD10WaitForMeasuredValue", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD13fromSD10toSD01"
-		},
-		{
+		{ // P3
 			"from":"StateSD01NormalOperation", 
 			"to":"StateSD11MeasuredValueInXist2", 
 			"name":"TransitionTD14fromSD01toSD11"
 		},
-		{
-			"from":"StateSD11MeasuredValueInXist2", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD15fromSD11toSD01"
+		{ // P4
+			"from":"StateSD01NormalOperation", 
+			"to":"StateSD07ShiftHomePosition", 
+			"name":"TransitionTD07fromSD01toSD07"
 		},
-		{
-			"from":"StateSD12Parking", 
-			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD17fromSD12toSD01"
+
+		// FROM SD2 TO XXX
+		{ // P1
+			"from":"StateSD02ErrorAcknowledgement", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD23fromBD2toSD12"
 		},
-		{
-			"from":"StateSD03Error", 
-			"to":"StateSD02ErrorAcknowledgement", 
-			"name":"TransitionTD21fromSD03toSD02"
-		},
-		{
+		{ // P2
 			"from":"StateSD02ErrorAcknowledgement", 
 			"to":"StateSD03Error", 
 			"name":"TransitionTD22fromSD02toSD03"
 		},
-		{
-			"from":"StateSD03Error", 
-			"to":"StateSD13ParkingAndError", 
-			"name":"TransitionTD24fromSD03toSD13"
+		{ // P2
+			"from":"StateSD02ErrorAcknowledgement", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD01fromSD02toSD01"
 		},
-		{
-			"from":"StateSD13ParkingAndError", 
-			"to":"StateSD03Error", 
-			"name":"TransitionTD25fromSD13toSD03"
-		},
-		{
-			"from":"StateSD13ParkingAndError", 
-			"to":"StateSD14ParkingAndErrorAck", 
-			"name":"TransitionTD26fromSD13toSD14"
-		},
-		{
-			"from":"StateSD14ParkingAndErrorAck", 
-			"to":"StateSD13ParkingAndError", 
-			"name":"TransitionTD27fromSD14toSD13"
-		},
-		{
+		{ // P2
 			"from":"StateSD02ErrorAcknowledgement", 
 			"to":"StateSD14ParkingAndErrorAck", 
 			"name":"TransitionTD28fromSD02toSD14"
 		},
-		{
-			"from":"StateSD14ParkingAndErrorAck", 
-			"to":"StateSD02ErrorAcknowledgement", 
-			"name":"TransitionTD29fromSD14toSD02"
+		// FROM SD3 TO XXX
+		{  // P1
+			"from":"StateSD03Error", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD23fromBD2toSD12"
 		},
-		{
-			"from":"StateSD12Parking", 
+		{ // P2
+			"from":"StateSD03Error", 
 			"to":"StateSD13ParkingAndError", 
-			"name":"TransitionTD30fromSD12toSD13"
+			"name":"TransitionTD24fromSD03toSD13"
 		},
-		{
+		{ // P2
+			"from":"StateSD03Error", 
+			"to":"StateSD02ErrorAcknowledgement", 
+			"name":"TransitionTD21fromSD03toSD02"
+		},
+		
+		// FROM SD4 TO XXX
+		{ // P0
+			"from":"StateSD04ReferenceValueInGXist2", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD20fromBD1toSD03"
+		},
+		{ // P1
+			"from":"StateSD04ReferenceValueInGXist2", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD16fromBD1toSD12"
+		},
+		{ // P3
+			"from":"StateSD04ReferenceValueInGXist2", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD02fromSD04toSD01"
+		},
+		// FROM SD5 TO XXX
+		{ // P0
+			"from":"StateSD05WaitForReferenceMarks", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD20fromBD1toSD03"
+		},
+		{ // P1
+			"from":"StateSD05WaitForReferenceMarks", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD16fromBD1toSD12"
+		},
+		{ // P3
+			"from":"StateSD05WaitForReferenceMarks", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD04fromSD05toSD01"
+		},
+		{ // P3
+			"from":"StateSD05WaitForReferenceMarks", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD05fromSD05toSD01"
+		},
+		// FROM SD7 TO XXX
+		{ // P0
+			"from":"StateSD07ShiftHomePosition", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD20fromBD1toSD03"
+		},	
+		{ // P1
+			"from":"StateSD07ShiftHomePosition", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD16fromBD1toSD12"
+		},
+		{ // P4
+			"from":"StateSD07ShiftHomePosition", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD08fromSD07toSD01"
+		},
+		// FROM SD10 TO XXX	
+		{ // P0
+			"from":"StateSD10WaitForMeasuredValue", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD20fromBD1toSD03"
+		},
+		{ // P1
+			"from":"StateSD10WaitForMeasuredValue", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD16fromBD1toSD12"
+		},
+		{ // P3
+			"from":"StateSD10WaitForMeasuredValue", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD12fromSD01toSD10"
+		},
+		{ // P3
+			"from":"StateSD10WaitForMeasuredValue", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD13fromSD10toSD01"
+		},
+		{ // P3
 			"from":"StateSD10WaitForMeasuredValue", 
 			"to":"StateSD10WaitForMeasuredValue", 
 			"name":"TransitionTD31fromSD10toSD10"
 		},
-		{
+		{ // P3
 			"from":"StateSD10WaitForMeasuredValue", 
 			"to":"StateSD11MeasuredValueInXist2", 
 			"name":"TransitionTD32fromSD10toSD11"
 		},
-		{
+
+		// FROM SD11 TO XXX	
+		{ // P0
+			"from":"StateSD11MeasuredValueInXist2", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD20fromBD1toSD03"
+		},
+		{  // P1
+			"from":"StateSD11MeasuredValueInXist2", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD16fromBD1toSD12"
+		},
+		{  // P3
+			"from":"StateSD11MeasuredValueInXist2", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD15fromSD11toSD01"
+		},
+		{ // P3
 			"from":"StateSD11MeasuredValueInXist2", 
 			"to":"StateSD10WaitForMeasuredValue", 
 			"name":"TransitionTD33fromSD11toSD10"
 		},
-		{
+		{ // P3
 			"from":"StateSD11MeasuredValueInXist2", 
 			"to":"StateSD11MeasuredValueInXist2", 
 			"name":"TransitionTD34fromSD11toSD11"
+		},
+		// FROM SD12 TO XXX	
+		{ // P1
+			"from":"StateSD12Parking", 
+			"to":"StateSD13ParkingAndError", 
+			"name":"TransitionTD30fromSD12toSD13"
+		},
+		{ // P1
+			"from":"StateSD12Parking", 
+			"to":"StateSD01NormalOperation", 
+			"name":"TransitionTD17fromSD12toSD01"
+		},
+
+		// FROM SD13 TO XXX	
+		{ // P1
+			"from":"StateSD13ParkingAndError", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD23fromBD2toSD12"
+		},
+		{ // P1
+			"from":"StateSD13ParkingAndError", 
+			"to":"StateSD03Error", 
+			"name":"TransitionTD25fromSD13toSD03"
+		},
+		{ // P2
+			"from":"StateSD13ParkingAndError", 
+			"to":"StateSD14ParkingAndErrorAck", 
+			"name":"TransitionTD26fromSD13toSD14"
+		},
+
+		// FROM SD14 TO XXX			
+		{ // P1
+			"from":"StateSD14ParkingAndErrorAck", 
+			"to":"StateSD12Parking", 
+			"name":"TransitionTD23fromBD2toSD12"
+		},
+		{ // P1
+			"from":"StateSD14ParkingAndErrorAck", 
+			"to":"StateSD02ErrorAcknowledgement", 
+			"name":"TransitionTD29fromSD14toSD02"
+		},
+		{ // P2
+			"from":"StateSD14ParkingAndErrorAck", 
+			"to":"StateSD13ParkingAndError", 
+			"name":"TransitionTD27fromSD14toSD13"
 		}
 	]
 
