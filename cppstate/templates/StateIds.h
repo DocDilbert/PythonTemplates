@@ -18,9 +18,7 @@
 
 #pragma once
 
-//[[[cog 
-//  ns_gen.generate_namespace_header_for_ids()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_ids())]]]
 //[[[end]]]
 
 /// Enumerates all possible states
@@ -33,7 +31,5 @@
     //[[[end]]]
 };
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer_for_ids()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_ids())]]]
 //[[[end]]]

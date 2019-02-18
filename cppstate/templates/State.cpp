@@ -22,9 +22,7 @@
 //]]]
 //[[[end]]]
 
-//[[[cog 
-//  ns_gen.generate_namespace_header_for_states()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_states())]]]
 //[[[end]]]
 
 //[[[cog 
@@ -92,16 +90,11 @@
     //[[[end]]]
 }
 
-//[[[cog 
-//  state_helper.generate_state_checks()
-//]]]
-//[[[end]]]
-//[[[cog 
-//  state_helper.generate_process_transitions()
-//]]]
+//[[[cog cog.out(state_helper.generate_state_checks())]]]
 //[[[end]]]
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer_for_states()
-//]]]
+//[[[cog cog.out(state_helper.generate_process_transitions())]]]
+//[[[end]]]
+
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

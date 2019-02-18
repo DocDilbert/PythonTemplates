@@ -19,9 +19,7 @@
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine))]]]
 //[[[end]]] 
 
-//[[[cog 
-//  ns_gen.generate_namespace_header()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header())]]]
 //[[[end]]]
 
 //[[[cog cog.out('{0}::{0}() :'.format(config.typename_of_state_machine))]]]
@@ -112,7 +110,5 @@
     istate = getIStateFromId(state);
 }
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]

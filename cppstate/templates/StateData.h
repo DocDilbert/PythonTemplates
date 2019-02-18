@@ -18,9 +18,7 @@
 
 #pragma once
 
-//[[[cog 
-//  ns_gen.generate_namespace_header()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header())]]]
 //[[[end]]]
 
 /// This struct is a container for all references which are
@@ -31,7 +29,5 @@
     int dummy;
 };
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]

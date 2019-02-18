@@ -1,7 +1,6 @@
-import cog
-
 class NameSpaceGenerator:
     def __init__(self, config):
+
         self.namespace = config.namespace.split("::")
         self.namespace_of_states = config.namespace_of_states.split("::")
         self.namespace_of_ids =config.namespace_of_ids.split("::")
@@ -44,31 +43,45 @@ class NameSpaceGenerator:
 
     
     def get_namespace_to_id(self):
+
         if self.ids_are_in_subnamespace:
             return self.namespace_of_ids[-1]+"::"
         else:
             return "::".join(self.namespace_of_ids)+"::"
+
             
     def generate_namespace_header(self):
+        buf = ""
         for name in self.namespace:
-            cog.outl("namespace {}\n{{".format(name))
+            buf += "namespace {}\n{{\n".format(name)
+        return buf
 
     def generate_namespace_footer(self):
+        buf = ""
         for _ in self.namespace:
-            cog.outl("}}".format())
+            buf += "}}\n".format()
+        return buf
 
     def generate_namespace_header_for_states(self):
+        buf = ""
         for name in self.namespace_of_states:
-            cog.outl("namespace {}\n{{".format(name))
+            buf += "namespace {}\n{{\n".format(name)
+        return buf
 
     def generate_namespace_footer_for_states(self):
+        buf = ""
         for _ in self.namespace_of_states:
-            cog.outl("}}".format())
+            buf+= "}}\n".format()
+        return buf
 
     def generate_namespace_header_for_ids(self):
+        buf = ""
         for name in self.namespace_of_ids:
-            cog.outl("namespace {}\n{{".format(name))
+            buf += "namespace {}\n{{\n".format(name)
+        return buf
 
     def generate_namespace_footer_for_ids(self):
+        buf = ""
         for _ in self.namespace_of_ids:
-            cog.outl("}}".format())
+            buf += "}}\n".format()
+        return buf

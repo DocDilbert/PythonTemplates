@@ -1,8 +1,8 @@
-import cog
 from cppstate.namespacegenerator import NameSpaceGenerator
 
 class StateHelper:
     def __init__(self, name, config):
+        self.__buf = ""
         self.__name = name
         self.__indent = ""
         self.__indentSpaceCount = 0
@@ -17,7 +17,7 @@ class StateHelper:
             return self.__id_of_state[self.__name]
 
     def out_indent(self, str):
-        cog.outl("{}{}".format(self.__indent, str))
+        self.__buf+="{}{}\n".format(self.__indent, str)
    
     def __out_nl(self):
         self.out_indent("")
@@ -52,6 +52,7 @@ class StateHelper:
         self.out_end()
 
     def generate_process_transitions(self):
+        self.__buf = ""
         self.out_indent("void {}::processTransitions()".format(
             self.__name
         ))
@@ -69,6 +70,8 @@ class StateHelper:
             self.out_comment("Check for transitions here ...")
         self.lower_indent()
         self.out_end()
+
+        return self.__buf
 
     def __out_state_check(self, name):
         self.out_indent("bool {}::{}()".format(
@@ -91,17 +94,23 @@ class StateHelper:
         ))
         
     def generate_state_checks(self):
+        self.__buf=""
         if not self.__transitions:
             return
 
         for transition in self.__transitions:
             self.__out_state_check(transition['name'])
             self.__out_nl()
+
+        return self.__buf
     
     def generate_state_check_prototypes(self):
+        self.__buf=""
         if not self.__transitions:
             return
 
         for transition in self.__transitions:
             self.__out_state_check_prototype(transition['from'], transition['to'],transition['name'])
             self.__out_nl()
+
+        return self.__buf

@@ -15,7 +15,7 @@
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine))]]]
 //[[[end]]] 
 
-//[[[cog ns_gen.generate_namespace_header()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header())]]]
 //[[[end]]]
 int main()
 {
@@ -34,9 +34,7 @@ int main()
     }
 }
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]
 
 int main()

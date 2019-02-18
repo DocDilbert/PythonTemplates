@@ -30,9 +30,7 @@
 //]]]
 //[[[end]]]
 
-//[[[cog 
-//  ns_gen.generate_namespace_header()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header())]]]
 //[[[end]]]
 
 /// A generic state machine implementation
@@ -94,7 +92,5 @@ private:
     //[[[end]]]
 };
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]

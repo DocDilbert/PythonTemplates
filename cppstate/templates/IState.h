@@ -21,7 +21,7 @@
 //[[[cog cog.outl('#include "{}.h"'.format(config.typename_of_ids))]]]
 //[[[end]]]
 
-//[[[cog ns_gen.generate_namespace_header_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_states())]]]
 //[[[end]]]
 
 /// Abstract interface to a state
@@ -48,5 +48,5 @@ public:
     //[[[end]]]
 };
 
-//[[[cog ns_gen.generate_namespace_footer_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

@@ -4,7 +4,6 @@ import json
 from cogapp import Cog
 import argparse
 from cppstate.config import load_config
-cogapp = Cog()
 
 def call_cog(infile, outfile, defines=None):
     
@@ -17,6 +16,7 @@ def call_cog(infile, outfile, defines=None):
 
     options+=['-o',outfile]
     options+=[infile]
+    cogapp = Cog()
     cogapp.callableMain(options)
 
 def main():

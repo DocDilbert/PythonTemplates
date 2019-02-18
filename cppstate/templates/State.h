@@ -25,7 +25,7 @@
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_data_structure))]]]
 //[[[end]]] 
 
-//[[[cog ns_gen.generate_namespace_header_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_states())]]]
 //[[[end]]]
 
 /// Definition of a state class.
@@ -61,7 +61,7 @@ public:
     //[[[end]]]
 
 private:
-    //[[[cog state_helper.generate_state_check_prototypes()]]]
+    //[[[cog cog.out(state_helper.generate_state_check_prototypes())]]]
     //[[[end]]]
     /// This method processes all possible state transition checks from this state to other states.
     void processTransitions();
@@ -76,5 +76,5 @@ private:
     //[[[end]]]
 };
 
-//[[[cog ns_gen.generate_namespace_footer_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

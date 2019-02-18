@@ -19,7 +19,7 @@
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
 //[[[end]]] 
 
-//[[[cog ns_gen.generate_namespace_header()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header())]]]
 //[[[end]]]
 
 /// Abstract interface to a state machine
@@ -35,7 +35,5 @@ public:
 	//[[[end]]]
 };
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]
