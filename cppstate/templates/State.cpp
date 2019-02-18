@@ -101,7 +101,6 @@
 
 //[[[cog cog.out(state_helper.generate_state_checks())]]]
 //[[[end]]]
-
 //[[[cog cog.out(state_helper.generate_process_transitions())]]]
 //[[[end]]]
 
