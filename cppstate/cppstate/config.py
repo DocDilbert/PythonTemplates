@@ -1,4 +1,5 @@
 import json
+import re
 
 class Config:
     def __init__(self, parsed_json):
@@ -23,8 +24,13 @@ class Config:
         self.typename_of_state_machine = settings['typename_of_state_machine']
 
 def load_config(filename):
-    with open(filename) as f:
-        config = json.load(f)
+    input_str = ""  
+    with open(filename,'r') as f:
+        input_str = f.read()
+        input_str = re.sub(r'\\\n', '', input_str)
+        input_str = re.sub(r'//.*\n', '\n', input_str)
+    
+    config = json.loads(input_str)
     
     return Config(config)
 
