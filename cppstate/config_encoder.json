@@ -12,7 +12,7 @@
 		"typename_of_ids" : "ProfiDriveSensorStateId"
 	},
 	
-	"init_transition" : {"to":"StateSD12Parking", "id": "ID_SD0_INIT"},
+	"init_transition" : {"to":"StateSD12Parking", "id": "ID_SD00_INIT"},
 	
 	"states" : [
 		{"name":"StateSD01NormalOperation", 		"id":"ID_SD01_NORMAL_OPERATION"},
