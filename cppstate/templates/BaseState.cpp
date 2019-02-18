@@ -21,9 +21,7 @@
 //]]]
 //[[[end]]]
 
-//[[[cog 
-//  ns_gen.generate_namespace_header_for_states()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_states())]]]
 //[[[end]]]
 
 //[[[cog 
@@ -73,7 +71,5 @@
 }
 
 
-//[[[cog 
-//  ns_gen.generate_namespace_footer_for_states()
-//]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

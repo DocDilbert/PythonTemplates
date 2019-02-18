@@ -24,7 +24,7 @@
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_data_structure))]]]
 //[[[end]]] 
 
-//[[[cog ns_gen.generate_namespace_header_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_header_for_states())]]]
 //[[[end]]]
 
 /// Definition of a state class.
@@ -70,5 +70,5 @@ private:
     //[[[end]]]
 };
 
-//[[[cog ns_gen.generate_namespace_footer_for_states()]]]
+//[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

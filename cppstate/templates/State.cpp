@@ -28,6 +28,7 @@
 //[[[cog 
 //  # Constructor
 //  cog.outl("{}::{}({}{}& stateMachine) :".format(active_state, active_state, ns_gen.get_namespace_to_statemachine(), config.typename_of_state_machine_interface))
+//  cog.outl("    {}(stateMachine),".format(config.typename_of_base_state))
 //  cog.outl("    stateData(nullptr),")
 //  cog.outl("    stateMachine(stateMachine)")
 //]]]
@@ -55,6 +56,9 @@
 //]]]
 //[[[end]]]
 {
+    //[[[cog cog.outl("{}::entry(lastState);".format(config.typename_of_base_state))]]]
+    //[[[end]]]
+
     // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("entry: {}\\n");'.format(active_state))
@@ -67,6 +71,9 @@
 //]]]
 //[[[end]]]
 {
+    //[[[cog cog.outl("{}::execute();".format(config.typename_of_base_state))]]]
+    //[[[end]]]
+    
     // Insert state code here
 
     // TODO: Remove debug code
@@ -83,6 +90,9 @@
 //]]]
 //[[[end]]]
 {
+    //[[[cog cog.outl("{}::exit(nextState);".format(config.typename_of_base_state))]]]
+    //[[[end]]]
+    
     // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("exit: {}\\n");'.format(active_state))

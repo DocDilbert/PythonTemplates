@@ -22,6 +22,7 @@ OUT_O_DIR = objs
 #[[[cog 
 #  objects = []
 #  objects += ["$(OUT_O_DIR)/main.o", "$(OUT_O_DIR)/{}.o".format(config.typename_of_state_machine)]
+#  objects += ["$(OUT_O_DIR)/{0}.o".format(config.typename_of_base_state)]
 #  objects += ['$(OUT_O_DIR)/{}.o'.format(state) for state in config.states]
 #  cog.outl('OBJECTS = ')
 #  cog.out('\n'.join("OBJECTS += {}".format(obj) for obj in objects))
