@@ -42,12 +42,6 @@
     // Insert init code here
 }
 
-//[[[cog cog.outl('{}{} {}::getId()'.format(ns_gen.get_namespace_to_id(), config.typename_of_ids, config.typename_of_base_state))]]]
-//[[[end]]]
-{
-    
-}
-
 //[[[cog 
 //  cog.outl('void {}::entry({}{} lastState)'.format(config.typename_of_base_state, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
