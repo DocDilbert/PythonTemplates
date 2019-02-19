@@ -94,8 +94,7 @@
     //[[[cog cog.outl("{}::exit(nextState);".format(config.typename_of_base_state))]]]
     //[[[end]]]
     
-     // Insert state exit code here
-
+    // Insert state exit code here
 
     // TODO: Remove debug code
     //[[[cog 
