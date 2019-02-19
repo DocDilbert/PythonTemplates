@@ -52,6 +52,10 @@ public:
 
     /// This method resets the statemachine to its init state and init transition
     void reset();
+
+    /// Id of the currently active state
+    //[[[cog cog.outl("{}{} getActiveStateId();".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[end]]]
     
 private:
     /// Returns a pointer to an object which implements the IState interface. 

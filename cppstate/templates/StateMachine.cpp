@@ -71,6 +71,12 @@
     callEntry = true;  
 }
 
+//[[[cog cog.out('{}{} {}::getActiveStateId()'.format(ns_gen.get_namespace_to_id(), config.typename_of_ids,config.typename_of_state_machine))]]]
+//[[[end]]] 
+{
+     return istate->getId();
+}
+
 //[[[cog 
 //  cog.outl("{}{}* {}::getIStateFromId({}{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //]]]
