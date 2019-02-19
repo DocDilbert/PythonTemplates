@@ -2,7 +2,7 @@
 	"settings":{
 		"namespace": "COM::Profiles::ProfiDrive::Sensor",
 		"namespace_of_states": "COM::Profiles::ProfiDrive::Sensor::SensorStates",
-		"namespace_of_ids": "Autogen::Profiles::ProfiDrive::Sensor",
+		"namespace_of_ids": "Autogen",
 
 		"typename_of_state_machine" : "ProfiDriveSensorStateMachine",
 		"typename_of_state_interface" : "IProfiDriveSensorState",

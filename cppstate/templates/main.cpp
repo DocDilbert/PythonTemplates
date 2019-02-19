@@ -19,13 +19,10 @@
 //[[[end]]]
 int main()
 {
-    
-    //[[[cog 
-    //  cog.outl("{} stateMachine;".format(config.typename_of_state_machine))
-    //  cog.outl("{} stateData;".format(config.typename_of_state_data_structure))
-    //]]]
+    //[[[cog cog.outl("{} stateMachine;".format(config.typename_of_state_machine))]]]
     //[[[end]]]
-    stateMachine.init(stateData);
+
+    stateMachine.init();
 
     for (int i=0;i<5;i++)
     {

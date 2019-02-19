@@ -36,7 +36,7 @@
 {
 }
 
-//[[[cog cog.out('void {}::init({}& stateData)'.format(config.typename_of_state_machine, config.typename_of_state_data_structure))]]]
+//[[[cog cog.out('void {}::init()'.format(config.typename_of_state_machine))]]]
 //[[[end]]] 
 {
     //[[[cog 

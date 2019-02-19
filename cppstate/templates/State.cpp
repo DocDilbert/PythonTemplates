@@ -58,6 +58,8 @@
     //[[[cog cog.outl("{}::entry(lastState);".format(config.typename_of_base_state))]]]
     //[[[end]]]
 
+    // Insert state entry code here
+
     // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("entry: {}\\n");'.format(active_state))
@@ -73,7 +75,7 @@
     //[[[cog cog.outl("{}::execute();".format(config.typename_of_base_state))]]]
     //[[[end]]]
     
-    // Insert state code here
+    // Insert state execute code here
 
     // TODO: Remove debug code
     //[[[cog 
@@ -92,6 +94,9 @@
     //[[[cog cog.outl("{}::exit(nextState);".format(config.typename_of_base_state))]]]
     //[[[end]]]
     
+     // Insert state exit code here
+
+
     // TODO: Remove debug code
     //[[[cog 
     //  cog.outl('printf("exit: {}\\n");'.format(active_state))
