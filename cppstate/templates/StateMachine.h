@@ -61,7 +61,7 @@ private:
     //[[[cog cog.outl("{}{}* getIStateFromId({}{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
-    /// \copydoc IStateMachine::update
+    /// \copydoc IStateMachine::setNextState
     //[[[cog cog.outl("void setNextState({}{} state) override;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
