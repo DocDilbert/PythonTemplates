@@ -45,19 +45,21 @@ public:
     //[[[cog cog.outl("{}{} getId();".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
-    /// This method is called at the entry point of the state.
+    /// The entry method is called by the statemachine the first time this state is executed.
     /// \param lastState The id of the state from which the transition occured
-    //[[[cog 
-    //  cog.outl("void entry({}{} lastState) override;".format(ns_gen.get_namespace_to_id(),config.typename_of_ids))
-    //]]]
+    //[[[cog cog.outl("void entry({}{} lastState) override;".format(ns_gen.get_namespace_to_id(),config.typename_of_ids))]]]
     //[[[end]]]
     
-    /// This method is called when the state is active.
+    /// The execute method is called when the state is active.
     void execute() override;
 
-    /// This method is called at the exit point of the state.
+    /// The exit method is called by the statemachine the before the state is left.
     /// \param nextState The id of the state to which the transition will lead
     //[[[cog cog.outl("void exit({}{} lastState) override;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
+    //[[[end]]]
+
+    /// The reset method is called by the state machine when it is reset to its init state.
+    //[[[cog cog.outl("void reset() override;".format())]]]
     //[[[end]]]
 
 private:

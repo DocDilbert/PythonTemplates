@@ -103,6 +103,12 @@
     //[[[end]]]
 }
 
+//[[[cog cog.outl("void {}::reset()".format(active_state))]]]
+//[[[end]]]
+{
+    // insert state reset code here
+}
+
 //[[[cog cog.out(state_helper.generate_state_checks())]]]
 //[[[end]]]
 //[[[cog cog.out(state_helper.generate_process_transitions())]]]

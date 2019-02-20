@@ -63,6 +63,8 @@
 //[[[cog cog.out('void {}::reset()'.format(config.typename_of_state_machine))]]]
 //[[[end]]] 
 {
+    istate->reset(); // perform reset of active state
+    
     //[[[cog 
     //  cog.outl("istate = &{};".format(config.init_state.lower()))
     //  cog.outl('lastState = {}{};'.format(ns_gen.get_namespace_to_id(), config.init_state_id))

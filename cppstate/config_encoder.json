@@ -173,7 +173,7 @@
 		{ // P3
 			"from":"StateSD10WaitForMeasuredValue", 
 			"to":"StateSD01NormalOperation", 
-			"name":"TransitionTD12fromSD01toSD10"
+			"name":"TransitionTD12fromSD10toSD01"
 		},
 		{ // P3
 			"from":"StateSD10WaitForMeasuredValue", 
