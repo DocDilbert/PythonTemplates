@@ -67,7 +67,6 @@ private:
     //[[[end]]]
     /// This method processes all possible state transition checks from this state to other states.
     void processTransitions();
-
 };
 
 //[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]

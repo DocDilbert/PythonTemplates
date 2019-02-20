@@ -42,28 +42,29 @@
     // Insert init code here
 }
 
-//[[[cog 
-//  cog.outl('void {}::entry({}{} lastState)'.format(config.typename_of_base_state, ns_gen.get_namespace_to_id(), config.typename_of_ids))
-//]]]
+//[[[cog cog.outl('void {}::entry({}{} lastState)'.format(config.typename_of_base_state, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
 //[[[end]]]
 {
+    // Insert state entry code here
 }
 
-//[[[cog 
-//  cog.outl('void {}::execute()'.format(config.typename_of_base_state))
-//]]]
+//[[[cog cog.outl('void {}::execute()'.format(config.typename_of_base_state))]]]
 //[[[end]]]
 {
     // Insert state code here
 }
 
-//[[[cog 
-//  cog.outl('void {}::exit({}{} nextState)'.format(config.typename_of_base_state, ns_gen.get_namespace_to_id(), config.typename_of_ids))
-//]]]
+//[[[cog cog.outl('void {}::exit({}{} nextState)'.format(config.typename_of_base_state, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
 //[[[end]]]
 {
+    // Insert state exit code here
 }
 
+//[[[cog cog.outl('void {}::reset()'.format(config.typename_of_base_state))]]]
+//[[[end]]]
+{
+    // Insert state reset code here
+}
 
 //[[[cog cog.out(ns_gen.generate_namespace_footer_for_states())]]]
 //[[[end]]]

@@ -106,6 +106,9 @@
 //[[[cog cog.outl("void {}::reset()".format(active_state))]]]
 //[[[end]]]
 {
+    //[[[cog cog.outl("{}::reset();".format(config.typename_of_base_state))]]]
+    //[[[end]]]
+    
     // insert state reset code here
 }
 

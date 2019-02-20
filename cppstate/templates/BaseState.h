@@ -59,6 +59,9 @@ public:
     //[[[cog cog.outl("virtual void exit({}{} lastState) override;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
+    /// The reset method is called by the state machine when it is reset to its init state.
+    virtual void reset() override;
+
 protected:
     /// A pointer to the StateData structure. This structure is a container for all
     /// references needed by each state.
