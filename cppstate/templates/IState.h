@@ -29,7 +29,6 @@
 //[[[end]]]
 {
 public:
-
     /// This method returns the Id of the state
     //[[[cog cog.outl("virtual {}{} getId() = 0;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
