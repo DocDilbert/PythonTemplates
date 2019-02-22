@@ -14,6 +14,9 @@
 /// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
 /// \author TODO
 ///
+///[[[cog cog.out('/// Implementation of class "{}"".'.format(config.typename_of_base_state))]]]
+///[[[end]]]
+///
 
 #include <stdio.h>
 //[[[cog 

@@ -14,6 +14,9 @@
 /// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
 /// \author TODO
 ///
+///[[[cog cog.out('/// Definition of class "{}"".'.format(config.typename_of_state_machine_interface))]]]
+///[[[end]]]
+///
 
 #pragma once
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]

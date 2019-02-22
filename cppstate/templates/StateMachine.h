@@ -15,6 +15,9 @@
 /// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
 /// \author TODO
 ///
+///[[[cog cog.out('/// Definition of class "{}"".'.format(config.typename_of_state_machine))]]]
+///[[[end]]] 
+///
 
 #pragma once
 

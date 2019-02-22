@@ -1,5 +1,6 @@
 {
 	"settings":{
+		"include_debug_code": true, // if true some printfs are include to show state transitions
 		"namespace": "NamespaceA::NamespaceB::NamespaceC",
 		"namespace_of_states": "NamespaceA::NamespaceB::NamespaceC::GenericStates",
 		"namespace_of_ids": "NamespaceA::NamespaceB::NamespaceC::CiaStateMachineIds",
@@ -9,6 +10,7 @@
 
 		"typename_of_state_machine" : "Cia402StateMachine",
 		"typename_of_state_interface" : "ICia402State",
+		"typename_of_base_state" : "Cia402StateBase",
 		"typename_of_state_machine_interface" : "ICia402StateMachine",
 		"typename_of_state_data_structure" : "Cia402StateData",
 		"typename_of_ids" : "Cia402StateIds"

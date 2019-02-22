@@ -15,6 +15,9 @@
 /// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
 /// \author TODO
 ///
+///[[[cog cog.out('/// Implementation of class "{}"".'.format(active_state))]]]
+///[[[end]]]
+///
 
 #include <stdio.h>
 //[[[cog 
@@ -59,10 +62,10 @@
     //[[[end]]]
 
     // Insert state entry code here
-
-    // TODO: Remove debug code
     //[[[cog 
-    //  cog.outl('printf("entry: {}\\n");'.format(active_state))
+    //  if config.include_debug_code:
+    //      cog.outl('\n// TODO: Remove debug code');
+    //      cog.outl('printf("entry: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 }
@@ -76,10 +79,10 @@
     //[[[end]]]
     
     // Insert state execute code here
-
-    // TODO: Remove debug code
     //[[[cog 
-    //  cog.outl('printf("execute: {}\\n");'.format(active_state))
+    //  if config.include_debug_code:
+    //      cog.outl('\n// TODO: Remove debug code');
+    //      cog.outl('printf("execute: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 
@@ -95,10 +98,10 @@
     //[[[end]]]
     
     // Insert state exit code here
-
-    // TODO: Remove debug code
     //[[[cog 
-    //  cog.outl('printf("exit: {}\\n");'.format(active_state))
+    //  if config.include_debug_code:
+    //      cog.outl('\n// TODO: Remove debug code');
+    //      cog.outl('printf("exit: {}\\n");'.format(active_state))
     //]]]
     //[[[end]]]
 }

@@ -15,6 +15,9 @@
 /// \copyright Festo AG & Co. KG, Esslingen. All rights reserved.
 /// \author TODO
 ///
+///[[[cog cog.out('/// Definition of enum "{}"".'.format(config.typename_of_ids))]]]
+///[[[end]]] 
+///
 
 #pragma once
 

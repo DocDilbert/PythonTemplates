@@ -1,5 +1,6 @@
 {
 	"settings":{
+		"include_debug_code": true, // if true some printfs are include to show state transitions
 		"namespace": "COM::Profiles::ProfiDrive::Sensor",
 		"namespace_of_states": "COM::Profiles::ProfiDrive::Sensor::SensorStates",
 		"namespace_of_ids": "Autogen",

@@ -28,9 +28,6 @@ class StateHelper:
     def out_end(self):
         self.out_indent("}")
 
-    def out_code(self, code):
-        self.out_indent("{};".format(code))
-
     def out_comment(self, comment):
         self.out_indent("// {}".format(comment))
 
@@ -46,8 +43,8 @@ class StateHelper:
         self.out_indent("if (check{}())".format(name))
         self.out_begin()
         self.raise_indent()
-        self.out_code("stateMachine.setNextState({}{})".format(self.__ns_gen.get_namespace_to_id(), self.get_id(to_state)))
-        self.out_code("return")
+        self.out_indent("stateMachine.setNextState({}{});".format(self.__ns_gen.get_namespace_to_id(), self.get_id(to_state)))
+        self.out_indent("return;")
         self.lower_indent()
         self.out_end()
 
@@ -81,7 +78,7 @@ class StateHelper:
         self.out_begin()
         self.raise_indent()
         self.out_comment("If transition must be executed return true.")
-        self.out_code("return false")
+        self.out_indent("return false;")
         self.lower_indent()
         self.out_end()
 
