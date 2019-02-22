@@ -1,0 +1,30 @@
+Suchen mit regulären Ausdrücken in Visual Studio Code.
+==================================================================
+
+Suche Klassenname ohne Namespace Deklaration und ohne #include
+------------------------------------------------------------------
+
+(?<!::)(Klassenname)(?!\.h)
+
+Erklärung:
+	(?<!::) 
+		- "::" darf nachfolgendem Ausdruck nicht vorausgehen
+
+	(?!\.h)
+		- ".h" darf nicht auf vorgenannten Ausdruck folgen
+
+
+Suche Klassenname ohne Namespace Deklaration, ohne #include und ohne Definition
+------------------------------------------------------------------
+
+(?<!class\s)(?<!::)(Klassenname)(?!\.h)
+
+Erklärung:
+	(?<!class\s)
+        - "class " darf nachfolgendem Ausdruck nicht vorausgehen
+        
+    (?<!::)
+		- "::" darf nachfolgendem Ausdruck nicht vorausgehen
+        
+	(?!\.h) 
+		- ".h" darf nicht auf vorgenannten Ausdruck folgen
