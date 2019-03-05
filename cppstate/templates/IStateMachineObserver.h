@@ -27,7 +27,7 @@
 namespace Interfaces
 {
 
-/// Abstract interface to observer a statemachine
+/// Abstract interface to observe a statemachine
 //[[[cog cog.outl("class {}".format(config.typename_of_observer))]]]
 //[[[end]]]
 {

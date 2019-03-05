@@ -94,16 +94,16 @@
 
 //[[[cog
 //  if config.is_observeable:
-//      cog.outl("BOOL {}::registerObserver(Interfaces::{}& observer)".format(config.typename_of_state_machine, config.typename_of_observer))
+//      cog.outl("FMCReturnCode {}::registerObserver(Interfaces::{}& observer)".format(config.typename_of_state_machine, config.typename_of_observer))
 //      cog.outl("{")
 //      cog.outl("  if(!observers.isFull())")
 //      cog.outl("  {")
 //      cog.outl("      observers.add(&observer);")
-//      cog.outl("      return true;")
+//      cog.outl("      return RC_SUCCESS;")
 //      cog.outl("  }")
 //      cog.outl("  else")
 //      cog.outl("  {")
-//      cog.outl("      return false;")
+//      cog.outl("      return RC_OUT_OF_MEMORY;")
 //      cog.outl("  }")
 //      cog.outl("}")
 //]]]

@@ -22,6 +22,7 @@
 #pragma once
 
 #include "FMCTypes.h"
+#include "FMCReturnCodes.h"
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
 //[[[end]]] 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
@@ -68,9 +69,9 @@ public:
     //[[[cog 
     //  if config.is_observeable:
     //      cog.outl("\n/// Registers an observer to the statemachine.")
-    //      cog.outl("/// \\retval true if the registration was successfull.")
-    //      cog.outl("/// \\retval false if the registration failed.")
-    //      cog.outl("BOOL registerObserver(Interfaces::{}& observer);".format(config.typename_of_observer))
+    //      cog.outl("/// \\retval RC_SUCCESS if the registration was successfull.")
+    //      cog.outl("/// \\retval RC_OUT_OF_MEMORY if the registration failed.")
+    //      cog.outl("FMCReturnCode registerObserver(Interfaces::{}& observer);".format(config.typename_of_observer))
     //]]]
     //[[[end]]]
 private:
@@ -94,7 +95,7 @@ private:
     //[[[end]]]
 
     /// true when the entry method has to be called
-    bool callEntry;
+    BOOL callEntry;
     
     // Container where state data is stored.
     //[[[cog cog.out('{} stateData;'.format(config.typename_of_state_data_structure))]]]
@@ -109,7 +110,7 @@ private:
     //[[[cog 
     //  if config.is_observeable:
     //      cog.outl()
-    //      cog.outl("/// Number of maximal subscribable")
+    //      cog.outl("/// Number of maximal subscribable observers")
     //      cog.outl("constexpr static const UINT32 MAX_OBSERVERS = 2;\n")
     //      cog.outl("/// holds subscribers who want to be informed about state changes")
     //      cog.outl("Utilities::List<Interfaces::{}*, MAX_OBSERVERS> observers;".format(config.typename_of_observer))
