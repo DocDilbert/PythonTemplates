@@ -21,11 +21,18 @@
 
 #pragma once
 
+#include "FMCTypes.h"
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_interface))]]]
 //[[[end]]] 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_machine_interface))]]]
 //[[[end]]] 
 //[[[cog cog.out('#include "{}.h"'.format(config.typename_of_state_data_structure))]]]
+//[[[end]]] 
+//[[[cog 
+//  if config.is_observeable:
+//      cog.out('#include "{}.h"\n'.format(config.typename_of_observer))
+//      cog.out('#include "List.h"')
+//]]]
 //[[[end]]] 
 //[[[cog 
 //  for state in config.states:
@@ -46,7 +53,6 @@ public:
     //[[[end]]] 
 
     /// This method initializes the state machine
-    /// \param stateData data structure used by all states
     //[[[cog cog.out('void init();'.format())]]]
     //[[[end]]] 
 
@@ -59,7 +65,14 @@ public:
     /// Id of the currently active state
     //[[[cog cog.outl("{}{} getActiveStateId();".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
-    
+    //[[[cog 
+    //  if config.is_observeable:
+    //      cog.outl("\n/// Registers an observer to the statemachine.")
+    //      cog.outl("/// \retval true if the registration was successfull.")
+    //      cog.outl("/// \retval false if the registration failed.")
+    //      cog.outl("BOOL registerObserver(Interfaces::{}& observer);".format(config.typename_of_observer))
+    //]]]
+    //[[[end]]]
 private:
     /// Returns a pointer to an object which implements the IState interface. 
     /// \param stateId id of the requested state 
@@ -91,6 +104,24 @@ private:
     //  for state in config.states:
     //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
     //    cog.outl("{}{} {};".format(ns_gen.get_namespace_to_state(), state, state.lower()))
+    //]]]
+    //[[[end]]]
+    //[[[cog 
+    //  if config.is_observeable:
+    //      cog.outl()
+    //      cog.outl("/// Number of maximal subscribable")
+    //      cog.outl("constexpr static const UINT32 MAX_OBSERVERS = 2;\n")
+    //      cog.outl("/// holds subscribers who want to be informed about state changes")
+    //      cog.outl("Utilities::List<Interfaces::{}*, MAX_OBSERVERS> observers;".format(config.typename_of_observer))
+    //      cog.outl()
+    //      cog.outl("/// Notifies all observer that the entry method is called")
+    //      cog.outl("void notifyObserversEntry({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //      cog.outl()
+    //      cog.outl("/// Notifies all observer that the execute method is called")
+    //      cog.outl("void notifyObserversExecute({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //      cog.outl()
+    //      cog.outl("/// Notifies all observer that the exit method is called")
+    //      cog.outl("void notifyObserversExit({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 };

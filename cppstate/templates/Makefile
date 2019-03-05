@@ -31,6 +31,7 @@ OUT_O_DIR = objs
 #  cog.outl("VPATH += ./{}".format(ns_gen.get_path_to_id_file()))
 #  cog.outl('\n')
 #  cog.outl('INCLUDES  = -I.')
+#  cog.outl('INCLUDES += -I../externals')
 #  cog.outl("INCLUDES += -I./{}".format(ns_gen.get_path_to_state_file()))
 #  cog.outl("INCLUDES += -I./{}".format(ns_gen.get_path_to_id_file()))
 #]]]

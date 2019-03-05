@@ -56,11 +56,21 @@
 {
     if (callEntry)
     {
+        //[[[cog 
+        //  if config.is_observeable:
+        //      cog.outl("notifyObserversEntry(istate->getId());\n")
+        //]]]
+        //[[[end]]]
         // only call entry once 
         istate->entry(lastState);
         callEntry = false;
     }
     istate->execute();
+    //[[[cog 
+    //  if config.is_observeable:
+    //      cog.outl("notifyObserversExecute(istate->getId());")
+    //]]]
+    //[[[end]]]
 }
 
 //[[[cog cog.out('void {}::reset()'.format(config.typename_of_state_machine))]]]
@@ -81,6 +91,23 @@
 {
      return istate->getId();
 }
+
+//[[[cog
+//  if config.is_observeable:
+//      cog.outl("BOOL {}::registerObserver(Interfaces::{}& observer)".format(config.typename_of_state_machine, config.typename_of_observer))
+//      cog.outl("{")
+//      cog.outl("  if(!observers.isFull())")
+//      cog.outl("  {")
+//      cog.outl("      observers.add(&observer);")
+//      cog.outl("      return true;")
+//      cog.outl("  }")
+//      cog.outl("  else")
+//      cog.outl("  {")
+//      cog.outl("      return false;")
+//      cog.outl("  }")
+//      cog.outl("}")
+//]]]
+//[[[end]]]
 
 //[[[cog 
 //  cog.outl("{}{}* {}::getIStateFromId({}{} stateId)".format(ns_gen.get_namespace_to_state(), config.typename_of_state_interface, config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
@@ -118,8 +145,41 @@
     callEntry = true;
     istate->exit(state); // call exit method of state
     lastState = istate->getId();  
+    //[[[cog 
+    //  if config.is_observeable:
+    //      cog.outl("notifyObserversExit(lastState);")
+    //]]]
+    //[[[end]]]
     istate = getIStateFromId(state);
 }
+
+//[[[cog 
+//  if config.is_observeable:
+//      cog.outl("void {}::notifyObserversEntry({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("{")
+//      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
+//      cog.outl("  {")
+//      cog.outl("      observers[i]->entry(state);")
+//      cog.outl("  }")
+//      cog.outl("}")
+//      cog.outl()
+//      cog.outl("void {}::notifyObserversExecute({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("{")
+//      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
+//      cog.outl("  {")
+//      cog.outl("      observers[i]->execute(state);")
+//      cog.outl("  }")
+//      cog.outl("}")
+//      cog.outl()
+//      cog.outl("void {}::notifyObserversExit({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("{")
+//      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
+//      cog.outl("  {")
+//      cog.outl("      observers[i]->exit(state);")
+//      cog.outl("  }")
+//      cog.outl("}")
+//]]]
+//[[[end]]]
 
 //[[[cog cog.out(ns_gen.generate_namespace_footer())]]]
 //[[[end]]]

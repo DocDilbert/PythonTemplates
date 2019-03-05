@@ -43,7 +43,7 @@ public:
     /// The execute method is called when the state is active.
     virtual void execute() = 0;
 
-    /// The exit method is called by the statemachine the before the state is left.
+    /// The exit method is called by the statemachine before the state is left.
     //[[[cog cog.outl("virtual void exit({}{} lastState) = 0;".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 

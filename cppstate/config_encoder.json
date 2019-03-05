@@ -1,6 +1,7 @@
 {
 	"settings":{
 		"include_debug_code": true, // if true some printfs are include to show state transitions
+		"observeable" : true, // if true a observer interface is generated for the state machine
 		"namespace": "COM::Profiles::ProfiDrive::Sensor",
 		"namespace_of_states": "COM::Profiles::ProfiDrive::Sensor::SensorStates",
 		"namespace_of_ids": "Autogen",
@@ -10,7 +11,8 @@
 		"typename_of_base_state" : "StateBase",
 		"typename_of_state_machine_interface" : "IProfiDriveSensorStateMachine",
 		"typename_of_state_data_structure" : "ProfiDriveSensorStateData",
-		"typename_of_ids" : "ProfiDriveSensorStateId"
+		"typename_of_ids" : "ProfiDriveSensorStateId",
+		"typename_of_observer" : "IProfiDriveSensorStatemachineObserver"
 	},
 	
 	"init_transition" : {"to":"StateSD12Parking", "id": "ID_SD00_INIT"},

@@ -24,6 +24,9 @@ class Config:
         self.typename_of_state_machine = settings['typename_of_state_machine']
         self.typename_of_base_state = settings['typename_of_base_state']
         self.include_debug_code = settings['include_debug_code']
+
+        self.is_observeable = settings['observeable']
+        self.typename_of_observer = settings['typename_of_observer']
         
 def load_config(filename):
     input_str = ""  

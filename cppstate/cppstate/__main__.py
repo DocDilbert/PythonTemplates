@@ -113,5 +113,13 @@ def main():
         defines={"config_file":config_file},
     )
 
+    if config.is_observeable:
+        call_cog(
+            infile="templates/IStateMachineObserver.h",
+            outfile= "autogen/{}.h".format(config.typename_of_observer),
+            defines={"config_file":config_file},
+        )
+
+
 if __name__ == "__main__":
     main()
