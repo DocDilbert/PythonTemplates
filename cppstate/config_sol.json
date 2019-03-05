@@ -1,0 +1,68 @@
+{
+	"settings":{
+		"include_debug_code": true, // if true some printfs are include to show state transitions
+		"observeable" : true, // if true a observer interface is generated for the state machine
+		"namespace": "COM::Profiles::ProfiDrive::SignOfLife",
+		"namespace_of_states": "COM::Profiles::ProfiDrive::SignOfLife::SignOfLifeStates",
+		"namespace_of_ids": "Autogen",
+
+		"typename_of_state_machine" : "ProfiDriveSignOfLife",
+		"typename_of_state_interface" : "ISignOfLifeState",
+		"typename_of_base_state" : "StateBase",
+		"typename_of_state_machine_interface" : "IProfiDriveSignOfLife",
+		"typename_of_state_data_structure" : "ProfiDriveSignOfLifeData",
+		"typename_of_ids" : "ProfiDriveSignOfLifeId",
+		"typename_of_observer" : "IProfiDriveSignOfLifeObserver"
+	},
+	
+	"init_transition" : {"to":"StateST01Idle", 		"id": "ID_ST00_INIT"},
+	
+	"states" : [
+		{"name":"StateST01Idle", 					"id" : "ID_ST01_IDLE"},
+		{"name":"StateST02ObserveMasterSol", 		"id" : "ID_ST02_OBSERVE_MASTER_SOL"},
+		{"name":"StateST03SynchronizeToMaster",	 	"id" : "ID_ST03_SYNCHRONIZE_TO_MASTER"},
+		{"name":"StateST04Operational", 			"id" : "ID_ST04_OPERATIONAL"}
+	],
+
+	"transitions" : [
+
+		{ // TD01
+			"from":"StateST01Idle", 
+			"to":"StateST02ObserveMasterSol", 
+			"name":"TransitionTD01fromST01toST02"
+		},
+		{ // TD02
+			"from":"StateST02ObserveMasterSol", 
+			"to":"StateST03SynchronizeToMaster", 
+			"name":"TransitionTD02fromST02toST03"
+		},
+		{ // TD03
+			"from":"StateST02ObserveMasterSol", 
+			"to":"StateST01Idle", 
+			"name":"TransitionTD03fromST02toST01"
+		},
+		{ // TD04
+			"from":"StateST03SynchronizeToMaster", 
+			"to":"StateST01Idle", 
+			"name":"TransitionTD04fromST03toST01"
+		},
+		{ // TD05
+			"from":"StateST03SynchronizeToMaster", 
+			"to":"StateST04Operational", 
+			"name":"TransitionTD05fromST03toST04"
+		},
+		{ // TD06
+			"from":"StateST04Operational", 
+			"to":"StateST01Idle", 
+			"name":"TransitionTD06fromST04toST01"
+		},
+		{ // TD07
+			"from":"StateST04Operational", 
+			"to":"StateST02ObserveMasterSol", 
+			"name":"TransitionTD07fromST04toST02"
+		}
+		
+	]
+
+
+}

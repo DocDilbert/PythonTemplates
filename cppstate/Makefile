@@ -1,5 +1,5 @@
 update:
-	 python -m cppstate config_encoder.json
+	 python -m cppstate config_sol.json
 
 compile:
 	 $(MAKE) -C ./autogen all
