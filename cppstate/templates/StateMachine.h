@@ -68,8 +68,8 @@ public:
     //[[[cog 
     //  if config.is_observeable:
     //      cog.outl("\n/// Registers an observer to the statemachine.")
-    //      cog.outl("/// \retval true if the registration was successfull.")
-    //      cog.outl("/// \retval false if the registration failed.")
+    //      cog.outl("/// \\retval true if the registration was successfull.")
+    //      cog.outl("/// \\retval false if the registration failed.")
     //      cog.outl("BOOL registerObserver(Interfaces::{}& observer);".format(config.typename_of_observer))
     //]]]
     //[[[end]]]
@@ -114,14 +114,14 @@ private:
     //      cog.outl("/// holds subscribers who want to be informed about state changes")
     //      cog.outl("Utilities::List<Interfaces::{}*, MAX_OBSERVERS> observers;".format(config.typename_of_observer))
     //      cog.outl()
-    //      cog.outl("/// Notifies all observer that the entry method is called")
-    //      cog.outl("void notifyObserversEntry({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //      cog.outl("/// Notifies all observer that the entry method was called")
+    //      cog.outl("void notifyObserversOnEntry({0}{1} from, {0}{1} to);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //      cog.outl()
-    //      cog.outl("/// Notifies all observer that the execute method is called")
-    //      cog.outl("void notifyObserversExecute({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //      cog.outl("/// Notifies all observer that the execute method was called")
+    //      cog.outl("void notifyObserversOnExecute({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //      cog.outl()
-    //      cog.outl("/// Notifies all observer that the exit method is called")
-    //      cog.outl("void notifyObserversExit({}{} state);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
+    //      cog.outl("/// Notifies all observer that the exit method was called")
+    //      cog.outl("void notifyObserversOnExit({0}{1} from, {0}{1} to);".format(ns_gen.get_namespace_to_id(), config.typename_of_ids))
     //]]]
     //[[[end]]]
 };

@@ -56,19 +56,19 @@
 {
     if (callEntry)
     {
+        // only call entry once 
         //[[[cog 
         //  if config.is_observeable:
-        //      cog.outl("notifyObserversEntry(istate->getId());\n")
+        //      cog.outl("notifyObserversOnEntry(lastState, istate->getId());\n")
         //]]]
         //[[[end]]]
-        // only call entry once 
         istate->entry(lastState);
         callEntry = false;
     }
     istate->execute();
     //[[[cog 
     //  if config.is_observeable:
-    //      cog.outl("notifyObserversExecute(istate->getId());")
+    //      cog.outl("notifyObserversOnExecute(istate->getId());")
     //]]]
     //[[[end]]]
 }
@@ -147,7 +147,7 @@
     lastState = istate->getId();  
     //[[[cog 
     //  if config.is_observeable:
-    //      cog.outl("notifyObserversExit(lastState);")
+    //      cog.outl("notifyObserversOnExit(lastState, state);")
     //]]]
     //[[[end]]]
     istate = getIStateFromId(state);
@@ -155,27 +155,27 @@
 
 //[[[cog 
 //  if config.is_observeable:
-//      cog.outl("void {}::notifyObserversEntry({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("void {0}::notifyObserversOnEntry({1}{2} from, {1}{2} to)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //      cog.outl("{")
 //      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
 //      cog.outl("  {")
-//      cog.outl("      observers[i]->entry(state);")
+//      cog.outl("      observers[i]->onEntry(from, to);")
 //      cog.outl("  }")
 //      cog.outl("}")
 //      cog.outl()
-//      cog.outl("void {}::notifyObserversExecute({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("void {0}::notifyObserversOnExecute({1}{2} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //      cog.outl("{")
 //      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
 //      cog.outl("  {")
-//      cog.outl("      observers[i]->execute(state);")
+//      cog.outl("      observers[i]->onExecute(state);")
 //      cog.outl("  }")
 //      cog.outl("}")
 //      cog.outl()
-//      cog.outl("void {}::notifyObserversExit({}{} state)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
+//      cog.outl("void {0}::notifyObserversOnExit({1}{2} from, {1}{2} to)".format(config.typename_of_state_machine, ns_gen.get_namespace_to_id(), config.typename_of_ids))
 //      cog.outl("{")
 //      cog.outl("  for(UINT32 i = 0; i < observers.getCount(); i++)")
 //      cog.outl("  {")
-//      cog.outl("      observers[i]->exit(state);")
+//      cog.outl("      observers[i]->onExit(from, to);")
 //      cog.outl("  }")
 //      cog.outl("}")
 //]]]
