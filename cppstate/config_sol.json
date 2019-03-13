@@ -21,7 +21,8 @@
 		{"name":"StateST01Idle", 					"id" : "ID_ST01_IDLE"},
 		{"name":"StateST02ObserveMasterSol", 		"id" : "ID_ST02_OBSERVE_MASTER_SOL"},
 		{"name":"StateST03SynchronizeToMaster",	 	"id" : "ID_ST03_SYNCHRONIZE_TO_MASTER"},
-		{"name":"StateST04Operational", 			"id" : "ID_ST04_OPERATIONAL"}
+		{"name":"StateST04SynchronizeInterpolator",	"id" : "ID_ST04_SYNCHRONIZE_INTERPOLATOR"},
+		{"name":"StateST05Operational", 			"id" : "ID_ST05_OPERATIONAL"}
 	],
 
 	"transitions" : [
@@ -48,18 +49,33 @@
 		},
 		{ // TD05
 			"from":"StateST03SynchronizeToMaster", 
-			"to":"StateST04Operational", 
+			"to":"StateST04SynchronizeInterpolator", 
 			"name":"TransitionTD05fromST03toST04"
 		},
 		{ // TD06
-			"from":"StateST04Operational", 
+			"from":"StateST04SynchronizeInterpolator", 
 			"to":"StateST01Idle", 
 			"name":"TransitionTD06fromST04toST01"
 		},
 		{ // TD07
-			"from":"StateST04Operational", 
+			"from":"StateST04SynchronizeInterpolator", 
 			"to":"StateST02ObserveMasterSol", 
 			"name":"TransitionTD07fromST04toST02"
+		},
+		{ // TD08
+			"from":"StateST04SynchronizeInterpolator", 
+			"to":"StateST05Operational", 
+			"name":"TransitionTD08fromST04toST05"
+		},
+		{ // TD09
+			"from":"StateST05Operational", 
+			"to":"StateST01Idle", 
+			"name":"TransitionTD09fromST05toST01"
+		},
+		{ // TD10
+			"from":"StateST05Operational", 
+			"to":"StateST02ObserveMasterSol", 
+			"name":"TransitionTD10fromST05toST02"
 		}
 		
 	]
