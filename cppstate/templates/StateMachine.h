@@ -75,10 +75,13 @@ public:
     //]]]
     //[[[end]]]
 private:
-    /// Returns a pointer to an object which implements the IState interface. 
-    /// \param stateId id of the requested state 
-    /// \returns a pointer to an object which implements the IState interface. 
-    ///          If the stateId is unknown a nullptr is returned. 
+    //[[[cog 
+    //  cog.outl(r"/// Returns a pointer to an object which implements the {} interface.".format(config.typename_of_state_interface))
+    //  cog.outl(r"/// \param stateId id of the requested state")
+    //  cog.outl(r"/// \returns a pointer to an object which implements the {} interface.".format(config.typename_of_state_interface))
+    //  cog.outl(r"///          If the stateId is unknown a nullptr is returned.")
+    //]]]
+    //[[[end]]]
     //[[[cog cog.outl("{}{}* getIStateFromId({}{} stateId);".format(ns_gen.get_namespace_to_state(),config.typename_of_state_interface, ns_gen.get_namespace_to_id(), config.typename_of_ids))]]]
     //[[[end]]]
 
@@ -103,7 +106,7 @@ private:
     //[[[cog 
     //  last_state = config.states[-1]
     //  for state in config.states:
-    //    cog.outl("\n/// Concrete {} state object. This object implements the IState interface.".format(state))
+    //    cog.outl("\n/// Concrete {} state object. This object implements the {} interface.".format(state, config.typename_of_state_interface))
     //    cog.outl("{}{} {};".format(ns_gen.get_namespace_to_state(), state, state.lower()))
     //]]]
     //[[[end]]]
