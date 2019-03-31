@@ -1,4 +1,5 @@
-# 
+# Inserts random numbers into database
+#  
 import sqlite3 as lite
 import random 
 
