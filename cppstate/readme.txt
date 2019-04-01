@@ -8,6 +8,11 @@ Vorraussetzungen
 2) PlantUml - Für die Generierung des Zustandsdiagrams
 3) GraphViz - Vorraussetzungen von PlantUml zur Erzeugung von Graphen
 
+
+Beispiele
+------------------
+
+
 Kurzanleitung
 ------------------
 1) Die gewünschten Zustände in der Datei "config.json" eintragen. Der oberste Zustand ist immer der Initialzustand.
