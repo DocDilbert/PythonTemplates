@@ -28,3 +28,11 @@ Erklärung:
         
 	(?!\.h) 
 		- ".h" darf nicht auf vorgenannten Ausdruck folgen
+        
+
+Suche nach Parameter Set und Get
+------------------------------------------------------
+((data_Set_)|(data_Get_))Parametername
+
+Erklärung:
+    ((data_Set_)|(data_Get_)) - data_Set_ oder data_Get_ vorangestellt
