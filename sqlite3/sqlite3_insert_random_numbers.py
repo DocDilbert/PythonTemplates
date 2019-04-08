@@ -9,7 +9,7 @@ try:
     # Verzeichnis erstellen
     os.mkdir("database")
 except FileExistsError:
-    # Falls es schon exisitiert mache weiter
+    # Falls es schon existiert mache weiter
     pass
 
 con = lite.connect('./database/test.db')
