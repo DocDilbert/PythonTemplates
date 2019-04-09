@@ -1,12 +1,14 @@
 """
 Einfügen von zufällig generieten Dateien in eine sqllite3 Datenbank und 
-Wiederherstellung derselbigen.
+Wiederherstellung derselbigen. Die Daten in der Datenbank werden
+im gzip Format gespeichert.
 """
 
 import sqlite3
 import create_binary_file as cbf
 import os
 import filecmp
+import zlib
 
 def create_or_open_db(db_file):
     """
@@ -38,10 +40,12 @@ def insert_file(cursor, filename):
     Returns:
         Die id unter welche die Datei in der Datenbank gespeichert wurde.
     """
+
     with open(filename, 'rb') as input_file:
         ablob=input_file.read()
+        ablob_gz = zlib.compress(ablob)
         sql="INSERT INTO FILES (FILE, FILENAME) VALUES(?, ?);"
-        cursor.execute(sql,[sqlite3.Binary(ablob), filename]) 
+        cursor.execute(sql,[sqlite3.Binary(ablob_gz), filename]) 
         return int(cursor.lastrowid)
 
 def extract_file(cursor, file_id, filename):
@@ -53,17 +57,17 @@ def extract_file(cursor, file_id, filename):
         file_id -- Die id der Datei die extrahiert werden soll
         filename -- Der Dateiname unter dem die extrahierte Datei gespeichert werden soll
     """
+
     sql = "SELECT FILE, FILENAME FROM FILES WHERE id = :id"
     param = {'id': file_id}
     cursor.execute(sql, param)
-    ablob, filename_db = cursor.fetchone()
-    
+    ablob_gz, filename_db = cursor.fetchone()
+    ablob = zlib.decompress(ablob_gz)
     print("Extracting file with id {} from database. Stored filename is \"{}\". It will be stored in \"{}\"."
         .format(file_id, filename_db, filename ))
 
     with open(filename, 'wb') as output_file:
         output_file.write(ablob)
-    return filename
 
 def main(seed):
     try:
