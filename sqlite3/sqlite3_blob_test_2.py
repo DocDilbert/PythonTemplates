@@ -70,13 +70,6 @@ def extract_file(cursor, file_id, filename):
         output_file.write(ablob)
 
 def main(seed):
-    try:
-        # Verzeichnis erstellen
-        os.mkdir("database")
-    except FileExistsError:
-        # Falls es schon existiert mache weiter
-        pass
-
     conn = create_or_open_db("blob.db")
     TESTFILE1 = "testfile1.bin"
     TESTFILE2 = "testfile2.bin"

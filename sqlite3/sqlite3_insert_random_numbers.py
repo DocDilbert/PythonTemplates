@@ -4,14 +4,6 @@ import sqlite3 as lite
 import random 
 import os
 
-
-try:
-    # Verzeichnis erstellen
-    os.mkdir("database")
-except FileExistsError:
-    # Falls es schon existiert mache weiter
-    pass
-
 con = lite.connect('numbers.db')
 
 with con:
