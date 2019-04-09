@@ -1,8 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://www.heise.de/newsticker/meldung/Missing-Link-Weimar-1919-Meine-Herren-und-Damen-4356582.html"
-page = requests.get(URL)
+URL = "https://www.heise.de/newsticker/"
+
+#chrome 70.0.3538.77
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+page = requests.get(URL, headers=headers)
 
 with open("index.html","wb") as file:
     file.write(page.content)
