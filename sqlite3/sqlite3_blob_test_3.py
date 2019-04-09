@@ -10,6 +10,7 @@ import os
 import filecmp
 import zlib
 import datetime
+import logging
 from sqlliteblob import insert_blob, extract_blob, create_or_open_db
 
 def insert_file(cursor, filename):
@@ -48,6 +49,9 @@ def extract_file(cursor, blobid, filename):
         output_file.write(blob)
 
 def main(seed):
+    FORMAT = "[%(levelname)-6s] %(filename)14s:%(lineno)3s / %(funcName)s - %(message)s"
+
+    logging.basicConfig(format=FORMAT, level=logging.INFO)
     conn = create_or_open_db("blob.db")
     TESTFILE1 = "testfile1.bin"
     TESTFILE2 = "testfile2.bin"
