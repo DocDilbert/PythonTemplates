@@ -8,7 +8,7 @@ def main():
     """Die Main Funktion des Skriptes.
     """
 
-    parser = argparse.ArgumentParser(description='Random binary file generator.')
+    parser = argparse.ArgumentParser(description='Binary file generator.')
 
     # Dateigröße als Argument
     parser.add_argument(
