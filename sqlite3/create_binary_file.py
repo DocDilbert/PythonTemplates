@@ -1,21 +1,57 @@
-"""Dieses Skript erzeugt binär Dateien beliebiger Länge. Die Datei
-wird gefüllt mit fortlaufenden Bytes von 0 bis 255.
+"""
+Dieses Skript erzeugt binär Dateien beliebiger Länge. Die Datei
+wird mit zufälligen Daten gefüllt. 
 """
 
 import argparse
+import random
 
-def main():
-    """Die Main Funktion des Skriptes.
+def generate_random_byte_array(seed, size):
+    """Diese Methode generiert ein byte array welches mit pseudo zufälligen Daten gefüllt wird.
+    
+    Arguments:
+        seed -- Der seed mit dem der Zufallsgenerator initialisiert wird.
+        size -- Die Größe des zu generiernden byte arrays.
     """
 
-    parser = argparse.ArgumentParser(description='Binary file generator.')
+    random.seed(seed)
+    content = bytearray([random.randint(0, 255) for _ in range(0, size)])
+    return content
+
+def create_random_file(seed, size, filename):
+    """Diese Funktion erzeugt eine pseudo zufällige Binärdatei
+    
+    Arguments:
+        seed -- Der seed mit dem der Zufallsgenerator initialisiert wird.
+        size -- Die Größe der zu generierenden Datei.
+        filename -- Der Name der zu generierenden Datei.
+    """
+
+    with open(filename,"wb") as file:
+        file.write(generate_random_byte_array(seed, size))
+
+
+def main():
+    """
+    Die Main Funktion des Skriptes.
+    """
+
+    parser = argparse.ArgumentParser(description='Random binary file generator.')
 
     # Dateigröße als Argument
     parser.add_argument(
-        'filesize', 
-        metavar='filesize', 
+        'seed', 
+        metavar='seed', 
         type=int, 
-        help='The size in bytes of the binary file.'
+        help='The random seed used for file generation.'
+    )
+
+    # Dateigröße als Argument
+    parser.add_argument(
+        'size', 
+        metavar='size', 
+        type=int, 
+        help='The size in bytes of the random binary file.'
     )
 
     # Dateiname als Argument
@@ -23,17 +59,14 @@ def main():
         'filename', 
         metavar='filename', 
         type=str, 
-        help='The name of the binary file.'
+        help='The name of the random binary file.'
     )
 
     args = parser.parse_args()
     print("Creating binary file ...")
-    with open(args.filename,"wb") as file:
-        one_byte = bytearray(1)
-        for i in range(0,args.filesize):
-            one_byte[0] = i % 256
-            file.write(one_byte)
-
+    
+    create_random_file(args.seed, args.size, args.filename)
+    
     print("Done!")
 
 if __name__ == "__main__":
