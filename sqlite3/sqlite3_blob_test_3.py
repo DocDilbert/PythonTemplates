@@ -18,24 +18,24 @@ def create_or_open_db(db_file):
         db_file -- Name der Datenbank
 
     Returns:
-        Eine sqlite3 Datenbank connection
+        Eine sqlite3 Datenbank connection.
     """
     db_is_new = not os.path.exists(db_file)
     conn = sqlite3.connect(db_file)
     if db_is_new:
         print("Creating schemas")
 
-        sql = """CREATE TABLE IF NOT EXISTS FILES(
+        sql = """CREATE TABLE IF NOT EXISTS BLOBS(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 FILENAME TEXT,
+                 BLOBNAME TEXT,
                  DATETIME TEXT,
                  STORAGE_ID INTEGER);"""
 
         conn.execute(sql)
 
-        sql = """CREATE TABLE IF NOT EXISTS FILE_STORAGE(
+        sql = """CREATE TABLE IF NOT EXISTS BLOB_STORAGE(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 FILE BLOB);"""
+                 CONTENT BLOB);"""
 
         conn.execute(sql) 
 
@@ -43,42 +43,55 @@ def create_or_open_db(db_file):
         print("Schema exists")
     return conn
 
-def insert_file(cursor, filename):
-    """ Fügt eine Datei der Datenbank hinzu. 
+def insert_blob(cursor, blobname, blob):
+    """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
 
     Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
-    Falls ja, werden die Daten nicht erneut hinzugefügt sondern die Referenz auf
-    die alten Daten verwendet.
+    Falls ja, werden die Daten nicht erneut hinzugefügt sondern die alten Daten
+    verwendet.
     
     Arguments:
         cursor -- Datenbank Cursor
-        filename -- Name der Datei
+        blobname -- Name des Blobs
+        blob -- Der eigentliche Blob
     
     Returns:
-        Die id unter welche die Datei in der Datenbank gespeichert wurde.
+        [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
+    """
+    
+    (storage_id, ablob_last) = extract_last_bytestream_from_storage(cursor, blobname)
+    
+    if (blob != ablob_last):
+        print("New content found for file \"{}\"".format(blobname))
+        sql="INSERT INTO BLOB_STORAGE (CONTENT) VALUES(?);"
+        cursor.execute(sql,[sqlite3.Binary(blob)])
+        storage_id = int(cursor.lastrowid)
+
+    sql="INSERT INTO BLOBS (BLOBNAME, DATETIME, STORAGE_ID) VALUES(?, ?, ?);"
+    dt = datetime.datetime.now().isoformat()
+    cursor.execute(sql,[blobname, dt, storage_id]) 
+
+    return int(cursor.lastrowid)
+
+def insert_file(cursor, filename):
+    """ Fügt die Datei mit dem Namen filename einer sqlite3 Datenbank hinzu.
+    
+    Arguments:
+        cursor -- Datenbank Cursor
+        filename -- Name der zu lesenden Datei
+    
+    Returns:
+        [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
     """
 
-    
     with open(filename, 'rb') as input_file:
         ablob=input_file.read()
         ablob_gz = zlib.compress(ablob)
-        (storage_id, ablob_last) = extract_last_bytestream_from_storage(cursor, filename)
-        
-        if (ablob_gz != ablob_last):
-            print("New content found for file \"{}\"".format(filename))
-            sql="INSERT INTO FILE_STORAGE (FILE) VALUES(?);"
-            cursor.execute(sql,[sqlite3.Binary(ablob_gz)])
-            storage_id = int(cursor.lastrowid)
-
-        sql="INSERT INTO FILES (FILENAME, DATETIME, STORAGE_ID) VALUES(?, ?, ?);"
-        dt = datetime.datetime.now().isoformat()
-        cursor.execute(sql,[filename, dt, storage_id]) 
-
-
-        return int(cursor.lastrowid)
+        return insert_blob(cursor, filename, ablob_gz)
 
 def list_dataset_for_filename(cursor, filename):
-    """Listet alle Einträge in der Datenbank auf die unter filename gespeichert wurden
+    """Listet alle gespeicherten Datensätze in der Datenbank auf die 
+    unter filename gespeichert wurden
     
     Arguments:
         cursor -- Datenbank Cursor
@@ -88,7 +101,7 @@ def list_dataset_for_filename(cursor, filename):
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = "SELECT ID, DATETIME, STORAGE_ID FROM FILES WHERE FILENAME = :filename"
+    sql = "SELECT ID, DATETIME, STORAGE_ID FROM BLOBS WHERE BLOBNAME = :filename"
     param = {'filename': filename}
     cursor.execute(sql, param)
     data = [
@@ -113,23 +126,23 @@ def extract_blob_from_storage(cursor, storage_id):
         als bytearray zurückgegeben.
     """
 
-    sql = "SELECT FILE FROM FILE_STORAGE WHERE id = :id"
+    sql = "SELECT CONTENT FROM BLOB_STORAGE WHERE id = :id"
     param = {'id': storage_id}
     cursor.execute(sql, param)
     return cursor.fetchone()[0]
 
-def extract_last_bytestream_from_storage(cursor, filename):
-    """ Extrahiert den letzten unter filename gespeicherten blob.
+def extract_last_bytestream_from_storage(cursor, blobname):
+    """ Extrahiert den letzten unter blobname gespeicherten blob.
     
     Arguments:
         cursor -- Datenbank Cursor
-        filename -- Der Dateiname für den der letzte blob gesucht wird.
+        blobname -- Der Name des blobs der gesucht wird.
     
     Returns:
         Ein tuple welches die storage_id sowie das bytearray des gefundenen
-        blobs enthält. Falls kein blob gefunden wird wird (-1, None) zurückgegeben.
+        blobs enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
     """
-    dataset = list_dataset_for_filename(cursor, filename)
+    dataset = list_dataset_for_filename(cursor, blobname)
     
     if len(dataset)==0:
         return (-1, None)
@@ -137,26 +150,43 @@ def extract_last_bytestream_from_storage(cursor, filename):
     laststorageid = dataset[-1]['storage_id']
     return (laststorageid, extract_blob_from_storage(cursor, laststorageid))
     
-def extract_file(cursor, file_id, filename):
-    """ Extrahiert eine Datei aus einer Datenbank. Die extrahiert Datei
-    wird über die file_id identifziert.
+def extract_blob(cursor, blobid):
+    """ Extrahiert einen Blob aus der sqllite3 Datenbank. Die extrahiert Datei
+    wird über die blobid identifziert.
     
     Arguments:
         cursor -- Datenbank Cursor
-        file_id -- Die id der Datei die extrahiert werden soll
-        filename -- Der Dateiname unter dem die extrahierte Datei gespeichert werden soll
+        blobid -- Die id des Blobs der extrahiert werden soll.
+        
+    Returns:
+        [(blobname, blob)] - blobname ist der Name unter dem der blob gespeichert ist.
+        blob sind die Daten als bytearray.
     """
 
-    sql = "SELECT FILENAME, STORAGE_ID FROM FILES WHERE id = :id"
-    param = {'id': file_id}
+    sql = "SELECT BLOBNAME, STORAGE_ID FROM BLOBS WHERE id = :id"
+    param = {'id': blobid}
     cursor.execute(sql, param)
     filename_db, storage_id = cursor.fetchone()
 
     ablob_gz = extract_blob_from_storage(cursor, storage_id)
     ablob = zlib.decompress(ablob_gz)
 
+    return (filename_db, ablob)
+
+def extract_file(cursor, blobid, filename):
+    """ Extrahiert eine Datei aus einer Datenbank. Die extrahiert Datei
+    wird über die file_id identifziert und in Dateisystem gespeichert.
+    
+    Arguments:
+        cursor -- Datenbank Cursor
+        blobid -- Die id des Blobs der extrahiert werden soll.
+        filename -- Der Dateiname unter dem die extrahierte Datei gespeichert werden soll
+    """
+
+    (filename_db, ablob) = extract_blob(cursor, blobid)
+
     print("Extracting file with id {} from database. Stored filename is \"{}\". It will be stored in \"{}\"."
-        .format(file_id, filename_db, filename ))
+        .format(blobid, filename_db, filename ))
 
     with open(filename, 'wb') as output_file:
         output_file.write(ablob)
