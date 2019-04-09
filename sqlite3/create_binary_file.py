@@ -15,7 +15,7 @@ def main():
         'filesize', 
         metavar='filesize', 
         type=int, 
-        help='The size in bytes of the binary file'
+        help='The size in bytes of the binary file.'
     )
 
     # Dateiname als Argument
@@ -23,7 +23,7 @@ def main():
         'filename', 
         metavar='filename', 
         type=str, 
-        help='The name of the random binary file'
+        help='The name of the binary file.'
     )
 
     args = parser.parse_args()
