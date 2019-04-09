@@ -1,5 +1,5 @@
 """
-Modul zum hinzfügen von Blobs in eine sqllite3 Datenbank. Die 
+Modul zum hinzufügen von Blobs in eine sqllite3 Datenbank. Die 
 eingefügten Blobs werden versioniert.
 """
 
