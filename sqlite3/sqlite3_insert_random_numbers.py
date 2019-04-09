@@ -12,7 +12,7 @@ except FileExistsError:
     # Falls es schon existiert mache weiter
     pass
 
-con = lite.connect('./database/test.db')
+con = lite.connect('numbers.db')
 
 with con:
 
