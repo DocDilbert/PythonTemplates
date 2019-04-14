@@ -179,5 +179,6 @@ if __name__ == "__main__":
     scraper = WebScraperLogger("page")
     links = scrap(URL, scraper)
 
-    for link in links:
+    for link in links[:40]:
         print(link)
+        #scrap(link, scraper)
