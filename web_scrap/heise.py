@@ -6,12 +6,32 @@ import os
 # create logger
 module_logger = logging.getLogger('webscraper')
 
+class ExtractFileNameFromURL:
+    def __init__(self, url, content_type):
+        self.logger = logging.getLogger('webscraper.ExtractFileNameFromURL')
+        self.logger.debug("url = '%s', content_type = '%s'", url, content_type)
+        urlp = urlparse(url)
+        self.filename = os.path.basename(urlp.path)
+        parts = os.path.splitext(self.filename)
+        if parts[1] is '':
+            if 'text/html' in content_type:
+                self.filename = parts[0]+'.html'
+
+        self.logger.debug("parts: %s", parts)
+        self.logger.info("Extracted file name '%s' from url '%s'", self.filename, url)
+    
+    def __str__(self):
+        return self.filename
+
+    def __repr__(self):
+        return self.filename
 
 class WebScraperLogger:
     def __init__(self, dirname):
         self.logger = logging.getLogger('webscraper')
         self.cnt = 0
         self.dirname = dirname
+        
         if not os.path.exists(dirname):
             os.mkdir(dirname)
 
@@ -20,7 +40,8 @@ class WebScraperLogger:
         self.logger.debug("headers: %s", page.headers)
         self.logger.debug("cookies: %s", page.cookies)
 
-        with open(self.dirname+"/index.html","wb") as file:
+        filename = ExtractFileNameFromURL(url, page.headers['Content-type'])
+        with open(self.dirname+"/"+str(filename),"wb") as file:
             file.write(page.content)
 
     def css_downloaded_handler(self, tag, url, link_get):
@@ -30,19 +51,20 @@ class WebScraperLogger:
         self.logger.debug("headers: %s", link_get.headers)
         self.logger.debug("cookies: %s", link_get.cookies)
         
-        urlp = urlparse(url)
-        self.logger.debug("urlparse: %s", urlp)
-
-        filename = os.path.basename(urlp.path)
-        self.logger.info("Extracted file name: %s", filename)
-        with open(self.dirname+"/"+filename,"wb") as file:
+        filename = ExtractFileNameFromURL(url, link_get.headers['Content-type'])
+        
+        with open(self.dirname+"/"+str(filename),"wb") as file:
             file.write(link_get.content)
 
         tag['href'] = filename
 
     def html_post_process_handler(self, url, soup):
+        
         self.logger.info("html post process handler: %s", url)
-        with open(self.dirname+"/index_processed.html","w") as file:
+        
+        filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
+        parts = os.path.splitext(str(filename))
+        with open(self.dirname+"/{}_processed{}".format(parts[0], parts[1]),"w") as file:
             file.write(soup.prettify())
 
 #URL = "https://www.heise.de/newsticker/archiv/2006/01"
@@ -67,12 +89,18 @@ def main(scraper):
     for link in soup.find_all('link', {"type" : "text/css"}):
         load_css(link, scraper)
 
+    for img in soup.find_all('img'):
+        print(img)
+
     scraper.html_post_process_handler(URL, soup)
     
 
 if __name__ == "__main__":
+    logger = logging.getLogger('webscraper.ExtractFileNameFromURL')
+    logger.setLevel(logging.WARNING)
+
     logger = logging.getLogger('webscraper')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     ch = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
