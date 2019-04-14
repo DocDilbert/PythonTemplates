@@ -122,21 +122,22 @@ def is_internal(host, url):
     else:
         return False
 
-def download(url, tag, handler):
-    new_url = transform_url(URL, url)
+def download(web_url, url, tag, handler):
+    new_url = transform_url(web_url, url)
     module_logger.info("pre request: %s", new_url)
     img = requests.get(new_url, headers=HEADERS)
     module_logger.info("post request: %s", new_url)
     handler(tag, new_url, img)
     
 
-def main(scraper):
-    page = requests.get(URL, headers=HEADERS)
-    scraper.html_download_handler(URL, page)
+def scrap(web_url, scraper):
+    page = requests.get(web_url, headers=HEADERS)
+    scraper.html_download_handler(web_url, page)
     soup = BeautifulSoup(page.content, 'html.parser')
 
     for link in soup.find_all('link', {"type" : "text/css"}):
         download(
+            web_url,
             link.get('href'), 
             link, 
             scraper.css_downloaded_handler
@@ -145,17 +146,20 @@ def main(scraper):
 
     for img in soup.find_all('img', src=True):
         download(
+            web_url,
             img.get('src'), 
             img, 
             scraper.img_downloaded_handler
         )
-    for a in soup.find_all('a', href=True):
-        host = urlparse(URL).netloc
-        link = transform_url(URL, a['href'])
-        if is_internal(host, link):
-            print(link)
-    scraper.html_post_process_handler(URL, soup)
     
+    links = []
+    for a in soup.find_all('a', href=True):
+        host = urlparse(web_url).netloc
+        link = transform_url(web_url, a['href'])
+        if is_internal(host, link):
+            links.append(link)
+    scraper.html_post_process_handler(web_url, soup)
+    return links
 
 if __name__ == "__main__":
     logger_ = logging.getLogger('webscraper.ExtractFileNameFromURL')
@@ -173,4 +177,7 @@ if __name__ == "__main__":
     logger_.addHandler(ch)
 
     scraper = WebScraperLogger("page")
-    main(scraper)
+    links = scrap(URL, scraper)
+
+    for link in links:
+        print(link)
