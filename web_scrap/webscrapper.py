@@ -90,18 +90,17 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
 
 #URL = "https://www.heise.de/newsticker/archiv/2006/01"
-#URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
-URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
+URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+#URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
-
-def download(url, tag, handler):
-    local = urlparse(url)
-    module_logger.debug("download file url_parse result = %s", local)
+def transform_url(url, resource_url):
+    local = urlparse(resource_url)
+    module_logger.debug('transform url url_parse result = %s', local)
     download_url = None
     if not local.scheme: 
-        o = urlparse(URL)
+        o = urlparse(url)
         download_url = urlunparse((
             o.scheme,
             o.netloc,
@@ -109,14 +108,18 @@ def download(url, tag, handler):
             local.params,
             local.query,
             local.fragment))
-        download_url = urlparse(download_url)
     else:
-        download_url = local
+        download_url = local.geturl()
 
-    module_logger.info("pre request: %s", download_url.geturl())
-    img = requests.get(download_url.geturl(), headers=HEADERS)
-    module_logger.info("post request: %s", download_url.geturl())
-    handler(tag, download_url.geturl(), img)
+    module_logger.info('transform url from %s to %s', resource_url, download_url)
+    return download_url
+
+def download(url, tag, handler):
+    new_url = transform_url(URL, url)
+    module_logger.info("pre request: %s", new_url)
+    img = requests.get(new_url, headers=HEADERS)
+    module_logger.info("post request: %s", new_url)
+    handler(tag, new_url, img)
     
 
 def main(scraper):
@@ -138,8 +141,9 @@ def main(scraper):
             img, 
             scraper.img_downloaded_handler
         )
-    #for a in soup.find_all('a'):
-    #    print(a)
+    for a in soup.find_all('a', href=True):
+        link = transform_url(URL, a['href'])
+        print(link)
     scraper.html_post_process_handler(URL, soup)
     
 
@@ -151,7 +155,7 @@ if __name__ == "__main__":
     logger_.setLevel(logging.INFO)
 
     logger_ = logging.getLogger('webscraper')
-    logger_.setLevel(logging.DEBUG)
+    logger_.setLevel(logging.INFO)
 
     ch = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
