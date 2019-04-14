@@ -111,8 +111,16 @@ def transform_url(url, resource_url):
     else:
         download_url = local.geturl()
 
-    module_logger.info('transform url from %s to %s', resource_url, download_url)
+    module_logger.debug('transform url from %s to %s', resource_url, download_url)
     return download_url
+
+def is_internal(host, url):
+    url_parsed = urlparse(url)
+
+    if url_parsed.netloc == host:
+        return True
+    else:
+        return False
 
 def download(url, tag, handler):
     new_url = transform_url(URL, url)
@@ -142,8 +150,10 @@ def main(scraper):
             scraper.img_downloaded_handler
         )
     for a in soup.find_all('a', href=True):
+        host = urlparse(URL).netloc
         link = transform_url(URL, a['href'])
-        print(link)
+        if is_internal(host, link):
+            print(link)
     scraper.html_post_process_handler(URL, soup)
     
 
