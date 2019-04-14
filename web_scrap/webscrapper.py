@@ -1,7 +1,7 @@
 import requests
 import logging
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+from urllib.parse import urlparse,urlunparse
 import os
 import time
 # create logger
@@ -102,14 +102,21 @@ def download(url, tag, handler):
     download_url = None
     if not local.scheme: 
         o = urlparse(URL)
-        download_url = o.scheme+"://"+o.netloc+url
+        download_url = urlunparse((
+            o.scheme,
+            o.netloc,
+            local.path,
+            local.params,
+            local.query,
+            local.fragment))
+        download_url = urlparse(download_url)
     else:
-        download_url = url
+        download_url = local
 
-    module_logger.info("pre request: %s", download_url)
-    img = requests.get(download_url, headers=HEADERS)
-    module_logger.info("post request: %s", download_url)
-    handler(tag, download_url, img)
+    module_logger.info("pre request: %s", download_url.geturl())
+    img = requests.get(download_url.geturl(), headers=HEADERS)
+    module_logger.info("post request: %s", download_url.geturl())
+    handler(tag, download_url.geturl(), img)
     
 
 def main(scraper):
@@ -131,8 +138,8 @@ def main(scraper):
             img, 
             scraper.img_downloaded_handler
         )
-    for a in soup.find_all('a'):
-        print(a)
+    #for a in soup.find_all('a'):
+    #    print(a)
     scraper.html_post_process_handler(URL, soup)
     
 
@@ -144,7 +151,7 @@ if __name__ == "__main__":
     logger_.setLevel(logging.INFO)
 
     logger_ = logging.getLogger('webscraper')
-    logger_.setLevel(logging.INFO)
+    logger_.setLevel(logging.DEBUG)
 
     ch = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
