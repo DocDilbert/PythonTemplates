@@ -132,7 +132,8 @@ def main(scraper):
                 img, 
                 scraper.img_downloaded_handler
             )
-
+    for a in soup.find_all('a'):
+        print(a)
     scraper.html_post_process_handler(URL, soup)
     
 
