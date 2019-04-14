@@ -28,7 +28,7 @@ class ExtractFileNameFromURL:
 
 class WebScraperLogger:
     def __init__(self, dirname):
-        self.logger = logging.getLogger('webscraper')
+        self.logger = logging.getLogger('webscraper.WebScraperLogger')
         self.cnt = 0
         self.dirname = dirname
         
