@@ -35,22 +35,22 @@ class WebScraperLogger:
         if not os.path.exists(dirname):
             os.mkdir(dirname)
 
-    def html_pre_process_handler(self, url, page):
-        self.logger.info("html pre process handler: %s", url)
-        self.logger.debug("headers: %s", page.headers)
-        self.logger.debug("cookies: %s", page.cookies)
+    def html_download_handler(self, url, page):
+        self.logger.info("html download handler was called with url '%s'", url)
+        self.logger.debug("html download handler:\n"
+            +" - headers = %s, \n - cookies = %s", page.headers, page.cookies)
 
         filename = ExtractFileNameFromURL(url, page.headers['Content-type'])
+
         with open(self.dirname+"/"+str(filename),"wb") as file:
             file.write(page.content)
 
     def css_downloaded_handler(self, tag, url, link_get):
         self.cnt += 1
-        self.logger.info("css downloaded handler: %s", url)
-        self.logger.debug("tag: %s", tag)
-        self.logger.debug("headers: %s", link_get.headers)
-        self.logger.debug("cookies: %s", link_get.cookies)
-        
+        self.logger.info("css downloaded handler was called with url '%s'", url)
+        self.logger.debug("css downloaded handler:\n"
+            +" - tag = %s,\n - headers = %s, \n - cookies = %s", tag, link_get.headers, link_get.cookies)
+      
         filename = ExtractFileNameFromURL(url, link_get.headers['Content-type'])
         
         with open(self.dirname+"/"+str(filename),"wb") as file:
@@ -60,9 +60,10 @@ class WebScraperLogger:
 
     def html_post_process_handler(self, url, soup):
         
-        self.logger.info("html post process handler: %s", url)
+        self.logger.info("html post process handler was called with url '%s'", url)
         
         filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
+
         parts = os.path.splitext(str(filename))
         with open(self.dirname+"/{}_processed{}".format(parts[0], parts[1]),"w") as file:
             file.write(soup.prettify())
@@ -83,28 +84,29 @@ def load_css(css_link, scraper):
 
 def main(scraper):
     page = requests.get(URL, headers=HEADERS)
-    scraper.html_pre_process_handler(URL, page)
+    scraper.html_download_handler(URL, page)
     soup = BeautifulSoup(page.content, 'html.parser')
 
     for link in soup.find_all('link', {"type" : "text/css"}):
         load_css(link, scraper)
 
-    for img in soup.find_all('img'):
-        print(img)
+    #for img in soup.find_all('img'):
+    #    print(img)
 
     scraper.html_post_process_handler(URL, soup)
     
 
 if __name__ == "__main__":
-    logger = logging.getLogger('webscraper.ExtractFileNameFromURL')
-    logger.setLevel(logging.WARNING)
+    logger_ = logging.getLogger('webscraper.ExtractFileNameFromURL')
+    logger_.setLevel(logging.WARNING)
 
-    logger = logging.getLogger('webscraper')
-    logger.setLevel(logging.INFO)
+    logger_ = logging.getLogger('webscraper')
+    logger_.setLevel(logging.INFO)
+
     ch = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    logger_.addHandler(ch)
 
     scraper = WebScraperLogger("page")
     main(scraper)
