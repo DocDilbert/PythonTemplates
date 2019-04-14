@@ -125,13 +125,12 @@ def main(scraper):
         )
 
 
-    for img in soup.find_all('img'):
-        if img.get('src'):
-            download(
-                img.get('src'), 
-                img, 
-                scraper.img_downloaded_handler
-            )
+    for img in soup.find_all('img', src=True):
+        download(
+            img.get('src'), 
+            img, 
+            scraper.img_downloaded_handler
+        )
     for a in soup.find_all('a'):
         print(a)
     scraper.html_post_process_handler(URL, soup)
