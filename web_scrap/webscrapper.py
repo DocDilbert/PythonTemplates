@@ -30,7 +30,6 @@ class ExtractFileNameFromURL:
 class WebScraperLogger:
     def __init__(self, dirname):
         self.logger = logging.getLogger('webscraper.WebScraperLogger')
-        self.cnt = 0
         self.dirname = dirname
         
         if not os.path.exists(dirname):
@@ -50,7 +49,6 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
 
     def css_downloaded_handler(self, tag, url, link_get):
-        self.cnt += 1
         self.logger.info("css downloaded handler was called with url '%s'", url)
         self.logger.debug("css downloaded handler:\n"
             +" - tag = %s,\n - headers = %s, \n - cookies = %s", tag, link_get.headers, link_get.cookies)
@@ -64,8 +62,8 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
         tag['href'] = filename
 
+
     def img_downloaded_handler(self, tag, url, link_get):
-        self.cnt += 1
         self.logger.info("img downloaded handler was called with url '%s'", url)
         self.logger.debug("img downloaded handler:\n"
             +" - tag = %s,\n - headers = %s, \n - cookies = %s", tag, link_get.headers, link_get.cookies)
@@ -80,7 +78,6 @@ class WebScraperLogger:
         tag['src'] = filename
 
     def html_post_process_handler(self, url, soup):
-        
         self.logger.info("html post process handler was called with url '%s'", url)
         
         filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
@@ -99,27 +96,20 @@ URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spiel
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
 
-def load_css(css_link, scraper):
-    local = urlparse(css_link['href'])
-    module_logger.debug("load css url_parse result = %s", local)
-    o = urlparse(URL)
-    page_link = o.scheme+"://"+o.netloc+css_link['href']
-    module_logger.info("load css file from: %s", page_link)
-    css = requests.get(page_link, headers=HEADERS)
-    scraper.css_downloaded_handler(css_link, page_link, css)
-    
-def load_img(img_link, scraper):
-    local = urlparse(img_link['src'])
-    module_logger.debug("load_img url_parse result = %s", local)
-    page_link = None
+def download(url, tag, handler):
+    local = urlparse(url)
+    module_logger.debug("download file url_parse result = %s", local)
+    download_url = None
     if not local.scheme: 
         o = urlparse(URL)
-        page_link = o.scheme+"://"+o.netloc+img_link['src']
+        download_url = o.scheme+"://"+o.netloc+url
     else:
-        page_link = img_link['src']
-    module_logger.info("load img file from: %s", page_link)
-    img = requests.get(page_link, headers=HEADERS)
-    scraper.img_downloaded_handler(img_link, page_link, img)
+        download_url = url
+
+    module_logger.info("pre request: %s", download_url)
+    img = requests.get(download_url, headers=HEADERS)
+    module_logger.info("post request: %s", download_url)
+    handler(tag, download_url, img)
     
 
 def main(scraper):
@@ -128,11 +118,20 @@ def main(scraper):
     soup = BeautifulSoup(page.content, 'html.parser')
 
     for link in soup.find_all('link', {"type" : "text/css"}):
-        load_css(link, scraper)
+        download(
+            link.get('href'), 
+            link, 
+            scraper.css_downloaded_handler
+        )
+
 
     for img in soup.find_all('img'):
         if img.get('src'):
-            load_img(img, scraper)
+            download(
+                img.get('src'), 
+                img, 
+                scraper.img_downloaded_handler
+            )
 
     scraper.html_post_process_handler(URL, soup)
     
