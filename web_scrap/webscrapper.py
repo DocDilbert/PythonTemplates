@@ -42,8 +42,11 @@ class WebScraperLogger:
 
         filename = ExtractFileNameFromURL(url, page.headers['Content-type'])
 
-        with open(self.dirname+"/"+str(filename),"wb") as file:
+        dest = self.dirname+"/"+str(filename)
+        with open(dest,"wb") as file:
             file.write(page.content)
+
+        self.logger.info("Wrote content to '%s'", dest)
 
     def css_downloaded_handler(self, tag, url, link_get):
         self.cnt += 1
@@ -53,9 +56,11 @@ class WebScraperLogger:
       
         filename = ExtractFileNameFromURL(url, link_get.headers['Content-type'])
         
-        with open(self.dirname+"/"+str(filename),"wb") as file:
+        dest = self.dirname+"/"+str(filename)
+        with open(dest,"wb") as file:
             file.write(link_get.content)
-
+            
+        self.logger.info("Wrote content to '%s'", dest)
         tag['href'] = filename
 
     def html_post_process_handler(self, url, soup):
@@ -65,8 +70,11 @@ class WebScraperLogger:
         filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
 
         parts = os.path.splitext(str(filename))
-        with open(self.dirname+"/{}_processed{}".format(parts[0], parts[1]),"w") as file:
+        dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
+        with open(dest,"w") as file:
             file.write(soup.prettify())
+
+        self.logger.info("Wrote content to '%s'", dest)
 
 #URL = "https://www.heise.de/newsticker/archiv/2006/01"
 URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
