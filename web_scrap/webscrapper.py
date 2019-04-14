@@ -89,8 +89,8 @@ class WebScraperLogger:
 
         self.logger.info("Wrote content to '%s'", dest)
 
-#URL = "https://www.heise.de/newsticker/archiv/2006/01"
-URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+URL = "https://www.heise.de/newsticker/archiv/2006/01"
+#URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
 #URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
@@ -179,6 +179,6 @@ if __name__ == "__main__":
     scraper = WebScraperLogger("page")
     links = scrap(URL, scraper)
 
-    for link in links[:40]:
+    for link in links:
         print(link)
         #scrap(link, scraper)
