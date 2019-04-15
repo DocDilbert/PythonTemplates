@@ -95,15 +95,14 @@ URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
-def transform_url(url, resource_url):
+def transform_url(scheme, netloc, resource_url):
     local = urlparse(resource_url)
     module_logger.debug('transform url url_parse result = %s', local)
     download_url = None
     if not local.scheme: 
-        o = urlparse(url)
         download_url = urlunparse((
-            o.scheme,
-            o.netloc,
+            scheme,
+            netloc,
             local.path,
             local.params,
             local.query,
@@ -112,32 +111,38 @@ def transform_url(url, resource_url):
         download_url = local.geturl()
 
     module_logger.debug('transform url from %s to %s', resource_url, download_url)
+
     return download_url
 
-def is_internal(host, url):
+def is_internal(netloc, url):
     url_parsed = urlparse(url)
 
-    if url_parsed.netloc == host:
+    if url_parsed.netloc == netloc:
         return True
     else:
         return False
 
-def download(web_url, url, tag, handler):
-    new_url = transform_url(web_url, url)
+def download(scheme, netloc, url, tag, handler):
+    new_url = transform_url(scheme, netloc, url)
     module_logger.info("pre request: %s", new_url)
     img = requests.get(new_url, headers=HEADERS)
     module_logger.info("post request: %s", new_url)
     handler(tag, new_url, img)
     
 
-def scrap(web_url, scraper):
-    page = requests.get(web_url, headers=HEADERS)
-    scraper.html_download_handler(web_url, page)
-    soup = BeautifulSoup(page.content, 'html.parser')
+def scrap(url, scraper):
+    response = requests.get(url, headers=HEADERS)
+    scraper.html_download_handler(url, response)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    parsed_url = urlparse(url)
+    scheme = parsed_url.scheme
+    netloc = parsed_url.netloc
 
     for link in soup.find_all('link', {"type" : "text/css"}):
         download(
-            web_url,
+            scheme,
+            netloc,
             link.get('href'), 
             link, 
             scraper.css_downloaded_handler
@@ -145,7 +150,8 @@ def scrap(web_url, scraper):
 
     for img in soup.find_all('img', src=True):
         download(
-            web_url,
+            scheme,
+            netloc,
             img.get('src'), 
             img, 
             scraper.img_downloaded_handler
@@ -153,12 +159,16 @@ def scrap(web_url, scraper):
     
     links = []
     for a in soup.find_all('a', href=True):
-        host = urlparse(web_url).netloc
-        link = transform_url(web_url, a['href'])
-        if is_internal(host, link):
+        link = transform_url(
+            scheme, 
+            netloc, 
+            a['href']
+        )
+
+        if is_internal(netloc, link):
             links.append(link)
 
-    scraper.html_post_process_handler(web_url, soup)
+    scraper.html_post_process_handler(url, soup)
     return links
 
 if __name__ == "__main__":
@@ -186,4 +196,4 @@ if __name__ == "__main__":
 
         if filen[1]==".html":
             print(link)
-            scrap(link, scraper)
+            #scrap(link, scraper)
