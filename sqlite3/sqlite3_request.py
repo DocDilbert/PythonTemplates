@@ -13,11 +13,15 @@ HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit
 def main():
     FORMAT = "[%(levelname)-6s] %(filename)14s:%(lineno)3s / %(funcName)s - %(message)s"
 
-    logging.basicConfig(format=FORMAT, level=logging.INFO)
+    logging.basicConfig(
+        format=FORMAT, 
+        level=logging.INFO)
+
     #for i in range(0,100):
     #print("Request {}".format(i))
     page = requests.get(URL, headers=HEADERS)
     #print(page.content)
+    
     soup = BeautifulSoup(page.content, 'html.parser')
     for link in soup.find_all('a'):
         print(link.get('href'))
