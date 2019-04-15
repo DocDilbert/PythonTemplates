@@ -89,8 +89,8 @@ class WebScraperLogger:
 
         self.logger.info("Wrote content to '%s'", dest)
 
-URL = "https://www.heise.de/newsticker/archiv/2006/01"
-#URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+#URL = "https://www.heise.de/newsticker/archiv/2006/01"
+URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
 #URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
@@ -143,7 +143,6 @@ def scrap(web_url, scraper):
             scraper.css_downloaded_handler
         )
 
-
     for img in soup.find_all('img', src=True):
         download(
             web_url,
@@ -158,6 +157,7 @@ def scrap(web_url, scraper):
         link = transform_url(web_url, a['href'])
         if is_internal(host, link):
             links.append(link)
+
     scraper.html_post_process_handler(web_url, soup)
     return links
 
@@ -180,5 +180,10 @@ if __name__ == "__main__":
     links = scrap(URL, scraper)
 
     for link in links:
-        print(link)
-        #scrap(link, scraper)
+        parts=urlparse(link)
+        filename = os.path.basename(parts.path)
+        filen = os.path.splitext(filename)
+
+        if filen[1]==".html":
+            print(link)
+            scrap(link, scraper)
