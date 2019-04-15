@@ -95,24 +95,24 @@ URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
-def transform_url(scheme, netloc, resource_url):
-    local = urlparse(resource_url)
-    module_logger.debug('transform url url_parse result = %s', local)
-    download_url = None
-    if not local.scheme: 
-        download_url = urlunparse((
+def transform_url(scheme, netloc, url):
+    url_parsed = urlparse(url)
+    module_logger.debug('transform url url_parse result = %s', url_parsed)
+
+    if not url_parsed.scheme: 
+        url_transf = urlunparse((
             scheme,
             netloc,
-            local.path,
-            local.params,
-            local.query,
-            local.fragment))
+            url_parsed.path,
+            url_parsed.params,
+            url_parsed.query,
+            url_parsed.fragment))
     else:
-        download_url = local.geturl()
+        url_transf = url_parsed.geturl()
 
-    module_logger.debug('transform url from %s to %s', resource_url, download_url)
+    module_logger.debug('transform url from %s to %s', url, url_transf)
 
-    return download_url
+    return url_transf
 
 def is_internal(netloc, url):
     url_parsed = urlparse(url)
