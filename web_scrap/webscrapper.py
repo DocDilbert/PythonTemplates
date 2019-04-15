@@ -162,7 +162,7 @@ def scrap(url, scraper):
         link = transform_url(
             scheme, 
             netloc, 
-            a['href']
+            a.get('href')
         )
 
         if is_internal(netloc, link):
