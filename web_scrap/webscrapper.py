@@ -123,11 +123,11 @@ def is_internal(netloc, url):
         return False
 
 def download(scheme, netloc, url, tag, handler):
-    new_url = transform_url(scheme, netloc, url)
-    module_logger.info("pre request: %s", new_url)
-    img = requests.get(new_url, headers=HEADERS)
-    module_logger.info("post request: %s", new_url)
-    handler(tag, new_url, img)
+    url_transf = transform_url(scheme, netloc, url)
+    module_logger.info("pre request: %s", url_transf)
+    img = requests.get(url_transf, headers=HEADERS)
+    module_logger.info("post request: %s", url_transf)
+    handler(tag, url_transf, img)
     
 
 def scrap(url, scraper):
