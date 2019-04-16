@@ -112,3 +112,4 @@ autogen/
 /patterns/tests.exe
 /patterns/objs
 /sqlite3/database
+/web_scrap/page
