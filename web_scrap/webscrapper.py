@@ -77,7 +77,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         with open(dest,"wb") as file:
             file.write(response.content)
 
-        self.logger.info("Wrote content to '%s'", dest)
+        self.logger.info("Wrote raw html content to '%s'", dest)
 
     def response_with_css_content_received(self, url, response, tag):
         super().response_with_css_content_received( url, response, tag)
@@ -89,7 +89,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         with open(dest,"wb") as file:
             file.write(response.content)
             
-        self.logger.info("Wrote content to '%s'", dest)
+        self.logger.info("Wrote css content to '%s'", dest)
         tag['href'] = filename
 
 
@@ -102,7 +102,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         with open(dest,"wb") as file:
             file.write(response.content)
             
-        self.logger.info("Wrote content to '%s'", dest)
+        self.logger.info("Wrote img content to '%s'", dest)
         tag['src'] = filename
 
     def html_post_process_handler(self, url, soup):
@@ -114,9 +114,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
         with open(dest,"wb") as file:
             buf = str(soup.prettify())
-            file.write(buf.encode(encoding='UTF-8',errors='strict'))
+            file.write(buf.encode(encoding='UTF-8', errors='strict'))
 
-        self.logger.info("Wrote content to '%s'", dest)
+        self.logger.info("Wrote processed html content to '%s'", dest)
 
 
 class ContentHandlerLogger(ContentHandlerDecorator): 
@@ -134,17 +134,17 @@ class ContentHandlerLogger(ContentHandlerDecorator):
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url,response)
 
-        self.logger.info("response with html content received. Source url was '%s'", url)
+        self.logger.info("Response with html content received. Source url was '%s'", url)
         self.__log_response(response)
 
     def response_with_css_content_received(self, url, response, tag):
         super().response_with_css_content_received(url, response, tag)
-        self.logger.info("response with css content received. Source url was '%s'", url)
+        self.logger.info("Response with css content received. Source url was '%s'", url)
         self.__log_response(response)
 
     def response_with_img_content_received(self, url, response, tag):
         super().response_with_img_content_received(url, response, tag)
-        self.logger.info("response with img content received. Source url was '%s'", url)
+        self.logger.info("Response with img content received. Source url was '%s'", url)
         self.__log_response(response)
 
     def html_post_process_handler(self, url, soup):
@@ -155,7 +155,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
 
 def transform_url(scheme, netloc, url):
     url_parsed = urlparse(url)
-    module_logger.debug('transform url url_parse result = %s', url_parsed)
+    module_logger.debug('Transform url url_parse result = %s', url_parsed)
 
     if not url_parsed.scheme: 
         url_transf = urlunparse((
@@ -168,7 +168,7 @@ def transform_url(scheme, netloc, url):
     else:
         url_transf = url_parsed.geturl()
 
-    module_logger.debug('transform url from %s to %s', url, url_transf)
+    module_logger.debug('Transform url from %s to %s', url, url_transf)
 
     return url_transf
 
@@ -182,16 +182,16 @@ def is_internal(netloc, url):
 
 def download(scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
-    module_logger.debug("download - pre request: %s", url_transf)
+    module_logger.debug("Performing Request on url %s", url_transf)
     img = requests.get(url_transf, headers=HEADERS)
     module_logger.info("Request completed on url %s", url_transf)
     response_handler(url_transf, img, tag)
     
-
-def scrap(url, scraper, download_img=False):
+def scrap(url, content_handler, download_img=False):
     response = requests.get(url, headers=HEADERS)
     module_logger.info("Request completed on url %s", url)
-    scraper.response_with_html_content_received(url, response)
+    content_handler.response_with_html_content_received(url, response)
+
     soup = BeautifulSoup(response.content, 'html.parser')
 
     parsed_url = urlparse(url)
@@ -211,7 +211,7 @@ def scrap(url, scraper, download_img=False):
                 netloc,
                 link.get('href'), 
                 link, 
-                scraper.response_with_css_content_received
+                content_handler.response_with_css_content_received
             )
             
     if download_img:
@@ -221,7 +221,7 @@ def scrap(url, scraper, download_img=False):
                 netloc,
                 img.get('src'), 
                 img, 
-                scraper.response_with_img_content_received
+                content_handler.response_with_img_content_received
             )
     
     links = []
@@ -236,5 +236,5 @@ def scrap(url, scraper, download_img=False):
         if is_internal(netloc, link):
             links.append(link)
 
-    scraper.html_post_process_handler(url, soup)
+    content_handler.html_post_process_handler(url, soup)
     return links
