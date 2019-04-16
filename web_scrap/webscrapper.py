@@ -34,21 +34,40 @@ class ExtractFileNameFromURL:
     def __repr__(self):
         return self.filename
 
-class WebScraperLogger:
+class ContentDecorator:
+    def __init__(self):
+        self.component = None
+
+    def set_component(self, component):
+        self.component = component
+
+    def response_with_html_content_received(self, url, response):
+        if self.component:
+            self.component.response_with_html_content_received(url, response)
+
+    def response_with_css_content_received(self,  tag, url, response):
+        if self.component:
+            self.component.response_with_css_content_received( tag, url, response)
+
+    def response_with_img_content_received(self, tag, url, response):
+        if self.component:
+            self.component.response_with_img_content_received(tag, url, response)
+    
+    def html_post_process_handler(self, url, soup):
+        if self.component:
+            self.component.html_post_process_handler(url, soup)
+
+class WebScraperFileStorage(ContentDecorator): 
     def __init__(self, dirname):
-        self.logger = logging.getLogger('main.webscraper.WebScraperLogger')
+        super().__init__()
+        self.logger = logging.getLogger('main.webscraper.WebScraperFileStorage')
         self.dirname = dirname
         
         if not os.path.exists(dirname):
             os.mkdir(dirname)
-        
-    def __log_response_header(self, response):
-        self.logger.debug("response header:\n"
-            +" - headers = %s, \n - cookies = %s", response.headers, response.cookies)
-
+    
     def response_with_html_content_received(self, url, response):
-        self.logger.info("response with html content received. Source url was '%s'", url)
-        self.__log_response_header(response)
+        super().response_with_html_content_received(url,response)
 
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
 
@@ -59,8 +78,7 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
 
     def response_with_css_content_received(self, tag, url, response):
-        self.logger.info("response with css content received. Source url was '%s'", url)
-        self.__log_response_header(response)
+        super().response_with_css_content_received( tag, url, response)
 
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
 
@@ -74,8 +92,7 @@ class WebScraperLogger:
 
 
     def response_with_img_content_received(self, tag, url, response):
-        self.logger.info("response with img content received. Source url was '%s'", url)
-        self.__log_response_header(response)
+        super().response_with_img_content_received( tag, url, response)
 
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
         
@@ -86,9 +103,9 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
         tag['src'] = filename
 
-    def html_process_handler(self, url, soup):
-        self.logger.info("html post process handler was called with url '%s'", url)
-        
+    def html_post_process_handler(self, url, soup):
+        super().html_post_process_handler(url, soup)
+
         filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
 
         parts = os.path.splitext(str(filename))
@@ -98,6 +115,43 @@ class WebScraperLogger:
             file.write(buf.encode(encoding='UTF-8',errors='strict'))
 
         self.logger.info("Wrote content to '%s'", dest)
+
+
+class WebScraperLogger(ContentDecorator): 
+    def __init__(self, dirname):
+        super().__init__()
+        self.logger = logging.getLogger('main.webscraper.WebScraperLogger')
+        self.dirname = dirname
+        
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
+    
+    def __log_response_header(self, response):
+        self.logger.debug("response header:\n"
+            +" - headers = %s, \n - cookies = %s", response.headers, response.cookies)
+
+    def response_with_html_content_received(self, url, response):
+        super().response_with_html_content_received(url,response)
+
+        self.logger.info("response with html content received. Source url was '%s'", url)
+        self.__log_response_header(response)
+
+    def response_with_css_content_received(self, tag, url, response):
+        super().response_with_css_content_received( tag, url, response)
+        self.logger.info("response with css content received. Source url was '%s'", url)
+        self.__log_response_header(response)
+
+
+    def response_with_img_content_received(self, tag, url, response):
+        super().response_with_img_content_received( tag, url, response)
+        self.logger.info("response with img content received. Source url was '%s'", url)
+        self.__log_response_header(response)
+
+
+    def html_post_process_handler(self, url, soup):
+        super().html_post_process_handler(url, soup)
+        self.logger.info("html post process handler was called with url '%s'", url)
+        
 
 
 def transform_url(scheme, netloc, url):
@@ -137,6 +191,7 @@ def download(scheme, netloc, url, tag, response_handler):
 
 def scrap(url, scraper, download_img=False):
     response = requests.get(url, headers=HEADERS)
+    module_logger.info("Request completed on url %s", url)
     scraper.response_with_html_content_received(url, response)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -181,5 +236,5 @@ def scrap(url, scraper, download_img=False):
         if is_internal(netloc, link):
             links.append(link)
 
-    scraper.html_process_handler(url, soup)
+    scraper.html_post_process_handler(url, soup)
     return links

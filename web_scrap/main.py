@@ -4,8 +4,8 @@ from urllib.parse import urlparse,urlunparse
 import os
 
 #URL = "https://www.heise.de/newsticker/archiv/2006/01"
-URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
-#URL = "http://store.total.de/de_DE/ND001552"
+#URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+URL = "http://store.total.de/de_DE/ND001552"
 #URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
 
 
@@ -30,7 +30,10 @@ def main():
     logger.info(" Web scrapper session startet")
     logger.info("---------------------------------")
 
-    scraper = webscrapper.WebScraperLogger("page")
+    scraper = webscrapper.WebScraperFileStorage("page")
+    scraper_log = webscrapper.WebScraperLogger("page")
+    scraper.set_component(scraper_log)
+
     links = webscrapper.scrap(URL, scraper, download_img=False)
 
     for link in links:
