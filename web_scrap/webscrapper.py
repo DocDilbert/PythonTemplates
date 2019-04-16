@@ -90,7 +90,8 @@ class WebScraperLogger:
         self.logger.info("Wrote content to '%s'", dest)
 
 #URL = "https://www.heise.de/newsticker/archiv/2006/01"
-URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+# URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
+URL = "http://store.total.de/de_DE/ND001552"
 #URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
 #chrome 70.0.3538.77
 HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
@@ -173,18 +174,28 @@ def scrap(url, scraper):
 
 if __name__ == "__main__":
     logger_ = logging.getLogger('webscraper.ExtractFileNameFromURL')
-    logger_.setLevel(logging.WARNING)
+    #logger_.setLevel(logging.WARNING)
 
     logger_ = logging.getLogger('webscraper.WebScraperLogger')
-    logger_.setLevel(logging.INFO)
+    #logger_.setLevel(logging.DEBUG)
 
     logger_ = logging.getLogger('webscraper')
-    logger_.setLevel(logging.INFO)
+    logger_.setLevel(logging.DEBUG)
 
     ch = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setLevel(logging.INFO)
+
+    fh = logging.FileHandler('webscrapper.log')
+    fh.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
+    fh.setFormatter(formatter)
     ch.setFormatter(formatter)
+    logger_.addHandler(fh)
     logger_.addHandler(ch)
+
+    module_logger.info("---------------------------------")
+    module_logger.info("Web scrapper session startet")
+    module_logger.info("---------------------------------")
 
     scraper = WebScraperLogger("page")
     links = scrap(URL, scraper)

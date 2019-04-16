@@ -1,0 +1,32 @@
+{
+    "logFileHighlighter.customPatterns": [
+        {
+            "pattern": "\\[.+\\]:",
+            "foreground": "#ABEBC6"
+        }
+    ],
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "log.debug",
+                "settings": {
+                    "foreground": "#5DADE2"
+                }
+            },
+            {
+                "scope": "log.date",
+                "settings": {
+                    "foreground": "#ABEBC6"
+                }
+            },
+
+            {
+                "scope": "log.info",
+                "settings": {
+                    "foreground": "#F0F3F4",
+                    "fontStyle": ""
+                }
+            }
+        ]
+    }
+}
