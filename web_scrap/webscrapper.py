@@ -14,6 +14,7 @@ module_logger = logging.getLogger('main.webscraper')
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
         self.logger = logging.getLogger('main.webscraper.ExtractFileNameFromURL')
+
         self.logger.debug("url = '%s', content_type = '%s'", url, content_type)
         urlp = urlparse(url)
         self.filename = os.path.basename(urlp.path)
@@ -21,9 +22,11 @@ class ExtractFileNameFromURL:
         if parts[1] is '':
             if 'text/html' in content_type:
                 self.filename = parts[0]+'.html'
+            if 'text/css' in content_type:
+                self.filename = parts[0]+'.css'
 
-        self.logger.debug("parts: %s", parts)
-        self.logger.info("Extracted file name '%s' from url '%s'", self.filename, url)
+        self.logger.debug("Isolated parts: %s", parts)
+        self.logger.debug("Extracted file name '%s' from url '%s'", self.filename, url)
     
     def __str__(self):
         return self.filename
@@ -38,58 +41,61 @@ class WebScraperLogger:
         
         if not os.path.exists(dirname):
             os.mkdir(dirname)
+        
+    def __log_response_header(self, response):
+        self.logger.debug("response header:\n"
+            +" - headers = %s, \n - cookies = %s", response.headers, response.cookies)
 
-    def html_download_handler(self, url, page):
-        self.logger.info("html download handler was called with url '%s'", url)
-        self.logger.debug("html download handler:\n"
-            +" - headers = %s, \n - cookies = %s", page.headers, page.cookies)
+    def response_with_html_content_received(self, url, response):
+        self.logger.info("response with html content received. Source url was '%s'", url)
+        self.__log_response_header(response)
 
-        filename = ExtractFileNameFromURL(url, page.headers['Content-type'])
+        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
 
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(page.content)
+            file.write(response.content)
 
         self.logger.info("Wrote content to '%s'", dest)
 
-    def css_downloaded_handler(self, tag, url, link_get):
-        self.logger.info("css downloaded handler was called with url '%s'", url)
-        self.logger.debug("css downloaded handler:\n"
-            +" - tag = %s,\n - headers = %s, \n - cookies = %s", tag, link_get.headers, link_get.cookies)
-      
-        filename = ExtractFileNameFromURL(url, link_get.headers['Content-type'])
-        
+    def response_with_css_content_received(self, tag, url, response):
+        self.logger.info("response with css content received. Source url was '%s'", url)
+        self.__log_response_header(response)
+
+        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
+
         dest = self.dirname+"/"+str(filename)
+        
         with open(dest,"wb") as file:
-            file.write(link_get.content)
+            file.write(response.content)
             
         self.logger.info("Wrote content to '%s'", dest)
         tag['href'] = filename
 
 
-    def img_downloaded_handler(self, tag, url, link_get):
-        self.logger.info("img downloaded handler was called with url '%s'", url)
-        self.logger.debug("img downloaded handler:\n"
-            +" - tag = %s,\n - headers = %s, \n - cookies = %s", tag, link_get.headers, link_get.cookies)
-      
-        filename = ExtractFileNameFromURL(url, link_get.headers['Content-type'])
+    def response_with_img_content_received(self, tag, url, response):
+        self.logger.info("response with img content received. Source url was '%s'", url)
+        self.__log_response_header(response)
+
+        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
         
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(link_get.content)
+            file.write(response.content)
             
         self.logger.info("Wrote content to '%s'", dest)
         tag['src'] = filename
 
-    def html_post_process_handler(self, url, soup):
+    def html_process_handler(self, url, soup):
         self.logger.info("html post process handler was called with url '%s'", url)
         
         filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
 
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
-        with open(dest,"w") as file:
-            file.write(soup.prettify())
+        with open(dest,"wb") as file:
+            buf = str(soup.prettify())
+            file.write(buf.encode(encoding='UTF-8',errors='strict'))
 
         self.logger.info("Wrote content to '%s'", dest)
 
@@ -121,40 +127,48 @@ def is_internal(netloc, url):
     else:
         return False
 
-def download(scheme, netloc, url, tag, handler):
+def download(scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
-    module_logger.info("pre request: %s", url_transf)
+    module_logger.debug("download - pre request: %s", url_transf)
     img = requests.get(url_transf, headers=HEADERS)
-    module_logger.info("post request: %s", url_transf)
-    handler(tag, url_transf, img)
+    module_logger.info("Request completed on url %s", url_transf)
+    response_handler(tag, url_transf, img)
     
 
-def scrap(url, scraper):
+def scrap(url, scraper, download_img=False):
     response = requests.get(url, headers=HEADERS)
-    scraper.html_download_handler(url, response)
+    scraper.response_with_html_content_received(url, response)
     soup = BeautifulSoup(response.content, 'html.parser')
 
     parsed_url = urlparse(url)
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
 
-    for link in soup.find_all('link', {"type" : "text/css"}):
-        download(
-            scheme,
-            netloc,
-            link.get('href'), 
-            link, 
-            scraper.css_downloaded_handler
-        )
+    for link in soup.find_all('link'):
+        rel = link.get("rel",None) 
+        type_ = link.get("type",None)
+        loc = link.get("href")
+        module_logger.debug("Found link: %s\n - loc=%s\n - rel=%s\n - type=%s", link, loc, rel, type_)
 
-    for img in soup.find_all('img', src=True):
-        download(
-            scheme,
-            netloc,
-            img.get('src'), 
-            img, 
-            scraper.img_downloaded_handler
-        )
+        # content type css found
+        if type_=="text/css" or "stylesheet" in rel:
+            download(
+                scheme,
+                netloc,
+                link.get('href'), 
+                link, 
+                scraper.response_with_css_content_received
+            )
+            
+    if download_img:
+        for img in soup.find_all('img', src=True):
+            download(
+                scheme,
+                netloc,
+                img.get('src'), 
+                img, 
+                scraper.response_with_img_content_received
+            )
     
     links = []
     for a in soup.find_all('a', href=True):
@@ -167,5 +181,5 @@ def scrap(url, scraper):
         if is_internal(netloc, link):
             links.append(link)
 
-    scraper.html_post_process_handler(url, soup)
+    scraper.html_process_handler(url, soup)
     return links
