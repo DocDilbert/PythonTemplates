@@ -4,12 +4,16 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse,urlunparse
 import os
 import time
+
+#chrome 70.0.3538.77
+HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+
 # create logger
-module_logger = logging.getLogger('webscraper')
+module_logger = logging.getLogger('main.webscraper')
 
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
-        self.logger = logging.getLogger('webscraper.ExtractFileNameFromURL')
+        self.logger = logging.getLogger('main.webscraper.ExtractFileNameFromURL')
         self.logger.debug("url = '%s', content_type = '%s'", url, content_type)
         urlp = urlparse(url)
         self.filename = os.path.basename(urlp.path)
@@ -29,7 +33,7 @@ class ExtractFileNameFromURL:
 
 class WebScraperLogger:
     def __init__(self, dirname):
-        self.logger = logging.getLogger('webscraper.WebScraperLogger')
+        self.logger = logging.getLogger('main.webscraper.WebScraperLogger')
         self.dirname = dirname
         
         if not os.path.exists(dirname):
@@ -89,12 +93,6 @@ class WebScraperLogger:
 
         self.logger.info("Wrote content to '%s'", dest)
 
-#URL = "https://www.heise.de/newsticker/archiv/2006/01"
-# URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
-URL = "http://store.total.de/de_DE/ND001552"
-#URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
-#chrome 70.0.3538.77
-HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
 
 def transform_url(scheme, netloc, url):
     url_parsed = urlparse(url)
@@ -171,40 +169,3 @@ def scrap(url, scraper):
 
     scraper.html_post_process_handler(url, soup)
     return links
-
-if __name__ == "__main__":
-    logger_ = logging.getLogger('webscraper.ExtractFileNameFromURL')
-    #logger_.setLevel(logging.WARNING)
-
-    logger_ = logging.getLogger('webscraper.WebScraperLogger')
-    #logger_.setLevel(logging.DEBUG)
-
-    logger_ = logging.getLogger('webscraper')
-    logger_.setLevel(logging.DEBUG)
-
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
-
-    fh = logging.FileHandler('webscrapper.log')
-    fh.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
-    fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
-    logger_.addHandler(fh)
-    logger_.addHandler(ch)
-
-    module_logger.info("---------------------------------")
-    module_logger.info("Web scrapper session startet")
-    module_logger.info("---------------------------------")
-
-    scraper = WebScraperLogger("page")
-    links = scrap(URL, scraper)
-
-    for link in links:
-        parts=urlparse(link)
-        filename = os.path.basename(parts.path)
-        filen = os.path.splitext(filename)
-
-        if filen[1]==".html":
-            print(link)
-            #scrap(link, scraper)
