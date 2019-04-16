@@ -15,18 +15,19 @@ class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
         self.logger = logging.getLogger('main.webscraper.ExtractFileNameFromURL')
 
-        self.logger.debug("url = '%s', content_type = '%s'", url, content_type)
+        self.logger.debug("Arguments: url = '%s', content_type = '%s'", url, content_type)
         urlp = urlparse(url)
         self.filename = os.path.basename(urlp.path)
         parts = os.path.splitext(self.filename)
+        self.logger.debug("Splitting of filename results in %s", parts)
+
         if parts[1] is '':
             if 'text/html' in content_type:
                 self.filename = parts[0]+'.html'
             if 'text/css' in content_type:
                 self.filename = parts[0]+'.css'
-
-        self.logger.debug("Isolated parts: %s", parts)
-        self.logger.debug("Extracted file name '%s' from url '%s'", self.filename, url)
+        
+        self.logger.debug("The file name '%s' was extracted from url '%s'", self.filename, url)
     
     def __str__(self):
         return self.filename
@@ -123,27 +124,28 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().__init__()
         self.logger = logging.getLogger('main.webscraper.ContentHandlerLogger')
     
-    def __log_response_header(self, response):
-        self.logger.debug("response header:\n"
-            +" - headers = %s, \n - cookies = %s", response.headers, response.cookies)
+    def __log_response(self, response):
+        self.logger.debug("Received response:\n"
+            +" - status_code = %i,\n"
+            +" - headers = %s,\n"
+            +" - cookies = %s,\n"
+            +" - encoding = %s", response.status_code, response.headers, response.cookies,response.encoding)
 
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url,response)
 
         self.logger.info("response with html content received. Source url was '%s'", url)
-        self.__log_response_header(response)
+        self.__log_response(response)
 
     def response_with_css_content_received(self, url, response, tag):
         super().response_with_css_content_received(url, response, tag)
         self.logger.info("response with css content received. Source url was '%s'", url)
-        self.__log_response_header(response)
-
+        self.__log_response(response)
 
     def response_with_img_content_received(self, url, response, tag):
         super().response_with_img_content_received(url, response, tag)
         self.logger.info("response with img content received. Source url was '%s'", url)
-        self.__log_response_header(response)
-
+        self.__log_response(response)
 
     def html_post_process_handler(self, url, soup):
         super().html_post_process_handler(url, soup)
