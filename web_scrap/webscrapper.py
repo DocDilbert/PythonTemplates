@@ -227,6 +227,7 @@ def scrap(url, scraper, download_img=False):
     
     links = []
     for a in soup.find_all('a', href=True):
+        module_logger.debug("Found a with href: %s", a)
         link = transform_url(
             scheme, 
             netloc, 
