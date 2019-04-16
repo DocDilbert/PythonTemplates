@@ -34,7 +34,7 @@ class ExtractFileNameFromURL:
     def __repr__(self):
         return self.filename
 
-class ContentDecorator:
+class ContentHandlerDecorator:
     def __init__(self):
         self.component = None
 
@@ -57,13 +57,14 @@ class ContentDecorator:
         if self.component:
             self.component.html_post_process_handler(url, soup)
 
-class WebScraperFileStorage(ContentDecorator): 
+class ContentHandlerFilesystem(ContentHandlerDecorator): 
     def __init__(self, dirname):
         super().__init__()
-        self.logger = logging.getLogger('main.webscraper.WebScraperFileStorage')
+        self.logger = logging.getLogger('main.webscraper.ContentHandlerFilesystem')
         self.dirname = dirname
         
         if not os.path.exists(dirname):
+            self.logger.info("Created directory %s", self.dirname )
             os.mkdir(dirname)
     
     def response_with_html_content_received(self, url, response):
@@ -117,14 +118,10 @@ class WebScraperFileStorage(ContentDecorator):
         self.logger.info("Wrote content to '%s'", dest)
 
 
-class WebScraperLogger(ContentDecorator): 
-    def __init__(self, dirname):
+class ContentHandlerLogger(ContentHandlerDecorator): 
+    def __init__(self):
         super().__init__()
-        self.logger = logging.getLogger('main.webscraper.WebScraperLogger')
-        self.dirname = dirname
-        
-        if not os.path.exists(dirname):
-            os.mkdir(dirname)
+        self.logger = logging.getLogger('main.webscraper.ContentHandlerLogger')
     
     def __log_response_header(self, response):
         self.logger.debug("response header:\n"

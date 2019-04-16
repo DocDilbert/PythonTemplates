@@ -30,11 +30,11 @@ def main():
     logger.info(" Web scrapper session startet")
     logger.info("---------------------------------")
 
-    scraper = webscrapper.WebScraperFileStorage("page")
-    scraper_log = webscrapper.WebScraperLogger("page")
-    scraper.set_component(scraper_log)
+    content_handler = webscrapper.ContentHandlerFilesystem("page")
+    content_handler_logger = webscrapper.ContentHandlerLogger()
+    content_handler.set_component(content_handler_logger)
 
-    links = webscrapper.scrap(URL, scraper, download_img=False)
+    links = webscrapper.scrap(URL, content_handler, download_img=True)
 
     for link in links:
         parts=urlparse(link)
