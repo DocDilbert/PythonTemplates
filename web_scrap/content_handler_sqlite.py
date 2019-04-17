@@ -12,19 +12,13 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.timestamp = datetime.datetime.now().isoformat()
 
     def insert_request_and_response(self,  request, response):        
-        content_type = response.headers['Content-Type']
-        url = request['url']
-
-        self.logger.debug("Insert request and response into database\n"
-            "\ttimestamp = %s\n"
-            "\turl = %s\n" 
-            "\tcontent_type = %s", self.timestamp, url, content_type)
+        self.logger.debug("Insert request and response into database")
 
         cursor = self.connection.cursor()
-
+        content_type = response.headers['Content-Type']
         sqlliteblob.insert_request_and_response(cursor,
             self.timestamp,
-            url,
+            request,
             content_type,
             response.content
         )

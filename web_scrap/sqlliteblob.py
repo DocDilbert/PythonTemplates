@@ -53,7 +53,7 @@ def create_or_open_db(db_file):
     return conn
 
 
-def insert_request_and_response(cursor, timestamp, url, content_type, content):
+def insert_request_and_response(cursor, timestamp, request, content_type, content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
     Es wird überprüft ob unter der gleichen url bereits eine response gespeichert wurde.
@@ -71,7 +71,8 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
-    last_response = extract_last_response(cursor, url)
+    url = request['url']
+    last_response = extract_last_response_of_request(cursor, url)
     
     if not last_response or (last_response and (content != last_response['content'])):
         module_logger.debug("The response is new. Insert it into RESPONSES.")
@@ -187,7 +188,7 @@ def extract_response_by_id(cursor, id):
     }
 
 
-def extract_last_response(cursor, url):
+def extract_last_response_of_request(cursor, url):
     """ Extrahiert die letzten unter url gespeicherte response.
 
     Arguments:
