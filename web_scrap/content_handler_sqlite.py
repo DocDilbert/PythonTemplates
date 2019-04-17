@@ -11,12 +11,12 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
     
     def insert_entry(self, scheme, netloc, path, params, query, fragment, response):
         self.logger.debug("insert_entry url_part = { ... \n"+
-            " - scheme = %s\n"+
-            " - netloc = %s\n"+
-            " - path = %s\n"+
-            " - params = %s\n"+
-            " - query = %s\n"+
-            " - fragment = %s\n}", scheme, netloc, path, params, query, fragment)
+            "\tscheme = %s\n"+
+            "\tnetloc = %s\n"+
+            "\tpath = %s\n"+
+            "\tparams = %s\n"+
+            "\tquery = %s\n"+
+            "\tfragment = %s}", scheme, netloc, path, params, query, fragment)
         
         content_type = response.headers['Content-Type']
         
@@ -34,7 +34,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
         self.connection.commit()
         self.logger.debug("insert_entry response = { ... \n"+
-            " - content_type = %s\n}", content_type)
+            "\tcontent_type = %s}", content_type)
 
         
 

@@ -67,7 +67,7 @@ def insert_request(cursor, scheme, netloc, path, params, query, fragment, conten
         [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
     """
 
-    (storage_id, last_content) = extract_last_blob(cursor, scheme, netloc, path, params, query, fragment)
+    (storage_id, last_content) = extract_last_response(cursor, scheme, netloc, path, params, query, fragment)
 
     if (content != last_content):
         module_logger.debug("The content is new. Insert it into RESPONSE_CONTENT_STORAGE.")
@@ -115,7 +115,7 @@ def insert_request(cursor, scheme, netloc, path, params, query, fragment, conten
     return lastrowid
 
 
-def list_dataset_for_uri(cursor, scheme, netloc, path, params, query, fragment):
+def list_all_requests_for_uri(cursor, scheme, netloc, path, params, query, fragment):
     """Listet alle gespeicherten Datensätze in der Datenbank auf die 
     unter filename gespeichert wurden
 
@@ -157,7 +157,7 @@ def list_dataset_for_uri(cursor, scheme, netloc, path, params, query, fragment):
     return data
 
 
-def extract_blob_from_storage(cursor, storage_id):
+def extract_response_from_storage(cursor, storage_id):
     """ Extrahiert den unter der storage_id in der Datenbank abgelegten blob.
 
     Arguments:
@@ -168,14 +168,14 @@ def extract_blob_from_storage(cursor, storage_id):
         Der blob der unter storage_id gespeichert wurde. Dieser wird
         als bytearray zurückgegeben.
     """
-    module_logger.debug("Extract blob with storage_id=%i from RESPONSE_CONTENT_STORAGE.", storage_id)
+    module_logger.debug("Extract response with storage_id=%i from RESPONSE_CONTENT_STORAGE.", storage_id)
     sql = "SELECT CONTENT FROM RESPONSE_CONTENT_STORAGE WHERE id = :id"
     param = {'id': storage_id}
     cursor.execute(sql, param)
     return cursor.fetchone()[0]
 
 
-def extract_last_blob(cursor, scheme, netloc, path, params, query, fragment):
+def extract_last_response(cursor, scheme, netloc, path, params, query, fragment):
     """ Extrahiert den letzten unter blobname gespeicherten blob.
 
     Arguments:
@@ -186,7 +186,7 @@ def extract_last_blob(cursor, scheme, netloc, path, params, query, fragment):
         Ein tuple welches die storage_id sowie das bytearray des gefundenen
         blobs enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
     """
-    dataset = list_dataset_for_uri(cursor, scheme, netloc, path, params, query, fragment)
+    dataset = list_all_requests_for_uri(cursor, scheme, netloc, path, params, query, fragment)
 
     if len(dataset) == 0:
         module_logger.debug("Found no request with uri\n"+
@@ -209,10 +209,10 @@ def extract_last_blob(cursor, scheme, netloc, path, params, query, fragment):
         module_logger.debug("The last one has the storage_id %i.", dataset[-1]['storage_id'])
         
     laststorageid = dataset[-1]['storage_id']
-    return laststorageid, extract_blob_from_storage(cursor, laststorageid)
+    return laststorageid, extract_response_from_storage(cursor, laststorageid)
 
 
-def extract_blob(cursor, blobid):
+def extract_request_by_id(cursor, blobid):
     """ Extrahiert einen Blob aus der sqllite3 Datenbank. Die extrahiert Datei
     wird über die blobid identifziert.
 
@@ -232,6 +232,6 @@ def extract_blob(cursor, blobid):
     cursor.execute(sql, param)
     filename_db, opaque, storage_id = cursor.fetchone()
 
-    blob = extract_blob_from_storage(cursor, storage_id)
+    blob = extract_response_from_storage(cursor, storage_id)
 
     return filename_db, opaque, blob

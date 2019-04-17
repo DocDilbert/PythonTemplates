@@ -114,3 +114,4 @@ autogen/
 /sqlite3/database
 /web_scrap/page
 *.log
+/web_scrap/requests.db
