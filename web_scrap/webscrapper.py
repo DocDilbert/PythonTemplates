@@ -43,15 +43,23 @@ def is_internal(netloc, url):
 
 def download(scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
+    
     module_logger.debug("Performing Request on url %s", url_transf)
+    request = {
+        'url' : url_transf
+    }
     img = requests.get(url_transf, headers=HEADERS)
-    module_logger.info("Request completed on url %s", url_transf)
-    response_handler(url_transf, img, tag)
+    module_logger.info("Request completed  %s", request)
+    
+    response_handler(request, img, tag)
     
 def scrap(url, content_handler, download_img=False):
+    request = {
+        'url' : url
+    }
     response = requests.get(url, headers=HEADERS)
     module_logger.info("Request completed on url %s", url)
-    content_handler.response_with_html_content_received(url, response)
+    content_handler.response_with_html_content_received(request, response)
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -63,7 +71,7 @@ def scrap(url, content_handler, download_img=False):
         rel = link.get("rel", None) 
         type_ = link.get("type", None)
         loc = link.get("href")
-        module_logger.debug("Found <link> with href%s\n"
+        module_logger.debug("Found <link> with href %s\n"
             "\tloc = %s\n"
             "\trel = %s\n"
             "\ttype = %s", link, loc, rel, type_)

@@ -37,9 +37,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             self.logger.info("Created directory %s", self.dirname )
             os.mkdir(dirname)
     
-    def response_with_html_content_received(self, url, response):
-        super().response_with_html_content_received(url, response)
-
+    def response_with_html_content_received(self, request, response):
+        super().response_with_html_content_received(request, response)
+        url = request['url']
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
 
         dest = self.dirname+"/"+str(filename)
@@ -48,9 +48,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
-    def response_with_css_content_received(self, url, response, tag):
-        super().response_with_css_content_received( url, response, tag)
-
+    def response_with_css_content_received(self, request, response, tag):
+        super().response_with_css_content_received( request, response, tag)
+        url = request['url']
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
 
         dest = self.dirname+"/"+str(filename)
@@ -62,9 +62,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         tag['href'] = filename
 
 
-    def response_with_img_content_received(self, url, response, tag):
-        super().response_with_img_content_received( url, response, tag)
-
+    def response_with_img_content_received(self, request, response, tag):
+        super().response_with_img_content_received( request, response, tag)
+        url = request['url']
         filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
         
         dest = self.dirname+"/"+str(filename)

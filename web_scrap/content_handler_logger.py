@@ -6,6 +6,10 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().__init__()
         self.logger = logging.getLogger('main.content_handler_logger.ContentHandlerLogger')
     
+    def __log_request(self, request):
+        self.logger.debug("Log request:\n"
+            "\turl = %s",  request['url'])
+
     def __log_response(self, response):
         self.logger.debug("Log response:\n"
             "\tstatus_code = %i,\n"
@@ -13,20 +17,19 @@ class ContentHandlerLogger(ContentHandlerDecorator):
             "\tcookies = %s,\n"
             "\tencoding = %s", response.status_code, response.headers, response.cookies, response.encoding)
 
-    def response_with_html_content_received(self, url, response):
-        super().response_with_html_content_received(url,response)
-
-        self.logger.info("Response with html content received. Source url was '%s'", url)
+    def response_with_html_content_received(self, request, response):
+        super().response_with_html_content_received(request,response)
+        self.__log_request(request)
         self.__log_response(response)
 
-    def response_with_css_content_received(self, url, response, tag):
-        super().response_with_css_content_received(url, response, tag)
-        self.logger.info("Response with css content received. Source url was '%s'", url)
+    def response_with_css_content_received(self, request, response, tag):
+        super().response_with_css_content_received(request, response, tag)
+        self.__log_request(request)
         self.__log_response(response)
 
-    def response_with_img_content_received(self, url, response, tag):
-        super().response_with_img_content_received(url, response, tag)
-        self.logger.info("Response with img content received. Source url was '%s'", url)
+    def response_with_img_content_received(self, request, response, tag):
+        super().response_with_img_content_received(request, response, tag)
+        self.__log_request(request)
         self.__log_response(response)
 
     def html_post_process_handler(self, url, soup):

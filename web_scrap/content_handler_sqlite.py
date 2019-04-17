@@ -11,9 +11,10 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
         self.timestamp = datetime.datetime.now().isoformat()
 
-    def insert_request_and_response(self, url, response):        
+    def insert_request_and_response(self,  request, response):        
         content_type = response.headers['Content-Type']
-        
+        url = request['url']
+
         self.logger.debug("Insert request and response into database\n"
             "\ttimestamp = %s\n"
             "\turl = %s\n" 
@@ -28,17 +29,17 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             response.content
         )
 
-    def response_with_html_content_received(self, url, response):
-        super().response_with_html_content_received(url, response)
-        self.insert_request_and_response(url, response = response)
+    def response_with_html_content_received(self,  request, response):
+        super().response_with_html_content_received( request, response)
+        self.insert_request_and_response(request, response)
         
-    def response_with_css_content_received(self, url, response, tag):
-        super().response_with_css_content_received( url, response, tag)
-        self.insert_request_and_response(url, response = response)
+    def response_with_css_content_received(self,  request, response, tag):
+        super().response_with_css_content_received(  request, response, tag)
+        self.insert_request_and_response(request, response)
         
-    def response_with_img_content_received(self, url, response, tag):
-        super().response_with_img_content_received( url, response, tag)
-        self.insert_request_and_response(url, response = response)
+    def response_with_img_content_received(self,  request, response, tag):
+        super().response_with_img_content_received(  request, response, tag)
+        self.insert_request_and_response( request, response)
 
     def html_post_process_handler(self, url, soup):
         # erst am Ende committen
