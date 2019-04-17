@@ -9,16 +9,16 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.connection =  sqlliteblob.create_or_open_db("requests.db")
         self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
     
-    def insert_entry(self, url, response):        
+    def insert_request_and_response(self, url, response):        
         content_type = response.headers['Content-Type']
         
-        self.logger.debug("Try to insert request into database\n"
+        self.logger.debug("Try to insert request and response into database\n"
             "\turl =%s\n" 
             "\tcontent_type = %s", url, content_type)
 
         cursor = self.connection.cursor()
 
-        sqlliteblob.insert_request(cursor,
+        sqlliteblob.insert_request_and_response(cursor,
             url,
             content_type,
             response.content
@@ -28,15 +28,15 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url, response)
-        self.insert_entry(url, response = response)
+        self.insert_request_and_response(url, response = response)
         
     def response_with_css_content_received(self, url, response, tag):
         super().response_with_css_content_received( url, response, tag)
-        self.insert_entry(url, response = response)
+        self.insert_request_and_response(url, response = response)
         
     def response_with_img_content_received(self, url, response, tag):
         super().response_with_img_content_received( url, response, tag)
-        self.insert_entry(url, response = response)
+        self.insert_request_and_response(url, response = response)
 
     def html_post_process_handler(self, url, soup):
         super().html_post_process_handler(url, soup)

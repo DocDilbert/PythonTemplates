@@ -53,7 +53,7 @@ def create_or_open_db(db_file):
     return conn
 
 
-def insert_request(cursor, url, content_type, content):
+def insert_request_and_response(cursor, url, content_type, content):
     """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
 
     Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
@@ -71,7 +71,7 @@ def insert_request(cursor, url, content_type, content):
     (response_id, last_content) = extract_last_response(cursor, url)
 
     if (content != last_content):
-        module_logger.debug("The content is new. Insert it into RESPONSES.")
+        module_logger.debug("The response is new. Insert it into RESPONSES.")
 
         sql = "INSERT INTO RESPONSES (CONTENT) VALUES (?);"
         cursor.execute(sql, [sqlite3.Binary(content)])
@@ -81,7 +81,7 @@ def insert_request(cursor, url, content_type, content):
     
     else:
         module_logger.debug(
-            "The response was inserted beforehand. Using this response instead.")
+            "The response was inserted into RESPONSES beforehand. Using this response instead.")
 
     sql = ("INSERT INTO REQUESTS ("
                 "DATETIME,"
@@ -109,20 +109,11 @@ def insert_request(cursor, url, content_type, content):
         content_type,
         response_id
     ])
-    
+
     lastrowid = int(cursor.lastrowid)
     module_logger.debug("sql: INSERT INTO REQUESTS with id=%i", lastrowid)
 
     return lastrowid
-
-def log_uri(text, scheme, netloc, path, params, query, fragment):
-    module_logger.debug("%s"+
-            "\tscheme = %s\n"+
-            "\tnetloc = %s\n"+
-            "\tpath = %s\n"+
-            "\tparams = %s\n" +
-            "\tquery = %s\n"+
-            "\tfragment = %s", text, scheme, netloc, path,params,query,fragment)
 
 def list_all_requests_for_url(cursor, url):
     """Listet alle gespeicherten requests datensätze auf die 
@@ -149,6 +140,7 @@ def list_all_requests_for_url(cursor, url):
                 "PARAMS = :params AND "
                 "QUERY = :query AND "
                 "FRAGMENT =:fragment")
+
     scheme, netloc, path, params,query, fragment = urlparse(url)
     params = {
         'scheme': scheme,
