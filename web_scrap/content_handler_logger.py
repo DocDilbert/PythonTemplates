@@ -7,7 +7,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         self.logger = logging.getLogger('main.content_handler_logger.ContentHandlerLogger')
     
     def __log_response(self, response):
-        self.logger.debug("Received response:\n"
+        self.logger.debug("Log response:\n"
             "\tstatus_code = %i,\n"
             "\theaders = %s,\n"
             "\tcookies = %s,\n"
