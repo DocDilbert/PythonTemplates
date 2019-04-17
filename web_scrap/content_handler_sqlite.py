@@ -14,7 +14,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
     def insert_request_and_response(self, url, response):        
         content_type = response.headers['Content-Type']
         
-        self.logger.debug("Try to insert request and response into database\n"
+        self.logger.debug("Insert request and response into database\n"
             "\ttimestamp = %s\n"
             "\turl = %s\n" 
             "\tcontent_type = %s", self.timestamp, url, content_type)
@@ -28,8 +28,6 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             response.content
         )
 
-        self.connection.commit()
-        
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url, response)
         self.insert_request_and_response(url, response = response)
@@ -43,5 +41,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.insert_request_and_response(url, response = response)
 
     def html_post_process_handler(self, url, soup):
+        # erst am Ende committen
+        self.connection.commit() 
         super().html_post_process_handler(url, soup)
 

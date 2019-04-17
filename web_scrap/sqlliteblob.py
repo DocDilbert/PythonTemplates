@@ -1,6 +1,6 @@
 """
-Modul zum hinzufügen von Blobs in eine sqllite3 Datenbank. Die 
-eingefügten Blobs werden versioniert.
+Modul zum hinzufügen von http(s) requests und responses in eine sqllite3 Datenbank. Die 
+requests und responses werden versioniert.
 """
 
 import sqlite3
@@ -9,7 +9,6 @@ import logging
 from urllib.parse import urlparse, urlunparse
 
 module_logger = logging.getLogger('main.sqliteblob')
-
 
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 
@@ -22,6 +21,7 @@ def create_or_open_db(db_file):
     """
     db_is_new = not os.path.exists(db_file)
     conn = sqlite3.connect(db_file)
+
     if db_is_new:
         module_logger.info("Creating tables...")
 
@@ -54,18 +54,22 @@ def create_or_open_db(db_file):
 
 
 def insert_request_and_response(cursor, timestamp, url, content_type, content):
-    """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
+    """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
-    Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
-    Falls ja, werden die Daten nicht erneut hinzugefügt sondern die alten Daten
-    verwendet.
+    Es wird überprüft ob unter der gleichen url bereits eine response gespeichert wurde.
+    Falls ja, wird diese response auf Gleichheit mit der empfangenen überprüft und 
+    gegebenfalls die alten response verwendet.
 
     Arguments:
         cursor -- Datenbank Cursor
+        timestamp - Zeitstempel des scraps
+        url - 
+        content_type - Art des hinzugefügten Inhalts
+        content - Inhalt der response
         
 
     Returns:
-        [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
+        [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
     (response_id, last_content) = extract_last_response(cursor, url)
@@ -73,7 +77,10 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
     if (content != last_content):
         module_logger.debug("The response is new. Insert it into RESPONSES.")
 
-        sql = "INSERT INTO RESPONSES (CONTENT) VALUES (?);"
+        sql =("INSERT INTO RESPONSES ("
+                "CONTENT"
+               ") VALUES (?);")
+               
         cursor.execute(sql, [sqlite3.Binary(content)])
         response_id = int(cursor.lastrowid)
         module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
@@ -113,17 +120,12 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
     return lastrowid
 
 def list_all_requests_for_url(cursor, url):
-    """Listet alle gespeicherten requests datensätze auf die 
-    unter der gegebenen uri gespeichert wurden.
+    """Listet alle gespeicherten request datensätze auf die 
+    unter der gegebenen url gespeichert wurden.
 
     Arguments:
         cursor -- Datenbank Cursor
-        scheme - uri scheme
-        netloc - uri netloc
-        path - uri path
-        params - uri params
-        query - uri query
-        fragment - uri fragment
+        url - request url
 
     Returns:
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
@@ -138,7 +140,7 @@ def list_all_requests_for_url(cursor, url):
                 "QUERY = :query AND "
                 "FRAGMENT =:fragment")
 
-    scheme, netloc, path, params,query, fragment = urlparse(url)
+    scheme, netloc, path, params, query, fragment = urlparse(url)
     params = {
         'scheme': scheme,
         'netloc' : netloc,
@@ -153,7 +155,7 @@ def list_all_requests_for_url(cursor, url):
             'id': x[0],
             'timestamp': x[1],
             'content_type' : x[2],
-            'storage_id':x[3]
+            'response_id':x[3]
         } for x in cursor.fetchall()]
 
     return data
@@ -179,15 +181,15 @@ def extract_response_by_id(cursor, id):
 
 
 def extract_last_response(cursor, url):
-    """ Extrahiert den letzten unter blobname gespeicherten blob.
+    """ Extrahiert die letzten unter url gespeicherte response.
 
     Arguments:
         cursor -- Datenbank Cursor
         url -- Die url unter dem die response gesucht werden soll
 
     Returns:
-        Ein tuple welches die storage_id sowie das bytearray des gefundenen
-        blobs enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
+        Ein tuple welches die response_id sowie das bytearray der gefundenen
+        response enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
     """
     dataset = list_all_requests_for_url(cursor, url)
 
@@ -196,10 +198,10 @@ def extract_last_response(cursor, url):
         return (-1, None)
     else:
         module_logger.debug('Found request(s) in REQUESTS with url "%s"', url)
-        module_logger.debug("The last one has the storage_id %i.", dataset[-1]['storage_id'])
+        module_logger.debug("The last one has the storage_id %i.", dataset[-1]['response_id'])
         
-    laststorageid = dataset[-1]['storage_id']
-    return laststorageid, extract_response_by_id(cursor, laststorageid)
+    last_response_id = dataset[-1]['response_id']
+    return last_response_id, extract_response_by_id(cursor, last_response_id)
 
 
 def extract_request_by_id(cursor, blobid):
