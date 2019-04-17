@@ -6,7 +6,9 @@ import os
 import time
 
 #chrome 70.0.3538.77
-HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'}
+HEADERS = {
+    'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
+}
 
 # create logger
 module_logger = logging.getLogger('main.webscraper')
@@ -57,6 +59,30 @@ class ContentHandlerDecorator:
     def html_post_process_handler(self, url, soup):
         if self.component:
             self.component.html_post_process_handler(url, soup)
+
+class ContentHandlerSqlite(ContentHandlerDecorator): 
+    def __init__(self):
+        super().__init__()
+        self.logger = logging.getLogger('main.webscraper.ContentHandlerSqlite')
+    
+    def response_with_html_content_received(self, url, response):
+        super().response_with_html_content_received(url, response)
+        self.logger.info("response_with_html_content_received")
+
+    def response_with_css_content_received(self, url, response, tag):
+        super().response_with_css_content_received( url, response, tag)
+        self.logger.info("response_with_css_content_received")
+        
+    def response_with_img_content_received(self, url, response, tag):
+        super().response_with_img_content_received( url, response, tag)
+        self.logger.info("response_with_img_content_received")
+
+    def html_post_process_handler(self, url, soup):
+        super().html_post_process_handler(url, soup)
+        self.logger.info("html_post_process_handler")
+
+
+
 
 class ContentHandlerFilesystem(ContentHandlerDecorator): 
     def __init__(self, dirname):

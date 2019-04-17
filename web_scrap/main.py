@@ -32,7 +32,9 @@ def main():
 
     content_handler = webscrapper.ContentHandlerFilesystem("page")
     content_handler_logger = webscrapper.ContentHandlerLogger()
-    content_handler.set_component(content_handler_logger)
+    content_handler_sqlite = webscrapper.ContentHandlerSqlite()
+    content_handler_sqlite.set_component(content_handler_logger)
+    content_handler.set_component(content_handler_sqlite)
 
     links = webscrapper.scrap(URL, content_handler, download_img=True)
 
