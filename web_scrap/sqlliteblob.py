@@ -56,14 +56,14 @@ def create_or_open_db(db_file):
 def insert_request_and_response(cursor, timestamp, request, content_type, content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
-    Es wird überprüft ob unter der gleichen url bereits eine response gespeichert wurde.
+    Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
     Falls ja, wird diese response auf Gleichheit mit der empfangenen überprüft und 
     gegebenfalls die alten response verwendet.
 
     Arguments:
         cursor -- Datenbank Cursor
         timestamp - Zeitstempel des scraps
-        url - 
+        response - 
         content_type - Art des hinzugefügten Inhalts
         content - Inhalt der response
     
@@ -105,7 +105,6 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
                 "RESPONSE_ID"
             ") VALUES(?, ?, ?, ?, ?, ?, ?, ?)")
 
-
     scheme, netloc, path, params,query, fragment = urlparse(url)
     cursor.execute(sql, [
         timestamp,
@@ -124,15 +123,15 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
     return lastrowid
 
 def list_all_requests_for_url(cursor, url):
-    """Listet alle gespeicherten request datensätze auf die 
-    unter der gegebenen url gespeichert wurden.
+    """ Listet alle gespeicherten request datensätze auf, die unter der 
+    gegebenen url gespeichert wurden.
 
     Arguments:
         cursor -- Datenbank Cursor
         url - request url
 
     Returns:
-        Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
+        Eine Liste von Dictionaries die die gefunden requests enthalten.
     """
 
     sql = ("SELECT ID, TIMESTAMP, RESPONSE_ID FROM REQUESTS "
@@ -172,8 +171,7 @@ def extract_response_by_id(cursor, id):
         id -- Die id der gewünschten response
 
     Returns:
-        Die response die unter id gespeichert wurde. Diese wird
-        als bytearray zurückgegeben.
+        Die response die unter id gespeichert wurde.
     """
 
     module_logger.debug("Extract response with id = %i from RESPONSES.", id)
@@ -181,6 +179,7 @@ def extract_response_by_id(cursor, id):
     param = {'id': id}
     cursor.execute(sql, param)
     x = cursor.fetchone()
+    
     return {
         'id' : id,
         'content_type' : x[0],
