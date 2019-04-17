@@ -1,5 +1,8 @@
 import logging
 import webscrapper 
+from content_handler_sqlite import ContentHandlerSqlite
+from content_handler_logger import ContentHandlerLogger
+from content_handler_filesystem import ContentHandlerFilesystem
 from urllib.parse import urlparse,urlunparse
 import os
 
@@ -30,9 +33,10 @@ def main():
     logger.info(" Web scrapper session startet")
     logger.info("---------------------------------")
 
-    content_handler = webscrapper.ContentHandlerFilesystem("page")
-    content_handler_logger = webscrapper.ContentHandlerLogger()
-    content_handler_sqlite = webscrapper.ContentHandlerSqlite()
+    content_handler = ContentHandlerFilesystem("page")
+    content_handler_logger = ContentHandlerLogger()
+    content_handler_sqlite = ContentHandlerSqlite()
+    
     content_handler_sqlite.set_component(content_handler_logger)
     content_handler.set_component(content_handler_sqlite)
 
