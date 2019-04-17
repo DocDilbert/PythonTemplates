@@ -5,9 +5,9 @@ eingefügten Blobs werden versioniert.
 
 import sqlite3
 import os
-import datetime
 import logging
 from urllib.parse import urlparse, urlunparse
+
 module_logger = logging.getLogger('main.sqliteblob')
 
 
@@ -35,7 +35,7 @@ def create_or_open_db(db_file):
                     "QUERY TEXT,"
                     "FRAGMENT TEXT,"
                     "CONTENT_TYPE TEXT,"
-                    "STORAGE_ID INTEGER);")
+                    "RESPONSE_ID INTEGER);")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
@@ -53,7 +53,7 @@ def create_or_open_db(db_file):
     return conn
 
 
-def insert_request_and_response(cursor, url, content_type, content):
+def insert_request_and_response(cursor, timestamp, url, content_type, content):
     """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
 
     Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
@@ -90,14 +90,13 @@ def insert_request_and_response(cursor, url, content_type, content):
                 "QUERY,"
                 "FRAGMENT,"
                 "CONTENT_TYPE,"
-                "STORAGE_ID"
+                "RESPONSE_ID"
             ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
-    dt = datetime.datetime.now().isoformat()
 
     scheme, netloc, path, params,query, fragment = urlparse(url)
     cursor.execute(sql, [
-        dt,
+        timestamp,
         scheme, 
         netloc, 
         path, 
@@ -130,7 +129,7 @@ def list_all_requests_for_url(cursor, url):
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = ("SELECT ID, TIMESTAMP, CONTENT_TYPE, STORAGE_ID FROM REQUESTS "
+    sql = ("SELECT ID, TIMESTAMP, CONTENT_TYPE, RESPONSE_ID FROM REQUESTS "
                 "WHERE "
                 "SCHEME = :scheme AND "
                 "NETLOC = :netloc AND "
@@ -172,7 +171,7 @@ def extract_response_by_id(cursor, id):
         als bytearray zurückgegeben.
     """
 
-    module_logger.debug("Extract response with storage_id=%i from RESPONSES.", id)
+    module_logger.debug("Extract response with id = %i from RESPONSES.", id)
     sql = "SELECT CONTENT FROM RESPONSES WHERE id = :id"
     param = {'id': id}
     cursor.execute(sql, param)
@@ -218,7 +217,7 @@ def extract_request_by_id(cursor, blobid):
             blob -- Der eigentlich Blob als bytearray.
     """
 
-    sql = "SELECT BLOBNAME, OPAQUE, STORAGE_ID FROM BLOBS WHERE id = :id"
+    sql = "SELECT BLOBNAME, OPAQUE, RESPONSE_ID FROM BLOBS WHERE id = :id"
     param = {'id': blobid}
     cursor.execute(sql, param)
     filename_db, opaque, storage_id = cursor.fetchone()

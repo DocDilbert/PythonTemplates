@@ -2,23 +2,27 @@ import logging
 from urllib.parse import urlparse,urlunparse
 from content_handler_decorator import ContentHandlerDecorator
 import sqlliteblob
+import datetime
 
 class ContentHandlerSqlite(ContentHandlerDecorator): 
     def __init__(self):
         super().__init__()
         self.connection =  sqlliteblob.create_or_open_db("requests.db")
         self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
-    
+        self.timestamp = datetime.datetime.now().isoformat()
+
     def insert_request_and_response(self, url, response):        
         content_type = response.headers['Content-Type']
         
         self.logger.debug("Try to insert request and response into database\n"
-            "\turl =%s\n" 
-            "\tcontent_type = %s", url, content_type)
+            "\ttimestamp = %s\n"
+            "\turl = %s\n" 
+            "\tcontent_type = %s", self.timestamp, url, content_type)
 
         cursor = self.connection.cursor()
 
         sqlliteblob.insert_request_and_response(cursor,
+            self.timestamp,
             url,
             content_type,
             response.content
