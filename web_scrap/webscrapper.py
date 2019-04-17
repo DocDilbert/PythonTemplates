@@ -16,7 +16,7 @@ module_logger = logging.getLogger('main.webscraper')
 
 def transform_url(scheme, netloc, url):
     url_parsed = urlparse(url)
-    module_logger.debug('Transform url url_parse result = %s', url_parsed)
+    module_logger.debug('Transform url with url_parse results in = %s', url_parsed)
 
     if not url_parsed.scheme: 
         url_transf = urlunparse((
@@ -60,10 +60,13 @@ def scrap(url, content_handler, download_img=False):
     netloc = parsed_url.netloc
 
     for link in soup.find_all('link'):
-        rel = link.get("rel",None) 
-        type_ = link.get("type",None)
+        rel = link.get("rel", None) 
+        type_ = link.get("type", None)
         loc = link.get("href")
-        module_logger.debug("Found link: %s\n - loc=%s\n - rel=%s\n - type=%s", link, loc, rel, type_)
+        module_logger.debug("Found link: %s\n"
+            "\tloc=%s\n"
+            "\trel=%s\n"
+            "\ttype=%s", link, loc, rel, type_)
 
         # content type css found
         if type_=="text/css" or "stylesheet" in rel:

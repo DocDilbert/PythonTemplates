@@ -8,10 +8,10 @@ class ContentHandlerLogger(ContentHandlerDecorator):
     
     def __log_response(self, response):
         self.logger.debug("Received response:\n"
-            +" - status_code = %i,\n"
-            +" - headers = %s,\n"
-            +" - cookies = %s,\n"
-            +" - encoding = %s", response.status_code, response.headers, response.cookies, response.encoding)
+            "\tstatus_code = %i,\n"
+            "\theaders = %s,\n"
+            "\tcookies = %s,\n"
+            "\tencoding = %s", response.status_code, response.headers, response.cookies, response.encoding)
 
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url,response)
