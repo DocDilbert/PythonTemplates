@@ -7,6 +7,7 @@ import sqlite3
 import os
 import datetime
 import logging
+from urllib.parse import urlparse, urlunparse
 module_logger = logging.getLogger('main.sqliteblob')
 
 
@@ -39,7 +40,7 @@ def create_or_open_db(db_file):
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
-        sql = """CREATE TABLE IF NOT EXISTS RESPONSE_CONTENT_STORAGE(
+        sql = """CREATE TABLE IF NOT EXISTS RESPONSES(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
                  CONTENT BLOB);"""
 
@@ -52,7 +53,7 @@ def create_or_open_db(db_file):
     return conn
 
 
-def insert_request(cursor, scheme, netloc, path, params, query, fragment, content_type, content):
+def insert_request(cursor, url, content_type, content):
     """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
 
     Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
@@ -66,37 +67,37 @@ def insert_request(cursor, scheme, netloc, path, params, query, fragment, conten
     Returns:
         [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
     """
-
-    (storage_id, last_content) = extract_last_response(cursor, scheme, netloc, path, params, query, fragment)
+    
+    (response_id, last_content) = extract_last_response(cursor, url)
 
     if (content != last_content):
-        module_logger.debug("The content is new. Insert it into RESPONSE_CONTENT_STORAGE.")
+        module_logger.debug("The content is new. Insert it into RESPONSES.")
 
-        sql = "INSERT INTO RESPONSE_CONTENT_STORAGE (CONTENT) VALUES (?);"
+        sql = "INSERT INTO RESPONSES (CONTENT) VALUES (?);"
         cursor.execute(sql, [sqlite3.Binary(content)])
-        module_logger.debug("sql: INSERT INTO RESPONSE_CONTENT_STORAGE")
-        storage_id = int(cursor.lastrowid)
+        response_id = int(cursor.lastrowid)
+        module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
+        
     
     else:
         module_logger.debug(
-            "The content was inserted beforehand. Using this blob instead.")
+            "The response was inserted beforehand. Using this response instead.")
 
-    sql = """INSERT INTO REQUESTS (
-                DATETIME,
-                SCHEME,
-                NETLOC,
-                PATH,
-                PARAMS,
-                QUERY,
-                FRAGMENT,
-                CONTENT_TYPE,
-                STORAGE_ID
-                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """
+    sql = ("INSERT INTO REQUESTS ("
+                "DATETIME,"
+                "SCHEME," 
+                "NETLOC,"
+                "PATH,"
+                "PARAMS,"
+                "QUERY,"
+                "FRAGMENT,"
+                "CONTENT_TYPE,"
+                "STORAGE_ID"
+            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
     dt = datetime.datetime.now().isoformat()
 
-    
+    scheme, netloc, path, params,query, fragment = urlparse(url)
     cursor.execute(sql, [
         dt,
         scheme, 
@@ -106,42 +107,56 @@ def insert_request(cursor, scheme, netloc, path, params, query, fragment, conten
         query, 
         fragment, 
         content_type,
-        storage_id
+        response_id
     ])
-    module_logger.debug("sql: INSERT INTO REQUESTS")
+    
     lastrowid = int(cursor.lastrowid)
-    module_logger.debug(
-        "The request was inserted with into REQUESTS with id=%i", lastrowid)
+    module_logger.debug("sql: INSERT INTO REQUESTS with id=%i", lastrowid)
+
     return lastrowid
 
+def log_uri(text, scheme, netloc, path, params, query, fragment):
+    module_logger.debug("%s"+
+            "\tscheme = %s\n"+
+            "\tnetloc = %s\n"+
+            "\tpath = %s\n"+
+            "\tparams = %s\n" +
+            "\tquery = %s\n"+
+            "\tfragment = %s", text, scheme, netloc, path,params,query,fragment)
 
-def list_all_requests_for_uri(cursor, scheme, netloc, path, params, query, fragment):
-    """Listet alle gespeicherten Datensätze in der Datenbank auf die 
-    unter filename gespeichert wurden
+def list_all_requests_for_url(cursor, url):
+    """Listet alle gespeicherten requests datensätze auf die 
+    unter der gegebenen uri gespeichert wurden.
 
     Arguments:
         cursor -- Datenbank Cursor
-        blobname -- Name unter dem der gesuchte blob gespeichert ist.
+        scheme - uri scheme
+        netloc - uri netloc
+        path - uri path
+        params - uri params
+        query - uri query
+        fragment - uri fragment
 
     Returns:
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = """ SELECT ID, DATETIME, CONTENT_TYPE, STORAGE_ID FROM REQUESTS
-                WHERE 
-                SCHEME = :scheme AND
-                NETLOC = :netloc AND
-                PATH = :path AND
-                PARAMS = :params AND
-                QUERY = :query 
-          """
-
+    sql = ("SELECT ID, DATETIME, CONTENT_TYPE, STORAGE_ID FROM REQUESTS "
+                "WHERE "
+                "SCHEME = :scheme AND "
+                "NETLOC = :netloc AND "
+                "PATH = :path AND "
+                "PARAMS = :params AND "
+                "QUERY = :query AND "
+                "FRAGMENT =:fragment")
+    scheme, netloc, path, params,query, fragment = urlparse(url)
     params = {
         'scheme': scheme,
         'netloc' : netloc,
         'path' : path,
         'params' : params,
-        'query' : query
+        'query' : query,
+        'fragment': fragment
     }
 
     cursor.execute(sql, params)
@@ -157,59 +172,47 @@ def list_all_requests_for_uri(cursor, scheme, netloc, path, params, query, fragm
     return data
 
 
-def extract_response_from_storage(cursor, storage_id):
-    """ Extrahiert den unter der storage_id in der Datenbank abgelegten blob.
+def extract_response_by_id(cursor, id):
+    """ Extrahiert die unter der id in der Datenbank abgelegte response.
 
     Arguments:
         cursor -- Datenbank Cursor
-        storage_id -- Die Storage id des gewünschten blobs.
+        id -- Die id der gewünschten response
 
     Returns:
-        Der blob der unter storage_id gespeichert wurde. Dieser wird
+        Die response die unter id gespeichert wurde. Diese wird
         als bytearray zurückgegeben.
     """
-    module_logger.debug("Extract response with storage_id=%i from RESPONSE_CONTENT_STORAGE.", storage_id)
-    sql = "SELECT CONTENT FROM RESPONSE_CONTENT_STORAGE WHERE id = :id"
-    param = {'id': storage_id}
+
+    module_logger.debug("Extract response with storage_id=%i from RESPONSES.", id)
+    sql = "SELECT CONTENT FROM RESPONSES WHERE id = :id"
+    param = {'id': id}
     cursor.execute(sql, param)
     return cursor.fetchone()[0]
 
 
-def extract_last_response(cursor, scheme, netloc, path, params, query, fragment):
+def extract_last_response(cursor, url):
     """ Extrahiert den letzten unter blobname gespeicherten blob.
 
     Arguments:
         cursor -- Datenbank Cursor
-        blobname -- Der Name des blobs der gesucht wird.
+        url -- Die url unter dem die response gesucht werden soll
 
     Returns:
         Ein tuple welches die storage_id sowie das bytearray des gefundenen
         blobs enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
     """
-    dataset = list_all_requests_for_uri(cursor, scheme, netloc, path, params, query, fragment)
+    dataset = list_all_requests_for_url(cursor, url)
 
     if len(dataset) == 0:
-        module_logger.debug("Found no request with uri\n"+
-            "\tscheme = %s\n"+
-            "\tnetloc = %s\n"+
-            "\tpath = %s\n"+
-            "\tparams = %s\n" +
-            "\tquery = %s\n"+
-            "\tfragment = %s in REQUESTS.", scheme, netloc, path,params,query,fragment)
+        module_logger.debug('Found no request in REQUESTS with url "%s"', url)
         return (-1, None)
     else:
-        module_logger.debug("Found request with uri\n"+
-            "\tscheme = %s\n"+
-            "\tnetloc = %s\n"+
-            "\tpath = %s\n"+
-            "\tparams = %s\n" +
-            "\tquery = %s\n"+
-            "\tfragment = %s in REQUESTS.", scheme, netloc, path,params,query,fragment)
-        
+        module_logger.debug('Found request(s) in REQUESTS with url "%s"', url)
         module_logger.debug("The last one has the storage_id %i.", dataset[-1]['storage_id'])
         
     laststorageid = dataset[-1]['storage_id']
-    return laststorageid, extract_response_from_storage(cursor, laststorageid)
+    return laststorageid, extract_response_by_id(cursor, laststorageid)
 
 
 def extract_request_by_id(cursor, blobid):
@@ -232,6 +235,6 @@ def extract_request_by_id(cursor, blobid):
     cursor.execute(sql, param)
     filename_db, opaque, storage_id = cursor.fetchone()
 
-    blob = extract_response_from_storage(cursor, storage_id)
+    blob = extract_response_by_id(cursor, storage_id)
 
     return filename_db, opaque, blob
