@@ -34,7 +34,6 @@ def create_or_open_db(db_file):
                     "PARAMS TEXT,"
                     "QUERY TEXT,"
                     "FRAGMENT TEXT,"
-                    "CONTENT_TYPE TEXT,"
                     "RESPONSE_ID INTEGER);")
 
         module_logger.debug("conn.execute(%s)", sql)
@@ -42,6 +41,7 @@ def create_or_open_db(db_file):
 
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "CONTENT_TYPE TEXT,"
                     "CONTENT BLOB);")
 
         module_logger.debug("conn.execute(%s)", sql)
@@ -77,16 +77,20 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
         module_logger.debug("The response is new. Insert it into RESPONSES.")
 
         sql =("INSERT INTO RESPONSES ("
+                "CONTENT_TYPE,"
                 "CONTENT"
-               ") VALUES (?);")
+               ") VALUES (?, ?);")
 
-        cursor.execute(sql, [sqlite3.Binary(content)])
+        cursor.execute(sql, [
+            content_type,
+            sqlite3.Binary(content)
+        ])
         response_id = int(cursor.lastrowid)
         module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
     else:
         response_id = last_response['id']
         module_logger.debug(
-            "The received response and the one which is stored under id=%i are equal."
+            "The received response and the one which is stored under id=%i are equal. "
             "Using the stored response instead.",response_id)
 
     sql = ("INSERT INTO REQUESTS ("
@@ -97,9 +101,8 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
                 "PARAMS,"
                 "QUERY,"
                 "FRAGMENT,"
-                "CONTENT_TYPE,"
                 "RESPONSE_ID"
-            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")
+            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?)")
 
 
     scheme, netloc, path, params,query, fragment = urlparse(url)
@@ -111,7 +114,6 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
         params, 
         query, 
         fragment, 
-        content_type,
         response_id
     ])
 
@@ -132,7 +134,7 @@ def list_all_requests_for_url(cursor, url):
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = ("SELECT ID, TIMESTAMP, CONTENT_TYPE, RESPONSE_ID FROM REQUESTS "
+    sql = ("SELECT ID, TIMESTAMP, RESPONSE_ID FROM REQUESTS "
                 "WHERE "
                 "SCHEME = :scheme AND "
                 "NETLOC = :netloc AND "
@@ -155,8 +157,7 @@ def list_all_requests_for_url(cursor, url):
     data = [{
             'id': x[0],
             'timestamp': x[1],
-            'content_type' : x[2],
-            'response_id':x[3]
+            'response_id':x[2]
         } for x in cursor.fetchall()]
 
     return data
@@ -175,13 +176,14 @@ def extract_response_by_id(cursor, id):
     """
 
     module_logger.debug("Extract response with id = %i from RESPONSES.", id)
-    sql = "SELECT CONTENT FROM RESPONSES WHERE id = :id"
+    sql = "SELECT CONTENT_TYPE, CONTENT FROM RESPONSES WHERE id = :id"
     param = {'id': id}
     cursor.execute(sql, param)
-
+    x = cursor.fetchone()
     return {
         'id' : id,
-        'content' : cursor.fetchone()[0]
+        'content_type' : x[0],
+        'content' : x[1]
     }
 
 
