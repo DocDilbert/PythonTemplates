@@ -25,24 +25,24 @@ def create_or_open_db(db_file):
     if db_is_new:
         module_logger.info("Creating tables...")
 
-        sql = """CREATE TABLE IF NOT EXISTS REQUESTS(
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    DATETIME TEXT,
-                    SCHEME TEXT,
-                    NETLOC TEXT,
-                    PATH TEXT,
-                    PARAMS TEXT,
-                    QUERY TEXT,
-                    FRAGMENT TEXT,
-                    CONTENT_TYPE TEXT,
-                    STORAGE_ID INTEGER);"""
+        sql = ("CREATE TABLE IF NOT EXISTS REQUESTS ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "TIMESTAMP TEXT,"
+                    "SCHEME TEXT,"
+                    "NETLOC TEXT,"
+                    "PATH TEXT,"
+                    "PARAMS TEXT,"
+                    "QUERY TEXT,"
+                    "FRAGMENT TEXT,"
+                    "CONTENT_TYPE TEXT,"
+                    "STORAGE_ID INTEGER);")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
-        sql = """CREATE TABLE IF NOT EXISTS RESPONSES(
-                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 CONTENT BLOB);"""
+        sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "CONTENT BLOB);")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
@@ -77,14 +77,12 @@ def insert_request_and_response(cursor, url, content_type, content):
         cursor.execute(sql, [sqlite3.Binary(content)])
         response_id = int(cursor.lastrowid)
         module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
-        
-    
     else:
         module_logger.debug(
             "The response was inserted into RESPONSES beforehand. Using this response instead.")
 
     sql = ("INSERT INTO REQUESTS ("
-                "DATETIME,"
+                "TIMESTAMP,"
                 "SCHEME," 
                 "NETLOC,"
                 "PATH,"
@@ -132,7 +130,7 @@ def list_all_requests_for_url(cursor, url):
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = ("SELECT ID, DATETIME, CONTENT_TYPE, STORAGE_ID FROM REQUESTS "
+    sql = ("SELECT ID, TIMESTAMP, CONTENT_TYPE, STORAGE_ID FROM REQUESTS "
                 "WHERE "
                 "SCHEME = :scheme AND "
                 "NETLOC = :netloc AND "
@@ -152,14 +150,12 @@ def list_all_requests_for_url(cursor, url):
     }
 
     cursor.execute(sql, params)
-    data = [
-        {
+    data = [{
             'id': x[0],
-            'datetime': x[1],
+            'timestamp': x[1],
             'content_type' : x[2],
             'storage_id':x[3]
-        }
-        for x in cursor.fetchall()]
+        } for x in cursor.fetchall()]
 
     return data
 
