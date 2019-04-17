@@ -19,7 +19,7 @@ def main():
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    fh = logging.FileHandler('webscrapper.log')
+    fh = logging.FileHandler('webscrapper.log', mode='w')
     fh.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
@@ -36,7 +36,7 @@ def main():
     content_handler = ContentHandlerFilesystem("page")
     content_handler_logger = ContentHandlerLogger()
     content_handler_sqlite = ContentHandlerSqlite()
-    
+
     content_handler_sqlite.set_component(content_handler_logger)
     content_handler.set_component(content_handler_sqlite)
 

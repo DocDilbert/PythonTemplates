@@ -24,17 +24,22 @@ def create_or_open_db(db_file):
     if db_is_new:
         module_logger.info("Creating tables...")
 
-        sql = """CREATE TABLE IF NOT EXISTS BLOBS(
-                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                 BLOBNAME TEXT,
-                 DATETIME TEXT,
-                 OPAQUE TEXT,
-                 STORAGE_ID INTEGER);"""
+        sql = """CREATE TABLE IF NOT EXISTS REQUESTS(
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    DATETIME TEXT,
+                    SCHEME TEXT,
+                    NETLOC TEXT,
+                    PATH TEXT,
+                    PARAMS TEXT,
+                    QUERY TEXT,
+                    FRAGMENT TEXT,
+                    CONTENT_TYPE TEXT,
+                    STORAGE_ID INTEGER);"""
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
-        sql = """CREATE TABLE IF NOT EXISTS BLOB_STORAGE(
+        sql = """CREATE TABLE IF NOT EXISTS RESPONSE_CONTENT_STORAGE(
                  ID INTEGER PRIMARY KEY AUTOINCREMENT,
                  CONTENT BLOB);"""
 
@@ -47,7 +52,7 @@ def create_or_open_db(db_file):
     return conn
 
 
-def insert_blob(cursor, blobname, blob, opaque=""):
+def insert_request(cursor, scheme, netloc, path, params, query, fragment, content_type, content):
     """ Fügt einen Blob unter den Namen blobname einer sqllite3 Datenbank hinzu. 
 
     Es wird überprüft ob unter den gleichen Namen bereits Daten gespeichert wurden.
@@ -56,39 +61,61 @@ def insert_blob(cursor, blobname, blob, opaque=""):
 
     Arguments:
         cursor -- Datenbank Cursor
-        blobname -- Name des Blobs
-        blob -- Der eigentliche Blob
-        opaque -- Beliebige Daten als String gepackt
+        
 
     Returns:
         [int] --  Die id unter welche der blob in der Datenbank gespeichert wurde.
     """
 
-    (storage_id, ablob_last) = extract_last_blob(cursor, blobname)
+    (storage_id, last_content) = extract_last_blob(cursor, scheme, netloc, path, params, query, fragment)
 
-    if (blob != ablob_last):
-        module_logger.info(
-            "The blob \"%s\" is new. Insert it into BLOB_STORAGE.", blobname)
-        sql = "INSERT INTO BLOB_STORAGE (CONTENT) VALUES(?);"
-        cursor.execute(sql, [sqlite3.Binary(blob)])
+    if (content != last_content):
+        module_logger.debug("The content is new. Insert it into RESPONSE_CONTENT_STORAGE.")
+
+        sql = "INSERT INTO RESPONSE_CONTENT_STORAGE (CONTENT) VALUES (?);"
+        cursor.execute(sql, [sqlite3.Binary(content)])
+        module_logger.debug("sql: INSERT INTO RESPONSE_CONTENT_STORAGE")
         storage_id = int(cursor.lastrowid)
+    
     else:
-        module_logger.info(
-            "The blob \"%s\" was inserted beforehand. Using this blob instead.", blobname)
+        module_logger.debug(
+            "The content was inserted beforehand. Using this blob instead.")
 
-    sql = "INSERT INTO BLOBS (BLOBNAME, DATETIME, OPAQUE, STORAGE_ID) VALUES(?, ?, ?, ?);"
+    sql = """INSERT INTO REQUESTS (
+                DATETIME,
+                SCHEME,
+                NETLOC,
+                PATH,
+                PARAMS,
+                QUERY,
+                FRAGMENT,
+                CONTENT_TYPE,
+                STORAGE_ID
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """
+
     dt = datetime.datetime.now().isoformat()
 
-    module_logger.info("Insert blob with blobname=\"%s\" into BLOBS.", blobname)
-    cursor.execute(sql, [blobname, dt, opaque, storage_id])
-
+    
+    cursor.execute(sql, [
+        dt,
+        scheme, 
+        netloc, 
+        path, 
+        params, 
+        query, 
+        fragment, 
+        content_type,
+        storage_id
+    ])
+    module_logger.debug("sql: INSERT INTO REQUESTS")
     lastrowid = int(cursor.lastrowid)
     module_logger.debug(
-        "The blob \"%s\" was inserted with into BLOBS with id=%i", blobname, lastrowid)
+        "The request was inserted with into REQUESTS with id=%i", lastrowid)
     return lastrowid
 
 
-def list_dataset_for_blobname(cursor, blobname):
+def list_dataset_for_uri(cursor, scheme, netloc, path, params, query, fragment):
     """Listet alle gespeicherten Datensätze in der Datenbank auf die 
     unter filename gespeichert wurden
 
@@ -100,14 +127,30 @@ def list_dataset_for_blobname(cursor, blobname):
         Eine Liste von Dictionaries die die gefundenen Einträge enthalten.
     """
 
-    sql = "SELECT ID, DATETIME, STORAGE_ID FROM BLOBS WHERE BLOBNAME = :filename"
-    param = {'filename': blobname}
-    cursor.execute(sql, param)
+    sql = """ SELECT ID, DATETIME, CONTENT_TYPE, STORAGE_ID FROM REQUESTS
+                WHERE 
+                SCHEME = :scheme AND
+                NETLOC = :netloc AND
+                PATH = :path AND
+                PARAMS = :params AND
+                QUERY = :query 
+          """
+
+    params = {
+        'scheme': scheme,
+        'netloc' : netloc,
+        'path' : path,
+        'params' : params,
+        'query' : query
+    }
+
+    cursor.execute(sql, params)
     data = [
         {
             'id': x[0],
-            'datatime': x[1],
-            'storage_id':x[2]
+            'datetime': x[1],
+            'content_type' : x[2],
+            'storage_id':x[3]
         }
         for x in cursor.fetchall()]
 
@@ -125,15 +168,14 @@ def extract_blob_from_storage(cursor, storage_id):
         Der blob der unter storage_id gespeichert wurde. Dieser wird
         als bytearray zurückgegeben.
     """
-    module_logger.debug(
-        "Extract blob with storage_id=%i from BLOB_STORAGE.", storage_id)
-    sql = "SELECT CONTENT FROM BLOB_STORAGE WHERE id = :id"
+    module_logger.debug("Extract blob with storage_id=%i from RESPONSE_CONTENT_STORAGE.", storage_id)
+    sql = "SELECT CONTENT FROM RESPONSE_CONTENT_STORAGE WHERE id = :id"
     param = {'id': storage_id}
     cursor.execute(sql, param)
     return cursor.fetchone()[0]
 
 
-def extract_last_blob(cursor, blobname):
+def extract_last_blob(cursor, scheme, netloc, path, params, query, fragment):
     """ Extrahiert den letzten unter blobname gespeicherten blob.
 
     Arguments:
@@ -144,14 +186,28 @@ def extract_last_blob(cursor, blobname):
         Ein tuple welches die storage_id sowie das bytearray des gefundenen
         blobs enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
     """
-    dataset = list_dataset_for_blobname(cursor, blobname)
+    dataset = list_dataset_for_uri(cursor, scheme, netloc, path, params, query, fragment)
 
     if len(dataset) == 0:
-        module_logger.debug("Found no blob with name \"%s\" in BLOBS.", blobname)
+        module_logger.debug("Found no request with uri\n"+
+            "\tscheme = %s\n"+
+            "\tnetloc = %s\n"+
+            "\tpath = %s\n"+
+            "\tparams = %s\n" +
+            "\tquery = %s\n"+
+            "\tfragment = %s in REQUESTS.", scheme, netloc, path,params,query,fragment)
         return (-1, None)
     else:
-        module_logger.debug("Found blobs with name \"%s\" in BLOBS. The last one has the id %i.",
-                      blobname, dataset[-1]['storage_id'])
+        module_logger.debug("Found request with uri\n"+
+            "\tscheme = %s\n"+
+            "\tnetloc = %s\n"+
+            "\tpath = %s\n"+
+            "\tparams = %s\n" +
+            "\tquery = %s\n"+
+            "\tfragment = %s in REQUESTS.", scheme, netloc, path,params,query,fragment)
+        
+        module_logger.debug("The last one has the storage_id %i.", dataset[-1]['storage_id'])
+        
     laststorageid = dataset[-1]['storage_id']
     return laststorageid, extract_blob_from_storage(cursor, laststorageid)
 

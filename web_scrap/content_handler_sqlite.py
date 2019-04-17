@@ -1,10 +1,12 @@
 import logging
 from urllib.parse import urlparse,urlunparse
 from content_handler_decorator import ContentHandlerDecorator
+import sqlliteblob
 
 class ContentHandlerSqlite(ContentHandlerDecorator): 
     def __init__(self):
         super().__init__()
+        self.connection =  sqlliteblob.create_or_open_db("requests.db")
         self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
     
     def insert_entry(self, scheme, netloc, path, params, query, fragment, response):
@@ -17,6 +19,20 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             " - fragment = %s\n}", scheme, netloc, path, params, query, fragment)
         
         content_type = response.headers['Content-Type']
+        
+        cursor = self.connection.cursor()
+        sqlliteblob.insert_request(cursor,
+            scheme, 
+            netloc, 
+            path, 
+            params, 
+            query, 
+            fragment,
+            content_type,
+            response.content
+        )
+
+        self.connection.commit()
         self.logger.debug("insert_entry response = { ... \n"+
             " - content_type = %s\n}", content_type)
 
@@ -24,6 +40,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url, response)
+
         parts = urlparse(url)
         self.insert_entry(*parts, response = response)
         
