@@ -66,27 +66,28 @@ def insert_request_and_response(cursor, timestamp, url, content_type, content):
         url - 
         content_type - Art des hinzugefügten Inhalts
         content - Inhalt der response
-        
-
+    
     Returns:
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
-    (response_id, last_content) = extract_last_response(cursor, url)
-
-    if (content != last_content):
+    last_response = extract_last_response(cursor, url)
+    
+    if not last_response or (last_response and (content != last_response['content'])):
         module_logger.debug("The response is new. Insert it into RESPONSES.")
 
         sql =("INSERT INTO RESPONSES ("
                 "CONTENT"
                ") VALUES (?);")
-               
+
         cursor.execute(sql, [sqlite3.Binary(content)])
         response_id = int(cursor.lastrowid)
         module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
     else:
+        response_id = last_response['id']
         module_logger.debug(
-            "The response was inserted into RESPONSES beforehand. Using this response instead.")
+            "The received response and the one which is stored under id=%i are equal."
+            "Using the stored response instead.",response_id)
 
     sql = ("INSERT INTO REQUESTS ("
                 "TIMESTAMP,"
@@ -177,7 +178,11 @@ def extract_response_by_id(cursor, id):
     sql = "SELECT CONTENT FROM RESPONSES WHERE id = :id"
     param = {'id': id}
     cursor.execute(sql, param)
-    return cursor.fetchone()[0]
+
+    return {
+        'id' : id,
+        'content' : cursor.fetchone()[0]
+    }
 
 
 def extract_last_response(cursor, url):
@@ -188,20 +193,20 @@ def extract_last_response(cursor, url):
         url -- Die url unter dem die response gesucht werden soll
 
     Returns:
-        Ein tuple welches die response_id sowie das bytearray der gefundenen
-        response enthält. Falls kein blob gefunden wird (-1, None) zurückgegeben.
+        Die letzte unter url gespeicherte response.
+        Falls keine response gefunden wird, wird None zurückgegeben.
     """
     dataset = list_all_requests_for_url(cursor, url)
 
     if len(dataset) == 0:
         module_logger.debug('Found no request in REQUESTS with url "%s"', url)
-        return (-1, None)
+        return None
     else:
         module_logger.debug('Found request(s) in REQUESTS with url "%s"', url)
-        module_logger.debug("The last one has the storage_id %i.", dataset[-1]['response_id'])
+        module_logger.debug("The last request in this list has the response_id=%i.", dataset[-1]['response_id'])
         
     last_response_id = dataset[-1]['response_id']
-    return last_response_id, extract_response_by_id(cursor, last_response_id)
+    return extract_response_by_id(cursor, last_response_id)
 
 
 def extract_request_by_id(cursor, blobid):
