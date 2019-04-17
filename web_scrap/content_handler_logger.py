@@ -11,7 +11,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
             +" - status_code = %i,\n"
             +" - headers = %s,\n"
             +" - cookies = %s,\n"
-            +" - encoding = %s", response.status_code, response.headers, response.cookies,response.encoding)
+            +" - encoding = %s", response.status_code, response.headers, response.cookies, response.encoding)
 
     def response_with_html_content_received(self, url, response):
         super().response_with_html_content_received(url,response)
