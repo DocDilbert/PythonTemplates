@@ -78,7 +78,7 @@ def insert_response_content(cursor, response_content):
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s under id %i into RESPONSE_CONTENT.", response_content, rid)
+    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENT. Row id is %i.", response_content, rid)
     
     return rid
 
@@ -94,7 +94,7 @@ def insert_response(cursor, response, content_id):
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s under id %i into RESPONSES.", response, rid)
+    module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
 def insert_request_and_response(cursor, timestamp, request, content_type, content):
@@ -164,7 +164,7 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
     ])
 
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s under id %i into REQUESTS.", request, rid)
+    module_logger.debug("sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
 def list_metadata_for_request(cursor, request):
