@@ -1,5 +1,5 @@
 import logging
-from urllib.parse import urlparse,urlunparse
+from urllib.parse import urlparse, urlunparse
 from content_handler_decorator import ContentHandlerDecorator
 import sqlliteblob
 import datetime

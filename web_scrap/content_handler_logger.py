@@ -7,8 +7,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         self.logger = logging.getLogger('main.content_handler_logger.ContentHandlerLogger')
     
     def __request_to_str(self, request):
-        return("Log request:\n"
-            "\turl = {}".format(request['url']))
+        return("Log request: {}".format(request))
 
     def __response_to_str(self, response):
         return("Log response:\n"

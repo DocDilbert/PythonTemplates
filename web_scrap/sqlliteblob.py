@@ -115,7 +115,7 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
-    url = request['url']
+    url = request.to_url()
     last_response, last_content_id = extract_last_response_of_request(cursor, url)
     
     if not last_response:
