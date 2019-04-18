@@ -51,6 +51,7 @@ def create_or_open_db(db_file):
 
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "STATUS_CODE INTEGER,"
                     "CONTENT_TYPE TEXT,"
                     "CONTENT_ID INTEGER);")
 
@@ -117,11 +118,13 @@ def insert_response_content(cursor, response_content):
 
 def insert_response(cursor, response, content_id):
     sql =("INSERT INTO RESPONSES ("
+            "STATUS_CODE,"
             "CONTENT_TYPE,"
             "CONTENT_ID"
-            ") VALUES (?, ?);")
+            ") VALUES (?,?,?);")
 
     cursor.execute(sql, [
+        response.status_code,
         response.content_type,
         content_id
     ])
@@ -271,14 +274,18 @@ def extract_response_by_id(cursor, rid):
 
     
     sql = ("SELECT "
+                "STATUS_CODE,"
                 "CONTENT_TYPE,"
                 "CONTENT_ID "
             "FROM RESPONSES WHERE id = :rid;")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
-    response = Response(content_type=x[0])
-    content_id =  x[1]
+    response = Response(
+        status_code=x[0],
+        content_type=x[1]
+    )
+    content_id =  x[2]
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSES. "
         "Corresponding content_id is %i.", str(response), rid, content_id) 

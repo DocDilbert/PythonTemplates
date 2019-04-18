@@ -58,7 +58,10 @@ def download(scheme, netloc, url, tag, response_handler):
     module_logger.info("Request %s completed", request)
     log_raw_response(response_raw)
 
-    response = Response(content_type = response_raw.headers['Content-Type'])
+    response = Response(
+        status_code = response_raw.status_code,
+        content_type = response_raw.headers['Content-Type']
+    )
     response_content = ResponseContent(content = response_raw.content)
     response_handler(request, response, response_content, tag)
     
@@ -71,7 +74,10 @@ def scrap(url, content_handler, download_img=False):
     module_logger.info("Request completed on url %s", url)
     log_raw_response(response_raw)
 
-    response = Response(content_type = response_raw.headers['Content-Type'])
+    response = Response(
+        status_code = response_raw.status_code,
+        content_type = response_raw.headers['Content-Type']
+    )
     response_content = ResponseContent(content = response_raw.content)
     content_handler.response_with_html_content_received(request, response, response_content)
 
