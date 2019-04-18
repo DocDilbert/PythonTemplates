@@ -42,7 +42,7 @@ def is_internal(netloc, url):
     else:
         return False
 def log_raw_response(response):
-    module_logger.debug("Raw response received:\n"
+    module_logger.debug("Raw response received.\n"
         "\tstatus_code = %s,\n"
         "\theaders = %s,\n"
         "\tcookies = %s,\n"

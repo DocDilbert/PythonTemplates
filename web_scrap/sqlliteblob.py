@@ -117,6 +117,17 @@ def insert_response_content(cursor, response_content):
     return rid
 
 def insert_response(cursor, response, content_id):
+    """Fügt eine Response instanz mit einer content_id in die Tabelle RESPONSES
+    ein.
+    
+    Arguments:
+        cursor -- Datenbank Cursor
+        response {Response} -- Eine Instanz der Klasse Response
+        content_id {int} -- Die id des korrespondieren Eintrags in der Tabelle RESPONSE_CONTENT.
+    
+    Returns:
+        int - Die id unter welche der die response in der Datenbank gespeichert wurde.
+    """
     sql =("INSERT INTO RESPONSES ("
             "STATUS_CODE,"
             "CONTENT_TYPE,"
@@ -142,13 +153,13 @@ def insert_request_and_response(cursor, session_id, request, response, response_
 
     Arguments:
         cursor -- Datenbank Cursor
-        session_id - Id der Session
-        response - 
-        content_type - Art des hinzugefügten Inhalts
-        content - Inhalt der response
+        session_id {int} -- Id der Session
+        request {Request} -- Eine Instanz der Klasse Request
+        response {Response} -- Eine Instanz der Klasse Response
+        response_content {ResponseContent} -- Eine Instanz der Klasse ResponseContent
     
     Returns:
-        [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
+        int - Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
     (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
