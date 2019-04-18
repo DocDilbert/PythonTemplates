@@ -48,7 +48,7 @@ def create_or_open_db(db_file):
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "CONTENT_TYPE TEXT,"
-                    "CONTENT BLOB);")
+                    "CONTENT_ID BLOB);")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
@@ -66,6 +66,33 @@ def create_or_open_db(db_file):
 
     return conn
 
+def insert_response_content(cursor, content):
+    sql =("INSERT INTO RESPONSE_CONTENT ("
+            "CONTENT"
+          ") VALUES (?);")
+
+    cursor.execute(sql, [
+        sqlite3.Binary(content)
+    ])
+    
+    rid = int(cursor.lastrowid)
+    module_logger.debug("sql: INSERT INTO RESPONSE_CONTENT with id=%i", rid)
+    return rid
+
+def insert_response(cursor, content_type, content_id):
+    sql =("INSERT INTO RESPONSES ("
+            "CONTENT_TYPE,"
+            "CONTENT_ID"
+            ") VALUES (?, ?);")
+
+    cursor.execute(sql, [
+        content_type,
+        content_id
+    ])
+    
+    rid = int(cursor.lastrowid)
+    module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", rid)
+    return rid
 
 def insert_request_and_response(cursor, timestamp, request, content_type, content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
@@ -88,27 +115,22 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
     url = request['url']
     last_response = extract_last_response_of_request(cursor, url)
     
-    if not last_response or (last_response and (content != last_response['content'])):
-        module_logger.debug("The response is new. Insert it into RESPONSES.")
-
-        sql =("INSERT INTO RESPONSES ("
-                "CONTENT_TYPE,"
-                "CONTENT"
-               ") VALUES (?, ?);")
-
-        cursor.execute(sql, [
-            content_type,
-            sqlite3.Binary(content)
-        ])
-        
-        response_id = int(cursor.lastrowid)
-        module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
+    if not last_response:
+        module_logger.debug("This is the first time this url was requested.")
+        content_id = insert_response_content(cursor, content)
+        response_id = insert_response(cursor, content_type, content_id)
     else:
-        response_id = last_response['id']
-        module_logger.debug(
-            "The received response and the one which is stored under id=%i are equal. "
-            "Using the stored response instead.",response_id)
+        content_id = last_response['content_id']
+        stored_response_content = extract_response_content_by_id(cursor, content_id)
 
+        if (content != stored_response_content['content']):
+            module_logger.debug("The received response content is new.")
+            content_id = insert_response_content(cursor, content)
+        else:
+            module_logger.debug("The received response content was stored beforehand. Using this instead.")
+
+        response_id = insert_response(cursor, content_type, content_id)
+        
     sql = ("INSERT INTO REQUESTS ("
                 "TIMESTAMP,"
                 "SCHEME," 
@@ -172,11 +194,28 @@ def list_all_requests_for_url(cursor, url):
     data = [{
             'id': x[0],
             'timestamp': x[1],
-            'response_id':x[2]
+            'response_id': x[2]
         } for x in cursor.fetchall()]
 
     return data
 
+def extract_response_content_by_id(cursor, id):
+    
+    sql = ("SELECT "
+                "CONTENT "
+            "FROM RESPONSE_CONTENT WHERE id = :id")
+
+    param = {'id': id}
+    cursor.execute(sql, param)
+    x = cursor.fetchone()
+    response_content = {
+        'id' : id,
+        'content' : x[0]
+    }
+    module_logger.debug(
+        "Extract response content with id = %i from RESPONSE_CONTENT. %s", 
+    id, str(response_content['content'][0:5])) 
+    return response_content
 
 def extract_response_by_id(cursor, id):
     """ Extrahiert die unter der id in der Datenbank abgelegte response.
@@ -190,7 +229,10 @@ def extract_response_by_id(cursor, id):
     """
 
     module_logger.debug("Extract response with id = %i from RESPONSES.", id)
-    sql = "SELECT CONTENT_TYPE, CONTENT FROM RESPONSES WHERE id = :id"
+    sql = ("SELECT "
+                "CONTENT_TYPE,"
+                "CONTENT_ID "
+            "FROM RESPONSES WHERE id = :id")
     param = {'id': id}
     cursor.execute(sql, param)
     x = cursor.fetchone()
@@ -198,7 +240,7 @@ def extract_response_by_id(cursor, id):
     return {
         'id' : id,
         'content_type' : x[0],
-        'content' : x[1]
+        'content_id' : x[1]
     }
 
 
