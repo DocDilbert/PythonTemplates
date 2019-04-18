@@ -8,6 +8,8 @@ import os
 import logging
 from urllib.parse import urlparse, urlunparse
 
+from webscrapper_classes import ResponseContent
+
 module_logger = logging.getLogger('main.sqliteblob')
 
 def create_or_open_db(db_file):
@@ -66,17 +68,18 @@ def create_or_open_db(db_file):
 
     return conn
 
-def insert_response_content(cursor, content):
+def insert_response_content(cursor, response_content):
     sql =("INSERT INTO RESPONSE_CONTENT ("
             "CONTENT"
           ") VALUES (?);")
 
     cursor.execute(sql, [
-        sqlite3.Binary(content)
+        sqlite3.Binary(response_content.content)
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT INTO RESPONSE_CONTENT with id=%i", rid)
+    module_logger.debug("sql: INSERT %s INTO RESPONSE_CONTENT with id=%i", str(response_content), rid)
+    
     return rid
 
 def insert_response(cursor, content_type, content_id):
@@ -117,15 +120,17 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
     
     if not last_response:
         module_logger.debug("This is the first time this url was requested.")
-        content_id = insert_response_content(cursor, content)
+        response_content = ResponseContent(content)
+        content_id = insert_response_content(cursor, response_content)
         response_id = insert_response(cursor, content_type, content_id)
     else:
         content_id = last_response['content_id']
         stored_response_content = extract_response_content_by_id(cursor, content_id)
 
-        if (content != stored_response_content['content']):
+        if (content != stored_response_content.content):
             module_logger.debug("The received response content is new.")
-            content_id = insert_response_content(cursor, content)
+            response_content = ResponseContent(content)
+            content_id = insert_response_content(cursor, response_content)
         else:
             module_logger.debug("The received response content was stored beforehand. Using this instead.")
 
@@ -199,22 +204,19 @@ def list_all_requests_for_url(cursor, url):
 
     return data
 
-def extract_response_content_by_id(cursor, id):
-    
-    sql = ("SELECT "
-                "CONTENT "
-            "FROM RESPONSE_CONTENT WHERE id = :id")
-
-    param = {'id': id}
+def extract_response_content_by_id(cursor, rid):
+    sql = ("SELECT("
+                "CONTENT"
+            ")FROM RESPONSE_CONTENT WHERE id = :rid")
+    param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
-    response_content = {
-        'id' : id,
-        'content' : x[0]
-    }
+
+    response_content = ResponseContent(x[0])
+
     module_logger.debug(
-        "Extract response content with id = %i from RESPONSE_CONTENT. %s", 
-    id, str(response_content['content'][0:5])) 
+        "Extracted %s with id = %i from RESPONSE_CONTENT.", str(response_content), rid) 
+
     return response_content
 
 def extract_response_by_id(cursor, id):

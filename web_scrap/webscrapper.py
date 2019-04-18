@@ -54,7 +54,6 @@ def download(scheme, netloc, url, tag, response_handler):
     response_handler(request, img, tag)
     
 def scrap(url, content_handler, download_img=False):
-    
     content_handler.session_started()
 
     request = {
