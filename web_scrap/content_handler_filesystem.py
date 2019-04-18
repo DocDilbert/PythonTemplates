@@ -43,7 +43,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def response_with_html_content_received(self, request, response, response_content):
         super().response_with_html_content_received(request, response, response_content)
         url = request.to_url()
-        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
+        filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
@@ -54,7 +54,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def response_with_css_content_received(self, request, response, response_content, tag):
         super().response_with_css_content_received( request, response, response_content, tag)
         url = request.to_url()
-        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
+        filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
         
@@ -68,7 +68,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def response_with_img_content_received(self, request, response, response_content, tag):
         super().response_with_img_content_received( request, response, response_content, tag)
         url = request.to_url()
-        filename = ExtractFileNameFromURL(url, response.headers['Content-type'])
+        filename = ExtractFileNameFromURL(url, response.content_type)
         
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:

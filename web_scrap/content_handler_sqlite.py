@@ -25,7 +25,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
     def insert_request_and_response(self,  request, response, response_content):        
         self.logger.debug("Insert request and response into database")
 
-        content_type = response.headers['Content-Type']
+        content_type = response.content_type
         sqlliteblob.insert_request_and_response(self.cursor,
             self.session_id,
             request,

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse,urlunparse
 import os
 import time
-from webscrapper_classes import Request, ResponseContent
+from webscrapper_classes import Response, Request, ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {
@@ -41,6 +41,12 @@ def is_internal(netloc, url):
         return True
     else:
         return False
+def log_raw_response(response):
+    module_logger.debug("Log response:\n"
+        "\tstatus_code = {},\n"
+        "\theaders = {},\n"
+        "\tcookies = {},\n"
+        "\tencoding = {}".format(response.status_code, response.headers, response.cookies, response.encoding))
 
 def download(scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
@@ -48,19 +54,26 @@ def download(scheme, netloc, url, tag, response_handler):
     module_logger.debug("Performing Request on url %s", url_transf)
     request = Request.from_url(url_transf)
     response_raw = requests.get(url_transf, headers=HEADERS)
-    module_logger.info("Request %s completed", request)
     
-    response_content = ResponseContent(content=response_raw.content)
-    response_handler(request, response_raw, response_content, tag)
+    module_logger.info("Request %s completed", request)
+    log_raw_response(response_raw)
+
+    response = Response(content_type = response_raw.headers['Content-Type'])
+    response_content = ResponseContent(content = response_raw.content)
+    response_handler(request, response, response_content, tag)
     
 def scrap(url, content_handler, download_img=False):
     content_handler.session_started()
 
     request = Request.from_url(url)
     response_raw = requests.get(url, headers=HEADERS)
+    
     module_logger.info("Request completed on url %s", url)
-    response_content = ResponseContent(content=response_raw.content)
-    content_handler.response_with_html_content_received(request, response_raw, response_content)
+    log_raw_response(response_raw)
+
+    response = Response(content_type = response_raw.headers['Content-Type'])
+    response_content = ResponseContent(content = response_raw.content)
+    content_handler.response_with_html_content_received(request, response, response_content)
 
     soup = BeautifulSoup(response_raw.content, 'html.parser')
 
