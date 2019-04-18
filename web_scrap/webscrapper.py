@@ -54,6 +54,9 @@ def download(scheme, netloc, url, tag, response_handler):
     response_handler(request, img, tag)
     
 def scrap(url, content_handler, download_img=False):
+    
+    content_handler.session_started()
+
     request = {
         'url' : url
     }
@@ -109,4 +112,5 @@ def scrap(url, content_handler, download_img=False):
             links.append(link)
 
     content_handler.html_post_process_handler(url, soup)
+    content_handler.session_finished()
     return links

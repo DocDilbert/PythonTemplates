@@ -22,6 +22,8 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             content_type,
             response.content
         )
+    def session_started(self):
+        super().session_started()
 
     def response_with_html_content_received(self,  request, response):
         super().response_with_html_content_received( request, response)
@@ -40,3 +42,5 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.connection.commit() 
         super().html_post_process_handler(url, soup)
 
+    def session_finished(self):
+        super().session_finished()

@@ -37,6 +37,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             self.logger.info("Created directory %s", self.dirname )
             os.mkdir(dirname)
     
+    def session_started(self):
+        super().session_started()
+
     def response_with_html_content_received(self, request, response):
         super().response_with_html_content_received(request, response)
         url = request['url']
@@ -86,3 +89,6 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             file.write(buf.encode(encoding='UTF-8', errors='strict'))
 
         self.logger.info("Wrote processed html content to '%s'", dest)
+
+    def session_finished(self):
+        super().session_finished()

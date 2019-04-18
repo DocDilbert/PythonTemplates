@@ -29,9 +29,9 @@ def main():
     logger.addHandler(fh)
     logger.addHandler(ch)
 
-    logger.info("---------------------------------")
+    logger.info("-------------------------------------")
     logger.info(" Web scrapper session startet")
-    logger.info("---------------------------------")
+    logger.info("-------------------------------------")
 
     content_handler = ContentHandlerFilesystem("page")
     content_handler_logger = ContentHandlerLogger()

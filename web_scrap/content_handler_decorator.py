@@ -5,6 +5,10 @@ class ContentHandlerDecorator:
     def set_component(self, component):
         self.component = component
 
+    def session_started(self):
+        if self.component:
+            self.component.session_started()
+
     def response_with_html_content_received(self, request, response):
         if self.component:
             self.component.response_with_html_content_received(request, response)
@@ -20,3 +24,7 @@ class ContentHandlerDecorator:
     def html_post_process_handler(self, url, soup):
         if self.component:
             self.component.html_post_process_handler(url, soup)
+
+    def session_finished(self):
+        if self.component:
+            self.component.session_finished()
