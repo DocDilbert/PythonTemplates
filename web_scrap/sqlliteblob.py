@@ -29,19 +29,21 @@ def create_or_open_db(db_file):
 
         sql = ("CREATE TABLE IF NOT EXISTS SESSIONS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "START_DATETIME TEXT);")
+                    "START_DATETIME TEXT,"
+                    "END_DATETIME TEXT);")
 
         module_logger.debug("conn.execute(%s)", sql)
+        conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS REQUESTS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "TIMESTAMP TEXT,"
                     "SCHEME TEXT,"
                     "NETLOC TEXT,"
                     "PATH TEXT,"
                     "PARAMS TEXT,"
                     "QUERY TEXT,"
                     "FRAGMENT TEXT,"
+                    "SESSION_ID INTEGER,"
                     "RESPONSE_ID INTEGER);")
 
         module_logger.debug("conn.execute(%s)", sql)
@@ -67,6 +69,37 @@ def create_or_open_db(db_file):
         module_logger.info("Tables exists.")
 
     return conn
+
+def insert_session(cursor, session):
+    sql =("INSERT INTO SESSIONS ("
+            "START_DATETIME,"
+            "END_DATETIME"
+          ") VALUES (?, ?);")
+
+    cursor.execute(sql, [
+        session.start_datetime,
+        session.end_datetime
+    ])
+    
+    rid = int(cursor.lastrowid)
+    module_logger.debug("sql: INSERT %s into SESSIONS. Row id is %i.", session, rid)
+    return rid
+
+def update_session(cursor, session_id, session):
+    sql =("UPDATE SESSIONS SET "
+            "START_DATETIME = :start_datetime, "
+            "END_DATETIME = :end_datetime "
+          "WHERE id = :session_id;")
+
+    params = {
+        'session_id' : session_id,
+        'start_datetime': session.start_datetime,
+        'end_datetime' : session.end_datetime,
+    }
+    cursor.execute(sql, params)
+    
+    module_logger.debug("sql: UPDATE session (id=%i) with %s.", session_id, session)
+
 
 def insert_response_content(cursor, response_content):
     sql =("INSERT INTO RESPONSE_CONTENT ("
@@ -97,7 +130,7 @@ def insert_response(cursor, response, content_id):
     module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
-def insert_request_and_response(cursor, timestamp, request, content_type, content):
+def insert_request_and_response(cursor, session_id, request, content_type, content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
     Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
@@ -106,7 +139,7 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
 
     Arguments:
         cursor -- Datenbank Cursor
-        timestamp - Zeitstempel des scraps
+        session_id - Id der Session
         response - 
         content_type - Art des hinzugefügten Inhalts
         content - Inhalt der response
@@ -141,25 +174,25 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
         response_id = insert_response(cursor, response, content_id)
         
     sql = ("INSERT INTO REQUESTS ("
-                "TIMESTAMP,"
                 "SCHEME," 
                 "NETLOC,"
                 "PATH,"
                 "PARAMS,"
                 "QUERY,"
                 "FRAGMENT,"
+                "SESSION_ID,"
                 "RESPONSE_ID"
-            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?)")
+            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?);")
 
     
     cursor.execute(sql, [
-        timestamp,
         request.scheme, 
         request.netloc, 
         request.path, 
         request.params, 
         request.query, 
         request.fragment, 
+        session_id,
         response_id
     ])
 
@@ -179,14 +212,14 @@ def list_metadata_for_request(cursor, request):
         Eine Liste von Dictionaries die die gefunden Metadaten enthalten.
     """
 
-    sql = ("SELECT TIMESTAMP, RESPONSE_ID FROM REQUESTS "
+    sql = ("SELECT SESSION_ID, RESPONSE_ID FROM REQUESTS "
                 "WHERE "
                 "SCHEME = :scheme AND "
                 "NETLOC = :netloc AND "
                 "PATH = :path AND "
                 "PARAMS = :params AND "
                 "QUERY = :query AND "
-                "FRAGMENT =:fragment")
+                "FRAGMENT =:fragment;")
 
     params = {
         'scheme': request.scheme,
@@ -198,12 +231,12 @@ def list_metadata_for_request(cursor, request):
     }
 
     cursor.execute(sql, params)
-    metalist = [{
-        'timestamp': x[0],
+    metadata_list = [{
+        'session_id': x[0],
         'response_id': x[1]
     } for x in cursor.fetchall()]
 
-    return metalist
+    return metadata_list
 
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENT 
@@ -218,7 +251,7 @@ def extract_response_content_by_id(cursor, rid):
     """
     sql = ("SELECT "
                 "CONTENT "
-            "FROM RESPONSE_CONTENT WHERE id = :rid")
+            "FROM RESPONSE_CONTENT WHERE id = :rid;")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
@@ -247,7 +280,7 @@ def extract_response_by_id(cursor, rid):
     sql = ("SELECT "
                 "CONTENT_TYPE,"
                 "CONTENT_ID "
-            "FROM RESPONSES WHERE id = :rid")
+            "FROM RESPONSES WHERE id = :rid;")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()

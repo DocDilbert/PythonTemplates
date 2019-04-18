@@ -3,28 +3,36 @@ from urllib.parse import urlparse, urlunparse
 from content_handler_decorator import ContentHandlerDecorator
 import sqlliteblob
 import datetime
+from webscrapper_classes import Session
 
 class ContentHandlerSqlite(ContentHandlerDecorator): 
     def __init__(self):
         super().__init__()
         self.connection =  sqlliteblob.create_or_open_db("requests.db")
+        self.cursor = self.connection.cursor()
         self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
-        self.timestamp = datetime.datetime.now().isoformat()
+
+        self.session_id = -1
+        self.session = None
 
     def insert_request_and_response(self,  request, response):        
         self.logger.debug("Insert request and response into database")
 
-        cursor = self.connection.cursor()
         content_type = response.headers['Content-Type']
-        sqlliteblob.insert_request_and_response(cursor,
-            self.timestamp,
+        sqlliteblob.insert_request_and_response(self.cursor,
+            self.session_id,
             request,
             content_type,
             response.content
         )
+        
     def session_started(self):
         super().session_started()
+        self.session = Session()
+        self.session.start_datetime = datetime.datetime.now().isoformat()
+        self.session_id = sqlliteblob.insert_session(self.cursor, self.session)
 
+    
     def response_with_html_content_received(self,  request, response):
         super().response_with_html_content_received( request, response)
         self.insert_request_and_response(request, response)
@@ -42,6 +50,12 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
     def session_finished(self):
         super().session_finished()
-        
+        self.session.end_datetime = datetime.datetime.now().isoformat()
+
+        sqlliteblob.update_session(
+            self.cursor, 
+            self.session_id, 
+            self.session
+        )
         # erst am Ende committen
         self.connection.commit() 
