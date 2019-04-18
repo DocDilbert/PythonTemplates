@@ -220,9 +220,9 @@ def extract_response_content_by_id(cursor, rid):
     Returns:
         Ein befülltes ResponseContent Objekt.
     """
-    sql = ("SELECT("
-                "CONTENT"
-            ")FROM RESPONSE_CONTENT WHERE id = :rid")
+    sql = ("SELECT "
+                "CONTENT "
+            "FROM RESPONSE_CONTENT WHERE id = :rid")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
