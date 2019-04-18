@@ -78,7 +78,7 @@ def insert_response_content(cursor, response_content):
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s INTO RESPONSE_CONTENT with id=%i", str(response_content), rid)
+    module_logger.debug("sql: INSERT %s under id %i into RESPONSE_CONTENT.", response_content, rid)
     
     return rid
 
@@ -94,7 +94,7 @@ def insert_response(cursor, response, content_id):
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", rid)
+    module_logger.debug("sql: INSERT %s under id %i into RESPONSES.", response, rid)
     return rid
 
 def insert_request_and_response(cursor, timestamp, request, content_type, content):
@@ -115,11 +115,10 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
     
-    url = request.to_url()
-    last_response, last_content_id = extract_last_response_of_request(cursor, url)
+    (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
     
     if not last_response:
-        module_logger.debug("This is the first time this url was requested.")
+        module_logger.debug("This is the first time the request %s was perfomed.", request)
 
         response_content = ResponseContent(content)
         content_id = insert_response_content(cursor, response_content)
@@ -152,36 +151,35 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
                 "RESPONSE_ID"
             ") VALUES(?, ?, ?, ?, ?, ?, ?, ?)")
 
-    scheme, netloc, path, params,query, fragment = urlparse(url)
+    
     cursor.execute(sql, [
         timestamp,
-        scheme, 
-        netloc, 
-        path, 
-        params, 
-        query, 
-        fragment, 
+        request.scheme, 
+        request.netloc, 
+        request.path, 
+        request.params, 
+        request.query, 
+        request.fragment, 
         response_id
     ])
 
-    lastrowid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT INTO REQUESTS with id=%i", lastrowid)
+    rid = int(cursor.lastrowid)
+    module_logger.debug("sql: INSERT %s under id %i into REQUESTS.", request, rid)
+    return rid
 
-    return lastrowid
-
-def list_all_requests_for_url(cursor, url):
-    """ Listet alle gespeicherten request datensätze auf, die unter der 
-    gegebenen url gespeichert wurden.
+def list_metadata_for_request(cursor, request):
+    """ Listet alle gespeicherten Metadaten auf, die unter der 
+    gegebenen request in der Tabelle REQUESTS gespeichert wurden.
 
     Arguments:
         cursor -- Datenbank Cursor
         url - request url
 
     Returns:
-        Eine Liste von Dictionaries die die gefunden requests enthalten.
+        Eine Liste von Dictionaries die die gefunden Metadaten enthalten.
     """
 
-    sql = ("SELECT ID, TIMESTAMP, RESPONSE_ID FROM REQUESTS "
+    sql = ("SELECT TIMESTAMP, RESPONSE_ID FROM REQUESTS "
                 "WHERE "
                 "SCHEME = :scheme AND "
                 "NETLOC = :netloc AND "
@@ -190,24 +188,22 @@ def list_all_requests_for_url(cursor, url):
                 "QUERY = :query AND "
                 "FRAGMENT =:fragment")
 
-    scheme, netloc, path, params, query, fragment = urlparse(url)
     params = {
-        'scheme': scheme,
-        'netloc' : netloc,
-        'path' : path,
-        'params' : params,
-        'query' : query,
-        'fragment': fragment
+        'scheme': request.scheme,
+        'netloc' : request.netloc,
+        'path' : request.path,
+        'params' : request.params,
+        'query' : request.query,
+        'fragment': request.fragment
     }
 
     cursor.execute(sql, params)
-    data = [{
-            'id': x[0],
-            'timestamp': x[1],
-            'response_id': x[2]
-        } for x in cursor.fetchall()]
+    metalist = [{
+        'timestamp': x[0],
+        'response_id': x[1]
+    } for x in cursor.fetchall()]
 
-    return data
+    return metalist
 
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENT 
@@ -264,26 +260,27 @@ def extract_response_by_id(cursor, rid):
     return (response, content_id)
 
 
-def extract_last_response_of_request(cursor, url):
+def extract_last_response_of_request(cursor, request):
     """ Extrahiert die letzten unter url gespeicherte response.
 
     Arguments:
         cursor -- Datenbank Cursor
-        url -- Die url unter dem die response gesucht werden soll
+        request -- Der request unter dem die response gesucht werden soll.
 
     Returns:
         Es wird ein tuple zurückgegeben. Das erste Element ist die
         gefundene response das zweite die content_id der gefundenen
         response. Wird kein Element gefunden wird (None, -1) zurückgegeben
     """
-    dataset = list_all_requests_for_url(cursor, url)
+
+    dataset = list_metadata_for_request(cursor, request)
 
     if len(dataset) == 0:
-        module_logger.debug('Found no request in REQUESTS with url "%s"', url)
+        module_logger.debug('For request %s no meta data was found in REQUESTS.', request)
         return (None, -1)
     else:
-        module_logger.debug('Found request(s) in REQUESTS with url "%s"', url)
-        module_logger.debug("The last request in this list has the response_id=%i.", dataset[-1]['response_id'])
+        module_logger.debug('For request %s a meta data list was found in REQUESTS.', request)
+        module_logger.debug("The last meta data entry in this list has the response_id=%i.", dataset[-1]['response_id'])
         
     last_response_id = dataset[-1]['response_id']
     return extract_response_by_id(cursor, last_response_id)
