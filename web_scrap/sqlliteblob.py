@@ -301,7 +301,7 @@ def extract_response_by_id(cursor, rid):
 
     Arguments:
         cursor -- Datenbank Cursor
-        rid -- Die id der gewünschten response
+        rid {int} -- Die id der gewünschten response
 
     Returns:
         Ein Tuple bestehend aus der gefundenen Response und der zu
@@ -330,6 +330,7 @@ def extract_response_by_id(cursor, rid):
 
 
 def extract_last_response_of_request(cursor, request):
+    
     """ Extrahiert die letzten unter url gespeicherte response.
 
     Arguments:
@@ -340,6 +341,9 @@ def extract_last_response_of_request(cursor, request):
         Es wird ein tuple zurückgegeben. Das erste Element ist die
         gefundene response das zweite die content_id der gefundenen
         response. Wird kein Element gefunden wird (None, -1) zurückgegeben
+
+    Raises:
+        NoResponseFound: Wird geworfen wenn keine response zum gegeben request gefunden wurde.
     """
 
     dataset = list_metadata_for_request(cursor, request)
