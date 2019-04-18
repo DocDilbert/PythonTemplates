@@ -21,9 +21,9 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.response_with_img_content_received(request, response, response_content, tag)
     
-    def html_post_process_handler(self, url, soup):
+    def html_post_process_handler(self, request, soup):
         if self.component:
-            self.component.html_post_process_handler(url, soup)
+            self.component.html_post_process_handler(request, soup)
 
     def session_finished(self):
         if self.component:

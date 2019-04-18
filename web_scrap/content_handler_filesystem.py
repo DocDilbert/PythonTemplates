@@ -77,10 +77,10 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         self.logger.info("Wrote img content to '%s'", dest)
         tag['src'] = filename
 
-    def html_post_process_handler(self, url, soup):
-        super().html_post_process_handler(url, soup)
+    def html_post_process_handler(self, request, soup):
+        super().html_post_process_handler(request, soup)
 
-        filename = ExtractFileNameFromURL(url, "text/html; charset=utf-8")
+        filename = ExtractFileNameFromURL(request.to_url(), "text/html; charset=utf-8")
 
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])

@@ -130,7 +130,7 @@ def insert_response(cursor, response, content_id):
     module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
-def insert_request_and_response(cursor, session_id, request, content_type, response_content):
+def insert_request_and_response(cursor, session_id, request, response, response_content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
     Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
@@ -154,21 +154,17 @@ def insert_request_and_response(cursor, session_id, request, content_type, respo
         module_logger.debug("This is the first time the request %s was perfomed.", request)
 
         content_id = insert_response_content(cursor, response_content)
-
-        response = Response(content_type)
         response_id = insert_response(cursor, response, content_id)
     else:
         stored_response_content = extract_response_content_by_id(cursor, last_content_id)
 
         if (response_content.content != stored_response_content.content):
             module_logger.debug("The received response content is new.")
-
             content_id = insert_response_content(cursor, response_content)
         else:
             module_logger.debug("The received response content was stored beforehand. Using this instead.")
             content_id = last_content_id
 
-        response = Response(content_type)
         response_id = insert_response(cursor, response, content_id)
         
     sql = ("INSERT INTO REQUESTS ("
@@ -182,7 +178,6 @@ def insert_request_and_response(cursor, session_id, request, content_type, respo
                 "RESPONSE_ID"
             ") VALUES(?, ?, ?, ?, ?, ?, ?, ?);")
 
-    
     cursor.execute(sql, [
         request.scheme, 
         request.netloc, 

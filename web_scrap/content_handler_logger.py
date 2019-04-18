@@ -14,28 +14,28 @@ class ContentHandlerLogger(ContentHandlerDecorator):
     def response_with_html_content_received(self, request, response, response_content):
         super().response_with_html_content_received(request,response, response_content)
         self.logger.debug("response_with_html_content_received\n"
-            "request = %s\n"
-            "response = %s\n"
-            "response_content = %s", request, response, response_content)
+            "\trequest = %s\n"
+            "\tresponse = %s\n"
+            "\tresponse_content = %s", request, response, response_content)
 
     def response_with_css_content_received(self, request, response, response_content, tag):
         super().response_with_css_content_received(request, response, response_content, tag)
         self.logger.debug("response_with_css_content_received\n"
-            "request = %s\n"
-            "response = %s\n"
-            "response_content = %s", request, response, response_content)
+            "\trequest = %s\n"
+            "\tresponse = %s\n"
+            "\tresponse_content = %s", request, response, response_content)
 
     def response_with_img_content_received(self, request, response, response_content, tag):
         super().response_with_img_content_received(request, response, response_content, tag)
         self.logger.debug("response_with_img_content_received\n"
-            "request = %s\n"
-            "response = %s\n"
-            "response_content = %s", request, response, response_content)
+            "\trequest = %s\n"
+            "\tresponse = %s\n"
+            "\tresponse_content = %s", request, response, response_content)
 
-    def html_post_process_handler(self, url, soup):
-        super().html_post_process_handler(url, soup)
-        self.logger.info("html_post_process_handler\n"
-            "url = %s", url)
+    def html_post_process_handler(self, request, soup):
+        super().html_post_process_handler(request, soup)
+        self.logger.debug("html_post_process_handler\n"
+            "\trequest = %s", request)
         
     def session_finished(self):
         super().session_finished()

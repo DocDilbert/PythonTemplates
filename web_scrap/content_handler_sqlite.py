@@ -25,11 +25,10 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
     def insert_request_and_response(self,  request, response, response_content):        
         self.logger.debug("Insert request and response into database")
 
-        content_type = response.content_type
         sqlliteblob.insert_request_and_response(self.cursor,
             self.session_id,
             request,
-            content_type,
+            response,
             response_content
         )
 
@@ -45,8 +44,8 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         super().response_with_img_content_received(  request, response, response_content, tag)
         self.insert_request_and_response( request, response, response_content)
 
-    def html_post_process_handler(self, url, soup):
-        super().html_post_process_handler(url, soup)
+    def html_post_process_handler(self, request, soup):
+        super().html_post_process_handler(request, soup)
 
     def session_finished(self):
         super().session_finished()

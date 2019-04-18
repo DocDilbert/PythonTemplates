@@ -42,11 +42,11 @@ def is_internal(netloc, url):
     else:
         return False
 def log_raw_response(response):
-    module_logger.debug("Log response:\n"
-        "\tstatus_code = {},\n"
-        "\theaders = {},\n"
-        "\tcookies = {},\n"
-        "\tencoding = {}".format(response.status_code, response.headers, response.cookies, response.encoding))
+    module_logger.debug("Raw response received:\n"
+        "\tstatus_code = %s,\n"
+        "\theaders = %s,\n"
+        "\tcookies = %s,\n"
+        "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
 
 def download(scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
@@ -122,6 +122,6 @@ def scrap(url, content_handler, download_img=False):
         if is_internal(netloc, link):
             links.append(link)
 
-    content_handler.html_post_process_handler(url, soup)
+    content_handler.html_post_process_handler(request, soup)
     content_handler.session_finished()
     return links
