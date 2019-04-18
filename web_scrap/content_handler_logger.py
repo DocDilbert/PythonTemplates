@@ -6,8 +6,6 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().__init__()
         self.logger = logging.getLogger('main.content_handler_logger.ContentHandlerLogger')
     
-    def __request_to_str(self, request):
-        return("Log request: {}".format(request))
 
     def __response_to_str(self, response):
         return("Log response:\n"
@@ -20,23 +18,26 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().session_started()
         self.logger.debug("session_started")
 
-    def response_with_html_content_received(self, request, response):
-        super().response_with_html_content_received(request,response)
+    def response_with_html_content_received(self, request, response, response_content):
+        super().response_with_html_content_received(request,response, response_content)
         self.logger.debug("response_with_html_content_received\n"
+            "request = %s\n"
             "%s\n"
-            "%s", self.__request_to_str(request), self.__response_to_str(response))
+            "response_content = %s", request, self.__response_to_str(response), response_content)
 
-    def response_with_css_content_received(self, request, response, tag):
-        super().response_with_css_content_received(request, response, tag)
+    def response_with_css_content_received(self, request, response, response_content, tag):
+        super().response_with_css_content_received(request, response, response_content, tag)
         self.logger.debug("response_with_css_content_received\n"
+            "request = %s\n"
             "%s\n"
-            "%s", self.__request_to_str(request), self.__response_to_str(response))
+            "response_content = %s", request, self.__response_to_str(response), response_content)
 
-    def response_with_img_content_received(self, request, response, tag):
-        super().response_with_img_content_received(request, response, tag)
+    def response_with_img_content_received(self, request, response, response_content, tag):
+        super().response_with_img_content_received(request, response, response_content, tag)
         self.logger.debug("response_with_img_content_received\n"
+            "request = %s\n"
             "%s\n"
-            "%s", self.__request_to_str(request), self.__response_to_str(response))
+            "response_content = %s", request, self.__response_to_str(response), response_content)
 
     def html_post_process_handler(self, url, soup):
         super().html_post_process_handler(url, soup)

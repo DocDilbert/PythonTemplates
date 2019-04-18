@@ -22,7 +22,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.session.update_start_datetime()
         self.session_id = sqlliteblob.insert_session(self.cursor, self.session)
 
-    def insert_request_and_response(self,  request, response):        
+    def insert_request_and_response(self,  request, response, response_content):        
         self.logger.debug("Insert request and response into database")
 
         content_type = response.headers['Content-Type']
@@ -30,20 +30,20 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             self.session_id,
             request,
             content_type,
-            response.content
+            response_content
         )
 
-    def response_with_html_content_received(self,  request, response):
-        super().response_with_html_content_received( request, response)
-        self.insert_request_and_response(request, response)
+    def response_with_html_content_received(self,  request, response, response_content):
+        super().response_with_html_content_received( request, response, response_content)
+        self.insert_request_and_response(request, response, response_content)
         
-    def response_with_css_content_received(self,  request, response, tag):
-        super().response_with_css_content_received(  request, response, tag)
-        self.insert_request_and_response(request, response)
+    def response_with_css_content_received(self,  request, response, response_content, tag):
+        super().response_with_css_content_received(  request, response, response_content, tag)
+        self.insert_request_and_response(request, response, response_content)
         
-    def response_with_img_content_received(self,  request, response, tag):
-        super().response_with_img_content_received(  request, response, tag)
-        self.insert_request_and_response( request, response)
+    def response_with_img_content_received(self,  request, response, response_content, tag):
+        super().response_with_img_content_received(  request, response, response_content, tag)
+        self.insert_request_and_response( request, response, response_content)
 
     def html_post_process_handler(self, url, soup):
         super().html_post_process_handler(url, soup)

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse,urlunparse
 import os
 import time
-from webscrapper_classes import Request
+from webscrapper_classes import Request, ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {
@@ -47,20 +47,22 @@ def download(scheme, netloc, url, tag, response_handler):
     
     module_logger.debug("Performing Request on url %s", url_transf)
     request = Request.from_url(url_transf)
-    img = requests.get(url_transf, headers=HEADERS)
+    response_raw = requests.get(url_transf, headers=HEADERS)
     module_logger.info("Request %s completed", request)
     
-    response_handler(request, img, tag)
+    response_content = ResponseContent(content=response_raw.content)
+    response_handler(request, response_raw, response_content, tag)
     
 def scrap(url, content_handler, download_img=False):
     content_handler.session_started()
 
     request = Request.from_url(url)
-    response = requests.get(url, headers=HEADERS)
+    response_raw = requests.get(url, headers=HEADERS)
     module_logger.info("Request completed on url %s", url)
-    content_handler.response_with_html_content_received(request, response)
+    response_content = ResponseContent(content=response_raw.content)
+    content_handler.response_with_html_content_received(request, response_raw, response_content)
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response_raw.content, 'html.parser')
 
     parsed_url = urlparse(url)
     scheme = parsed_url.scheme
