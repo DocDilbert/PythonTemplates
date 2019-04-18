@@ -38,9 +38,10 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.insert_request_and_response( request, response)
 
     def html_post_process_handler(self, url, soup):
-        # erst am Ende committen
-        self.connection.commit() 
         super().html_post_process_handler(url, soup)
 
     def session_finished(self):
         super().session_finished()
+        
+        # erst am Ende committen
+        self.connection.commit() 

@@ -25,6 +25,12 @@ def create_or_open_db(db_file):
     if db_is_new:
         module_logger.info("Creating tables...")
 
+        sql = ("CREATE TABLE IF NOT EXISTS SESSIONS ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "START_DATETIME TEXT);")
+
+        module_logger.debug("conn.execute(%s)", sql)
+
         sql = ("CREATE TABLE IF NOT EXISTS REQUESTS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "TIMESTAMP TEXT,"
@@ -44,6 +50,14 @@ def create_or_open_db(db_file):
                     "CONTENT_TYPE TEXT,"
                     "CONTENT BLOB);")
 
+        module_logger.debug("conn.execute(%s)", sql)
+        conn.execute(sql)
+        
+        sql = ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENT ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "CONTENT BLOB);")
+
+        
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
@@ -86,6 +100,7 @@ def insert_request_and_response(cursor, timestamp, request, content_type, conten
             content_type,
             sqlite3.Binary(content)
         ])
+        
         response_id = int(cursor.lastrowid)
         module_logger.debug("sql: INSERT INTO RESPONSES with id=%i", response_id)
     else:
@@ -179,7 +194,7 @@ def extract_response_by_id(cursor, id):
     param = {'id': id}
     cursor.execute(sql, param)
     x = cursor.fetchone()
-    
+
     return {
         'id' : id,
         'content_type' : x[0],
