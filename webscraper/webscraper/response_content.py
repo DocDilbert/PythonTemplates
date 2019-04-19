@@ -6,7 +6,7 @@ class ResponseContent:
     
     def __str__(self): 
         l = min(len(self.content),BLOB_STR_LENGTH)
-        return "{{content=\"{}..\"}}".format(str(self.content[0:l]))
+        return "{{content=\"{} ...\"}}".format(str(self.content[0:l]))
 
     def __repr__(self):
         return self.__str__()
