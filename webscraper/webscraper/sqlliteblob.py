@@ -8,7 +8,7 @@ import os
 import logging
 from urllib.parse import urlparse, urlunparse
 
-from webscrapper_classes import Response, ResponseContent
+from webscraper.webscrapper_classes import Response, ResponseContent
 
 module_logger = logging.getLogger('main.sqliteblob')
 

@@ -1,9 +1,9 @@
 import logging
 from urllib.parse import urlparse, urlunparse
-from content_handler_decorator import ContentHandlerDecorator
-import sqlliteblob
+from webscraper.content_handler_decorator import ContentHandlerDecorator
+import webscraper.sqlliteblob as sqlliteblob
 import datetime
-from webscrapper_classes import Session
+from webscraper.webscrapper_classes import Session
 
 class ContentHandlerSqlite(ContentHandlerDecorator): 
     def __init__(self, filename):

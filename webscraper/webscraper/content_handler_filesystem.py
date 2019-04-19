@@ -1,7 +1,7 @@
 import logging
 import os
 from urllib.parse import urlparse,urlunparse
-from content_handler_decorator import ContentHandlerDecorator
+from webscraper.content_handler_decorator import ContentHandlerDecorator
 
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):

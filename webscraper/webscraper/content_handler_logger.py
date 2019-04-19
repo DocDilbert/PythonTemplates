@@ -1,5 +1,5 @@
 import logging
-from content_handler_decorator import ContentHandlerDecorator
+from webscraper.content_handler_decorator import ContentHandlerDecorator
 
 class ContentHandlerLogger(ContentHandlerDecorator): 
     def __init__(self):
