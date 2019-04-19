@@ -10,7 +10,7 @@ from urllib.parse import urlparse, urlunparse
 
 from webscraper.webscrapper_classes import Response, ResponseContent
 
-module_logger = logging.getLogger('main.sqliteblob')
+module_logger = logging.getLogger('webscraper.sqliteblob')
 
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 

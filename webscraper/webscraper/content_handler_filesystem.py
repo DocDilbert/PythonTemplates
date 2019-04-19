@@ -5,7 +5,7 @@ from webscraper.content_handler_decorator import ContentHandlerDecorator
 
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
-        self.logger = logging.getLogger('main.content_handler_filesystem.ExtractFileNameFromURL')
+        self.logger = logging.getLogger('webscraper.content_handler_filesystem.ExtractFileNameFromURL')
 
         self.logger.debug("Arguments: url = '%s', content_type = '%s'", url, content_type)
         urlp = urlparse(url)
@@ -30,7 +30,7 @@ class ExtractFileNameFromURL:
 class ContentHandlerFilesystem(ContentHandlerDecorator): 
     def __init__(self, dirname):
         super().__init__()
-        self.logger = logging.getLogger('main.content_handler_filesystem.ContentHandlerFilesystem')
+        self.logger = logging.getLogger('webscraper.content_handler_filesystem.ContentHandlerFilesystem')
         self.dirname = dirname
         
         if not os.path.exists(dirname):

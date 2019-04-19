@@ -13,13 +13,13 @@ URL = "http://store.total.de/de_DE/ND001552"
 
 
 def main():
-    logger = logging.getLogger('main')
+    logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
     
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    fh = logging.FileHandler('webscrapper.log', mode='w')
+    fh = logging.FileHandler('webscraper.log', mode='w')
     fh.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')

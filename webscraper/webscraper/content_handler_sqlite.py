@@ -10,7 +10,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         super().__init__()
         self.connection =  sqlliteblob.create_or_open_db(filename)
         self.cursor = self.connection.cursor()
-        self.logger = logging.getLogger('main.content_handler_sqllite.ContentHandlerSqlite')
+        self.logger = logging.getLogger('webscraper.content_handler_sqllite.ContentHandlerSqlite')
 
         self.session_id = -1
         self.session = None

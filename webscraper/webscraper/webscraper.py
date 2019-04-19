@@ -12,7 +12,7 @@ HEADERS = {
 }
 
 # create logger
-module_logger = logging.getLogger('main.webscraper')
+module_logger = logging.getLogger('webscraper.webscraper')
 
 
 def transform_url(scheme, netloc, url):

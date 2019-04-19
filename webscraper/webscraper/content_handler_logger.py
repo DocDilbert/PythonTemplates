@@ -4,7 +4,7 @@ from webscraper.content_handler_decorator import ContentHandlerDecorator
 class ContentHandlerLogger(ContentHandlerDecorator): 
     def __init__(self):
         super().__init__()
-        self.logger = logging.getLogger('main.content_handler_logger.ContentHandlerLogger')
+        self.logger = logging.getLogger('webscraper.content_handler_logger.ContentHandlerLogger')
     
 
     def session_started(self):
