@@ -49,7 +49,7 @@ def main():
 
     content_handler = ContentHandlerFilesystem("page")
     content_handler_logger = ContentHandlerLogger()
-    content_handler_sqlite = ContentHandlerSqlite("requests.db")
+    content_handler_sqlite = ContentHandlerSqlite(config['database'])
 
     content_handler_sqlite.set_component(content_handler_logger)
     content_handler.set_component(content_handler_sqlite)
