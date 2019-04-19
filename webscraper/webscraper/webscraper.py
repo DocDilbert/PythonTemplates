@@ -1,10 +1,13 @@
 import requests
 import logging
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse,urlunparse
 import os
 import time
-from webscraper.webscrapper_classes import Response, Request, ResponseContent
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse, urlunparse
+
+from webscraper.response import Response
+from webscraper.request import Request
+from webscraper.response_content import ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {
