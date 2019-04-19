@@ -60,7 +60,6 @@ def webscraper(url, request_to_response, content_handler, download_img=False):
 
     request = Request.from_url(url)
     response, response_content = request_to_response(request) 
-    
     content_handler.response_with_html_content_received(request, response, response_content)
 
     soup = BeautifulSoup(response_content.content, 'html.parser')

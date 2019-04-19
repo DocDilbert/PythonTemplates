@@ -88,9 +88,9 @@ def main():
     content_handler.set_component(content_handler_sqlite)
 
     links = webscraper(
-        config['url'], 
-        response_factory, 
-        content_handler, 
+        url = config['url'], 
+        request_to_response = response_factory, 
+        content_handler = content_handler, 
         download_img=True
     )
 
