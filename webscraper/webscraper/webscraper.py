@@ -5,8 +5,9 @@ import time
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urlunparse
 
-from webscraper.response import Response
+
 from webscraper.request import Request
+from webscraper.response import Response
 from webscraper.response_content import ResponseContent
 
 #chrome 70.0.3538.77
@@ -44,47 +45,25 @@ def is_internal(netloc, url):
         return True
     else:
         return False
-def log_raw_response(response):
-    module_logger.debug("Raw response received:\n"
-        "\tstatus_code = %s,\n"
-        "\theaders = %s,\n"
-        "\tcookies = %s,\n"
-        "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
 
-def download(scheme, netloc, url, tag, response_handler):
+
+def download(request_to_response, scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
-    
     module_logger.debug("Performing Request on url %s", url_transf)
-    request = Request.from_url(url_transf)
-    response_raw = requests.get(url_transf, headers=HEADERS)
-    
-    module_logger.info("Request %s completed", request)
-    log_raw_response(response_raw)
 
-    response = Response(
-        status_code = response_raw.status_code,
-        content_type = response_raw.headers['Content-Type']
-    )
-    response_content = ResponseContent(content = response_raw.content)
+    request = Request.from_url(url_transf)
+    response, response_content = request_to_response(request) 
     response_handler(request, response, response_content, tag)
     
-def webscraper(url, content_handler, download_img=False):
+def webscraper(url, request_to_response, content_handler, download_img=False):
     content_handler.session_started()
 
     request = Request.from_url(url)
-    response_raw = requests.get(url, headers=HEADERS)
+    response, response_content = request_to_response(request) 
     
-    module_logger.info("Request completed on url %s", url)
-    log_raw_response(response_raw)
-
-    response = Response(
-        status_code = response_raw.status_code,
-        content_type = response_raw.headers['Content-Type']
-    )
-    response_content = ResponseContent(content = response_raw.content)
     content_handler.response_with_html_content_received(request, response, response_content)
 
-    soup = BeautifulSoup(response_raw.content, 'html.parser')
+    soup = BeautifulSoup(response_content.content, 'html.parser')
 
     parsed_url = urlparse(url)
     scheme = parsed_url.scheme
@@ -102,6 +81,7 @@ def webscraper(url, content_handler, download_img=False):
         # content type css found
         if type_=="text/css" or "stylesheet" in rel:
             download(
+                request_to_response,
                 scheme,
                 netloc,
                 loc, 
@@ -112,6 +92,7 @@ def webscraper(url, content_handler, download_img=False):
     if download_img:
         for img in soup.find_all('img', src=True):
             download(
+                request_to_response,
                 scheme,
                 netloc,
                 img.get('src'), 
