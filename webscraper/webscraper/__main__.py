@@ -24,8 +24,6 @@ def main():
     args = parser.parse_args()
     with open(args.config_file) as json_data:
         config = json.load(json_data)
-
-
     
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
