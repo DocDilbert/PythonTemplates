@@ -1,25 +1,39 @@
 import logging
+import os
+import re
+import json
+import argparse
+from urllib.parse import urlparse, urlunparse
+
 from webscraper.webscraper import webscraper 
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
-from urllib.parse import urlparse,urlunparse
-import os
-
-#URL = "https://www.heise.de/newsticker/archiv/2006/01"
-#URL = "https://www.spiegel.de/schlagzeilen/index-siebentage.html"
-URL = "http://store.total.de/de_DE/ND001552"
-#URL = "https://www.spiegel.de/sport/fussball/rsc-anderlecht-fans-erzwingen-spielabbruch-bei-standard-luettich-a-1262736.html"
-
 
 def main():
+
+    parser = argparse.ArgumentParser(prog="webscraper", description='Web scraper')
+
+    # optional arguments:
+    parser.add_argument(
+        dest="config_file",
+        type=str, 
+        help='A configuration file in json format.'
+    )
+
+    args = parser.parse_args()
+    with open(args.config_file) as json_data:
+        config = json.load(json_data)
+
+
+    
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
     
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    fh = logging.FileHandler('webscraper.log', mode='w')
+    fh = logging.FileHandler(config['logfile'], mode='w')
     fh.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
@@ -40,7 +54,7 @@ def main():
     content_handler_sqlite.set_component(content_handler_logger)
     content_handler.set_component(content_handler_sqlite)
 
-    links = webscraper(URL, content_handler, download_img=True)
+    links = webscraper(config['url'], content_handler, download_img=True)
 
     for link in links:
         parts=urlparse(link)
