@@ -1,6 +1,8 @@
 {
     "loglevel" : 0,
+    
     "logfile" : "webscraper.log",
     "database" : "webscraper.db",
+
     "url" : "http://store.total.de/de_DE/ND001552"
 }

@@ -32,12 +32,12 @@ class Request:
 
     def __str__(self): 
         return ("{{"
-                "scheme={}, "
-                "netloc={}, "
-                "path={}, "
-                "params={}, "
-                "query={}, "
-                "fragment={}"
+                "scheme=\"{}\", "
+                "netloc=\"{}\", "
+                "path=\"{}\", "
+                "params=\"{}\", "
+                "query=\"{}\", "
+                "fragment=\"{}\""
             "}}").format(
                 self.scheme, 
                 self.netloc, 
