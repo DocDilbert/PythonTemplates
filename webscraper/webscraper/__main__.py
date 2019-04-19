@@ -1,5 +1,5 @@
 import logging
-import webscraper.webscraper as webscraper 
+from webscraper.webscraper import webscraper 
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
@@ -40,7 +40,7 @@ def main():
     content_handler_sqlite.set_component(content_handler_logger)
     content_handler.set_component(content_handler_sqlite)
 
-    links = webscraper.scrap(URL, content_handler, download_img=True)
+    links = webscraper(URL, content_handler, download_img=True)
 
     for link in links:
         parts=urlparse(link)
