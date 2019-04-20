@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import re
 import json
 import argparse
@@ -31,6 +32,9 @@ def log_raw_response(response):
         "\tcookies = %s,\n"
         "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
 
+def tosql():
+    pass
+
 def response_factory(request):
     response_raw = requests.get(request.to_url(), headers=HEADERS)
     
@@ -45,63 +49,113 @@ def response_factory(request):
 
     return (response, response_content)
 
+class WebScraperCommandLineParser:
+    def __init__(self):
+        parser = argparse.ArgumentParser(
+            prog="webscraper", 
+            description='',
+            usage=("webscraper config_file <command> [<args]\n"
+                   "\n"
+                   "The following commands are supported:\n"
+                    "   sql        stores content into the database\n"
+                    "   extract    extracts content from the database.\n")
+        )
+
+        # optional arguments:
+        parser.add_argument(
+            dest="config_file",
+            type=str, 
+            help='A configuration file in json format.'
+        )
+        parser.add_argument(
+            'command', 
+            help='Subcommand to run')
+
+        args = parser.parse_args(sys.argv[1:3])
+     
+        if not hasattr(self, args.command):
+            print('Unrecognized command')
+            parser.print_help()
+            exit(1)
+
+        # use dispatch pattern to invoke method with same name
+        getattr(self, args.command)()
+
+    def extract(self):
+        config_file = sys.argv[1]
+        parser = argparse.ArgumentParser(
+            description='Stores web content into a database'
+        )
+
+        # prefixing the argument with -- means it's optional
+        #parser.add_argument('--amend', action='store_true')
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        args = parser.parse_args(sys.argv[3:])
+
+        with open(config_file) as json_data:
+            config = json.load(json_data)
+            
+    def sql(self):
+        config_file = sys.argv[1]
+        parser = argparse.ArgumentParser(
+            description='Stores web content into a database'
+        )
+
+        # prefixing the argument with -- means it's optional
+        #parser.add_argument('--amend', action='store_true')
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        args = parser.parse_args(sys.argv[3:])
+
+        with open(config_file) as json_data:
+            config = json.load(json_data)
+        
+        logger = logging.getLogger('webscraper')
+        logger.setLevel(logging.DEBUG)
+        
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)
+
+        fh = logging.FileHandler(config['logfile'], mode='w')
+        fh.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+
+        logger.addHandler(fh)
+        logger.addHandler(ch)
+
+        logger.info("-------------------------------------")
+        logger.info(" Web scrapper session startet")
+        logger.info("-------------------------------------")
+
+        content_handler = ContentHandlerFilesystem("page")
+        content_handler_logger = ContentHandlerLogger()
+        content_handler_sqlite = ContentHandlerSqlite(config['database'])
+
+        content_handler_sqlite.set_component(content_handler_logger)
+        content_handler.set_component(content_handler_sqlite)
+
+        links = webscraper(
+            url = config['url'], 
+            request_to_response = response_factory, 
+            content_handler = content_handler, 
+            download_img=True
+        )
+
+        for link in links:
+            parts=urlparse(link)
+            filename = os.path.basename(parts.path)
+            filen = os.path.splitext(filename)
+
+            if filen[1]==".html":
+                print(link)
+                #scrap(link, scraper)
+        
 def main():
-
-    parser = argparse.ArgumentParser(prog="webscraper", description='Web scraper')
-
-    # optional arguments:
-    parser.add_argument(
-        dest="config_file",
-        type=str, 
-        help='A configuration file in json format.'
-    )
-
-    args = parser.parse_args()
-    with open(args.config_file) as json_data:
-        config = json.load(json_data)
-    
-    logger = logging.getLogger('webscraper')
-    logger.setLevel(logging.DEBUG)
-    
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
-
-    fh = logging.FileHandler(config['logfile'], mode='w')
-    fh.setLevel(logging.DEBUG)
-
-    formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
-    fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
-
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-
-    logger.info("-------------------------------------")
-    logger.info(" Web scrapper session startet")
-    logger.info("-------------------------------------")
-
-    content_handler = ContentHandlerFilesystem("page")
-    content_handler_logger = ContentHandlerLogger()
-    content_handler_sqlite = ContentHandlerSqlite(config['database'])
-
-    content_handler_sqlite.set_component(content_handler_logger)
-    content_handler.set_component(content_handler_sqlite)
-
-    links = webscraper(
-        url = config['url'], 
-        request_to_response = response_factory, 
-        content_handler = content_handler, 
-        download_img=True
-    )
-
-    for link in links:
-        parts=urlparse(link)
-        filename = os.path.basename(parts.path)
-        filen = os.path.splitext(filename)
-
-        if filen[1]==".html":
-            print(link)
-            #scrap(link, scraper)
+    WebScraperCommandLineParser()
 
 if __name__ == "__main__":
     main()
