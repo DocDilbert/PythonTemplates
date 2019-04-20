@@ -179,7 +179,7 @@ class WebScraperCommandLineParser:
 
         # prefixing the argument with -- means it's optional
         parser.add_argument('session_id', type=int)
-        
+
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         _ = parser.parse_args(sys.argv[3:])
@@ -189,6 +189,10 @@ class WebScraperCommandLineParser:
         
         init_logger(config['logfile'])
         log_banner()
+
+        connection =  sqlliteblob.create_or_open_db(config['database'])
+        cursor = connection.cursor()
+        
 
 def main():
     WebScraperCommandLineParser()
