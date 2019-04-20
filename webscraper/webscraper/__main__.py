@@ -33,7 +33,7 @@ def log_raw_response(response):
         "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
 
 def response_factory(request):
-    response_raw = requests.get(request.to_url(), headers=HEADERS)
+    response_raw = requests.get(request.get_url(), headers=HEADERS)
     
     module_logger.info("Request %s completed", request)
     log_raw_response(response_raw)

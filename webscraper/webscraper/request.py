@@ -20,8 +20,8 @@ class Request:
         ) = urlparse(url)
         return cls(scheme, netloc, path, params,query, fragment)
 
-    def to_url(self):
-        return urlunparse((
+    def get_url(self):
+        return urlunparse((H
             self.scheme, 
             self.netloc, 
             self.path, 

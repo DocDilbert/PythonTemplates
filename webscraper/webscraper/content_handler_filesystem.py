@@ -42,7 +42,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
     def response_with_html_content_received(self, request, response, response_content):
         super().response_with_html_content_received(request, response, response_content)
-        url = request.to_url()
+        url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
@@ -53,7 +53,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
     def response_with_css_content_received(self, request, response, response_content, tag):
         super().response_with_css_content_received( request, response, response_content, tag)
-        url = request.to_url()
+        url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
@@ -67,7 +67,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
     def response_with_img_content_received(self, request, response, response_content, tag):
         super().response_with_img_content_received( request, response, response_content, tag)
-        url = request.to_url()
+        url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
         
         dest = self.dirname+"/"+str(filename)
@@ -80,7 +80,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def html_post_process_handler(self, request, soup):
         super().html_post_process_handler(request, soup)
 
-        filename = ExtractFileNameFromURL(request.to_url(), "text/html; charset=utf-8")
+        filename = ExtractFileNameFromURL(request.get_url(), "text/html; charset=utf-8")
 
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
