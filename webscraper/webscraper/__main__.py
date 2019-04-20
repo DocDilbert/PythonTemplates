@@ -22,6 +22,8 @@ HEADERS = {
     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 }
 
+CONFIG_FILE_NAME = "webscraper.json"
+
 # create logger
 module_logger = logging.getLogger('webscraper')
 
@@ -93,7 +95,7 @@ class WebScraperCommandLineParser:
         parser = argparse.ArgumentParser(
             prog="webscraper", 
             description='',
-            usage=("webscraper config_file <command> [<args]\n"
+            usage=("webscraper <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
                     "   extract  Extract webpage by session id.\n"
@@ -101,17 +103,11 @@ class WebScraperCommandLineParser:
                     "   slist    Shows a list of stored sessions.\n")
         )
 
-        # optional arguments:
-        parser.add_argument(
-            dest="config_file",
-            type=str, 
-            help='A configuration file in json format.'
-        )
         parser.add_argument(
             'command', 
             help='Subcommand to run')
 
-        args = parser.parse_args(sys.argv[1:3])
+        args = parser.parse_args(sys.argv[1:2])
      
         if not hasattr(self, args.command):
             print('Unrecognized command')
@@ -122,7 +118,6 @@ class WebScraperCommandLineParser:
         getattr(self, args.command)()
 
     def slist(self):
-        config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
             prog="webscraper", 
             description='Stores web content into a database'
@@ -132,9 +127,9 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[3:])
+        _ = parser.parse_args(sys.argv[2:])
 
-        with open(config_file) as json_data:
+        with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
 
         init_logger(config['logfile'])
@@ -151,7 +146,6 @@ class WebScraperCommandLineParser:
                 session_obj.end_datetime))
 
     def sql(self):
-        config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
             prog="webscraper", 
             description='Stores web content into a database'
@@ -161,9 +155,9 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[3:])
+        _ = parser.parse_args(sys.argv[2:])
 
-        with open(config_file) as json_data:
+        with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
         
         init_logger(config['logfile'])
@@ -192,7 +186,6 @@ class WebScraperCommandLineParser:
                 #scrap(link, scraper)
     
     def extract(self):
-        config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
             prog="webscraper", 
             description='Extract web content from database'
@@ -204,9 +197,9 @@ class WebScraperCommandLineParser:
         
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        args = parser.parse_args(sys.argv[2:])
 
-        with open(config_file) as json_data:
+        with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
         
         init_logger(config['logfile'])
