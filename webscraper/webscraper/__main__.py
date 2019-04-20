@@ -175,7 +175,8 @@ class WebScraperCommandLineParser:
             request_to_response = response_factory, 
             content_handler = content_handler_sqlite, 
             download_img = True,
-            link_filter=lambda x: True if regex.match(x) else False
+            link_filter=lambda x: True if regex.match(x) else False,
+            max_level=config['max_level']
         )
     
     def extract(self):

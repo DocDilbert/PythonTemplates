@@ -61,8 +61,14 @@ def scrap(
     request_to_response, 
     content_handler, 
     download_img=False,
-    link_filter=None
+    link_filter=None,
+    max_level=1,
+    level=0,
 ):
+    if level==max_level:
+        module_logger.info("Maximal recursion level reached.")
+        return
+
     response, response_content = request_to_response(request) 
     content_handler.response_with_html_content_received(request, response, response_content)
 
@@ -105,13 +111,23 @@ def scrap(
     
     if link_filter:
         for a in soup.find_all('a', href=True):
-            
+
             if link_filter(a.get('href')):
                 module_logger.debug("Found <a> with href %s", a)
                 link = transform_url(
                     scheme, 
                     netloc, 
                     a.get('href')
+                )
+
+                scrap(
+                    Request.from_url(link),
+                    request_to_response,
+                    content_handler,
+                    download_img=download_img,
+                    link_filter=link_filter,
+                    max_level=max_level,
+                    level=level+1
                 )
 
     content_handler.html_post_process_handler(request, soup)
@@ -121,7 +137,8 @@ def webscraper(
     request_to_response, 
     content_handler, 
     download_img=False,
-    link_filter=None
+    link_filter=None,
+    max_level=1
 ):
     content_handler.session_started()
 
@@ -130,6 +147,8 @@ def webscraper(
         request_to_response,
         content_handler,
         download_img=download_img,
-        link_filter=link_filter
+        link_filter=link_filter,
+        max_level=max_level
     )
     content_handler.session_finished()
+    
