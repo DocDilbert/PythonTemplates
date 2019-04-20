@@ -196,7 +196,7 @@ class WebScraperCommandLineParser:
 
         # prefixing the argument with -- means it's optional
         parser.add_argument('session_id', type=int)
-
+        parser.add_argument('dirname', type=str)
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[3:])
@@ -211,7 +211,7 @@ class WebScraperCommandLineParser:
         cursor = connection.cursor()
         rtb = RequestToDatabase(cursor, args.session_id)
 
-        content_handler_filesystem = ContentHandlerFilesystem("page")
+        content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
         _= webscraper(
