@@ -56,7 +56,13 @@ def download(request_to_response, scheme, netloc, url, tag, response_handler):
     response, response_content = request_to_response(request) 
     response_handler(request, response, response_content, tag)
     
-def webscraper(url, request_to_response, content_handler, download_img=False):
+def webscraper(
+    url, 
+    request_to_response, 
+    content_handler, 
+    download_img=False,
+    link_filter=None
+):
     content_handler.session_started()
 
     request = Request.from_url(url)
