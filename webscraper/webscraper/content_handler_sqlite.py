@@ -58,5 +58,6 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             self.session_id, 
             self.session
         )
+        
         # erst am Ende committen
         self.connection.commit() 
