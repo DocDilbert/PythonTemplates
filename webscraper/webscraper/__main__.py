@@ -170,7 +170,26 @@ class WebScraperCommandLineParser:
             if filen[1]==".html":
                 print(link)
                 #scrap(link, scraper)
+    
+    def extract(self):
+        config_file = sys.argv[1]
+        parser = argparse.ArgumentParser(
+            description='Extract web content from database'
+        )
+
+        # prefixing the argument with -- means it's optional
+        parser.add_argument('session_id', type=int)
         
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        _ = parser.parse_args(sys.argv[3:])
+
+        with open(config_file) as json_data:
+            config = json.load(json_data)
+        
+        init_logger(config['logfile'])
+        log_banner()
+
 def main():
     WebScraperCommandLineParser()
 
