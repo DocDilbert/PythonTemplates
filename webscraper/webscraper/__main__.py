@@ -32,9 +32,6 @@ def log_raw_response(response):
         "\tcookies = %s,\n"
         "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
 
-def tosql():
-    pass
-
 def response_factory(request):
     response_raw = requests.get(request.to_url(), headers=HEADERS)
     
@@ -48,6 +45,27 @@ def response_factory(request):
     response_content = ResponseContent(content = response_raw.content)
 
     return (response, response_content)
+
+def init_logger(config_file):
+    logger = logging.getLogger('webscraper')
+    logger.setLevel(logging.DEBUG)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+
+    fh = logging.FileHandler(config_file, mode='w')
+    fh.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+
+    logger.addHandler(fh)
+    logger.addHandler(ch)
+
+    logger.info("-------------------------------------")
+    logger.info(" Web scrapper session startet")
+    logger.info("-------------------------------------")
 
 class WebScraperCommandLineParser:
     def __init__(self):
@@ -95,7 +113,9 @@ class WebScraperCommandLineParser:
 
         with open(config_file) as json_data:
             config = json.load(json_data)
-            
+
+        init_logger(config['logfile'])
+
     def sql(self):
         config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
@@ -111,25 +131,7 @@ class WebScraperCommandLineParser:
         with open(config_file) as json_data:
             config = json.load(json_data)
         
-        logger = logging.getLogger('webscraper')
-        logger.setLevel(logging.DEBUG)
-        
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.INFO)
-
-        fh = logging.FileHandler(config['logfile'], mode='w')
-        fh.setLevel(logging.DEBUG)
-
-        formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
-        fh.setFormatter(formatter)
-        ch.setFormatter(formatter)
-
-        logger.addHandler(fh)
-        logger.addHandler(ch)
-
-        logger.info("-------------------------------------")
-        logger.info(" Web scrapper session startet")
-        logger.info("-------------------------------------")
+        init_logger(config['logfile'])
 
         content_handler = ContentHandlerFilesystem("page")
         content_handler_logger = ContentHandlerLogger()
