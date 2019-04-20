@@ -4,5 +4,5 @@
     "logfile" : "webscraper.log",
     "database" : "webscraper.db",
 
-    "url" : "http://store.total.de/de_DE/ND001552"
+    "url" : "https://ich-tanke.de/tankstellen/super-e10/region/landkreis-esslingen/"
 }
