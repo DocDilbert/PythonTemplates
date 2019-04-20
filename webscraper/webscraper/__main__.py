@@ -212,12 +212,16 @@ class WebScraperCommandLineParser:
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
-        _= webscraper(
+        links = webscraper(
             url = config['url'], 
             request_to_response = rtb.response_database_factory, 
             content_handler = content_handler_filesystem, 
             download_img = True
         )
+        regex = re.compile(config['link_filter'])
+        links_filtered = [link for link in links if regex.match(link)]
+        for link in links_filtered:
+            print(link)
 
 
 def main():
