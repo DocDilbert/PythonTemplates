@@ -1,7 +1,7 @@
 import zlib
 
 BLOB_STR_LENGTH = 10
-
+COMPRESSION_LEVEL = 9 
 
 class ResponseContent:
     def __init__(self, content):
@@ -15,7 +15,7 @@ class ResponseContent:
         return self.__str__()
 
     def compress(self):
-        return zlib.compress(self.content)
+        return zlib.compress(self.content, COMPRESSION_LEVEL)
 
     @classmethod 
     def from_decompress(cls, content):
