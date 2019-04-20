@@ -55,23 +55,20 @@ def download(request_to_response, scheme, netloc, url, tag, response_handler):
     request = Request.from_url(url_transf)
     response, response_content = request_to_response(request) 
     response_handler(request, response, response_content, tag)
-    
-def webscraper(
-    url, 
+
+def scrap(
+    request, 
     request_to_response, 
     content_handler, 
     download_img=False,
     link_filter=None
 ):
-    content_handler.session_started()
-
-    request = Request.from_url(url)
     response, response_content = request_to_response(request) 
     content_handler.response_with_html_content_received(request, response, response_content)
 
     soup = BeautifulSoup(response_content.content, 'html.parser')
 
-    parsed_url = urlparse(url)
+    parsed_url = urlparse(request.get_url())
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
 
@@ -106,18 +103,33 @@ def webscraper(
                 content_handler.response_with_img_content_received
             )
     
-    links = []
-    for a in soup.find_all('a', href=True):
-        module_logger.debug("Found <a> with href %s", a)
-        link = transform_url(
-            scheme, 
-            netloc, 
-            a.get('href')
-        )
-
-        if is_internal(netloc, link):
-            links.append(link)
+    if link_filter:
+        for a in soup.find_all('a', href=True):
+            
+            if link_filter(a.get('href')):
+                module_logger.debug("Found <a> with href %s", a)
+                link = transform_url(
+                    scheme, 
+                    netloc, 
+                    a.get('href')
+                )
 
     content_handler.html_post_process_handler(request, soup)
+
+def webscraper(
+    url, 
+    request_to_response, 
+    content_handler, 
+    download_img=False,
+    link_filter=None
+):
+    content_handler.session_started()
+
+    scrap(
+        Request.from_url(url),
+        request_to_response,
+        content_handler,
+        download_img=download_img,
+        link_filter=link_filter
+    )
     content_handler.session_finished()
-    return links

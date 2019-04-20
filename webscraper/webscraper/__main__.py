@@ -169,21 +169,14 @@ class WebScraperCommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
   
-        links = webscraper(
+        regex = re.compile(config['link_filter'])
+        webscraper(
             url = config['url'], 
             request_to_response = response_factory, 
             content_handler = content_handler_sqlite, 
-            download_img = True
+            download_img = True,
+            link_filter=lambda x: True if regex.match(x) else False
         )
-
-        for link in links:
-            parts=urlparse(link)
-            filename = os.path.basename(parts.path)
-            filen = os.path.splitext(filename)
-
-            if filen[1]==".html":
-                print(link)
-                #scrap(link, scraper)
     
     def extract(self):
         parser = argparse.ArgumentParser(
@@ -212,18 +205,16 @@ class WebScraperCommandLineParser:
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
-        links = webscraper(
+        regex = re.compile(config['link_filter'])
+
+        webscraper(
             url = config['url'], 
             request_to_response = rtb.response_database_factory, 
             content_handler = content_handler_filesystem, 
-            download_img = True
+            download_img = True,
+            link_filter=lambda x: True if regex.match(x) else False
         )
-        regex = re.compile(config['link_filter'])
-        links_filtered = [link for link in links if regex.match(link)]
-        for link in links_filtered:
-            print(link)
-
-
+        
 def main():
     WebScraperCommandLineParser()
 
