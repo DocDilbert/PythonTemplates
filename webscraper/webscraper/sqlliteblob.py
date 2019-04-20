@@ -8,6 +8,7 @@ import os
 import logging
 from urllib.parse import urlparse, urlunparse
 
+from webscraper.session import Session
 from webscraper.response import Response
 from webscraper.response_content import ResponseContent
 
@@ -236,7 +237,21 @@ def list_metadata_for_request(cursor, request):
     return metadata_list
 
 def list_all_sessions(cursor):
-    return []
+    sql = ("SELECT "
+                "ID,"
+                "START_DATETIME,"
+                "END_DATETIME "
+           "FROM SESSIONS;")
+
+    params = {}
+
+    cursor.execute(sql, params)
+    session_list = [{
+        'id': x[0],
+        'session': Session(start_datetime = x[1], end_datetime=x[2])
+    } for x in cursor.fetchall()]
+
+    return session_list
 
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENT 

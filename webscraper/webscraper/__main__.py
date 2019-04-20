@@ -119,10 +119,17 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config['logfile'])
-        connection =  sqlliteblob.create_or_open_db(config['logfile'])
+        connection =  sqlliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
         sessions=sqlliteblob.list_all_sessions(cursor)
-        print(sessions)
+        for session in sessions:
+            sid = session['id']
+            session_obj = session['session']
+            print("{:4} -- delta = {}  start = {}  end = {}".format(
+                sid, 
+                session_obj.get_delta_time(), 
+                session_obj.start_datetime, 
+                session_obj.end_datetime))
 
     def sql(self):
         config_file = sys.argv[1]
