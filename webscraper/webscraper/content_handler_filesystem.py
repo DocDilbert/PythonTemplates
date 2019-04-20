@@ -32,7 +32,8 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         super().__init__()
         self.logger = logging.getLogger('webscraper.content_handler_filesystem.ContentHandlerFilesystem')
         self.dirname = dirname
-        
+        self.html_count = 0
+
         if not os.path.exists(dirname):
             self.logger.info("Created directory %s", self.dirname )
             os.mkdir(dirname)
@@ -42,8 +43,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
     def response_with_html_content_received(self, request, response, response_content):
         super().response_with_html_content_received(request, response, response_content)
-        url = request.get_url()
-        filename = ExtractFileNameFromURL(url, response.content_type)
+        filename = "index_{}.html".format(self.html_count)
 
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
@@ -80,8 +80,8 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def html_post_process_handler(self, request, soup):
         super().html_post_process_handler(request, soup)
 
-        filename = ExtractFileNameFromURL(request.get_url(), "text/html; charset=utf-8")
-
+        filename = "index_processed_{}.html".format(self.html_count)
+        self.html_count+=1
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
         with open(dest,"wb") as file:

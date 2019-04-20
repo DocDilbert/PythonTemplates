@@ -207,13 +207,14 @@ class WebScraperCommandLineParser:
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
         regex = re.compile(config['link_filter'])
-
+        
         webscraper(
             url = config['url'], 
             request_to_response = rtb.response_database_factory, 
             content_handler = content_handler_filesystem, 
             download_img = True,
-            link_filter=lambda x: True if regex.match(x) else False
+            link_filter=lambda x: True if regex.match(x) else False,
+            max_level=config['max_level']
         )
         
 def main():
