@@ -77,8 +77,8 @@ class WebScraperCommandLineParser:
             usage=("webscraper config_file <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
-                    "   sql        stores content into the database\n"
-                    "   extract    extracts content from the database.\n")
+                    "   sql     Stores content into the database.\n"
+                    "   slist   Shows a list of stored sessions.\n")
         )
 
         # optional arguments:
@@ -101,7 +101,7 @@ class WebScraperCommandLineParser:
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
 
-    def extract(self):
+    def slist(self):
         config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
             description='Stores web content into a database'
@@ -111,13 +111,12 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _ = parser.parse_args(sys.argv[3:])
 
         with open(config_file) as json_data:
             config = json.load(json_data)
 
         init_logger(config['logfile'])
-        log_banner()
 
     def sql(self):
         config_file = sys.argv[1]
@@ -129,7 +128,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _ = parser.parse_args(sys.argv[3:])
 
         with open(config_file) as json_data:
             config = json.load(json_data)

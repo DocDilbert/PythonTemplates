@@ -30,7 +30,8 @@ def transform_url(scheme, netloc, url):
             url_parsed.path,
             url_parsed.params,
             url_parsed.query,
-            url_parsed.fragment))
+            url_parsed.fragment)
+        )
     else:
         url_transf = url_parsed.geturl()
 
