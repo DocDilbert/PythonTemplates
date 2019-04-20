@@ -110,7 +110,7 @@ def insert_response_content(cursor, response_content):
           ") VALUES (?);")
 
     cursor.execute(sql, [
-        sqlite3.Binary(response_content.content)
+        sqlite3.Binary(response_content.compress())
     ])
     
     rid = int(cursor.lastrowid)
@@ -271,7 +271,7 @@ def extract_response_content_by_id(cursor, rid):
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
-    response_content = ResponseContent(x[0])
+    response_content = ResponseContent.from_decompress(x[0])
 
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSE_CONTENT.", str(response_content), rid) 
