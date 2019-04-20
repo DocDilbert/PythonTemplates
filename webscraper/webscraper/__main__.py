@@ -148,7 +148,7 @@ class WebScraperCommandLineParser:
             url = config['url'], 
             request_to_response = response_factory, 
             content_handler = content_handler, 
-            download_img=True
+            download_img = True
         )
 
         for link in links:
