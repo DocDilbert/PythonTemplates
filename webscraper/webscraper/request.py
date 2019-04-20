@@ -21,7 +21,7 @@ class Request:
         return cls(scheme, netloc, path, params,query, fragment)
 
     def get_url(self):
-        return urlunparse((H
+        return urlunparse((
             self.scheme, 
             self.netloc, 
             self.path, 
