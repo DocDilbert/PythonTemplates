@@ -2,7 +2,6 @@ import bz2
 
 BLOB_STR_LENGTH = 10
 COMPRESSION_LEVEL = 9 
-
 class ResponseContent:
     def __init__(self, content):
         self.content=content
@@ -15,7 +14,7 @@ class ResponseContent:
         return self.__str__()
 
     def compress(self):
-        return bz2.compress(self.content, COMPRESSION_LEVEL)
+        return bz2.compress(self.content,COMPRESSION_LEVEL)
 
     @classmethod 
     def from_decompress(cls, content):

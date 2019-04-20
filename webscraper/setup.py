@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='webscraper',
-    version='0.0.2',
+    version='0.0.4',
     packages=['webscraper',],
     long_description=open('README.txt').read(),
     
