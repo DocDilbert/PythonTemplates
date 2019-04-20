@@ -96,8 +96,9 @@ class WebScraperCommandLineParser:
             usage=("webscraper config_file <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
-                    "   sql     Stores content into the database.\n"
-                    "   slist   Shows a list of stored sessions.\n")
+                    "   extract  Extract webpage by session id.\n"
+                    "   sql      Stores content into the database.\n"
+                    "   slist    Shows a list of stored sessions.\n")
         )
 
         # optional arguments:
@@ -123,6 +124,7 @@ class WebScraperCommandLineParser:
     def slist(self):
         config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
+            prog="webscraper", 
             description='Stores web content into a database'
         )
 
@@ -151,6 +153,7 @@ class WebScraperCommandLineParser:
     def sql(self):
         config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
+            prog="webscraper", 
             description='Stores web content into a database'
         )
 
@@ -191,12 +194,14 @@ class WebScraperCommandLineParser:
     def extract(self):
         config_file = sys.argv[1]
         parser = argparse.ArgumentParser(
+            prog="webscraper", 
             description='Extract web content from database'
         )
 
         # prefixing the argument with -- means it's optional
         parser.add_argument('session_id', type=int)
         parser.add_argument('dirname', type=str)
+        
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[3:])
