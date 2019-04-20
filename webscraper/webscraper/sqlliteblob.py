@@ -338,26 +338,34 @@ def extract_last_response_of_request(cursor, request):
     return extract_response_by_id(cursor, last_response_id)
 
 
-def extract_request_by_id(cursor, blobid):
-    """ Extrahiert einen Blob aus der sqllite3 Datenbank. Die extrahiert Datei
-    wird über die blobid identifziert.
+def extract_response_by_request(cursor, session_id, request):
 
-    Arguments:
-        cursor -- Datenbank Cursor
-        blobid -- Die id des Blobs der extrahiert werden soll.
+    sql = ("SELECT RESPONSE_ID FROM REQUESTS "
+                "WHERE "
+                "SCHEME = :scheme AND "
+                "NETLOC = :netloc AND "
+                "PATH = :path AND "
+                "PARAMS = :params AND "
+                "QUERY = :query AND "
+                "FRAGMENT =:fragment AND "
+                "SESSION_ID =:session_id;")
 
-    Returns:
-        [(blobname, opaque, blob)] 
-            blobname -- Der Name unter dem der blob gespeichert ist.
-            opaque -- Die gespeicherten beliebigen Datem-
-            blob -- Der eigentlich Blob als bytearray.
-    """
+    params = {
+        'scheme': request.scheme,
+        'netloc' : request.netloc,
+        'path' : request.path,
+        'params' : request.params,
+        'query' : request.query,
+        'fragment': request.fragment,
+        'session_id': session_id
+    }
 
-    sql = "SELECT BLOBNAME, OPAQUE, RESPONSE_ID FROM BLOBS WHERE id = :id"
-    param = {'id': blobid}
-    cursor.execute(sql, param)
-    filename_db, opaque, storage_id = cursor.fetchone()
+    cursor.execute(sql, params)
+    x = cursor.fetchone()
+    response_id = x[0]
+    response, response_content_id = extract_response_by_id(cursor, response_id)
+    response_content = extract_response_content_by_id(cursor, response_content_id)
 
-    blob = extract_response_by_id(cursor, storage_id)
+    return response, response_content
 
-    return filename_db, opaque, blob
+

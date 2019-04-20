@@ -48,6 +48,23 @@ def response_factory(request):
 
     return (response, response_content)
 
+class RequestToDatabase:
+    def __init__(self, cursor, session_id):
+        self.session_id = session_id
+        self.cursor = cursor
+
+    def response_database_factory(self,request):
+        response, response_content = sqlliteblob.extract_response_by_request(
+            self.cursor,
+            self.session_id,
+            request
+        )
+        
+        module_logger.info("Request %s completed", request)
+   
+        return (response, response_content)
+
+
 def log_banner():
     module_logger.info("-------------------------------------")
     module_logger.info(" Web scrapper session startet")
@@ -182,7 +199,7 @@ class WebScraperCommandLineParser:
 
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[3:])
+        args = parser.parse_args(sys.argv[3:])
 
         with open(config_file) as json_data:
             config = json.load(json_data)
@@ -192,7 +209,18 @@ class WebScraperCommandLineParser:
 
         connection =  sqlliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        
+        rtb = RequestToDatabase(cursor, args.session_id)
+
+        content_handler_filesystem = ContentHandlerFilesystem("page")
+        content_handler_logger = ContentHandlerLogger()
+        content_handler_filesystem.set_component(content_handler_logger)
+        _= webscraper(
+            url = config['url'], 
+            request_to_response = rtb.response_database_factory, 
+            content_handler = content_handler_filesystem, 
+            download_img = True
+        )
+
 
 def main():
     WebScraperCommandLineParser()
