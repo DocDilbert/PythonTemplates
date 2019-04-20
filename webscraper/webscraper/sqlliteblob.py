@@ -235,6 +235,9 @@ def list_metadata_for_request(cursor, request):
 
     return metadata_list
 
+def list_all_sessions(cursor):
+    return []
+
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENT 
     abgelegten ResponseContent Objekt.

@@ -5,8 +5,10 @@ import re
 import json
 import argparse
 import requests
+
 from urllib.parse import urlparse, urlunparse
 
+import webscraper.sqlliteblob as sqlliteblob
 from webscraper.webscraper import webscraper 
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
@@ -117,6 +119,10 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config['logfile'])
+        connection =  sqlliteblob.create_or_open_db(config['logfile'])
+        cursor = connection.cursor()
+        sessions=sqlliteblob.list_all_sessions(cursor)
+        print(sessions)
 
     def sql(self):
         config_file = sys.argv[1]
