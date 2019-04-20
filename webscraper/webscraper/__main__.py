@@ -46,6 +46,11 @@ def response_factory(request):
 
     return (response, response_content)
 
+def log_banner():
+    module_logger.info("-------------------------------------")
+    module_logger.info(" Web scrapper session startet")
+    module_logger.info("-------------------------------------")
+
 def init_logger(config_file):
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
@@ -63,9 +68,6 @@ def init_logger(config_file):
     logger.addHandler(fh)
     logger.addHandler(ch)
 
-    logger.info("-------------------------------------")
-    logger.info(" Web scrapper session startet")
-    logger.info("-------------------------------------")
 
 class WebScraperCommandLineParser:
     def __init__(self):
@@ -115,6 +117,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config['logfile'])
+        log_banner()
 
     def sql(self):
         config_file = sys.argv[1]
@@ -132,6 +135,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
         
         init_logger(config['logfile'])
+        log_banner()
 
         content_handler = ContentHandlerFilesystem("page")
         content_handler_logger = ContentHandlerLogger()
