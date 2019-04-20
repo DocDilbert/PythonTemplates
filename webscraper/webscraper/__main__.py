@@ -45,6 +45,7 @@ def response_factory(request):
 
     response = Response(
         status_code = response_raw.status_code,
+        date = response_raw.headers['Date'],
         content_type = response_raw.headers['Content-Type']
     )
     response_content = ResponseContent(content = response_raw.content)
