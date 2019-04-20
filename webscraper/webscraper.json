@@ -1,4 +1,5 @@
 {
+    "logtype" : "single",
     "loglevel" : 0,
     
     "logfile" : "webscraper.log",

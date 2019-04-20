@@ -1,4 +1,5 @@
 import logging
+import logging.handlers as handlers
 import os
 import sys
 import re
@@ -72,14 +73,18 @@ def log_banner():
     module_logger.info(" Web scrapper session startet")
     module_logger.info("-------------------------------------")
 
-def init_logger(config_file):
+def init_logger(config):
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
 
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    fh = logging.FileHandler(config_file, mode='w')
+    if config['logtype'] == "rotate":
+        fh = handlers.RotatingFileHandler(config['logfile'], maxBytes=10*1024*1024, backupCount=10)
+    else:
+        fh = logging.FileHandler(config['logfile'], mode='w')
+    
     fh.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
@@ -132,7 +137,7 @@ class WebScraperCommandLineParser:
         with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
 
-        init_logger(config['logfile'])
+        init_logger(config)
         connection =  sqlliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
         sessions=sqlliteblob.list_all_sessions(cursor)
@@ -160,7 +165,7 @@ class WebScraperCommandLineParser:
         with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
         
-        init_logger(config['logfile'])
+        init_logger(config)
         log_banner()
 
         #content_handler = ContentHandlerFilesystem("page")
@@ -196,7 +201,7 @@ class WebScraperCommandLineParser:
         with open(CONFIG_FILE_NAME) as json_data:
             config = json.load(json_data)
         
-        init_logger(config['logfile'])
+        init_logger(config)
         log_banner()
 
         connection =  sqlliteblob.create_or_open_db(config['database'])

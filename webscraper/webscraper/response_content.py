@@ -1,4 +1,4 @@
-import zlib
+import bz2
 
 BLOB_STR_LENGTH = 10
 COMPRESSION_LEVEL = 9 
@@ -15,8 +15,8 @@ class ResponseContent:
         return self.__str__()
 
     def compress(self):
-        return zlib.compress(self.content, COMPRESSION_LEVEL)
+        return bz2.compress(self.content, COMPRESSION_LEVEL)
 
     @classmethod 
     def from_decompress(cls, content):
-        return cls(zlib.decompress(content)) 
+        return cls(bz2.decompress(content)) 
