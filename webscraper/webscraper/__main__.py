@@ -149,17 +149,16 @@ class WebScraperCommandLineParser:
         init_logger(config['logfile'])
         log_banner()
 
-        content_handler = ContentHandlerFilesystem("page")
+        #content_handler = ContentHandlerFilesystem("page")
         content_handler_logger = ContentHandlerLogger()
         content_handler_sqlite = ContentHandlerSqlite(config['database'])
 
         content_handler_sqlite.set_component(content_handler_logger)
-        content_handler.set_component(content_handler_sqlite)
-
+  
         links = webscraper(
             url = config['url'], 
             request_to_response = response_factory, 
-            content_handler = content_handler, 
+            content_handler = content_handler_sqlite, 
             download_img = True
         )
 
