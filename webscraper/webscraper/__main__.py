@@ -82,6 +82,9 @@ def init_logger(config):
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
 
+    logger2 = logging.getLogger('sqliteblob')
+    logger2.setLevel(logging.DEBUG)
+
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
@@ -98,6 +101,9 @@ def init_logger(config):
 
     logger.addHandler(fh)
     logger.addHandler(ch)
+
+    logger2.addHandler(fh)
+    logger2.addHandler(ch)
 
 
 class WebScraperCommandLineParser:

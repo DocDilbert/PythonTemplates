@@ -55,7 +55,7 @@ def create_or_open_db(db_file):
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "STATUS_CODE INTEGER,"
                     "DATE TEXT,"
-                    "CONTENT_TYPE TEXT,"
+                    "CONTENT_TYPE_ID INTEGER,"
                     "CONTENT_ID INTEGER);")
 
         module_logger.debug("conn.execute(%s)", sql)
@@ -69,10 +69,64 @@ def create_or_open_db(db_file):
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
+        sql = ("CREATE TABLE IF NOT EXISTS CONTENT_TYPE_CACHE ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "CONTENT_TYPE TEXT"
+               ");")
+
+        
+        module_logger.debug("conn.execute(%s)", sql)
+        conn.execute(sql)
     else:
         module_logger.info("Tables exists.")
 
     return conn
+
+def extract_content_type(cursor, content_type_id):
+    sql = ("SELECT "
+              "CONTENT_TYPE "
+           "FROM CONTENT_TYPE_CACHE "
+           "WHERE id = :content_type_id;")
+
+    params = {
+        'content_type_id' : content_type_id
+    }
+
+    cursor.execute(sql, params)
+    x = cursor.fetchone()
+
+    content_type= x[0]
+    module_logger.debug("Extracted content_type=%s with id %i.", content_type, content_type_id )
+
+    return content_type
+
+def get_or_insert_content_type(cursor, content_type):
+    sql = ("SELECT "
+              "ID "
+           "FROM CONTENT_TYPE_CACHE "
+           "WHERE CONTENT_TYPE = :content_type;")
+
+    params = {
+        'content_type' : content_type
+    }
+
+    cursor.execute(sql, params)
+    x = cursor.fetchone()
+    if x:
+        content_type_id = x[0]
+        module_logger.debug("Found content_type=%s. Id is %i", content_type, content_type_id )
+    else:
+        
+        sql =("INSERT INTO CONTENT_TYPE_CACHE ("
+                "CONTENT_TYPE"
+              ") VALUES (?);")
+        cursor.execute(sql, [
+            content_type
+        ])
+        content_type_id = int(cursor.lastrowid)
+        module_logger.debug("The content_type=%s is new. Inserting it. Id is %i", content_type, content_type_id )
+
+    return content_type_id
 
 def insert_session(cursor, session):
     sql =("INSERT INTO SESSIONS ("
@@ -88,6 +142,7 @@ def insert_session(cursor, session):
     rid = int(cursor.lastrowid)
     module_logger.debug("sql: INSERT %s into SESSIONS. Row id is %i.", session, rid)
     return rid
+
 
 def update_session(cursor, session_id, session):
     sql =("UPDATE SESSIONS SET "
@@ -123,14 +178,15 @@ def insert_response(cursor, response, content_id):
     sql =("INSERT INTO RESPONSES ("
             "STATUS_CODE,"
             "DATE,"
-            "CONTENT_TYPE,"
+            "CONTENT_TYPE_ID,"
             "CONTENT_ID"
             ") VALUES (?,?,?,?);")
 
+    content_type_id = get_or_insert_content_type(cursor, response.content_type)
     cursor.execute(sql, [
         response.status_code,
         response.date,
-        response.content_type,
+        content_type_id,
         content_id
     ])
     
@@ -246,9 +302,7 @@ def list_all_sessions(cursor):
                 "END_DATETIME "
            "FROM SESSIONS;")
 
-    params = {}
-
-    cursor.execute(sql, params)
+    cursor.execute(sql)
     session_list = [{
         'id': x[0],
         'session': Session(start_datetime = x[1], end_datetime=x[2])
@@ -298,7 +352,7 @@ def extract_response_by_id(cursor, rid):
     sql = ("SELECT "
                 "STATUS_CODE,"
                 "DATE,"
-                "CONTENT_TYPE,"
+                "CONTENT_TYPE_ID,"
                 "CONTENT_ID "
             "FROM RESPONSES WHERE id = :rid;")
     param = {'rid': rid}
@@ -307,7 +361,7 @@ def extract_response_by_id(cursor, rid):
     response = Response(
         status_code=x[0],
         date=x[1],
-        content_type=x[2]
+        content_type=extract_content_type(cursor, x[2])
     )
     content_id =  x[3]
     module_logger.debug(
