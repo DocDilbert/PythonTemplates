@@ -109,7 +109,7 @@ def extract_content_type_from_cache(cursor, content_type_id):
 
     return content_type
 
-def get_or_insert_content_type_from_cache(cursor, content_type):
+def insert_or_get_content_type_from_cache(cursor, content_type):
     sql = ("SELECT "
               "ID "
            "FROM CONTENT_TYPE_CACHE "
@@ -196,7 +196,7 @@ def get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment)
     else:
         raise UriNotFound()
     
-def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+def insert_or_get_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
     try:
         uri_id = get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment )
         module_logger.debug("Found uri. Id is %i", uri_id )
@@ -279,7 +279,7 @@ def insert_response(cursor, response, content_id):
             "CONTENT_ID"
             ") VALUES (?,?,?,?);")
 
-    content_type_id = get_or_insert_content_type_from_cache(cursor, response.content_type)
+    content_type_id = insert_or_get_content_type_from_cache(cursor, response.content_type)
     cursor.execute(sql, [
         response.status_code,
         response.date,
@@ -328,7 +328,7 @@ def insert_request_and_response(cursor, session_id, request, response, RESPONSE_
 
         response_id = insert_response(cursor, response, content_id)
     
-    uri_id= get_or_insert_uri_from_cache(
+    uri_id= insert_or_get_uri_from_cache(
         cursor,
         request.scheme, 
         request.netloc, 
