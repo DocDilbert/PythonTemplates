@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urlunparse
 
 
-from webscraper.request import Request
-from webscraper.response import Response
-from webscraper.response_content import ResponseContent
+from webtypes.request import Request
+from webtypes.response import Response
+from webtypes.response_content import ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {

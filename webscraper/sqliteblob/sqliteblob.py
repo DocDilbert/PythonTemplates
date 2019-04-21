@@ -8,11 +8,11 @@ import os
 import logging
 from urllib.parse import urlparse, urlunparse
 
-from webscraper.session import Session
-from webscraper.response import Response
-from webscraper.response_content import ResponseContent
+from webtypes.session import Session
+from webtypes.response import Response
+from webtypes.response_content import ResponseContent
 
-module_logger = logging.getLogger('webscraper.sqliteblob')
+module_logger = logging.getLogger('sqliteblob.sqliteblob')
 
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 

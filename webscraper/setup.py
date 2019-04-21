@@ -2,8 +2,8 @@ from distutils.core import setup
 
 setup(
     name='webscraper',
-    version='0.0.5',
-    packages=['webscraper',],
+    version='0.0.6',
+    packages=['webscraper', 'sqliteblob', 'webtypes',],
     long_description=open('README.txt').read(),
     
     # Setuptools allows modules to register entrypoints which other 

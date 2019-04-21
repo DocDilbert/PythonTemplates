@@ -9,14 +9,14 @@ import requests
 
 from urllib.parse import urlparse, urlunparse
 
-import webscraper.sqlliteblob as sqlliteblob
+import sqliteblob.sqliteblob as sqliteblob
 from webscraper.webscraper import webscraper 
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
-from webscraper.request import Request
-from webscraper.response import Response
-from webscraper.response_content import ResponseContent
+from webtypes.request import Request
+from webtypes.response import Response
+from webtypes.response_content import ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {
@@ -58,7 +58,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, response_content = sqlliteblob.extract_response_by_request(
+        response, response_content = sqliteblob.extract_response_by_request(
             self.cursor,
             self.session_id,
             request
@@ -139,9 +139,9 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection =  sqlliteblob.create_or_open_db(config['database'])
+        connection =  sqliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        sessions=sqlliteblob.list_all_sessions(cursor)
+        sessions=sqliteblob.list_all_sessions(cursor)
         for session in sessions:
             sid = session['id']
             session_obj = session['session']
@@ -205,7 +205,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         log_banner()
 
-        connection =  sqlliteblob.create_or_open_db(config['database'])
+        connection =  sqliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
         rtb = RequestToDatabase(cursor, args.session_id)
 

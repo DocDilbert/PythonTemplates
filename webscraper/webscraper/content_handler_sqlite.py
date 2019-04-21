@@ -2,14 +2,14 @@ import logging
 from urllib.parse import urlparse, urlunparse
 import datetime
 
-from webscraper.session import Session
+from webtypes.session import Session
 from webscraper.content_handler_decorator import ContentHandlerDecorator
-import webscraper.sqlliteblob as sqlliteblob
+import sqliteblob.sqliteblob as sqliteblob
 
 class ContentHandlerSqlite(ContentHandlerDecorator): 
     def __init__(self, filename):
         super().__init__()
-        self.connection =  sqlliteblob.create_or_open_db(filename)
+        self.connection =  sqliteblob.create_or_open_db(filename)
         self.cursor = self.connection.cursor()
         self.logger = logging.getLogger('webscraper.content_handler_sqllite.ContentHandlerSqlite')
 
@@ -21,12 +21,12 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         super().session_started()
         self.session = Session()
         self.session.update_start_datetime()
-        self.session_id = sqlliteblob.insert_session(self.cursor, self.session)
+        self.session_id = sqliteblob.insert_session(self.cursor, self.session)
 
     def insert_request_and_response(self,  request, response, response_content):        
         self.logger.debug("Insert request and response into database")
 
-        sqlliteblob.insert_request_and_response(self.cursor,
+        sqliteblob.insert_request_and_response(self.cursor,
             self.session_id,
             request,
             response,
@@ -53,7 +53,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
         self.session.update_end_datetime()
 
-        sqlliteblob.update_session(
+        sqliteblob.update_session(
             self.cursor, 
             self.session_id, 
             self.session
