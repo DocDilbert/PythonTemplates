@@ -7,4 +7,4 @@ clean:
 	rm -f *.log
 	rm -fr dist
 
-.PHONY: pck clean
+.PHONY: dist clean
