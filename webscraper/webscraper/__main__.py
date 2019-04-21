@@ -52,9 +52,9 @@ def response_factory(request):
         date = response_raw.headers['Date'],
         content_type = response_raw.headers['Content-Type']
     )
-    response_content = ResponseContent(content = response_raw.content)
+    RESPONSE_CONTENTS = ResponseContent(content = response_raw.content)
 
-    return (response, response_content)
+    return (response, RESPONSE_CONTENTS)
 
 class RequestToDatabase:
     def __init__(self, cursor, session_id):
@@ -62,7 +62,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, response_content = sqliteblob.extract_response_by_request(
+        response, RESPONSE_CONTENTS = sqliteblob.extract_response_by_request(
             self.cursor,
             self.session_id,
             request
@@ -70,7 +70,7 @@ class RequestToDatabase:
         
         module_logger.info("Request %s completed", request)
    
-        return (response, response_content)
+        return (response, RESPONSE_CONTENTS)
 
 
 def log_banner():
@@ -208,11 +208,11 @@ class WebScraperCommandLineParser:
                 info['session_count'],
                 info['request_count'],
                 info['response_count'],
-                info['response_content_count'],
-                1-info['response_content_count']/info['response_count'],
+                info['RESPONSE_CONTENTS_count'],
+                1-info['RESPONSE_CONTENTS_count']/info['response_count'],
                 info['request_count']/info['session_count'],
                 info['response_count']/info['session_count'],
-                info['response_content_count']/info['session_count'],
+                info['RESPONSE_CONTENTS_count']/info['session_count'],
                 statinfo.st_size/1024,
                 content_size/1024,
                 (statinfo.st_size-content_size)/1024,

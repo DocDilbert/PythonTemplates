@@ -14,6 +14,9 @@ from webtypes.response_content import ResponseContent
 
 module_logger = logging.getLogger('sqliteblob.sqliteblob')
 
+class UriNotFound(Exception):
+    pass
+
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 
 
@@ -39,12 +42,7 @@ def create_or_open_db(db_file):
 
         sql = ("CREATE TABLE IF NOT EXISTS REQUESTS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "SCHEME TEXT,"
-                    "NETLOC TEXT,"
-                    "PATH TEXT,"
-                    "PARAMS TEXT,"
-                    "QUERY TEXT,"
-                    "FRAGMENT TEXT,"
+                    "URI_ID INTEGER,"
                     "SESSION_ID INTEGER,"
                     "RESPONSE_ID INTEGER);")
 
@@ -61,7 +59,7 @@ def create_or_open_db(db_file):
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
         
-        sql = ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENT ("
+        sql = ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENTS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "CONTENT BLOB);")
 
@@ -139,7 +137,37 @@ def get_or_insert_content_type_from_cache(cursor, content_type):
 
     return content_type_id
 
-def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+def get_uri_from_cache(cursor, uri_id):
+    sql = ("SELECT "
+                "SCHEME,"
+                "NETLOC,"
+                "PATH,"
+                "PARAMS,"
+                "QUERY,"
+                "FRAGMENT "
+           "FROM URI_CACHE "
+           "WHERE id = :uri_id;")
+
+    sql_params = {
+        'uri_id' : uri_id
+    }
+
+    cursor.execute(sql, sql_params)
+    x = cursor.fetchone()
+    if x:
+        return {
+            'scheme' : x[0],
+            'netloc' : x[1],
+            'path' : x[2],
+            'params' : x[3],
+            'query' : x[4],
+            'fragment' : x[5],
+        }
+    else:
+        raise UriNotFound()
+
+
+def get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment):
     sql = ("SELECT "
               "ID "
            "FROM URI_CACHE "
@@ -164,11 +192,18 @@ def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fr
     cursor.execute(sql, sql_params)
     x = cursor.fetchone()
     if x:
-        uri_id = x[0]
-        module_logger.debug("Found uri. Id is %i", uri_id )
+        return x[0]
     else:
-        
-        sql =("INSERT INTO URI_CACHEm ("
+        raise UriNotFound()
+    
+def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+    try:
+        uri_id = get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment )
+        module_logger.debug("Found uri. Id is %i", uri_id )
+        return uri_id
+
+    except UriNotFound:
+        sql =("INSERT INTO URI_CACHE ("
                 "SCHEME, "
                 "NETLOC, "
                 "PATH, "
@@ -187,8 +222,8 @@ def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fr
         ])
         uri_id = int(cursor.lastrowid)
         module_logger.debug("The uri is new. Inserting it. Id is %i", uri_id )
-
-    return uri_id
+        return uri_id
+    
 
 def insert_session(cursor, session):
     sql =("INSERT INTO SESSIONS ("
@@ -222,17 +257,17 @@ def update_session(cursor, session_id, session):
     module_logger.debug("sql: UPDATE session (id=%i) with %s.", session_id, session)
 
 
-def insert_response_content(cursor, response_content):
-    sql =("INSERT INTO RESPONSE_CONTENT ("
+def insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS):
+    sql =("INSERT INTO RESPONSE_CONTENTS ("
             "CONTENT"
           ") VALUES (?);")
 
     cursor.execute(sql, [
-        sqlite3.Binary(response_content.compress())
+        sqlite3.Binary(RESPONSE_CONTENTS.compress())
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENT. Row id is %i.", response_content, rid)
+    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", RESPONSE_CONTENTS, rid)
     
     return rid
 
@@ -256,7 +291,7 @@ def insert_response(cursor, response, content_id):
     module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
-def insert_request_and_response(cursor, session_id, request, response, response_content):
+def insert_request_and_response(cursor, session_id, request, response, RESPONSE_CONTENTS):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
     Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
@@ -279,14 +314,14 @@ def insert_request_and_response(cursor, session_id, request, response, response_
     if not last_response:
         module_logger.debug("This is the first time the request %s was perfomed.", request)
 
-        content_id = insert_response_content(cursor, response_content)
+        content_id = insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS)
         response_id = insert_response(cursor, response, content_id)
     else:
-        stored_response_content = extract_response_content_by_id(cursor, last_content_id)
+        stored_RESPONSE_CONTENTS = extract_RESPONSE_CONTENTS_by_id(cursor, last_content_id)
 
-        if (response_content.content != stored_response_content.content):
+        if (RESPONSE_CONTENTS.content != stored_RESPONSE_CONTENTS.content):
             module_logger.debug("The received response content is new.")
-            content_id = insert_response_content(cursor, response_content)
+            content_id = insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS)
         else:
             module_logger.debug("The received response content was stored beforehand. Using this instead.")
             content_id = last_content_id
@@ -303,23 +338,13 @@ def insert_request_and_response(cursor, session_id, request, response, response_
         request.fragment
     )
     sql = ("INSERT INTO REQUESTS ("
-                "SCHEME," 
-                "NETLOC,"
-                "PATH,"
-                "PARAMS,"
-                "QUERY,"
-                "FRAGMENT,"
+                "URI_ID,"
                 "SESSION_ID,"
                 "RESPONSE_ID"
-            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?);")
+            ") VALUES(?, ?, ?);")
 
     cursor.execute(sql, [
-        request.scheme, 
-        request.netloc, 
-        request.path, 
-        request.params, 
-        request.query, 
-        request.fragment, 
+        uri_id,
         session_id,
         response_id
     ])
@@ -342,20 +367,22 @@ def list_metadata_for_request(cursor, request):
 
     sql = ("SELECT SESSION_ID, RESPONSE_ID FROM REQUESTS "
                 "WHERE "
-                "SCHEME = :scheme AND "
-                "NETLOC = :netloc AND "
-                "PATH = :path AND "
-                "PARAMS = :params AND "
-                "QUERY = :query AND "
-                "FRAGMENT =:fragment;")
+                "URI_ID = :uri_id;")
+
+    try:
+        uri_id = get_uri_id_from_cache(cursor, 
+            request.scheme,
+            request.netloc,
+            request.path,
+            request.params,
+            request.query,
+            request.fragment
+        )
+    except UriNotFound:
+        return []
 
     params = {
-        'scheme': request.scheme,
-        'netloc' : request.netloc,
-        'path' : request.path,
-        'params' : request.params,
-        'query' : request.query,
-        'fragment': request.fragment
+        'uri_id': uri_id
     }
 
     cursor.execute(sql, params)
@@ -381,8 +408,8 @@ def list_all_sessions(cursor):
 
     return session_list
 
-def extract_response_content_by_id(cursor, rid):
-    """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENT 
+def extract_RESPONSE_CONTENTS_by_id(cursor, rid):
+    """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENTS 
     abgelegten ResponseContent Objekt.
 
     Arguments:
@@ -394,17 +421,17 @@ def extract_response_content_by_id(cursor, rid):
     """
     sql = ("SELECT "
                 "CONTENT "
-            "FROM RESPONSE_CONTENT WHERE id = :rid;")
+            "FROM RESPONSE_CONTENTS WHERE id = :rid;")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
-    response_content = ResponseContent.from_decompress(x[0])
+    RESPONSE_CONTENTS = ResponseContent.from_decompress(x[0])
 
     module_logger.debug(
-        "Extracted %s with id = %i from RESPONSE_CONTENT.", str(response_content), rid) 
+        "Extracted %s with id = %i from RESPONSE_CONTENTS.", str(RESPONSE_CONTENTS), rid) 
 
-    return response_content
+    return RESPONSE_CONTENTS
 
 def extract_response_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 
@@ -470,37 +497,36 @@ def extract_last_response_of_request(cursor, request):
 
 def extract_response_by_request(cursor, session_id, request):
 
+    uri_id = get_uri_id_from_cache(cursor, 
+        request.scheme,
+        request.netloc,
+        request.path,
+        request.params,
+        request.query,
+        request.fragment
+    )
+
     sql = ("SELECT RESPONSE_ID FROM REQUESTS "
                 "WHERE "
-                "SCHEME = :scheme AND "
-                "NETLOC = :netloc AND "
-                "PATH = :path AND "
-                "PARAMS = :params AND "
-                "QUERY = :query AND "
-                "FRAGMENT =:fragment AND "
+                "URI_ID =:uri_id AND "
                 "SESSION_ID =:session_id;")
 
     params = {
-        'scheme': request.scheme,
-        'netloc' : request.netloc,
-        'path' : request.path,
-        'params' : request.params,
-        'query' : request.query,
-        'fragment': request.fragment,
+        'uri_id': uri_id,
         'session_id': session_id
     }
 
     cursor.execute(sql, params)
     x = cursor.fetchone()
     response_id = x[0]
-    response, response_content_id = extract_response_by_id(cursor, response_id)
-    response_content = extract_response_content_by_id(cursor, response_content_id)
+    response, RESPONSE_CONTENTS_id = extract_response_by_id(cursor, response_id)
+    RESPONSE_CONTENTS = extract_RESPONSE_CONTENTS_by_id(cursor, RESPONSE_CONTENTS_id)
 
-    return response, response_content
+    return response, RESPONSE_CONTENTS
 
 
 def compute_content_size(cursor):
-    sql = ("SELECT sum(length(CONTENT)) FROM RESPONSE_CONTENT;")
+    sql = ("SELECT sum(length(CONTENT)) FROM RESPONSE_CONTENTS;")
     cursor.execute(sql)
     x = cursor.fetchone()
     content_size = x[0]
@@ -522,15 +548,15 @@ def info(cursor):
     x = cursor.fetchone()
     response_count = x[0]
 
-    sql = ("SELECT count(*) FROM RESPONSE_CONTENT;")    
+    sql = ("SELECT count(*) FROM RESPONSE_CONTENTS;")    
     cursor.execute(sql)
     x = cursor.fetchone()
-    response_content_count = x[0]
+    RESPONSE_CONTENTS_count = x[0]
 
 
     return {
         'session_count' : session_count,
         'request_count' : request_count,
         'response_count' : response_count,
-        'response_content_count' : response_content_count
+        'RESPONSE_CONTENTS_count' : RESPONSE_CONTENTS_count
     }

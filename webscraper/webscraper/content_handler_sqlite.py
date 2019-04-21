@@ -23,27 +23,27 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         self.session.update_start_datetime()
         self.session_id = sqliteblob.insert_session(self.cursor, self.session)
 
-    def insert_request_and_response(self,  request, response, response_content):        
+    def insert_request_and_response(self,  request, response, RESPONSE_CONTENTS):        
         self.logger.debug("Insert request and response into database")
 
         sqliteblob.insert_request_and_response(self.cursor,
             self.session_id,
             request,
             response,
-            response_content
+            RESPONSE_CONTENTS
         )
 
-    def response_with_html_content_received(self,  request, response, response_content):
-        super().response_with_html_content_received( request, response, response_content)
-        self.insert_request_and_response(request, response, response_content)
+    def response_with_html_content_received(self,  request, response, RESPONSE_CONTENTS):
+        super().response_with_html_content_received( request, response, RESPONSE_CONTENTS)
+        self.insert_request_and_response(request, response, RESPONSE_CONTENTS)
         
-    def response_with_css_content_received(self,  request, response, response_content, tag):
-        super().response_with_css_content_received(  request, response, response_content, tag)
-        self.insert_request_and_response(request, response, response_content)
+    def response_with_css_content_received(self,  request, response, RESPONSE_CONTENTS, tag):
+        super().response_with_css_content_received(  request, response, RESPONSE_CONTENTS, tag)
+        self.insert_request_and_response(request, response, RESPONSE_CONTENTS)
         
-    def response_with_img_content_received(self,  request, response, response_content, tag):
-        super().response_with_img_content_received(  request, response, response_content, tag)
-        self.insert_request_and_response( request, response, response_content)
+    def response_with_img_content_received(self,  request, response, RESPONSE_CONTENTS, tag):
+        super().response_with_img_content_received(  request, response, RESPONSE_CONTENTS, tag)
+        self.insert_request_and_response( request, response, RESPONSE_CONTENTS)
 
     def html_post_process_handler(self, request, soup):
         super().html_post_process_handler(request, soup)

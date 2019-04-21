@@ -53,8 +53,8 @@ def download(request_to_response, scheme, netloc, url, tag, response_handler):
     module_logger.debug("Performing Request on url %s", url_transf)
 
     request = Request.from_url(url_transf)
-    response, response_content = request_to_response(request) 
-    response_handler(request, response, response_content, tag)
+    response, RESPONSE_CONTENTS = request_to_response(request) 
+    response_handler(request, response, RESPONSE_CONTENTS, tag)
 
 def scrap(
     request, 
@@ -69,10 +69,10 @@ def scrap(
         module_logger.info("Maximal recursion level reached.")
         return
 
-    response, response_content = request_to_response(request) 
-    content_handler.response_with_html_content_received(request, response, response_content)
+    response, RESPONSE_CONTENTS = request_to_response(request) 
+    content_handler.response_with_html_content_received(request, response, RESPONSE_CONTENTS)
 
-    soup = BeautifulSoup(response_content.content, 'html.parser')
+    soup = BeautifulSoup(RESPONSE_CONTENTS.content, 'html.parser')
 
     parsed_url = urlparse(request.get_url())
     scheme = parsed_url.scheme
