@@ -395,6 +395,7 @@ def info(cursor):
     x = cursor.fetchone()
     response_content_count = x[0]
 
+
     return {
         'session_count' : session_count,
         'request_count' : request_count,

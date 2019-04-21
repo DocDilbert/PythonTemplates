@@ -104,9 +104,10 @@ class WebScraperCommandLineParser:
             usage=("webscraper <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
-                    "   extract  Extract webpage by session id.\n"
-                    "   sql      Stores content into the database.\n"
-                    "   slist    Shows a list of stored sessions.\n")
+                   "   extract  Extract webpage by session id.\n"
+                   "   sql      Stores content into the database.\n"
+                   "   slist    Shows a list of stored sessions.\n"
+                   "   info     Shows some useful info of the database.")
         )
 
         parser.add_argument(
@@ -125,7 +126,7 @@ class WebScraperCommandLineParser:
 
     def slist(self):
         parser = argparse.ArgumentParser(
-            prog="webscraper", 
+            prog="webscraper slist", 
             description='Stores web content into a database'
         )
 
@@ -154,7 +155,7 @@ class WebScraperCommandLineParser:
 
     def info(self):
         parser = argparse.ArgumentParser(
-            prog="webscraper", 
+            prog="webscraper info", 
             description='Stores web content into a database'
         )
 
@@ -200,7 +201,7 @@ class WebScraperCommandLineParser:
 
     def sql(self):
         parser = argparse.ArgumentParser(
-            prog="webscraper", 
+            prog="webscraper sql", 
             description='Stores web content into a database'
         )
 
@@ -234,7 +235,7 @@ class WebScraperCommandLineParser:
     
     def extract(self):
         parser = argparse.ArgumentParser(
-            prog="webscraper", 
+            prog="webscraper extract", 
             description='Extract web content from database'
         )
 
