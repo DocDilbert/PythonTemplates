@@ -18,6 +18,10 @@ from webtypes.request import Request
 from webtypes.response import Response
 from webtypes.response_content import ResponseContent
 
+from webscraper.version import (
+    __version__,
+)
+
 #chrome 70.0.3538.77
 HEADERS = {
     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
@@ -114,6 +118,8 @@ class WebScraperCommandLineParser:
             'command', 
             help='Subcommand to run')
 
+        parser.add_argument('--version', action='version',
+                    version='%(prog)s {version}'.format(version=__version__))
         args = parser.parse_args(sys.argv[1:2])
      
         if not hasattr(self, args.command):
