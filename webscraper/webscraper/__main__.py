@@ -203,7 +203,7 @@ class WebScraperCommandLineParser:
                 info['request_count'],
                 info['response_count'],
                 info['response_content_count'],
-                info['response_content_count']/info['response_count'],
+                1-info['response_content_count']/info['response_count'],
                 info['request_count']/info['session_count'],
                 info['response_count']/info['session_count'],
                 info['response_content_count']/info['session_count'],
