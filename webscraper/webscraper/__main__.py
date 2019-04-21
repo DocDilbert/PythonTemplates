@@ -150,6 +150,53 @@ class WebScraperCommandLineParser:
                 session_obj.get_delta_time(), 
                 session_obj.start_datetime, 
                 session_obj.end_datetime))
+        
+
+    def info(self):
+        parser = argparse.ArgumentParser(
+            prog="webscraper", 
+            description='Stores web content into a database'
+        )
+
+        # prefixing the argument with -- means it's optional
+        #parser.add_argument('--amend', action='store_true')
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        _ = parser.parse_args(sys.argv[2:])
+
+        with open(CONFIG_FILE_NAME) as json_data:
+            config = json.load(json_data)
+
+        init_logger(config)
+        statinfo = os.stat(config['database'])
+        connection =  sqliteblob.create_or_open_db(config['database'])
+        cursor = connection.cursor()
+        info = sqliteblob.info(cursor)
+        print(
+            "---------------------------------------------------------\n"
+            "                            Session count: {}\n"
+            "                            Request count: {}\n"
+            "                           Response count: {}\n"
+            "                    ResponseContent count: {}\n"
+            "---------------------------------------------------------\n"
+            "        Average Request count per session: {:.1f}\n"
+            "       Average Response count per session: {:.1f}\n"
+            " Average ResponeContent count per session: {:.1f}\n"
+            "---------------------------------------------------------\n"
+            "                            Database size: {:.1f} KB\n"
+            "                  Average size of session: {:.1f} KB\n"
+            "---------------------------------------------------------"
+            "".format(
+                info['session_count'],
+                info['request_count'],
+                info['response_count'],
+                info['response_content_count'],
+                info['request_count']/info['session_count'],
+                info['response_count']/info['session_count'],
+                info['response_content_count']/info['session_count'],
+                statinfo.st_size/1024,
+                statinfo.st_size/1024/info['session_count']
+            ))
 
     def sql(self):
         parser = argparse.ArgumentParser(

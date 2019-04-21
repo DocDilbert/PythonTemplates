@@ -374,3 +374,30 @@ def extract_response_by_request(cursor, session_id, request):
     return response, response_content
 
 
+def info(cursor):
+    sql = ("SELECT count(*) FROM SESSIONS;")    
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    session_count = x[0]
+
+    sql = ("SELECT count(*) FROM REQUESTS;")    
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    request_count = x[0]
+
+    sql = ("SELECT count(*) FROM RESPONSES;")    
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    response_count = x[0]
+
+    sql = ("SELECT count(*) FROM RESPONSE_CONTENT;")    
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    response_content_count = x[0]
+
+    return {
+        'session_count' : session_count,
+        'request_count' : request_count,
+        'response_count' : response_count,
+        'response_content_count' : response_content_count
+    }
