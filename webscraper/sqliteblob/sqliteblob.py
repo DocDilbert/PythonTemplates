@@ -257,17 +257,21 @@ def update_session(cursor, session_id, session):
     module_logger.debug("sql: UPDATE session (id=%i) with %s.", session_id, session)
 
 
-def insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS):
+def insert_response_content(cursor, response_content):
     sql =("INSERT INTO RESPONSE_CONTENTS ("
             "CONTENT"
           ") VALUES (?);")
 
+    content_compressed=sqlite3.Binary(response_content.compress())
+
+    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
+        len(content_compressed)/len(response_content.content)*100.0)
     cursor.execute(sql, [
-        sqlite3.Binary(RESPONSE_CONTENTS.compress())
+        content_compressed
     ])
     
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", RESPONSE_CONTENTS, rid)
+    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", response_content, rid)
     
     return rid
 
@@ -314,14 +318,14 @@ def insert_request_and_response(cursor, session_id, request, response, RESPONSE_
     if not last_response:
         module_logger.debug("This is the first time the request %s was perfomed.", request)
 
-        content_id = insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS)
+        content_id = insert_response_content(cursor, RESPONSE_CONTENTS)
         response_id = insert_response(cursor, response, content_id)
     else:
         stored_RESPONSE_CONTENTS = extract_response_content_by_id(cursor, last_content_id)
 
         if (RESPONSE_CONTENTS.content != stored_RESPONSE_CONTENTS.content):
             module_logger.debug("The received response content is new.")
-            content_id = insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS)
+            content_id = insert_response_content(cursor, RESPONSE_CONTENTS)
         else:
             module_logger.debug("The received response content was stored beforehand. Using this instead.")
             content_id = last_content_id
@@ -426,12 +430,12 @@ def extract_response_content_by_id(cursor, rid):
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
-    RESPONSE_CONTENTS = ResponseContent.from_decompress(x[0])
+    response_content = ResponseContent.from_decompress(x[0])
 
     module_logger.debug(
-        "Extracted %s with id = %i from RESPONSE_CONTENTS.", str(RESPONSE_CONTENTS), rid) 
+        "Extracted %s with id = %i from RESPONSE_CONTENTS.", str(response_content), rid) 
 
-    return RESPONSE_CONTENTS
+    return response_content
 
 def extract_response_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 
