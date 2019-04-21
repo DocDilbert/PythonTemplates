@@ -9,7 +9,7 @@ class Response:
     
     @classmethod
     def fromGMT(cls, status_code, date_gmt, content_type):
-        dt = datetime.strptime(date_gmt, '%a, %d %b %Y %H:%M:%S %Z')
+        dt = datetime.strptime(date_gmt, "%a, %d %b %Y %H:%M:%S %Z")
 
         # Assume time is in gmt ... got to local time instead
         dt += timedelta(hours=2)

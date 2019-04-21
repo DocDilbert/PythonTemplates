@@ -34,8 +34,8 @@ def create_or_open_db(db_file):
 
         sql = ("CREATE TABLE IF NOT EXISTS SESSIONS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "START_DATETIME TEXT,"
-                    "END_DATETIME TEXT);")
+                    "START_TIMESTAMP REAL,"
+                    "END_TIMESTAMP REAL);")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
@@ -52,7 +52,7 @@ def create_or_open_db(db_file):
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "STATUS_CODE INTEGER,"
-                    "TIMESTAMP FLOAT,"
+                    "TIMESTAMP REAL,"
                     "CONTENT_TYPE_ID INTEGER,"
                     "CONTENT_ID INTEGER);")
 
@@ -227,13 +227,13 @@ def insert_or_get_uri_from_cache(cursor, scheme, netloc, path, params, query, fr
 
 def insert_session(cursor, session):
     sql =("INSERT INTO SESSIONS ("
-            "START_DATETIME,"
-            "END_DATETIME"
+            "START_TIMESTAMP,"
+            "END_TIMESTAMP"
           ") VALUES (?, ?);")
 
     cursor.execute(sql, [
-        session.start_datetime,
-        session.end_datetime
+        session.start_datetime.timestamp(),
+        -1.0, # endtime unkmown
     ])
     
     rid = int(cursor.lastrowid)
@@ -243,14 +243,14 @@ def insert_session(cursor, session):
 
 def update_session(cursor, session_id, session):
     sql =("UPDATE SESSIONS SET "
-            "START_DATETIME = :start_datetime, "
-            "END_DATETIME = :end_datetime "
+            "START_TIMESTAMP = :start_timestamp, "
+            "END_TIMESTAMP = :end_timestamp "
           "WHERE id = :session_id;")
 
     params = {
         'session_id' : session_id,
-        'start_datetime': session.start_datetime,
-        'end_datetime' : session.end_datetime,
+        'start_timestamp': session.start_datetime.timestamp(),
+        'end_timestamp' : session.end_datetime.timestamp()
     }
     cursor.execute(sql, params)
     
@@ -396,14 +396,14 @@ def list_metadata_for_request(cursor, request):
 def list_all_sessions(cursor):
     sql = ("SELECT "
                 "ID,"
-                "START_DATETIME,"
-                "END_DATETIME "
+                "START_TIMESTAMP,"
+                "END_TIMESTAMP "
            "FROM SESSIONS;")
 
     cursor.execute(sql)
     session_list = [{
         'id': x[0],
-        'session': Session(start_datetime = x[1], end_datetime=x[2])
+        'session': Session.from_timestamps(x[1], x[2])
     } for x in cursor.fetchall()]
 
     return session_list
