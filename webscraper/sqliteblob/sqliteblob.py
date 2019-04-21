@@ -65,7 +65,6 @@ def create_or_open_db(db_file):
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "CONTENT BLOB);")
 
-        
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
@@ -74,7 +73,6 @@ def create_or_open_db(db_file):
                     "CONTENT_TYPE TEXT"
                ");")
 
-        
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
     else:
@@ -82,7 +80,7 @@ def create_or_open_db(db_file):
 
     return conn
 
-def extract_content_type(cursor, content_type_id):
+def extract_content_type_from_cache(cursor, content_type_id):
     sql = ("SELECT "
               "CONTENT_TYPE "
            "FROM CONTENT_TYPE_CACHE "
@@ -100,7 +98,7 @@ def extract_content_type(cursor, content_type_id):
 
     return content_type
 
-def get_or_insert_content_type(cursor, content_type):
+def get_or_insert_content_type_from_cache(cursor, content_type):
     sql = ("SELECT "
               "ID "
            "FROM CONTENT_TYPE_CACHE "
@@ -182,7 +180,7 @@ def insert_response(cursor, response, content_id):
             "CONTENT_ID"
             ") VALUES (?,?,?,?);")
 
-    content_type_id = get_or_insert_content_type(cursor, response.content_type)
+    content_type_id = get_or_insert_content_type_from_cache(cursor, response.content_type)
     cursor.execute(sql, [
         response.status_code,
         response.date,
@@ -361,7 +359,7 @@ def extract_response_by_id(cursor, rid):
     response = Response(
         status_code=x[0],
         date=x[1],
-        content_type=extract_content_type(cursor, x[2])
+        content_type=extract_content_type_from_cache(cursor, x[2])
     )
     content_id =  x[3]
     module_logger.debug(
