@@ -75,6 +75,19 @@ def create_or_open_db(db_file):
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
+
+        sql = ("CREATE TABLE IF NOT EXISTS URI_CACHE ("
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "SCHEME TEXT,"
+                    "NETLOC TEXT,"
+                    "PATH TEXT,"
+                    "PARAMS TEXT,"
+                    "QUERY TEXT,"
+                    "FRAGMENT TEXT"
+               ");")
+
+        module_logger.debug("conn.execute(%s)", sql)
+        conn.execute(sql)
     else:
         module_logger.info("Tables exists.")
 
@@ -125,6 +138,57 @@ def get_or_insert_content_type_from_cache(cursor, content_type):
         module_logger.debug("The content_type=%s is new. Inserting it. Id is %i", content_type, content_type_id )
 
     return content_type_id
+
+def get_or_insert_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+    sql = ("SELECT "
+              "ID "
+           "FROM URI_CACHE "
+           "WHERE "
+                "SCHEME = :scheme AND "
+                "NETLOC = :netloc AND "
+                "PATH   = :path AND "
+                "PARAMS = :params AND "
+                "QUERY = :query AND "
+                "FRAGMENT = :fragment"                
+            ";")
+
+    sql_params = {
+        "scheme" : scheme,
+        "netloc" : netloc,
+        "path" : path,
+        "params" : params,
+        "query" : query,
+        "fragment" : fragment
+    }
+
+    cursor.execute(sql, sql_params)
+    x = cursor.fetchone()
+    if x:
+        uri_id = x[0]
+        module_logger.debug("Found uri. Id is %i", uri_id )
+    else:
+        
+        sql =("INSERT INTO URI_CACHEm ("
+                "SCHEME, "
+                "NETLOC, "
+                "PATH, "
+                "PARAMS, "
+                "QUERY, "
+                "FRAGMENT "
+              ") VALUES (?, ?, ?, ?, ?, ?);")
+
+        cursor.execute(sql, [
+            scheme,
+            netloc,
+            path,
+            params,
+            query,
+            fragment
+        ])
+        uri_id = int(cursor.lastrowid)
+        module_logger.debug("The uri is new. Inserting it. Id is %i", uri_id )
+
+    return uri_id
 
 def insert_session(cursor, session):
     sql =("INSERT INTO SESSIONS ("
@@ -228,7 +292,16 @@ def insert_request_and_response(cursor, session_id, request, response, response_
             content_id = last_content_id
 
         response_id = insert_response(cursor, response, content_id)
-        
+    
+    uri_id= get_or_insert_uri_from_cache(
+        cursor,
+        request.scheme, 
+        request.netloc, 
+        request.path, 
+        request.params, 
+        request.query, 
+        request.fragment
+    )
     sql = ("INSERT INTO REQUESTS ("
                 "SCHEME," 
                 "NETLOC,"
