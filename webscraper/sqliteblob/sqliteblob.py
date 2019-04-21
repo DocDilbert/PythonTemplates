@@ -374,6 +374,13 @@ def extract_response_by_request(cursor, session_id, request):
     return response, response_content
 
 
+def compute_content_size(cursor):
+    sql = ("SELECT sum(length(CONTENT)) FROM RESPONSE_CONTENT;")
+    cursor.execute(sql)
+    x = cursor.fetchone()
+    content_size = x[0]
+    return content_size
+
 def info(cursor):
     sql = ("SELECT count(*) FROM SESSIONS;")    
     cursor.execute(sql)

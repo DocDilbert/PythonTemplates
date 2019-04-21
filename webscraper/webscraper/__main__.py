@@ -173,6 +173,7 @@ class WebScraperCommandLineParser:
         connection =  sqliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
         info = sqliteblob.info(cursor)
+        content_size = sqliteblob.compute_content_size(cursor)
         print(
             "---------------------------------------------------------\n"
             "                            Session count: {}\n"
@@ -184,7 +185,10 @@ class WebScraperCommandLineParser:
             "       Average Response count per session: {:.1f}\n"
             " Average ResponeContent count per session: {:.1f}\n"
             "---------------------------------------------------------\n"
-            "                            Database size: {:.1f} KB\n"
+            "                         Size of database: {:.1f} KB\n"
+            "              Size of content in database: {:.1f} KB\n"
+            "        Size of overhead data in database: {:.1f} KB\n"
+            "                           Overhead ratio: {:.2f}\n"
             "                  Average size of session: {:.1f} KB\n"
             "---------------------------------------------------------"
             "".format(
@@ -196,6 +200,9 @@ class WebScraperCommandLineParser:
                 info['response_count']/info['session_count'],
                 info['response_content_count']/info['session_count'],
                 statinfo.st_size/1024,
+                content_size/1024,
+                (statinfo.st_size-content_size)/1024,
+                (statinfo.st_size-content_size)/statinfo.st_size,
                 statinfo.st_size/1024/info['session_count']
             ))
 
