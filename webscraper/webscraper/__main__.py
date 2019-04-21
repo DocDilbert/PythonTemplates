@@ -180,6 +180,7 @@ class WebScraperCommandLineParser:
             "                            Request count: {}\n"
             "                           Response count: {}\n"
             "                    ResponseContent count: {}\n"
+            "                              Cache ratio: {:.2f}\n"
             "---------------------------------------------------------\n"
             "        Average Request count per session: {:.1f}\n"
             "       Average Response count per session: {:.1f}\n"
@@ -196,6 +197,7 @@ class WebScraperCommandLineParser:
                 info['request_count'],
                 info['response_count'],
                 info['response_content_count'],
+                info['response_content_count']/info['response_count'],
                 info['request_count']/info['session_count'],
                 info['response_count']/info['session_count'],
                 info['response_content_count']/info['session_count'],
