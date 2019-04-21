@@ -1,6 +1,6 @@
 import logging
 from webscraper.content_handler_decorator import ContentHandlerDecorator
-
+from  datetime import datetime, timedelta
 class ContentHandlerLogger(ContentHandlerDecorator): 
     def __init__(self):
         super().__init__()
@@ -13,6 +13,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
 
     def response_with_html_content_received(self, request, response, RESPONSE_CONTENTS):
         super().response_with_html_content_received(request,response, RESPONSE_CONTENTS)
+        
         self.logger.debug("response_with_html_content_received\n"
             "\trequest = %s\n"
             "\tresponse = %s\n"
@@ -27,6 +28,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
 
     def response_with_img_content_received(self, request, response, RESPONSE_CONTENTS, tag):
         super().response_with_img_content_received(request, response, RESPONSE_CONTENTS, tag)
+        
         self.logger.debug("response_with_img_content_received\n"
             "\trequest = %s\n"
             "\tresponse = %s\n"

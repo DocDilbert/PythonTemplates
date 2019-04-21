@@ -11,7 +11,7 @@ from urllib.parse import urlparse, urlunparse
 from webtypes.session import Session
 from webtypes.response import Response
 from webtypes.response_content import ResponseContent
-
+from datetime import datetime
 module_logger = logging.getLogger('sqliteblob.sqliteblob')
 
 class UriNotFound(Exception):
@@ -52,7 +52,7 @@ def create_or_open_db(db_file):
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "STATUS_CODE INTEGER,"
-                    "DATE TEXT,"
+                    "TIMESTAMP FLOAT,"
                     "CONTENT_TYPE_ID INTEGER,"
                     "CONTENT_ID INTEGER);")
 
@@ -274,7 +274,7 @@ def insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS):
 def insert_response(cursor, response, content_id):
     sql =("INSERT INTO RESPONSES ("
             "STATUS_CODE,"
-            "DATE,"
+            "TIMESTAMP,"
             "CONTENT_TYPE_ID,"
             "CONTENT_ID"
             ") VALUES (?,?,?,?);")
@@ -282,7 +282,7 @@ def insert_response(cursor, response, content_id):
     content_type_id = insert_or_get_content_type_from_cache(cursor, response.content_type)
     cursor.execute(sql, [
         response.status_code,
-        response.date,
+        response.date.timestamp(),
         content_type_id,
         content_id
     ])
@@ -317,7 +317,7 @@ def insert_request_and_response(cursor, session_id, request, response, RESPONSE_
         content_id = insert_RESPONSE_CONTENTS(cursor, RESPONSE_CONTENTS)
         response_id = insert_response(cursor, response, content_id)
     else:
-        stored_RESPONSE_CONTENTS = extract_RESPONSE_CONTENTS_by_id(cursor, last_content_id)
+        stored_RESPONSE_CONTENTS = extract_response_content_by_id(cursor, last_content_id)
 
         if (RESPONSE_CONTENTS.content != stored_RESPONSE_CONTENTS.content):
             module_logger.debug("The received response content is new.")
@@ -408,7 +408,7 @@ def list_all_sessions(cursor):
 
     return session_list
 
-def extract_RESPONSE_CONTENTS_by_id(cursor, rid):
+def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENTS 
     abgelegten ResponseContent Objekt.
 
@@ -449,7 +449,7 @@ def extract_response_by_id(cursor, rid):
     
     sql = ("SELECT "
                 "STATUS_CODE,"
-                "DATE,"
+                "TIMESTAMP,"
                 "CONTENT_TYPE_ID,"
                 "CONTENT_ID "
             "FROM RESPONSES WHERE id = :rid;")
@@ -458,7 +458,7 @@ def extract_response_by_id(cursor, rid):
     x = cursor.fetchone()
     response = Response(
         status_code=x[0],
-        date=x[1],
+        date=datetime.fromtimestamp(x[1]),
         content_type=extract_content_type_from_cache(cursor, x[2])
     )
     content_id =  x[3]
@@ -520,7 +520,7 @@ def extract_response_by_request(cursor, session_id, request):
     x = cursor.fetchone()
     response_id = x[0]
     response, RESPONSE_CONTENTS_id = extract_response_by_id(cursor, response_id)
-    RESPONSE_CONTENTS = extract_RESPONSE_CONTENTS_by_id(cursor, RESPONSE_CONTENTS_id)
+    RESPONSE_CONTENTS = extract_response_content_by_id(cursor, RESPONSE_CONTENTS_id)
 
     return response, RESPONSE_CONTENTS
 

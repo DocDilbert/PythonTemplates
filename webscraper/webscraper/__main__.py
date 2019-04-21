@@ -47,9 +47,9 @@ def response_factory(request):
     module_logger.info("Request %s completed", request)
     log_raw_response(response_raw)
 
-    response = Response(
+    response = Response.fromGMT(
         status_code = response_raw.status_code,
-        date = response_raw.headers['Date'],
+        date_gmt = response_raw.headers['Date'],
         content_type = response_raw.headers['Content-Type']
     )
     RESPONSE_CONTENTS = ResponseContent(content = response_raw.content)
