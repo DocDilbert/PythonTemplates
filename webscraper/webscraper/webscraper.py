@@ -8,7 +8,6 @@ from urllib.parse import urlparse, urlunparse
 
 from webtypes.request import Request
 from webtypes.response import Response
-from webtypes.response_content import ResponseContent
 
 #chrome 70.0.3538.77
 HEADERS = {
@@ -72,7 +71,7 @@ def scrap(
     response = request_to_response(request) 
     content_handler.response_with_html_content_received(request, response)
 
-    soup = BeautifulSoup(response.content.content, 'html.parser')
+    soup = BeautifulSoup(response.content, 'html.parser')
 
     parsed_url = urlparse(request.get_url())
     scheme = parsed_url.scheme

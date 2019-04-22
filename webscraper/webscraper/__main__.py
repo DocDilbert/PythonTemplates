@@ -16,7 +16,6 @@ from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
 from webtypes.request import Request
 from webtypes.response import Response
-from webtypes.response_content import ResponseContent
 
 from webscraper.version import (
     __version__,
@@ -49,7 +48,7 @@ def response_factory(request):
         status_code = response_raw.status_code,
         date_gmt = response_raw.headers['Date'],
         content_type = response_raw.headers['Content-Type'],
-        content = ResponseContent(content = response_raw.content)
+        content = response_raw.content
     )
    
     return response

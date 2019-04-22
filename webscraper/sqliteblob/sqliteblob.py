@@ -10,8 +10,12 @@ from urllib.parse import urlparse, urlunparse
 
 from webtypes.session import Session
 from webtypes.response import Response
-from webtypes.response_content import ResponseContent
 from datetime import datetime
+
+import bz2
+
+COMPRESSION_LEVEL = 9 
+BLOB_STR_LENGTH = 10
 
 module_logger = logging.getLogger('sqliteblob.sqliteblob')
 
@@ -305,22 +309,25 @@ def insert_request(cursor, request, session_id, response_id):
         "sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
-def insert_response_content(cursor, response_content):
+def insert_response_content(cursor, content):
     sql = ("INSERT INTO RESPONSE_CONTENTS ("
            "CONTENT"
            ") VALUES (?);")
 
-    content_compressed = sqlite3.Binary(response_content.compress())
+    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
 
     module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
-                        len(content_compressed)/len(response_content.content)*100.0)
+                        len(content_compressed)/len(content)*100.0)
     cursor.execute(sql, [
-        content_compressed
+        sqlite3.Binary(content_compressed)
     ])
 
     rid = int(cursor.lastrowid)
+
+    l = min(len(content),BLOB_STR_LENGTH)
+
     module_logger.debug(
-        "sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", response_content, rid)
+        "sql: INSERT \"%s ...\" into RESPONSE_CONTENTS. Row id is %i.", str(content[0:l]), rid)
 
     return rid
 
@@ -333,7 +340,7 @@ def insert_response(cursor, request, response):
     try:
         (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
 
-        if (response.content.content != last_response.content.content):
+        if (response.content != last_response.content):
             module_logger.debug("The received response content is new.")
             content_id = insert_response_content(cursor, response.content)
         else:
@@ -459,14 +466,14 @@ def list_all_sessions(cursor):
 
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENTS 
-    abgelegten ResponseContent Objekt.
+    abgelegten Blob.
 
     Arguments:
         cursor -- Datenbank Cursor
         id -- Die id des gewünschten response content
 
     Returns:
-        Ein befülltes ResponseContent Objekt.
+        Ein befülltes Blob Objekt.
     """
 
     sql = ("SELECT "
@@ -477,12 +484,14 @@ def extract_response_content_by_id(cursor, rid):
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
-    response_content = ResponseContent.from_decompress(x[0])
+    content = bz2.decompress(x[0])
+
+    l = min(len(content),BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "Extracted %s with id = %i from RESPONSE_CONTENTS.", str(response_content), rid)
+        "Extracted \"%s ...\" with id = %i from RESPONSE_CONTENTS.", str(content[0:l]), rid)
 
-    return response_content
+    return content
 
 
 def extract_response_by_id(cursor, rid):

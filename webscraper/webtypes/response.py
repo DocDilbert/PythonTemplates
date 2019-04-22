@@ -1,5 +1,8 @@
 from  datetime import datetime, timedelta
 
+BLOB_STR_LENGTH = 10
+
+
 class Response:
     def __init__(self, status_code, date, content_type, content):
         self.content_type=content_type
@@ -17,11 +20,14 @@ class Response:
         return cls(status_code, dt, content_type, content)
 
     def __str__(self): 
-        return "{{status_code={}, date=\"{}\", content_type=\"{}\" content={}}}".format(
+
+        l = min(len(self.content),BLOB_STR_LENGTH)
+
+        return "{{status_code={}, date=\"{}\", content_type=\"{}\" content=\"{} ...\"}}".format(
             self.status_code, 
             self.date,
             self.content_type,
-            self.content
+            str(self.content[0:l])
         )
 
     def __repr__(self):
