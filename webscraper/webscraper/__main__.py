@@ -60,7 +60,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, _ = webdb.filters.get_response_by_session_id_and_request(
+        response, _ = webdb.filters.get_response_of_session_id_and_request(
             self.cursor,
             self.session_id,
             request
