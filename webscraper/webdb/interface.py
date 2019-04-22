@@ -135,7 +135,7 @@ def update_session(cursor, session_id, session):
 
 
 def insert_request(cursor, request, session_id, response_id):
-    uid = cache.create_or_get_id_of_uri(
+    uid = cache.create_or_get_uri_id(
         cursor,
         request.scheme,
         request.netloc,
@@ -163,11 +163,6 @@ def insert_request(cursor, request, session_id, response_id):
     return rid
 
 def insert_response(cursor, request, response):
-    content_type_id = cache.insert_or_get_content_type_from_cache(
-        cursor,
-        response.content_type
-    )
-
     try:
         (last_response, last_content_id) = extract_last_response_of_request(
             cursor, request)
@@ -178,6 +173,7 @@ def insert_response(cursor, request, response):
         else:
             module_logger.debug(
                 "The received response content was stored beforehand. Using this instead.")
+                
             content_id = last_content_id
 
     except ResponseNotFound:
@@ -192,6 +188,11 @@ def insert_response(cursor, request, response):
            "CONTENT_TYPE_ID,"
            "CONTENT_ID"
            ") VALUES (?,?,?,?);")
+
+    content_type_id = cache.create_or_get_content_type_id(
+        cursor,
+        response.content_type
+    )
 
     cursor.execute(sql, [
         response.status_code,
@@ -325,8 +326,8 @@ def extract_response_by_id(cursor, rid):
     response = Response(
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
-        content_type=cache.extract_content_type_from_cache(cursor, x[2]),
-        content=cache.extract_response_content_by_id(cursor, content_id)
+        content_type=cache.get_content_type(cursor, x[2]),
+        content=cache.get_content(cursor, content_id)
     )
 
     module_logger.debug(

@@ -11,10 +11,10 @@ COMPRESSION_LEVEL = 9
 BLOB_STR_LENGTH = 10
 
 
-#########################################
+#############################################################
 # URI CACHE
-#########################################
-def get_uri(cursor, uid):
+#############################################################
+def get_uri(cursor, uri_id):
     sql = ("SELECT "
            "SCHEME,"
            "NETLOC,"
@@ -26,7 +26,7 @@ def get_uri(cursor, uid):
            "WHERE id = :uri_id;")
 
     sql_params = {
-        'uri_id': uid
+        'uri_id': uri_id
     }
 
     cursor.execute(sql, sql_params)
@@ -74,7 +74,7 @@ def get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
         raise UriNotFound()
 
 
-def create_or_get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
+def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
     try:
         uid = get_id_of_uri(
             cursor,
@@ -85,7 +85,7 @@ def create_or_get_id_of_uri(cursor, scheme, netloc, path, params, query, fragmen
             query,
             fragment
         )
-        module_logger.debug("Found uri. Id is %i", uid)
+        module_logger.debug("Found uri in URI_CACHE. Id is %i", uid)
         return uid
 
     except UriNotFound:
@@ -110,11 +110,12 @@ def create_or_get_id_of_uri(cursor, scheme, netloc, path, params, query, fragmen
         module_logger.debug("The uri is new. Inserting it. Id is %i", uid)
         return uid
 
-#########################################
+#############################################################
 # CONTENT_TYPE CACHE
-#########################################
+#############################################################
 
-def extract_content_type_from_cache(cursor, content_type_id):
+
+def get_content_type(cursor, content_type_id):
     sql = ("SELECT "
            "CONTENT_TYPE "
            "FROM CONTENT_TYPE_CACHE "
@@ -129,12 +130,12 @@ def extract_content_type_from_cache(cursor, content_type_id):
 
     content_type = x[0]
     module_logger.debug(
-        "Extracted \"%s\" with id %i from CONTENT_TYPE_CACHE", content_type, content_type_id)
+        "Found content_type=\"%s\" with id %i in CONTENT_TYPE_CACHE.", content_type, content_type_id)
 
     return content_type
 
 
-def insert_or_get_content_type_from_cache(cursor, content_type):
+def create_or_get_content_type_id(cursor, content_type):
     sql = ("SELECT "
            "ID "
            "FROM CONTENT_TYPE_CACHE "
@@ -148,8 +149,8 @@ def insert_or_get_content_type_from_cache(cursor, content_type):
     x = cursor.fetchone()
     if x:
         content_type_id = x[0]
-        module_logger.debug("Found content_type=%s. Id is %i",
-                            content_type, content_type_id)
+        module_logger.debug(
+            "Found content_type=\"%s\" with id %i in CONTENT_TYPE_CACHE.", content_type, content_type_id)
     else:
 
         sql = ("INSERT INTO CONTENT_TYPE_CACHE ("
@@ -160,15 +161,14 @@ def insert_or_get_content_type_from_cache(cursor, content_type):
         ])
         content_type_id = int(cursor.lastrowid)
         module_logger.debug(
-            "The content_type=%s is new. Inserting it. Id is %i", content_type, content_type_id)
+            "The content_type=%s is new. Inserting it n CONTENT_TYPE_CACHE. Id is %i", content_type, content_type_id)
 
     return content_type_id
 
 
-#########################################
+#############################################################
 # CONTENT CACHE
-#########################################
-
+#############################################################
 
 def insert_content(cursor, content):
     sql = ("INSERT INTO CONTENT_CACHE ("
@@ -188,17 +188,18 @@ def insert_content(cursor, content):
     l = min(len(content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Row id is %i.", str(content[0:l]), cid)
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), cid)
 
     return cid
 
-def extract_response_content_by_id(cursor, rid):
-    """ Extrahiert das unter der rid in der Tabelle CONTENT_CACHE 
+
+def get_content(cursor, content_id):
+    """ Extrahiert das unter der content_id in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
 
     Arguments:
         cursor -- Datenbank Cursor
-        id -- Die id des gewünschten response content
+        content_id -- Die id des gewünschten Blobs.
 
     Returns:
         Ein befülltes Blob Objekt.
@@ -208,7 +209,7 @@ def extract_response_content_by_id(cursor, rid):
            "CONTENT "
            "FROM CONTENT_CACHE WHERE id = :rid;")
 
-    param = {'rid': rid}
+    param = {'rid': content_id}
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
@@ -217,7 +218,6 @@ def extract_response_content_by_id(cursor, rid):
     l = min(len(content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "Extracted \"%s ...\" with id = %i from CONTENT_CACHE.", str(content[0:l]), rid)
+        "Got \"%s ...\" with id = %i from CONTENT_CACHE.", str(content[0:l]), content_id)
 
     return content
-
