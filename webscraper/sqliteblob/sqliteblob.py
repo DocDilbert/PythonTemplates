@@ -259,24 +259,32 @@ def update_session(cursor, session_id, session):
     
     module_logger.debug("sql: UPDATE session (id=%i) with %s.", session_id, session)
 
+def insert_request(cursor, request, session_id, response_id):
+    uri_id= insert_or_get_uri_from_cache(
+        cursor,
+        request.scheme, 
+        request.netloc, 
+        request.path, 
+        request.params, 
+        request.query, 
+        request.fragment
+    )
+    sql = ( "INSERT INTO REQUESTS ("
+                "URI_ID,"
+                "SESSION_ID,"
+                "RESPONSE_ID"
+            ") VALUES(?, ?, ?);")
 
-def insert_response_content(cursor, response_content):
-    sql =("INSERT INTO RESPONSE_CONTENTS ("
-            "CONTENT"
-          ") VALUES (?);")
-
-    content_compressed=sqlite3.Binary(response_content.compress())
-
-    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
-        len(content_compressed)/len(response_content.content)*100.0)
     cursor.execute(sql, [
-        content_compressed
+        uri_id,
+        session_id,
+        response_id
     ])
-    
+
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", response_content, rid)
-    
+    module_logger.debug("sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
+
 
 def insert_response(cursor, response, content_id):
     sql =  ("INSERT INTO RESPONSES ("
@@ -298,36 +306,28 @@ def insert_response(cursor, response, content_id):
     module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
-def insert_request(cursor, request, session_id, response_id):
-    uri_id= insert_or_get_uri_from_cache(
-        cursor,
-        request.scheme, 
-        request.netloc, 
-        request.path, 
-        request.params, 
-        request.query, 
-        request.fragment
-    )
-    sql = ("INSERT INTO REQUESTS ("
-                "URI_ID,"
-                "SESSION_ID,"
-                "RESPONSE_ID"
-            ") VALUES(?, ?, ?);")
+def insert_response_content(cursor, response_content):
+    sql =("INSERT INTO RESPONSE_CONTENTS ("
+            "CONTENT"
+          ") VALUES (?);")
 
+    content_compressed=sqlite3.Binary(response_content.compress())
+
+    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
+        len(content_compressed)/len(response_content.content)*100.0)
     cursor.execute(sql, [
-        uri_id,
-        session_id,
-        response_id
+        content_compressed
     ])
-
+    
     rid = int(cursor.lastrowid)
-    module_logger.debug("sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
+    module_logger.debug("sql: INSERT %s into RESPONSE_CONTENTS. Row id is %i.", response_content, rid)
+    
     return rid
 
 def insert_request_and_response(cursor, session_id, request, response, response_content):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
-    Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
+    Es wird überprüft ob unter dem gleichen request bereits eine response gespeichert wurde.
     Falls ja, wird diese response auf Gleichheit mit der empfangenen überprüft und 
     gegebenfalls die alten response verwendet.
 
@@ -335,8 +335,7 @@ def insert_request_and_response(cursor, session_id, request, response, response_
         cursor -- Datenbank Cursor
         session_id - Id der Session
         response - 
-        content_type - Art des hinzugefügten Inhalts
-        content - Inhalt der response
+        response_content - 
     
     Returns:
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
