@@ -23,6 +23,7 @@ from webdb.exceptions import (
 
 module_logger = logging.getLogger('webdb.interface')
 
+
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 
 
@@ -31,7 +32,7 @@ def create_or_open_db(db_file):
 
     Returns:
         Eine sqlite3 Datenbank connection.
-    """ 
+    """
     db_is_new = not os.path.exists(db_file)
     conn = sqlite3.connect(db_file)
 
@@ -101,6 +102,7 @@ def create_or_open_db(db_file):
 
     return conn
 
+
 def insert_session(cursor, session):
     sql = ("INSERT INTO SESSIONS ("
            "START_TIMESTAMP,"
@@ -163,19 +165,21 @@ def insert_request(cursor, request, session_id, response_id):
         "sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
+
 def insert_response(cursor, request, response):
     try:
-        (last_response, last_content_id) = get_last_response_of_request(
+        (newest_response, newest_response_metadata) = cache.get_newest_response_of_request(
             cursor, request)
 
-        if (response.content != last_response.content):
+
+        if (response.content != newest_response.content):
             module_logger.debug("The received response content is new.")
             content_id = cache.insert_content(cursor, response.content)
         else:
             module_logger.debug(
                 "The received response content was stored beforehand. Using this instead.")
 
-            content_id = last_content_id
+            content_id = newest_response_metadata['content_id']
 
     except ResponseNotFound:
         module_logger.debug(
@@ -241,52 +245,11 @@ def insert_request_and_response(cursor, session_id, request, response):
     return request_id
 
 
-def get_metadata_of_request(cursor, request):
-    """ Listet alle gespeicherten Metadaten auf, die unter der 
-    gegebenen request in der Tabelle REQUESTS gespeichert wurden.
-
-    Arguments:
-        cursor -- Datenbank Cursor
-        request - request 
-
-    Returns:
-        Eine Liste von Dictionaries die die gefunden Metadaten enthalten.
-    """
-
-    sql = ("SELECT SESSION_ID, RESPONSE_ID FROM REQUESTS "
-           "WHERE "
-           "URI_ID = :uri_id;")
-
-    try:
-        uri_id = cache.get_id_of_uri(
-            cursor,
-            request.scheme,
-            request.netloc,
-            request.path,
-            request.params,
-            request.query,
-            request.fragment
-        )
-    except UriNotFound:
-        return []
-
-    params = {
-        'uri_id': uri_id
-    }
-
-    cursor.execute(sql, params)
-    metadata_list = [{
-        'session_id': x[0],
-        'response_id': x[1]
-    } for x in cursor.fetchall()]
-
-    return metadata_list
-
 def get_content_types(cursor):
     sql = ("SELECT CONTENT_TYPE FROM CONTENT_TYPE_CACHE;")
-    
+
     cursor.execute(sql)
-    content_types = [x[0] for x in cursor.fetchall() ]
+    content_types = [x[0] for x in cursor.fetchall()]
     return content_types
 
 
@@ -308,9 +271,9 @@ def get_sessions(cursor):
 
 def get_request_by_id(cursor, request_id):
     sql = ("SELECT "
-            "URI_ID,"
-            "SESSION_ID,"
-            "RESPONSE_ID "
+           "URI_ID,"
+           "SESSION_ID,"
+           "RESPONSE_ID "
            "FROM REQUESTS WHERE id = :request_id;")
 
     param = {'request_id': request_id}
@@ -321,18 +284,19 @@ def get_request_by_id(cursor, request_id):
     session_id = x[1]
     response_id = x[2]
 
-    uri = cache.get_uri(cursor,uri_id )
+    uri = cache.get_uri(cursor, uri_id)
 
     response = Request(
-        scheme = uri['scheme'],
-        netloc = uri['netloc'],
-        path = uri['path'],
-        params  = uri['params'],
-        query = uri['query'],
-        fragment = uri['fragment']
+        scheme=uri['scheme'],
+        netloc=uri['netloc'],
+        path=uri['path'],
+        params=uri['params'],
+        query=uri['query'],
+        fragment=uri['fragment']
     )
 
     return (response, (session_id, response_id))
+
 
 def get_response_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 
@@ -371,39 +335,9 @@ def get_response_by_id(cursor, rid):
         "Extracted %s with id = %i from RESPONSES. "
         "Corresponding content_id is %i.", str(response), rid, content_id)
 
-    return (response, content_id)
-
-
-def get_last_response_of_request(cursor, request):
-    """ Extrahiert die letzte unter dem gegeben request gespeicherte response.
-
-    Arguments:
-        cursor -- Datenbank Cursor
-        request -- Der request unter dem die response gesucht werden soll.
-
-    Returns:
-        Es wird ein tuple zurückgegeben. Das erste Element ist die
-        gefundene response das zweite die content_id der gefundenen
-        response. 
-
-    Raises:
-        ResponseNotFound - If no last response for request was found.
-    """
-
-    dataset = get_metadata_of_request(cursor, request)
-
-    if len(dataset) == 0:
-        module_logger.debug(
-            'For request %s no meta data was found in REQUESTS.', request)
-        raise ResponseNotFound()
-
-    last_response_id = dataset[-1]['response_id']
-
-    module_logger.debug(
-        'For request %s a meta data list was found in REQUESTS.', request)
-    module_logger.debug(
-        "The last meta data entry in this list has the response_id=%i.", last_response_id)
-
-    return get_response_by_id(cursor, last_response_id)
-
-
+    return (
+        response, 
+        {
+            'content_id' : content_id
+        }
+    )

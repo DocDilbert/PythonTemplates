@@ -2,9 +2,12 @@ import logging
 import bz2
 import sqlite3
 
+import webdb.interface as interface
+
 from webdb.exceptions import (
     UriNotFound,
-    ContentTypeNotFound
+    ContentTypeNotFound,
+    ResponseNotFound
 )
 module_logger = logging.getLogger('webdb.cache')
 
@@ -135,6 +138,7 @@ def get_content_type(cursor, content_type_id):
 
     return content_type
 
+
 def get_content_type_id(cursor, content_type):
     sql = ("SELECT "
            "ID "
@@ -151,6 +155,7 @@ def get_content_type_id(cursor, content_type):
         return x[0]
     else:
         raise ContentTypeNotFound()
+
 
 def create_or_get_content_type_id(cursor, content_type):
     try:
@@ -226,3 +231,52 @@ def get_content(cursor, content_id):
         "Got \"%s ...\" with id = %i from CONTENT_CACHE.", str(content[0:l]), content_id)
 
     return content
+
+
+def get_newest_response_of_request(cursor, request):
+    """ Extrahiert die letzte unter dem gegeben request gespeicherte response.
+
+    Arguments:
+        cursor -- Datenbank Cursor
+        request -- Der request unter dem die response gesucht werden soll.
+
+    Returns:
+        Es wird ein tuple zurückgegeben. Das erste Element ist die
+        gefundene response das zweite die content_id der gefundenen
+        response. 
+
+    Raises:
+        ResponseNotFound - If no last response for request was found.
+    """
+
+    try:
+        uri_id = get_id_of_uri(
+            cursor,
+            request.scheme,
+            request.netloc,
+            request.path,
+            request.params,
+            request.query,
+            request.fragment
+        )
+    except UriNotFound:
+        return ResponseNotFound()
+
+    sql = ("SELECT RESPONSE_ID FROM REQUESTS "
+           "WHERE "
+           "URI_ID = :uri_id AND "
+           "ID = (SELECT MAX(ID)  FROM REQUESTS)"
+           ";")
+
+    params = {
+        'uri_id': uri_id
+    }
+
+    cursor.execute(sql, params)
+    x =  cursor.fetchone()
+    if not x:
+        raise ResponseNotFound()
+        
+    response_id = x[0]
+
+    return interface.get_response_by_id(cursor, response_id)
