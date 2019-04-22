@@ -17,6 +17,9 @@ module_logger = logging.getLogger('sqliteblob.sqliteblob')
 class UriNotFound(Exception):
     pass
 
+class ResponseNotFound(Exception):
+    pass
+
 def create_or_open_db(db_file):
     """ Erstellt oder öffnet eine sqlite3 Datenbank. 
 
@@ -276,11 +279,11 @@ def insert_response_content(cursor, response_content):
     return rid
 
 def insert_response(cursor, response, content_id):
-    sql =("INSERT INTO RESPONSES ("
-            "STATUS_CODE,"
-            "TIMESTAMP,"
-            "CONTENT_TYPE_ID,"
-            "CONTENT_ID"
+    sql =  ("INSERT INTO RESPONSES ("
+               "STATUS_CODE,"
+               "TIMESTAMP,"
+               "CONTENT_TYPE_ID,"
+               "CONTENT_ID"
             ") VALUES (?,?,?,?);")
 
     content_type_id = insert_or_get_content_type_from_cache(cursor, response.content_type)
@@ -295,43 +298,7 @@ def insert_response(cursor, response, content_id):
     module_logger.debug("sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
     return rid
 
-def insert_request_and_response(cursor, session_id, request, response, RESPONSE_CONTENTS):
-    """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
-
-    Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
-    Falls ja, wird diese response auf Gleichheit mit der empfangenen überprüft und 
-    gegebenfalls die alten response verwendet.
-
-    Arguments:
-        cursor -- Datenbank Cursor
-        session_id - Id der Session
-        response - 
-        content_type - Art des hinzugefügten Inhalts
-        content - Inhalt der response
-    
-    Returns:
-        [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
-    """
-    
-    (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
-    
-    if not last_response:
-        module_logger.debug("This is the first time the request %s was perfomed.", request)
-
-        content_id = insert_response_content(cursor, RESPONSE_CONTENTS)
-        response_id = insert_response(cursor, response, content_id)
-    else:
-        stored_RESPONSE_CONTENTS = extract_response_content_by_id(cursor, last_content_id)
-
-        if (RESPONSE_CONTENTS.content != stored_RESPONSE_CONTENTS.content):
-            module_logger.debug("The received response content is new.")
-            content_id = insert_response_content(cursor, RESPONSE_CONTENTS)
-        else:
-            module_logger.debug("The received response content was stored beforehand. Using this instead.")
-            content_id = last_content_id
-
-        response_id = insert_response(cursor, response, content_id)
-    
+def insert_request(cursor, request, session_id, response_id):
     uri_id= insert_or_get_uri_from_cache(
         cursor,
         request.scheme, 
@@ -357,13 +324,58 @@ def insert_request_and_response(cursor, session_id, request, response, RESPONSE_
     module_logger.debug("sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
+def insert_request_and_response(cursor, session_id, request, response, response_content):
+    """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
+
+    Es wird überprüft ob unter dem gleichen requesr bereits eine response gespeichert wurde.
+    Falls ja, wird diese response auf Gleichheit mit der empfangenen überprüft und 
+    gegebenfalls die alten response verwendet.
+
+    Arguments:
+        cursor -- Datenbank Cursor
+        session_id - Id der Session
+        response - 
+        content_type - Art des hinzugefügten Inhalts
+        content - Inhalt der response
+    
+    Returns:
+        [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
+    """
+    
+    try:
+        (_, last_content_id) = extract_last_response_of_request(cursor, request)
+        stored_response_content = extract_response_content_by_id(cursor, last_content_id)
+
+        if (response_content.content != stored_response_content.content):
+            module_logger.debug("The received response content is new.")
+            content_id = insert_response_content(cursor, response_content)
+        else:
+            module_logger.debug("The received response content was stored beforehand. Using this instead.")
+            content_id = last_content_id
+
+        response_id = insert_response(cursor, response, content_id)
+
+    except ResponseNotFound:
+        module_logger.debug("This is the first time the request %s was perfomed.", request)
+
+        content_id = insert_response_content(cursor, response_content)
+        response_id = insert_response(cursor, response, content_id)
+    
+    rid = insert_request(
+        cursor, 
+        request,
+        session_id,
+        response_id
+    )
+    return rid
+
 def list_metadata_for_request(cursor, request):
     """ Listet alle gespeicherten Metadaten auf, die unter der 
     gegebenen request in der Tabelle REQUESTS gespeichert wurden.
 
     Arguments:
         cursor -- Datenbank Cursor
-        url - request url
+        request - request 
 
     Returns:
         Eine Liste von Dictionaries die die gefunden Metadaten enthalten.
@@ -425,7 +437,7 @@ def extract_response_content_by_id(cursor, rid):
     """
     sql = ("SELECT "
                 "CONTENT "
-            "FROM RESPONSE_CONTENTS WHERE id = :rid;")
+           "FROM RESPONSE_CONTENTS WHERE id = :rid;")
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
@@ -451,21 +463,24 @@ def extract_response_by_id(cursor, rid):
     """
 
     
-    sql = ("SELECT "
+    sql = ( "SELECT "
                 "STATUS_CODE,"
                 "TIMESTAMP,"
                 "CONTENT_TYPE_ID,"
                 "CONTENT_ID "
             "FROM RESPONSES WHERE id = :rid;")
+    
     param = {'rid': rid}
     cursor.execute(sql, param)
     x = cursor.fetchone()
+    
     response = Response(
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
         content_type=extract_content_type_from_cache(cursor, x[2])
     )
     content_id =  x[3]
+
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSES. "
         "Corresponding content_id is %i.", str(response), rid, content_id) 
@@ -474,7 +489,7 @@ def extract_response_by_id(cursor, rid):
 
 
 def extract_last_response_of_request(cursor, request):
-    """ Extrahiert die letzten unter url gespeicherte response.
+    """ Extrahiert die letzten unter request gespeicherte response.
 
     Arguments:
         cursor -- Datenbank Cursor
@@ -483,14 +498,17 @@ def extract_last_response_of_request(cursor, request):
     Returns:
         Es wird ein tuple zurückgegeben. Das erste Element ist die
         gefundene response das zweite die content_id der gefundenen
-        response. Wird kein Element gefunden wird (None, -1) zurückgegeben
+        response. 
+    
+    Raises:
+        ResponseNotFound - If no last response for request was found.
     """
 
     dataset = list_metadata_for_request(cursor, request)
 
     if len(dataset) == 0:
         module_logger.debug('For request %s no meta data was found in REQUESTS.', request)
-        return (None, -1)
+        raise ResponseNotFound()
     else:
         module_logger.debug('For request %s a meta data list was found in REQUESTS.', request)
         module_logger.debug("The last meta data entry in this list has the response_id=%i.", dataset[-1]['response_id'])
