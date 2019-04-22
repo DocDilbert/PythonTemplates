@@ -576,12 +576,12 @@ def info(cursor):
     sql = ("SELECT count(*) FROM RESPONSE_CONTENTS;")    
     cursor.execute(sql)
     x = cursor.fetchone()
-    RESPONSE_CONTENTS_count = x[0]
+    response_content_count = x[0]
 
 
     return {
         'session_count' : session_count,
         'request_count' : request_count,
         'response_count' : response_count,
-        'RESPONSE_CONTENTS_count' : RESPONSE_CONTENTS_count
+        'response_content_count' : response_content_count
     }
