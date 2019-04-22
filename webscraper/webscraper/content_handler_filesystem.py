@@ -47,7 +47,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(response.content)
+            file.write(response.content.content)
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
@@ -59,7 +59,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         dest = self.dirname+"/"+str(filename)
         
         with open(dest,"wb") as file:
-            file.write(response.content)
+            file.write(response.content.content)
             
         self.logger.info("Wrote css content to '%s'", dest)
         tag['href'] = filename
@@ -72,7 +72,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(response.content)
+            file.write(response.content.content)
             
         self.logger.info("Wrote img content to '%s'", dest)
         tag['src'] = filename

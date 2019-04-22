@@ -60,7 +60,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response = sqliteblob.extract_response_by_request(
+        response, _ = sqliteblob.extract_response_by_request(
             self.cursor,
             self.session_id,
             request
