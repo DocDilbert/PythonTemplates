@@ -115,6 +115,7 @@ class WebScraperCommandLineParser:
                    "   extract  Extract webpage by session id.\n"
                    "   sql      Stores content into the database.\n"
                    "   slist    Shows a list of stored sessions.\n"
+                   "   count    Count the stored content per session.\n"
                    "   info     Shows some useful info of the database.")
         )
 
@@ -134,7 +135,7 @@ class WebScraperCommandLineParser:
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
 
-    def content(self):
+    def count(self):
         parser = argparse.ArgumentParser(
             prog="webscraper slist", 
             description='Stores web content into a database'
@@ -152,7 +153,16 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        webdb.filters.get_responses_of_session_id_and_content_type(cursor, 1, "text/css")
+        content_types = webdb.filters.get_content_type_list(cursor)
+        sessions = webdb.interface.get_session_list(cursor)
+
+        for session in sessions:
+            stats=[]
+            session_id = session['id']
+            for content_type in content_types:
+                responses_count = len(webdb.filters.get_requests_of_session_id_and_content_type(cursor, session_id, content_type))
+                stats.append("\"{}\": {}".format(content_type, responses_count))
+            print("{:4} - {}".format(session_id, ", ".join(stats)))
 
     def slist(self):
         parser = argparse.ArgumentParser(
