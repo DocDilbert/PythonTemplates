@@ -153,7 +153,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        content_types = webdb.filters.get_content_type_list(cursor)
+        content_types = webdb.interface.get_content_type_list(cursor)
         sessions = webdb.interface.get_session_list(cursor)
 
         for session in sessions:

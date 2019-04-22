@@ -282,6 +282,13 @@ def list_metadata_for_request(cursor, request):
 
     return metadata_list
 
+def get_content_type_list(cursor):
+    sql = ("SELECT CONTENT_TYPE FROM CONTENT_TYPE_CACHE;")
+    
+    cursor.execute(sql)
+    content_types = [x[0] for x in cursor.fetchall() ]
+    return content_types
+
 
 def get_session_list(cursor):
     sql = ("SELECT "

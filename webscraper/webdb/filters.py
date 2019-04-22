@@ -1,12 +1,5 @@
 import webdb.interface as interface
 import webdb.cache as cache
-def get_content_type_list(cursor):
-    sql = ("SELECT CONTENT_TYPE FROM CONTENT_TYPE_CACHE;")
-    
-    cursor.execute(sql)
-    content_types = [x[0] for x in cursor.fetchall() ]
-    return content_types
-
 
 def filter_response_ids_by_content_type(cursor, response_ids, content_type):
 
