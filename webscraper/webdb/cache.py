@@ -2,7 +2,7 @@ import logging
 import bz2
 import sqlite3
 
-import webdb.interface as interface
+import webdb.interface 
 
 from webdb.exceptions import (
     UriNotFound,
@@ -299,4 +299,4 @@ def get_newest_response_of_request(cursor, request):
 
     response_id = x[0]
 
-    return interface.get_response_by_id(cursor, response_id)
+    return webdb.interface.get_response_by_id(cursor, response_id)

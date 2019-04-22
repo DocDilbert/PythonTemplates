@@ -5,7 +5,7 @@ from webscraper.version import (
 setup(
     name='webscraper',
     version=__version__,
-    packages=['webscraper', 'sqliteblob', 'webtypes',],
+    packages=['webscraper', 'webdb', 'webtypes',],
     long_description=open('README.txt').read(),
     #data_files=['VERSION'],
     
