@@ -14,7 +14,7 @@ from datetime import datetime
 
 import bz2
 
-COMPRESSION_LEVEL = 9 
+COMPRESSION_LEVEL = 9
 BLOB_STR_LENGTH = 10
 
 module_logger = logging.getLogger('sqliteblob.sqliteblob')
@@ -73,7 +73,7 @@ def create_or_open_db(db_file):
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
-        sql = ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENTS ("
+        sql = ("CREATE TABLE IF NOT EXISTS CONTENT_CACHE ("
                "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "CONTENT BLOB"
                ");")
@@ -121,8 +121,8 @@ def extract_content_type_from_cache(cursor, content_type_id):
     x = cursor.fetchone()
 
     content_type = x[0]
-    module_logger.debug("Extracted content_type=%s with id %i.",
-                        content_type, content_type_id)
+    module_logger.debug(
+        "Extracted \"%s\" with id %i from CONTENT_TYPE_CACHE", content_type, content_type_id)
 
     return content_type
 
@@ -309,8 +309,9 @@ def insert_request(cursor, request, session_id, response_id):
         "sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
+
 def insert_response_content(cursor, content):
-    sql = ("INSERT INTO RESPONSE_CONTENTS ("
+    sql = ("INSERT INTO CONTENT_CACHE ("
            "CONTENT"
            ") VALUES (?);")
 
@@ -324,21 +325,23 @@ def insert_response_content(cursor, content):
 
     rid = int(cursor.lastrowid)
 
-    l = min(len(content),BLOB_STR_LENGTH)
+    l = min(len(content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "sql: INSERT \"%s ...\" into RESPONSE_CONTENTS. Row id is %i.", str(content[0:l]), rid)
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Row id is %i.", str(content[0:l]), rid)
 
     return rid
 
+
 def insert_response(cursor, request, response):
     content_type_id = insert_or_get_content_type_from_cache(
-        cursor, 
+        cursor,
         response.content_type
     )
 
     try:
-        (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
+        (last_response, last_content_id) = extract_last_response_of_request(
+            cursor, request)
 
         if (response.content != last_response.content):
             module_logger.debug("The received response content is new.")
@@ -353,7 +356,7 @@ def insert_response(cursor, request, response):
             "This is the first time the request %s was perfomed.", request)
 
         content_id = insert_response_content(cursor, response.content)
-    
+
     sql = ("INSERT INTO RESPONSES ("
            "STATUS_CODE,"
            "TIMESTAMP,"
@@ -373,6 +376,7 @@ def insert_response(cursor, request, response):
         "sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
 
     return rid
+
 
 def insert_request_and_response(cursor, session_id, request, response):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
@@ -465,7 +469,7 @@ def list_all_sessions(cursor):
 
 
 def extract_response_content_by_id(cursor, rid):
-    """ Extrahiert das unter der rid in der Tabelle RESPONSE_CONTENTS 
+    """ Extrahiert das unter der rid in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
 
     Arguments:
@@ -478,7 +482,7 @@ def extract_response_content_by_id(cursor, rid):
 
     sql = ("SELECT "
            "CONTENT "
-           "FROM RESPONSE_CONTENTS WHERE id = :rid;")
+           "FROM CONTENT_CACHE WHERE id = :rid;")
 
     param = {'rid': rid}
     cursor.execute(sql, param)
@@ -486,10 +490,10 @@ def extract_response_content_by_id(cursor, rid):
 
     content = bz2.decompress(x[0])
 
-    l = min(len(content),BLOB_STR_LENGTH)
+    l = min(len(content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "Extracted \"%s ...\" with id = %i from RESPONSE_CONTENTS.", str(content[0:l]), rid)
+        "Extracted \"%s ...\" with id = %i from CONTENT_CACHE.", str(content[0:l]), rid)
 
     return content
 
@@ -524,9 +528,9 @@ def extract_response_by_id(cursor, rid):
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
         content_type=extract_content_type_from_cache(cursor, x[2]),
-        content = extract_response_content_by_id(cursor, content_id)
+        content=extract_response_content_by_id(cursor, content_id)
     )
-    
+
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSES. "
         "Corresponding content_id is %i.", str(response), rid, content_id)
@@ -597,7 +601,7 @@ def extract_response_by_request(cursor, session_id, request):
 
 
 def compute_content_size(cursor):
-    sql = ("SELECT sum(length(CONTENT)) FROM RESPONSE_CONTENTS;")
+    sql = ("SELECT sum(length(CONTENT)) FROM CONTENT_CACHE;")
     cursor.execute(sql)
     x = cursor.fetchone()
     content_size = x[0]
@@ -620,7 +624,7 @@ def info(cursor):
     x = cursor.fetchone()
     response_count = x[0]
 
-    sql = ("SELECT count(*) FROM RESPONSE_CONTENTS;")
+    sql = ("SELECT count(*) FROM CONTENT_CACHE;")
     cursor.execute(sql)
     x = cursor.fetchone()
     response_content_count = x[0]
