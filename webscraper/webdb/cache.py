@@ -3,8 +3,7 @@ import bz2
 import sqlite3
 
 from webdb.exceptions import (
-    UriNotFound,
-    ResponseNotFound
+    UriNotFound
 )
 module_logger = logging.getLogger('webdb.cache')
 
@@ -12,29 +11,10 @@ COMPRESSION_LEVEL = 9
 BLOB_STR_LENGTH = 10
 
 
-def insert_response_content(cursor, content):
-    sql = ("INSERT INTO CONTENT_CACHE ("
-           "CONTENT"
-           ") VALUES (?);")
-
-    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
-
-    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
-                        len(content_compressed)/len(content)*100.0)
-    cursor.execute(sql, [
-        sqlite3.Binary(content_compressed)
-    ])
-
-    rid = int(cursor.lastrowid)
-
-    l = min(len(content), BLOB_STR_LENGTH)
-
-    module_logger.debug(
-        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Row id is %i.", str(content[0:l]), rid)
-
-    return rid
-
-def get_uri_from_cache(cursor, uri_id):
+#########################################
+# URI CACHE
+#########################################
+def get_uri(cursor, uid):
     sql = ("SELECT "
            "SCHEME,"
            "NETLOC,"
@@ -46,7 +26,7 @@ def get_uri_from_cache(cursor, uri_id):
            "WHERE id = :uri_id;")
 
     sql_params = {
-        'uri_id': uri_id
+        'uri_id': uid
     }
 
     cursor.execute(sql, sql_params)
@@ -63,7 +43,8 @@ def get_uri_from_cache(cursor, uri_id):
     else:
         raise UriNotFound()
 
-def get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+
+def get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
     sql = ("SELECT "
            "ID "
            "FROM URI_CACHE "
@@ -93,12 +74,19 @@ def get_uri_id_from_cache(cursor, scheme, netloc, path, params, query, fragment)
         raise UriNotFound()
 
 
-def insert_or_get_uri_from_cache(cursor, scheme, netloc, path, params, query, fragment):
+def create_or_get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
     try:
-        uri_id = get_uri_id_from_cache(
-            cursor, scheme, netloc, path, params, query, fragment)
-        module_logger.debug("Found uri. Id is %i", uri_id)
-        return uri_id
+        uid = get_id_of_uri(
+            cursor,
+            scheme,
+            netloc,
+            path,
+            params,
+            query,
+            fragment
+        )
+        module_logger.debug("Found uri. Id is %i", uid)
+        return uid
 
     except UriNotFound:
         sql = ("INSERT INTO URI_CACHE ("
@@ -118,9 +106,33 @@ def insert_or_get_uri_from_cache(cursor, scheme, netloc, path, params, query, fr
             query,
             fragment
         ])
-        uri_id = int(cursor.lastrowid)
-        module_logger.debug("The uri is new. Inserting it. Id is %i", uri_id)
-        return uri_id
+        uid = int(cursor.lastrowid)
+        module_logger.debug("The uri is new. Inserting it. Id is %i", uid)
+        return uid
+
+#########################################
+# CONTENT_TYPE CACHE
+#########################################
+
+def extract_content_type_from_cache(cursor, content_type_id):
+    sql = ("SELECT "
+           "CONTENT_TYPE "
+           "FROM CONTENT_TYPE_CACHE "
+           "WHERE id = :content_type_id;")
+
+    params = {
+        'content_type_id': content_type_id
+    }
+
+    cursor.execute(sql, params)
+    x = cursor.fetchone()
+
+    content_type = x[0]
+    module_logger.debug(
+        "Extracted \"%s\" with id %i from CONTENT_TYPE_CACHE", content_type, content_type_id)
+
+    return content_type
+
 
 def insert_or_get_content_type_from_cache(cursor, content_type):
     sql = ("SELECT "
@@ -153,6 +165,33 @@ def insert_or_get_content_type_from_cache(cursor, content_type):
     return content_type_id
 
 
+#########################################
+# CONTENT CACHE
+#########################################
+
+
+def insert_content(cursor, content):
+    sql = ("INSERT INTO CONTENT_CACHE ("
+           "CONTENT"
+           ") VALUES (?);")
+
+    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
+
+    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
+                        len(content_compressed)/len(content)*100.0)
+    cursor.execute(sql, [
+        sqlite3.Binary(content_compressed)
+    ])
+
+    cid = int(cursor.lastrowid)
+
+    l = min(len(content), BLOB_STR_LENGTH)
+
+    module_logger.debug(
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Row id is %i.", str(content[0:l]), cid)
+
+    return cid
+
 def extract_response_content_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
@@ -182,21 +221,3 @@ def extract_response_content_by_id(cursor, rid):
 
     return content
 
-def extract_content_type_from_cache(cursor, content_type_id):
-    sql = ("SELECT "
-           "CONTENT_TYPE "
-           "FROM CONTENT_TYPE_CACHE "
-           "WHERE id = :content_type_id;")
-
-    params = {
-        'content_type_id': content_type_id
-    }
-
-    cursor.execute(sql, params)
-    x = cursor.fetchone()
-
-    content_type = x[0]
-    module_logger.debug(
-        "Extracted \"%s\" with id %i from CONTENT_TYPE_CACHE", content_type, content_type_id)
-
-    return content_type

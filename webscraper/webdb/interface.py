@@ -20,10 +20,6 @@ from webdb.exceptions import (
     ResponseNotFound
 )
 
-
-COMPRESSION_LEVEL = 9
-BLOB_STR_LENGTH = 10
-
 module_logger = logging.getLogger('webdb.interface')
 
 def create_or_open_db(db_file):
@@ -34,7 +30,7 @@ def create_or_open_db(db_file):
 
     Returns:
         Eine sqlite3 Datenbank connection.
-    """
+    """ 
     db_is_new = not os.path.exists(db_file)
     conn = sqlite3.connect(db_file)
 
@@ -139,7 +135,7 @@ def update_session(cursor, session_id, session):
 
 
 def insert_request(cursor, request, session_id, response_id):
-    uri_id = cache.insert_or_get_uri_from_cache(
+    uid = cache.create_or_get_id_of_uri(
         cursor,
         request.scheme,
         request.netloc,
@@ -148,6 +144,7 @@ def insert_request(cursor, request, session_id, response_id):
         request.query,
         request.fragment
     )
+
     sql = ("INSERT INTO REQUESTS ("
            "URI_ID,"
            "SESSION_ID,"
@@ -155,7 +152,7 @@ def insert_request(cursor, request, session_id, response_id):
            ") VALUES(?, ?, ?);")
 
     cursor.execute(sql, [
-        uri_id,
+        uid,
         session_id,
         response_id
     ])
@@ -177,7 +174,7 @@ def insert_response(cursor, request, response):
 
         if (response.content != last_response.content):
             module_logger.debug("The received response content is new.")
-            content_id = cache.insert_response_content(cursor, response.content)
+            content_id = cache.insert_content(cursor, response.content)
         else:
             module_logger.debug(
                 "The received response content was stored beforehand. Using this instead.")
@@ -187,7 +184,7 @@ def insert_response(cursor, request, response):
         module_logger.debug(
             "This is the first time the request %s was perfomed.", request)
 
-        content_id = cache.insert_response_content(cursor, response.content)
+        content_id = cache.insert_content(cursor, response.content)
 
     sql = ("INSERT INTO RESPONSES ("
            "STATUS_CODE,"
@@ -259,7 +256,7 @@ def list_metadata_for_request(cursor, request):
            "URI_ID = :uri_id;")
 
     try:
-        uri_id = cache.get_uri_id_from_cache(
+        uri_id = cache.get_id_of_uri(
             cursor,
             request.scheme,
             request.netloc,
@@ -374,7 +371,7 @@ def extract_last_response_of_request(cursor, request):
 
 def extract_response_by_request(cursor, session_id, request):
 
-    uri_id = cache.get_uri_id_from_cache(
+    uri_id = cache.get_id_of_uri(
         cursor,
         request.scheme,
         request.netloc,
