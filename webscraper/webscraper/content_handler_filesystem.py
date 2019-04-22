@@ -41,38 +41,38 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def session_started(self):
         super().session_started()
 
-    def response_with_html_content_received(self, request, response, RESPONSE_CONTENTS):
-        super().response_with_html_content_received(request, response, RESPONSE_CONTENTS)
+    def response_with_html_content_received(self, request, response):
+        super().response_with_html_content_received(request, response)
         filename = "index_{}.html".format(self.html_count)
 
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(RESPONSE_CONTENTS.content)
+            file.write(response.content)
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
-    def response_with_css_content_received(self, request, response, RESPONSE_CONTENTS, tag):
-        super().response_with_css_content_received( request, response, RESPONSE_CONTENTS, tag)
+    def response_with_css_content_received(self, request, response, tag):
+        super().response_with_css_content_received( request, response, tag)
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
         
         with open(dest,"wb") as file:
-            file.write(RESPONSE_CONTENTS.content)
+            file.write(response.content)
             
         self.logger.info("Wrote css content to '%s'", dest)
         tag['href'] = filename
 
 
-    def response_with_img_content_received(self, request, response, RESPONSE_CONTENTS, tag):
-        super().response_with_img_content_received( request, response, RESPONSE_CONTENTS, tag)
+    def response_with_img_content_received(self, request, response, tag):
+        super().response_with_img_content_received( request, response, tag)
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
         
         dest = self.dirname+"/"+str(filename)
         with open(dest,"wb") as file:
-            file.write(RESPONSE_CONTENTS.content)
+            file.write(response.content)
             
         self.logger.info("Wrote img content to '%s'", dest)
         tag['src'] = filename

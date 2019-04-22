@@ -11,28 +11,25 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().session_started()
         self.logger.debug("session_started")
 
-    def response_with_html_content_received(self, request, response, RESPONSE_CONTENTS):
-        super().response_with_html_content_received(request,response, RESPONSE_CONTENTS)
+    def response_with_html_content_received(self, request, response):
+        super().response_with_html_content_received(request,response)
         
         self.logger.debug("response_with_html_content_received\n"
             "\trequest = %s\n"
-            "\tresponse = %s\n"
-            "\tRESPONSE_CONTENTS = %s", request, response, RESPONSE_CONTENTS)
+            "\tresponse = %s", request, response)
 
-    def response_with_css_content_received(self, request, response, RESPONSE_CONTENTS, tag):
-        super().response_with_css_content_received(request, response, RESPONSE_CONTENTS, tag)
+    def response_with_css_content_received(self, request, response, tag):
+        super().response_with_css_content_received(request, response, tag)
         self.logger.debug("response_with_css_content_received\n"
             "\trequest = %s\n"
-            "\tresponse = %s\n"
-            "\tRESPONSE_CONTENTS = %s", request, response, RESPONSE_CONTENTS)
+            "\tresponse = %s", request, response)
 
-    def response_with_img_content_received(self, request, response, RESPONSE_CONTENTS, tag):
-        super().response_with_img_content_received(request, response, RESPONSE_CONTENTS, tag)
+    def response_with_img_content_received(self, request, response, tag):
+        super().response_with_img_content_received(request, response, tag)
         
         self.logger.debug("response_with_img_content_received\n"
             "\trequest = %s\n"
-            "\tresponse = %s\n"
-            "\tRESPONSE_CONTENTS = %s", request, response, RESPONSE_CONTENTS)
+            "\tresponse = %s", request, response)
 
     def html_post_process_handler(self, request, soup):
         super().html_post_process_handler(request, soup)

@@ -32,8 +32,6 @@ CONFIG_FILE_NAME = "webscraper.json"
 # create logger
 module_logger = logging.getLogger('webscraper')
 
-
-
 def log_raw_response(response):
     module_logger.debug("Raw response received:\n"
         "\tstatus_code = %s,\n"
@@ -50,11 +48,11 @@ def response_factory(request):
     response = Response.fromGMT(
         status_code = response_raw.status_code,
         date_gmt = response_raw.headers['Date'],
-        content_type = response_raw.headers['Content-Type']
+        content_type = response_raw.headers['Content-Type'],
+        content = ResponseContent(content = response_raw.content)
     )
-    RESPONSE_CONTENTS = ResponseContent(content = response_raw.content)
-
-    return (response, RESPONSE_CONTENTS)
+   
+    return response
 
 class RequestToDatabase:
     def __init__(self, cursor, session_id):
@@ -62,7 +60,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, RESPONSE_CONTENTS = sqliteblob.extract_response_by_request(
+        response = sqliteblob.extract_response_by_request(
             self.cursor,
             self.session_id,
             request
@@ -70,7 +68,7 @@ class RequestToDatabase:
         
         module_logger.info("Request %s completed", request)
    
-        return (response, RESPONSE_CONTENTS)
+        return response
 
 
 def log_banner():
@@ -155,6 +153,7 @@ class WebScraperCommandLineParser:
         connection =  sqliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
         sessions=sqliteblob.list_all_sessions(cursor)
+
         for session in sessions:
             sid = session['id']
             session_obj = session['session']

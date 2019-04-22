@@ -305,30 +305,6 @@ def insert_request(cursor, request, session_id, response_id):
         "sql: INSERT %s into REQUESTS. Row id is %i.", request, rid)
     return rid
 
-
-def insert_response(cursor, response, content_id):
-    sql = ("INSERT INTO RESPONSES ("
-           "STATUS_CODE,"
-           "TIMESTAMP,"
-           "CONTENT_TYPE_ID,"
-           "CONTENT_ID"
-           ") VALUES (?,?,?,?);")
-
-    content_type_id = insert_or_get_content_type_from_cache(
-        cursor, response.content_type)
-    cursor.execute(sql, [
-        response.status_code,
-        response.date.timestamp(),
-        content_type_id,
-        content_id
-    ])
-
-    rid = int(cursor.lastrowid)
-    module_logger.debug(
-        "sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
-    return rid
-
-
 def insert_response_content(cursor, response_content):
     sql = ("INSERT INTO RESPONSE_CONTENTS ("
            "CONTENT"
@@ -348,8 +324,50 @@ def insert_response_content(cursor, response_content):
 
     return rid
 
+def insert_response(cursor, request, response):
+    content_type_id = insert_or_get_content_type_from_cache(
+        cursor, 
+        response.content_type
+    )
 
-def insert_request_and_response(cursor, session_id, request, response, response_content):
+    try:
+        (last_response, last_content_id) = extract_last_response_of_request(cursor, request)
+
+        if (response.content.content != last_response.content.content):
+            module_logger.debug("The received response content is new.")
+            content_id = insert_response_content(cursor, response.content)
+        else:
+            module_logger.debug(
+                "The received response content was stored beforehand. Using this instead.")
+            content_id = last_content_id
+
+    except ResponseNotFound:
+        module_logger.debug(
+            "This is the first time the request %s was perfomed.", request)
+
+        content_id = insert_response_content(cursor, response.content)
+    
+    sql = ("INSERT INTO RESPONSES ("
+           "STATUS_CODE,"
+           "TIMESTAMP,"
+           "CONTENT_TYPE_ID,"
+           "CONTENT_ID"
+           ") VALUES (?,?,?,?);")
+
+    cursor.execute(sql, [
+        response.status_code,
+        response.date.timestamp(),
+        content_type_id,
+        content_id
+    ])
+
+    rid = int(cursor.lastrowid)
+    module_logger.debug(
+        "sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
+
+    return rid
+
+def insert_request_and_response(cursor, session_id, request, response):
     """ Fügt einen http(s) request und die dazugehörige response der Datenbank hinzu. 
 
     Es wird überprüft ob unter dem gleichen request bereits eine response gespeichert wurde.
@@ -366,27 +384,11 @@ def insert_request_and_response(cursor, session_id, request, response, response_
         [int] --  Die id unter welche der request in der Datenbank gespeichert wurde.
     """
 
-    try:
-        (_, last_content_id) = extract_last_response_of_request(cursor, request)
-        stored_response_content = extract_response_content_by_id(
-            cursor, last_content_id)
-
-        if (response_content.content != stored_response_content.content):
-            module_logger.debug("The received response content is new.")
-            content_id = insert_response_content(cursor, response_content)
-        else:
-            module_logger.debug(
-                "The received response content was stored beforehand. Using this instead.")
-            content_id = last_content_id
-
-        response_id = insert_response(cursor, response, content_id)
-
-    except ResponseNotFound:
-        module_logger.debug(
-            "This is the first time the request %s was perfomed.", request)
-
-        content_id = insert_response_content(cursor, response_content)
-        response_id = insert_response(cursor, response, content_id)
+    response_id = insert_response(
+        cursor,
+        request,
+        response
+    )
 
     rid = insert_request(
         cursor,
@@ -507,13 +509,15 @@ def extract_response_by_id(cursor, rid):
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
+    content_id = x[3]
+
     response = Response(
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
-        content_type=extract_content_type_from_cache(cursor, x[2])
+        content_type=extract_content_type_from_cache(cursor, x[2]),
+        content = extract_response_content_by_id(cursor, content_id)
     )
-    content_id = x[3]
-
+    
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSES. "
         "Corresponding content_id is %i.", str(response), rid, content_id)
@@ -580,13 +584,7 @@ def extract_response_by_request(cursor, session_id, request):
     x = cursor.fetchone()
     response_id = x[0]
 
-    response, response_content_id = extract_response_by_id(
-        cursor, response_id)
-
-    response_content = extract_response_content_by_id(
-        cursor, response_content_id)
-
-    return response, response_content
+    return extract_response_by_id(cursor, response_id)
 
 
 def compute_content_size(cursor):
