@@ -4,13 +4,13 @@ import datetime
 
 from webtypes.session import Session
 from webscraper.content_handler_decorator import ContentHandlerDecorator
-import sqliteblob.sqliteblob as sqliteblob
+import webdb
 
 
 class ContentHandlerSqlite(ContentHandlerDecorator):
     def __init__(self, filename):
         super().__init__()
-        self.connection = sqliteblob.create_or_open_db(filename)
+        self.connection = webdb.interface.create_or_open_db(filename)
         self.cursor = self.connection.cursor()
         self.logger = logging.getLogger(
             'webscraper.content_handler_sqllite.ContentHandlerSqlite')
@@ -22,12 +22,12 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         super().session_started()
         self.session = Session()
         self.session.update_start_datetime()
-        self.session_id = sqliteblob.insert_session(self.cursor, self.session)
+        self.session_id = webdb.interface.insert_session(self.cursor, self.session)
 
     def insert_request_and_response(self,  request, response):
         self.logger.debug("Insert request and response into database")
 
-        sqliteblob.insert_request_and_response(
+        webdb.interface.insert_request_and_response(
             self.cursor,
             self.session_id,
             request,
@@ -54,7 +54,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
         self.session.update_end_datetime()
 
-        sqliteblob.update_session(
+        webdb.interface.update_session(
             self.cursor,
             self.session_id,
             self.session

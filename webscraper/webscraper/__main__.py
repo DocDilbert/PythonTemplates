@@ -9,7 +9,8 @@ import requests
 
 from urllib.parse import urlparse, urlunparse
 
-import sqliteblob.sqliteblob as sqliteblob
+import webdb
+
 from webscraper.webscraper import webscraper 
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
@@ -59,7 +60,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, _ = sqliteblob.extract_response_by_request(
+        response, _ = webdb.interface.extract_response_by_request(
             self.cursor,
             self.session_id,
             request
@@ -149,9 +150,9 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection =  sqliteblob.create_or_open_db(config['database'])
+        connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        sessions=sqliteblob.list_all_sessions(cursor)
+        sessions=webdb.interface.list_all_sessions(cursor)
 
         for session in sessions:
             sid = session['id']
@@ -180,13 +181,14 @@ class WebScraperCommandLineParser:
 
         init_logger(config)
         statinfo = os.stat(config['database'])
-        connection =  sqliteblob.create_or_open_db(config['database'])
+        connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
         
-        info = sqliteblob.info(cursor)
-        info_cache = sqliteblob.info_cache(cursor)
+        info = webdb.info.info(cursor)
+        info_cache = webdb.info.info_cache(cursor)
 
-        content_size = sqliteblob.compute_content_size(cursor)
+        content_size = webdb.info.compute_content_size(cursor)
+        
         print(
             "---------------------------------------------------------\n"
             "                            Session count: {}\n"
@@ -281,7 +283,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         log_banner()
 
-        connection =  sqliteblob.create_or_open_db(config['database'])
+        connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
         rtb = RequestToDatabase(cursor, args.session_id)
 
