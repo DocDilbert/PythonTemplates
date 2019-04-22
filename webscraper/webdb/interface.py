@@ -10,6 +10,7 @@ from urllib.parse import urlparse, urlunparse
 
 from webtypes.session import Session
 from webtypes.response import Response
+from webtypes.request import Request
 from datetime import datetime
 
 import webdb.cache as cache
@@ -173,7 +174,7 @@ def insert_response(cursor, request, response):
         else:
             module_logger.debug(
                 "The received response content was stored beforehand. Using this instead.")
-                
+
             content_id = last_content_id
 
     except ResponseNotFound:
@@ -231,13 +232,13 @@ def insert_request_and_response(cursor, session_id, request, response):
         response
     )
 
-    rid = insert_request(
+    request_id = insert_request(
         cursor,
         request,
         session_id,
         response_id
     )
-    return rid
+    return request_id
 
 
 def list_metadata_for_request(cursor, request):
@@ -282,7 +283,7 @@ def list_metadata_for_request(cursor, request):
     return metadata_list
 
 
-def list_all_sessions(cursor):
+def get_session_list(cursor):
     sql = ("SELECT "
            "ID,"
            "START_TIMESTAMP,"
@@ -296,6 +297,62 @@ def list_all_sessions(cursor):
     } for x in cursor.fetchall()]
 
     return session_list
+
+def get_request_list_of_session_id(cursor, session_id):
+    sql = ("SELECT "
+           "ID "
+           "FROM REQUESTS "
+           "WHERE SESSION_ID = :session_id"
+           ";")
+
+    sqlparams = {
+        'session_id' : session_id
+    }
+    cursor.execute(sql, sqlparams)
+
+    request_list = []
+    for x in cursor.fetchall():
+        request_id = x[0]
+        request, (session_id, response_id) = get_request_by_id(cursor, request_id)
+        request_list.append(
+            (request, 
+                {
+                    'session_id' : session_id, 
+                    'request_id' : request_id, 
+                    'response_id' : response_id
+                }
+            )
+        )
+    
+    return request_list
+
+def get_request_by_id(cursor, request_id):
+    sql = ("SELECT "
+            "URI_ID,"
+            "SESSION_ID,"
+            "RESPONSE_ID "
+           "FROM REQUESTS WHERE id = :request_id;")
+
+    param = {'request_id': request_id}
+    cursor.execute(sql, param)
+    x = cursor.fetchone()
+
+    uri_id = x[0]
+    session_id = x[1]
+    response_id = x[2]
+
+    uri = cache.get_uri(cursor,uri_id )
+
+    response = Request(
+        scheme = uri['scheme'],
+        netloc = uri['netloc'],
+        path = uri['path'],
+        params  = uri['params'],
+        query = uri['query'],
+        fragment = uri['fragment']
+    )
+
+    return (response, (session_id, response_id))
 
 def extract_response_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 

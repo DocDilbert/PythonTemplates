@@ -134,6 +134,26 @@ class WebScraperCommandLineParser:
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
 
+    def content(self):
+        parser = argparse.ArgumentParser(
+            prog="webscraper slist", 
+            description='Stores web content into a database'
+        )
+
+        # prefixing the argument with -- means it's optional
+        #parser.add_argument('--amend', action='store_true')
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        _ = parser.parse_args(sys.argv[2:])
+
+        with open(CONFIG_FILE_NAME) as json_data:
+            config = json.load(json_data)
+
+        init_logger(config)
+        connection =  webdb.interface.create_or_open_db(config['database'])
+        cursor = connection.cursor()
+        webdb.filters.get_responses_of_session_and_content_type(cursor, 1, "html")
+
     def slist(self):
         parser = argparse.ArgumentParser(
             prog="webscraper slist", 
@@ -152,7 +172,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        sessions=webdb.interface.list_all_sessions(cursor)
+        sessions=webdb.interface.get_session_list(cursor)
 
         for session in sessions:
             sid = session['id']

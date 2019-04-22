@@ -3,7 +3,8 @@ import bz2
 import sqlite3
 
 from webdb.exceptions import (
-    UriNotFound
+    UriNotFound,
+    ContentTypeNotFound
 )
 module_logger = logging.getLogger('webdb.cache')
 
@@ -134,8 +135,7 @@ def get_content_type(cursor, content_type_id):
 
     return content_type
 
-
-def create_or_get_content_type_id(cursor, content_type):
+def get_content_type_id(cursor, content_type):
     sql = ("SELECT "
            "ID "
            "FROM CONTENT_TYPE_CACHE "
@@ -148,11 +148,16 @@ def create_or_get_content_type_id(cursor, content_type):
     cursor.execute(sql, params)
     x = cursor.fetchone()
     if x:
-        content_type_id = x[0]
+        return x[0]
+    else:
+        raise ContentTypeNotFound()
+
+def create_or_get_content_type_id(cursor, content_type):
+    try:
+        content_type_id = get_content_type_id(cursor, content_type)
         module_logger.debug(
             "Found content_type=\"%s\" with id %i in CONTENT_TYPE_CACHE.", content_type, content_type_id)
-    else:
-
+    except ContentTypeNotFound:
         sql = ("INSERT INTO CONTENT_TYPE_CACHE ("
                "CONTENT_TYPE"
                ") VALUES (?);")
