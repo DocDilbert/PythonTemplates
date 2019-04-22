@@ -543,13 +543,14 @@ def extract_last_response_of_request(cursor, request):
         module_logger.debug(
             'For request %s no meta data was found in REQUESTS.', request)
         raise ResponseNotFound()
-    else:
-        module_logger.debug(
-            'For request %s a meta data list was found in REQUESTS.', request)
-        module_logger.debug(
-            "The last meta data entry in this list has the response_id=%i.", dataset[-1]['response_id'])
 
     last_response_id = dataset[-1]['response_id']
+
+    module_logger.debug(
+        'For request %s a meta data list was found in REQUESTS.', request)
+    module_logger.debug(
+        "The last meta data entry in this list has the response_id=%i.", last_response_id)
+
     return extract_response_by_id(cursor, last_response_id)
 
 
@@ -578,7 +579,7 @@ def extract_response_by_request(cursor, session_id, request):
     cursor.execute(sql, params)
     x = cursor.fetchone()
     response_id = x[0]
-    
+
     response, response_content_id = extract_response_by_id(
         cursor, response_id)
 
