@@ -60,7 +60,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self,request):
-        response, _ = webdb.interface.extract_response_by_request(
+        response, _ = webdb.filters.get_response_by_session_id_and_request(
             self.cursor,
             self.session_id,
             request
@@ -153,8 +153,8 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        content_types = webdb.interface.get_content_type_list(cursor)
-        sessions = webdb.interface.get_session_list(cursor)
+        content_types = webdb.interface.get_content_types(cursor)
+        sessions = webdb.interface.get_sessions(cursor)
 
         for session in sessions:
             stats=[]
@@ -182,7 +182,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        sessions=webdb.interface.get_session_list(cursor)
+        sessions=webdb.interface.get_sessions(cursor)
 
         for session in sessions:
             sid = session['id']

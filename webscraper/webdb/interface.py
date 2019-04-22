@@ -165,7 +165,7 @@ def insert_request(cursor, request, session_id, response_id):
 
 def insert_response(cursor, request, response):
     try:
-        (last_response, last_content_id) = extract_last_response_of_request(
+        (last_response, last_content_id) = get_last_response_of_request(
             cursor, request)
 
         if (response.content != last_response.content):
@@ -241,7 +241,7 @@ def insert_request_and_response(cursor, session_id, request, response):
     return request_id
 
 
-def list_metadata_for_request(cursor, request):
+def get_metadata_of_request(cursor, request):
     """ Listet alle gespeicherten Metadaten auf, die unter der 
     gegebenen request in der Tabelle REQUESTS gespeichert wurden.
 
@@ -282,7 +282,7 @@ def list_metadata_for_request(cursor, request):
 
     return metadata_list
 
-def get_content_type_list(cursor):
+def get_content_types(cursor):
     sql = ("SELECT CONTENT_TYPE FROM CONTENT_TYPE_CACHE;")
     
     cursor.execute(sql)
@@ -290,7 +290,7 @@ def get_content_type_list(cursor):
     return content_types
 
 
-def get_session_list(cursor):
+def get_sessions(cursor):
     sql = ("SELECT "
            "ID,"
            "START_TIMESTAMP,"
@@ -305,33 +305,6 @@ def get_session_list(cursor):
 
     return session_list
 
-def get_request_list_of_session_id(cursor, session_id):
-    sql = ("SELECT "
-           "ID "
-           "FROM REQUESTS "
-           "WHERE SESSION_ID = :session_id"
-           ";")
-
-    sqlparams = {
-        'session_id' : session_id
-    }
-    cursor.execute(sql, sqlparams)
-
-    request_list = []
-    for x in cursor.fetchall():
-        request_id = x[0]
-        request, (session_id, response_id) = get_request_by_id(cursor, request_id)
-        request_list.append(
-            (request, 
-                {
-                    'session_id' : session_id, 
-                    'request_id' : request_id, 
-                    'response_id' : response_id
-                }
-            )
-        )
-    
-    return request_list
 
 def get_request_by_id(cursor, request_id):
     sql = ("SELECT "
@@ -401,7 +374,7 @@ def get_response_by_id(cursor, rid):
     return (response, content_id)
 
 
-def extract_last_response_of_request(cursor, request):
+def get_last_response_of_request(cursor, request):
     """ Extrahiert die letzte unter dem gegeben request gespeicherte response.
 
     Arguments:
@@ -417,7 +390,7 @@ def extract_last_response_of_request(cursor, request):
         ResponseNotFound - If no last response for request was found.
     """
 
-    dataset = list_metadata_for_request(cursor, request)
+    dataset = get_metadata_of_request(cursor, request)
 
     if len(dataset) == 0:
         module_logger.debug(
@@ -434,30 +407,3 @@ def extract_last_response_of_request(cursor, request):
     return get_response_by_id(cursor, last_response_id)
 
 
-def extract_response_by_request(cursor, session_id, request):
-
-    uri_id = cache.get_id_of_uri(
-        cursor,
-        request.scheme,
-        request.netloc,
-        request.path,
-        request.params,
-        request.query,
-        request.fragment
-    )
-
-    sql = ("SELECT RESPONSE_ID FROM REQUESTS "
-           "WHERE "
-           "URI_ID =:uri_id AND "
-           "SESSION_ID =:session_id;")
-
-    params = {
-        'uri_id': uri_id,
-        'session_id': session_id
-    }
-
-    cursor.execute(sql, params)
-    x = cursor.fetchone()
-    response_id = x[0]
-
-    return get_response_by_id(cursor, response_id)
