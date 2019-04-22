@@ -40,7 +40,7 @@ def create_or_open_db(db_file):
         module_logger.info("Creating tables...")
 
         sql = ("CREATE TABLE IF NOT EXISTS SESSIONS ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "SESSION_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "START_TIMESTAMP REAL,"
                "END_TIMESTAMP REAL"
                ");")
@@ -49,7 +49,7 @@ def create_or_open_db(db_file):
         conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS REQUESTS ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "REQUEST_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "URI_ID INTEGER,"
                "SESSION_ID INTEGER,"
                "RESPONSE_ID INTEGER"
@@ -59,7 +59,7 @@ def create_or_open_db(db_file):
         conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "RESPONSE_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "STATUS_CODE INTEGER,"
                "TIMESTAMP REAL,"
                "CONTENT_TYPE_ID INTEGER,"
@@ -70,7 +70,7 @@ def create_or_open_db(db_file):
         conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS CONTENT_CACHE ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "CONTENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "CONTENT BLOB"
                ");")
 
@@ -78,7 +78,7 @@ def create_or_open_db(db_file):
         conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS CONTENT_TYPE_CACHE ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "CONTENT_TYPE_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "CONTENT_TYPE TEXT"
                ");")
 
@@ -86,7 +86,7 @@ def create_or_open_db(db_file):
         conn.execute(sql)
 
         sql = ("CREATE TABLE IF NOT EXISTS URI_CACHE ("
-               "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+               "URI_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                "SCHEME TEXT,"
                "NETLOC TEXT,"
                "PATH TEXT,"
@@ -124,7 +124,7 @@ def update_session(cursor, session_id, session):
     sql = ("UPDATE SESSIONS SET "
            "START_TIMESTAMP = :start_timestamp, "
            "END_TIMESTAMP = :end_timestamp "
-           "WHERE id = :session_id;")
+           "WHERE SESSION_ID = :session_id;")
 
     params = {
         'session_id': session_id,
@@ -241,7 +241,7 @@ def get_content_types(cursor):
 
 def get_sessions(cursor):
     sql = ("SELECT "
-           "ID,"
+           "SESSION_ID,"
            "START_TIMESTAMP,"
            "END_TIMESTAMP "
            "FROM SESSIONS;")
@@ -260,7 +260,7 @@ def get_request_by_id(cursor, request_id):
            "URI_ID,"
            "SESSION_ID,"
            "RESPONSE_ID "
-           "FROM REQUESTS WHERE id = :request_id;")
+           "FROM REQUESTS WHERE REQUEST_ID = :request_id;")
 
     param = {'request_id': request_id}
     cursor.execute(sql, param)
@@ -302,7 +302,7 @@ def get_response_by_id(cursor, rid):
            "TIMESTAMP,"
            "CONTENT_TYPE_ID,"
            "CONTENT_ID "
-           "FROM RESPONSES WHERE id = :rid;")
+           "FROM RESPONSES WHERE RESPONSE_ID = :rid;")
 
     param = {'rid': rid}
     cursor.execute(sql, param)

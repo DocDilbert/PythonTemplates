@@ -27,7 +27,7 @@ def get_uri(cursor, uri_id):
            "QUERY,"
            "FRAGMENT "
            "FROM URI_CACHE "
-           "WHERE id = :uri_id;")
+           "WHERE URI_ID = :uri_id;")
 
     sql_params = {
         'uri_id': uri_id
@@ -50,7 +50,7 @@ def get_uri(cursor, uri_id):
 
 def get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
     sql = ("SELECT "
-           "ID "
+           "URI_ID "
            "FROM URI_CACHE "
            "WHERE "
            "SCHEME = :scheme AND "
@@ -123,7 +123,7 @@ def get_content_type(cursor, content_type_id):
     sql = ("SELECT "
            "CONTENT_TYPE "
            "FROM CONTENT_TYPE_CACHE "
-           "WHERE id = :content_type_id;")
+           "WHERE CONTENT_TYPE_ID = :content_type_id;")
 
     params = {
         'content_type_id': content_type_id
@@ -141,7 +141,7 @@ def get_content_type(cursor, content_type_id):
 
 def get_content_type_id(cursor, content_type):
     sql = ("SELECT "
-           "ID "
+           "CONTENT_TYPE_ID "
            "FROM CONTENT_TYPE_CACHE "
            "WHERE CONTENT_TYPE = :content_type;")
 
@@ -237,7 +237,7 @@ def get_content_by_id(cursor, content_id):
 
     sql = ("SELECT "
            "CONTENT "
-           "FROM CONTENT_CACHE WHERE id = :rid;")
+           "FROM CONTENT_CACHE WHERE CONTENT_ID = :rid;")
 
     param = {'rid': content_id}
     cursor.execute(sql, param)
