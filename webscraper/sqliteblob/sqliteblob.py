@@ -38,7 +38,8 @@ def create_or_open_db(db_file):
         sql = ("CREATE TABLE IF NOT EXISTS SESSIONS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "START_TIMESTAMP REAL,"
-                    "END_TIMESTAMP REAL);")
+                    "END_TIMESTAMP REAL"
+               ");")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
@@ -47,24 +48,27 @@ def create_or_open_db(db_file):
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "URI_ID INTEGER,"
                     "SESSION_ID INTEGER,"
-                    "RESPONSE_ID INTEGER);")
+                    "RESPONSE_ID INTEGER"
+               ");")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
 
-        sql = ("CREATE TABLE IF NOT EXISTS RESPONSES ("
+        sql =  ("CREATE TABLE IF NOT EXISTS RESPONSES ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                     "STATUS_CODE INTEGER,"
                     "TIMESTAMP REAL,"
                     "CONTENT_TYPE_ID INTEGER,"
-                    "CONTENT_ID INTEGER);")
+                    "CONTENT_ID INTEGER"
+                ");")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
         
-        sql = ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENTS ("
+        sql =  ("CREATE TABLE IF NOT EXISTS RESPONSE_CONTENTS ("
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    "CONTENT BLOB);")
+                    "CONTENT BLOB"
+                ");")
 
         module_logger.debug("conn.execute(%s)", sql)
         conn.execute(sql)
