@@ -182,19 +182,24 @@ class WebScraperCommandLineParser:
         statinfo = os.stat(config['database'])
         connection =  sqliteblob.create_or_open_db(config['database'])
         cursor = connection.cursor()
+        
         info = sqliteblob.info(cursor)
+        info_cache = sqliteblob.info_cache(cursor)
+
         content_size = sqliteblob.compute_content_size(cursor)
         print(
             "---------------------------------------------------------\n"
             "                            Session count: {}\n"
             "                            Request count: {}\n"
             "                           Response count: {}\n"
-            "                    ResponseContent count: {}\n"
-            "                              Cache ratio: {:.2f}\n"
+            "---------------------------------------------------------\n"
+            "                            Content count: {} ({:.2f})\n"
+            "                       Content type count: {} ({:.2f})\n"
+            "                                URI count: {} ({:.2f})\n"
             "---------------------------------------------------------\n"
             "        Average Request count per session: {:.1f}\n"
             "       Average Response count per session: {:.1f}\n"
-            " Average ResponeContent count per session: {:.1f}\n"
+            "        Average Content count per session: {:.1f}\n"
             "---------------------------------------------------------\n"
             "                         Size of database: {:.1f} KB\n"
             "              Size of content in database: {:.1f} KB\n"
@@ -203,19 +208,23 @@ class WebScraperCommandLineParser:
             "                  Average size of session: {:.1f} KB\n"
             "---------------------------------------------------------"
             "".format(
-                info['session_count'],
-                info['request_count'],
-                info['response_count'],
-                info['response_content_count'],
-                1-info['response_content_count']/info['response_count'],
-                info['request_count']/info['session_count'],
-                info['response_count']/info['session_count'],
-                info['response_content_count']/info['session_count'],
+                info['session'],
+                info['request'],
+                info['response'],
+                info_cache['content'][0],
+                info_cache['content'][1],
+                info_cache['content_type'][0],
+                info_cache['content_type'][1],
+                info_cache['uri'][0],
+                info_cache['uri'][1],
+                info['request']/info['session'],
+                info['response']/info['session'],
+                info_cache['content'][0]/info['session'],
                 statinfo.st_size/1024,
                 content_size/1024,
                 (statinfo.st_size-content_size)/1024,
                 (statinfo.st_size-content_size)/statinfo.st_size,
-                statinfo.st_size/1024/info['session_count']
+                statinfo.st_size/1024/info['session']
             ))
 
     def sql(self):
