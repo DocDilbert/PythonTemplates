@@ -167,37 +167,23 @@ def insert_request(cursor, request, session_id, response_id):
 
 
 def insert_response(cursor, request, response):
-    try:
-        (newest_response, newest_response_metadata) = cache.get_newest_response_of_request(
-            cursor, request)
 
+    content_type_id = cache.create_or_get_content_type_id(
+        cursor,
+        response.content_type
+    )
 
-        if (response.content != newest_response.content):
-            module_logger.debug("The received response content is new.")
-            content_id = cache.insert_content(cursor, response.content)
-        else:
-            module_logger.debug(
-                "The received response content was stored beforehand. Using this instead.")
-
-            content_id = newest_response_metadata['content_id']
-
-    except ResponseNotFound:
-        module_logger.debug(
-            "This is the first time the request %s was perfomed.", request)
-
-        content_id = cache.insert_content(cursor, response.content)
-
+    content_id = cache.create_or_get_content_id(
+        cursor,
+        request,
+        response.content
+    )
     sql = ("INSERT INTO RESPONSES ("
            "STATUS_CODE,"
            "TIMESTAMP,"
            "CONTENT_TYPE_ID,"
            "CONTENT_ID"
            ") VALUES (?,?,?,?);")
-
-    content_type_id = cache.create_or_get_content_type_id(
-        cursor,
-        response.content_type
-    )
 
     cursor.execute(sql, [
         response.status_code,
@@ -328,7 +314,7 @@ def get_response_by_id(cursor, rid):
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
         content_type=cache.get_content_type(cursor, x[2]),
-        content=cache.get_content(cursor, content_id)
+        content=cache.get_content_by_id(cursor, content_id)
     )
 
     module_logger.debug(
@@ -336,8 +322,8 @@ def get_response_by_id(cursor, rid):
         "Corresponding content_id is %i.", str(response), rid, content_id)
 
     return (
-        response, 
+        response,
         {
-            'content_id' : content_id
+            'content_id': content_id
         }
     )

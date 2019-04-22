@@ -80,7 +80,7 @@ def init_logger(config):
     logger = logging.getLogger('webscraper')
     logger.setLevel(logging.DEBUG)
 
-    logger2 = logging.getLogger('sqliteblob')
+    logger2 = logging.getLogger('webdb')
     logger2.setLevel(logging.DEBUG)
 
     ch = logging.StreamHandler()

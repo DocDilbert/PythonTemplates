@@ -202,8 +202,28 @@ def insert_content(cursor, content):
 
     return cid
 
+def create_or_get_content_id(cursor, request, content):
+    try:
+        (newest_response, newest_response_metadata) = get_newest_response_of_request(
+            cursor, request)
 
-def get_content(cursor, content_id):
+        if (content != newest_response.content):
+            module_logger.debug("The received response content is new.")
+            return insert_content(cursor, content)
+        else:
+            module_logger.debug(
+                "The received response content was stored beforehand. Using this instead.")
+
+            return newest_response_metadata['content_id']
+
+    except ResponseNotFound:
+        module_logger.debug(
+            "This is the first time the request %s was perfomed.", request)
+
+        return insert_content(cursor, content)
+
+
+def get_content_by_id(cursor, content_id):
     """ Extrahiert das unter der content_id in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
 
@@ -260,13 +280,13 @@ def get_newest_response_of_request(cursor, request):
             request.fragment
         )
     except UriNotFound:
-        return ResponseNotFound()
+        raise ResponseNotFound()
 
-    sql = ("SELECT RESPONSE_ID FROM REQUESTS "
-           "WHERE "
-           "URI_ID = :uri_id AND "
-           "ID = (SELECT MAX(ID)  FROM REQUESTS)"
-           ";")
+    sql = ("SELECT MAX(RESPONSE_ID) FROM ("
+                "SELECT RESPONSE_ID FROM REQUESTS "
+                "WHERE "
+                    "URI_ID = :uri_id" 
+                ");")
 
     params = {
         'uri_id': uri_id
@@ -276,7 +296,7 @@ def get_newest_response_of_request(cursor, request):
     x =  cursor.fetchone()
     if not x:
         raise ResponseNotFound()
-        
+
     response_id = x[0]
 
     return interface.get_response_by_id(cursor, response_id)
