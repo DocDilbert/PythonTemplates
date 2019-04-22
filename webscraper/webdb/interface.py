@@ -354,7 +354,7 @@ def get_request_by_id(cursor, request_id):
 
     return (response, (session_id, response_id))
 
-def extract_response_by_id(cursor, rid):
+def get_response_by_id(cursor, rid):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 
     abgelegte Response Objekt sowie die zugehöre content id.
 
@@ -424,7 +424,7 @@ def extract_last_response_of_request(cursor, request):
     module_logger.debug(
         "The last meta data entry in this list has the response_id=%i.", last_response_id)
 
-    return extract_response_by_id(cursor, last_response_id)
+    return get_response_by_id(cursor, last_response_id)
 
 
 def extract_response_by_request(cursor, session_id, request):
@@ -453,4 +453,4 @@ def extract_response_by_request(cursor, session_id, request):
     x = cursor.fetchone()
     response_id = x[0]
 
-    return extract_response_by_id(cursor, response_id)
+    return get_response_by_id(cursor, response_id)

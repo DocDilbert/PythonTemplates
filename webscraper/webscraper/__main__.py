@@ -152,7 +152,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         connection =  webdb.interface.create_or_open_db(config['database'])
         cursor = connection.cursor()
-        webdb.filters.get_responses_of_session_and_content_type(cursor, 1, "html")
+        webdb.filters.get_responses_of_session_id_and_content_type(cursor, 1, "text/css")
 
     def slist(self):
         parser = argparse.ArgumentParser(
