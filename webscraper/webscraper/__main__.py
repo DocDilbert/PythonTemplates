@@ -168,7 +168,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection = webdb.interface.create_or_open_db(config['database'])
+        connection = webdb.db.open_db_readonly(config['database'])
         cursor = connection.cursor()
         content_types = webdb.interface.get_content_types(cursor)
         sessions = webdb.interface.get_sessions(cursor)
@@ -204,7 +204,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection = webdb.interface.create_or_open_db(config['database'])
+        connection = webdb.db.open_db_readonly(config['database'])
         cursor = connection.cursor()
         sessions = webdb.interface.get_sessions(cursor)
 
@@ -242,7 +242,7 @@ class WebScraperCommandLineParser:
 
         init_logger(config)
         statinfo = os.stat(config['database'])
-        connection = webdb.interface.create_or_open_db(config['database'])
+        connection = webdb.db.open_db_readonly(config['database'])
         cursor = connection.cursor()
 
         info = webdb.info.info(cursor)
@@ -343,7 +343,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         log_banner()
 
-        connection = webdb.interface.create_or_open_db(config['database'])
+        connection = webdb.db.open_db_readonly(config['database'])
         cursor = connection.cursor()
         rtb = RequestToDatabase(cursor, args.session_id)
 

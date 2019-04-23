@@ -10,7 +10,7 @@ import webdb
 class ContentHandlerSqlite(ContentHandlerDecorator):
     def __init__(self, filename):
         super().__init__()
-        self.connection = webdb.interface.create_or_open_db(filename)
+        self.connection = webdb.db.create_or_open_db(filename)
         self.cursor = self.connection.cursor()
         self.logger = logging.getLogger(
             'webscraper.content_handler_sqllite.ContentHandlerSqlite')
