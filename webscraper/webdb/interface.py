@@ -270,7 +270,7 @@ def get_request_by_id(cursor, request_id):
     session_id = x[1]
     response_id = x[2]
 
-    uri = cache.get_uri(cursor, uri_id)
+    uri = cache.get_uri_where_uri_id(cursor, uri_id)
 
     response = Request(
         scheme=uri['scheme'],
@@ -313,8 +313,8 @@ def get_response_by_id(cursor, rid):
     response = Response(
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
-        content_type=cache.get_content_type_by_id(cursor, x[2]),
-        content=cache.get_content_by_id(cursor, content_id)
+        content_type=cache.get_content_type_where_content_type_id(cursor, x[2]),
+        content=cache.get_content_where_content_id(cursor, content_id)
     )
 
     module_logger.debug(

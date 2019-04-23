@@ -3,11 +3,14 @@ import os
 from urllib.parse import urlparse, urlunparse
 from webscraper.content_handler_decorator import ContentHandlerDecorator
 
+
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
-        self.logger = logging.getLogger('webscraper.content_handler_filesystem.ExtractFileNameFromURL')
+        self.logger = logging.getLogger(
+            'webscraper.content_handler_filesystem.ExtractFileNameFromURL')
 
-        self.logger.debug("Arguments: url = '%s', content_type = '%s'", url, content_type)
+        self.logger.debug(
+            "Arguments: url = '%s', content_type = '%s'", url, content_type)
         urlp = urlparse(url)
         self.filename = os.path.basename(urlp.path)
         parts = os.path.splitext(self.filename)
@@ -18,26 +21,29 @@ class ExtractFileNameFromURL:
                 self.filename = parts[0]+'.html'
             if 'text/css' in content_type:
                 self.filename = parts[0]+'.css'
-        
-        self.logger.debug("The file name '%s' was extracted from url '%s'", self.filename, url)
-    
+
+        self.logger.debug(
+            "The file name '%s' was extracted from url '%s'", self.filename, url)
+
     def __str__(self):
         return self.filename
 
     def __repr__(self):
         return self.filename
 
-class ContentHandlerFilesystem(ContentHandlerDecorator): 
+
+class ContentHandlerFilesystem(ContentHandlerDecorator):
     def __init__(self, dirname):
         super().__init__()
-        self.logger = logging.getLogger('webscraper.content_handler_filesystem.ContentHandlerFilesystem')
+        self.logger = logging.getLogger(
+            'webscraper.content_handler_filesystem.ContentHandlerFilesystem')
         self.dirname = dirname
         self.html_count = 0
 
         if not os.path.exists(dirname):
-            self.logger.info("Created directory %s", self.dirname )
+            self.logger.info("Created directory %s", self.dirname)
             os.mkdir(dirname)
-    
+
     def session_started(self):
         super().session_started()
 
@@ -46,34 +52,34 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         filename = "index_{}.html".format(self.html_count)
 
         dest = self.dirname+"/"+str(filename)
-        with open(dest,"wb") as file:
+        with open(dest, "wb") as file:
             file.write(response.content)
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
     def response_with_css_content_received(self, request, response, tag):
-        super().response_with_css_content_received( request, response, tag)
+        super().response_with_css_content_received(request, response, tag)
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
 
         dest = self.dirname+"/"+str(filename)
-        
-        with open(dest,"wb") as file:
+
+        with open(dest, "wb") as file:
             file.write(response.content)
-            
+
         self.logger.info("Wrote css content to '%s'", dest)
         tag['href'] = filename
 
-
     def response_with_img_content_received(self, request, response, tag):
-        super().response_with_img_content_received( request, response, tag)
+        super().response_with_img_content_received(request, response, tag)
+
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
-        
         dest = self.dirname+"/"+str(filename)
-        with open(dest,"wb") as file:
+
+        with open(dest, "wb") as file:
             file.write(response.content)
-            
+
         self.logger.info("Wrote img content to '%s'", dest)
         tag['src'] = filename
 
@@ -81,10 +87,11 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         super().html_post_process_handler(request, soup)
 
         filename = "index_processed_{}.html".format(self.html_count)
-        self.html_count+=1
+        self.html_count += 1
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
-        with open(dest,"wb") as file:
+        
+        with open(dest, "wb") as file:
             buf = str(soup.prettify())
             file.write(buf.encode(encoding='UTF-8', errors='strict'))
 

@@ -18,7 +18,7 @@ BLOB_STR_LENGTH = 10
 #############################################################
 # URI CACHE
 #############################################################
-def get_uri(cursor, uri_id):
+def get_uri_where_uri_id(cursor, uri_id):
     sql = ("SELECT "
            "SCHEME,"
            "NETLOC,"
@@ -48,7 +48,7 @@ def get_uri(cursor, uri_id):
         raise UriNotFound()
 
 
-def get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
+def get_uri_id_where_uri(cursor, scheme, netloc, path, params, query, fragment):
     sql = ("SELECT "
            "URI_ID "
            "FROM URI_CACHE "
@@ -80,7 +80,7 @@ def get_id_of_uri(cursor, scheme, netloc, path, params, query, fragment):
 
 def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
     try:
-        uid = get_id_of_uri(
+        uid = get_uri_id_where_uri(
             cursor,
             scheme,
             netloc,
@@ -119,7 +119,7 @@ def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
 #############################################################
 
 
-def get_content_type_by_id(cursor, content_type_id):
+def get_content_type_where_content_type_id(cursor, content_type_id):
     sql = ("SELECT "
            "CONTENT_TYPE "
            "FROM CONTENT_TYPE_CACHE "
@@ -139,7 +139,7 @@ def get_content_type_by_id(cursor, content_type_id):
     return content_type
 
 
-def get_content_type_id(cursor, content_type):
+def get_content_type_id_where_content_type(cursor, content_type):
     sql = ("SELECT "
            "CONTENT_TYPE_ID "
            "FROM CONTENT_TYPE_CACHE "
@@ -159,7 +159,7 @@ def get_content_type_id(cursor, content_type):
 
 def create_or_get_content_type_id(cursor, content_type):
     try:
-        content_type_id = get_content_type_id(cursor, content_type)
+        content_type_id = get_content_type_id_where_content_type(cursor, content_type)
         module_logger.debug(
             "Found content_type=\"%s\" with id %i in CONTENT_TYPE_CACHE.", content_type, content_type_id)
     except ContentTypeNotFound:
@@ -180,50 +180,7 @@ def create_or_get_content_type_id(cursor, content_type):
 # CONTENT CACHE
 #############################################################
 
-def insert_content(cursor, content):
-    sql = ("INSERT INTO CONTENT_CACHE ("
-           "CONTENT"
-           ") VALUES (?);")
-
-    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
-
-    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
-                        len(content_compressed)/len(content)*100.0)
-    cursor.execute(sql, [
-        sqlite3.Binary(content_compressed)
-    ])
-
-    cid = int(cursor.lastrowid)
-
-    l = min(len(content), BLOB_STR_LENGTH)
-
-    module_logger.debug(
-        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), cid)
-
-    return cid
-
-def create_or_get_content_id(cursor, request, content):
-    try:
-        (newest_response, newest_response_metadata) = get_newest_response_of_request(
-            cursor, request)
-
-        if (content != newest_response.content):
-            module_logger.debug("The received response content is new.")
-            return insert_content(cursor, content)
-        else:
-            module_logger.debug(
-                "The received response content was stored beforehand. Using this instead.")
-
-            return newest_response_metadata['content_id']
-
-    except ResponseNotFound:
-        module_logger.debug(
-            "This is the first time the request %s was perfomed.", request)
-
-        return insert_content(cursor, content)
-
-
-def get_content_by_id(cursor, content_id):
+def get_content_where_content_id(cursor, content_id):
     """ Extrahiert das unter der content_id in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
 
@@ -252,8 +209,50 @@ def get_content_by_id(cursor, content_id):
 
     return content
 
+def insert_content(cursor, content):
+    sql = ("INSERT INTO CONTENT_CACHE ("
+           "CONTENT"
+           ") VALUES (?);")
 
-def get_newest_response_of_request(cursor, request):
+    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
+
+    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
+                        len(content_compressed)/len(content)*100.0)
+    cursor.execute(sql, [
+        sqlite3.Binary(content_compressed)
+    ])
+
+    cid = int(cursor.lastrowid)
+
+    l = min(len(content), BLOB_STR_LENGTH)
+
+    module_logger.debug(
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), cid)
+
+    return cid
+
+def create_or_get_content_id(cursor, request, content):
+    try:
+        (newest_response, newest_response_metadata) = get_newest_response_where_request(
+            cursor, request)
+
+        if (content != newest_response.content):
+            module_logger.debug("The received response content is new.")
+            return insert_content(cursor, content)
+        else:
+            module_logger.debug(
+                "The received response content was stored beforehand. Using this instead.")
+
+            return newest_response_metadata['content_id']
+
+    except ResponseNotFound:
+        module_logger.debug(
+            "This is the first time the request %s was perfomed.", request)
+
+        return insert_content(cursor, content)
+
+
+def get_newest_response_where_request(cursor, request):
     """ Extrahiert die letzte unter dem gegeben request gespeicherte response.
 
     Arguments:
@@ -270,7 +269,7 @@ def get_newest_response_of_request(cursor, request):
     """
 
     try:
-        uri_id = get_id_of_uri(
+        uri_id = get_uri_id_where_uri(
             cursor,
             request.scheme,
             request.netloc,

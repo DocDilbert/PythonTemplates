@@ -41,7 +41,7 @@ def get_requests_of_session_id_and_content_type(cursor, session_id, content_type
 
     sqlparams = {
         'session_id' : session_id,
-        'content_type_id' : cache.get_content_type_id(cursor, content_type)
+        'content_type_id' : cache.get_content_type_id_where_content_type(cursor, content_type)
     }
 
     cursor.execute(sql, sqlparams)
@@ -54,7 +54,7 @@ def get_requests_of_session_id_and_content_type(cursor, session_id, content_type
 
 def get_response_of_session_id_and_request(cursor, session_id, request):
 
-    uri_id = cache.get_id_of_uri(
+    uri_id = cache.get_uri_id_where_uri(
         cursor,
         request.scheme,
         request.netloc,
