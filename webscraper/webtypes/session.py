@@ -31,5 +31,5 @@ class Session:
         return self.__str__()
 
 
-    def get_delta_time(self):
+    def get_duration(self):
         return self.end_datetime - self.start_datetime

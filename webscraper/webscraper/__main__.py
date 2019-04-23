@@ -188,14 +188,23 @@ class WebScraperCommandLineParser:
         cursor = connection.cursor()
         sessions=webdb.interface.get_sessions(cursor)
 
+        last_start_datetime = None
         for session in sessions:
             sid = session['id']
             session_obj = session['session']
-            print("{:4} -- delta = {}  start = {}  end = {}".format(
+            if last_start_datetime:
+                delta_last = session_obj.start_datetime - last_start_datetime
+            else:
+                delta_last = "---"
+
+            last_start_datetime = session_obj.start_datetime
+            print("{:4} -- start = {}  end = {}  session_duration = {}  delta = {}".format(
                 sid, 
-                session_obj.get_delta_time(), 
                 session_obj.start_datetime, 
-                session_obj.end_datetime))
+                session_obj.end_datetime,
+                session_obj.get_duration(), 
+                delta_last,
+            ))
         
 
     def info(self):
