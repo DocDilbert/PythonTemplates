@@ -1,10 +1,13 @@
 import requests
 import logging
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse,urlunparse
 import os
 import time
-from webscrapper_classes import Response, Request, ResponseContent
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse, urlunparse
+
+
+from webtypes.request import Request
+from webtypes.response import Response
 
 #chrome 70.0.3538.77
 HEADERS = {
@@ -12,7 +15,7 @@ HEADERS = {
 }
 
 # create logger
-module_logger = logging.getLogger('main.webscraper')
+module_logger = logging.getLogger('webscraper.webscraper')
 
 
 def transform_url(scheme, netloc, url):
@@ -26,7 +29,8 @@ def transform_url(scheme, netloc, url):
             url_parsed.path,
             url_parsed.params,
             url_parsed.query,
-            url_parsed.fragment))
+            url_parsed.fragment)
+        )
     else:
         url_transf = url_parsed.geturl()
 
@@ -41,49 +45,34 @@ def is_internal(netloc, url):
         return True
     else:
         return False
-def log_raw_response(response):
-    module_logger.debug("Raw response received.\n"
-        "\tstatus_code = %s,\n"
-        "\theaders = %s,\n"
-        "\tcookies = %s,\n"
-        "\tencoding = %s",response.status_code, response.headers, response.cookies, response.encoding)
-
-def download(scheme, netloc, url, tag, response_handler):
+        
+def download(request_to_response, scheme, netloc, url, tag, response_handler):
     url_transf = transform_url(scheme, netloc, url)
-    
     module_logger.debug("Performing Request on url %s", url_transf)
+
     request = Request.from_url(url_transf)
-    response_raw = requests.get(url_transf, headers=HEADERS)
-    
-    module_logger.info("Request %s completed", request)
-    log_raw_response(response_raw)
+    response = request_to_response(request) 
+    response_handler(request, response, tag)
 
-    response = Response(
-        status_code = response_raw.status_code,
-        content_type = response_raw.headers['Content-Type']
-    )
-    response_content = ResponseContent(content = response_raw.content)
-    response_handler(request, response, response_content, tag)
-    
-def scrap(url, content_handler, download_img=False):
-    content_handler.session_started()
+def scrap(
+    request, 
+    request_to_response, 
+    content_handler, 
+    download_img=False,
+    link_filter=None,
+    max_level=1,
+    level=0,
+):
+    if level==max_level:
+        module_logger.info("Maximal recursion level reached.")
+        return
 
-    request = Request.from_url(url)
-    response_raw = requests.get(url, headers=HEADERS)
-    
-    module_logger.info("Request completed on url %s", url)
-    log_raw_response(response_raw)
+    response = request_to_response(request) 
+    content_handler.response_with_html_content_received(request, response)
 
-    response = Response(
-        status_code = response_raw.status_code,
-        content_type = response_raw.headers['Content-Type']
-    )
-    response_content = ResponseContent(content = response_raw.content)
-    content_handler.response_with_html_content_received(request, response, response_content)
+    soup = BeautifulSoup(response.content, 'html.parser')
 
-    soup = BeautifulSoup(response_raw.content, 'html.parser')
-
-    parsed_url = urlparse(url)
+    parsed_url = urlparse(request.get_url())
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
 
@@ -99,6 +88,7 @@ def scrap(url, content_handler, download_img=False):
         # content type css found
         if type_=="text/css" or "stylesheet" in rel:
             download(
+                request_to_response,
                 scheme,
                 netloc,
                 loc, 
@@ -109,6 +99,7 @@ def scrap(url, content_handler, download_img=False):
     if download_img:
         for img in soup.find_all('img', src=True):
             download(
+                request_to_response,
                 scheme,
                 netloc,
                 img.get('src'), 
@@ -116,18 +107,46 @@ def scrap(url, content_handler, download_img=False):
                 content_handler.response_with_img_content_received
             )
     
-    links = []
-    for a in soup.find_all('a', href=True):
-        module_logger.debug("Found <a> with href %s", a)
-        link = transform_url(
-            scheme, 
-            netloc, 
-            a.get('href')
-        )
+    if link_filter:
+        for a in soup.find_all('a', href=True):
 
-        if is_internal(netloc, link):
-            links.append(link)
+            if link_filter(a.get('href')):
+                module_logger.debug("Found <a> with href %s", a)
+                link = transform_url(
+                    scheme, 
+                    netloc, 
+                    a.get('href')
+                )
+
+                scrap(
+                    Request.from_url(link),
+                    request_to_response,
+                    content_handler,
+                    download_img=download_img,
+                    link_filter=link_filter,
+                    max_level=max_level,
+                    level=level+1
+                )
 
     content_handler.html_post_process_handler(request, soup)
+
+def webscraper(
+    url, 
+    request_to_response, 
+    content_handler, 
+    download_img=False,
+    link_filter=None,
+    max_level=1
+):
+    content_handler.session_started()
+
+    scrap(
+        Request.from_url(url),
+        request_to_response,
+        content_handler,
+        download_img=download_img,
+        link_filter=link_filter,
+        max_level=max_level
+    )
     content_handler.session_finished()
-    return links
+    

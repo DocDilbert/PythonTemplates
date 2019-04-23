@@ -112,6 +112,6 @@ autogen/
 /patterns/tests.exe
 /patterns/objs
 /sqlite3/database
-/web_scrap/page
+/webscraper/page
 *.log
-/web_scrap/requests.db
+/webscraper/*.db

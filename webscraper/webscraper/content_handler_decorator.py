@@ -9,17 +9,17 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.session_started()
 
-    def response_with_html_content_received(self, request, response, response_content):
+    def response_with_html_content_received(self, request, response):
         if self.component:
-            self.component.response_with_html_content_received(request, response, response_content)
+            self.component.response_with_html_content_received(request, response)
 
-    def response_with_css_content_received(self,  request, response, response_content, tag):
+    def response_with_css_content_received(self,  request, response, tag):
         if self.component:
-            self.component.response_with_css_content_received(request, response, response_content, tag)
+            self.component.response_with_css_content_received(request, response, tag)
 
-    def response_with_img_content_received(self, request, response, response_content, tag):
+    def response_with_img_content_received(self, request, response, tag):
         if self.component:
-            self.component.response_with_img_content_received(request, response, response_content, tag)
+            self.component.response_with_img_content_received(request, response, tag)
     
     def html_post_process_handler(self, request, soup):
         if self.component:
