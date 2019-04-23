@@ -119,7 +119,7 @@ def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
 #############################################################
 
 
-def get_content_type(cursor, content_type_id):
+def get_content_type_by_id(cursor, content_type_id):
     sql = ("SELECT "
            "CONTENT_TYPE "
            "FROM CONTENT_TYPE_CACHE "

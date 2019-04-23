@@ -313,7 +313,7 @@ def get_response_by_id(cursor, rid):
     response = Response(
         status_code=x[0],
         date=datetime.fromtimestamp(x[1]),
-        content_type=cache.get_content_type(cursor, x[2]),
+        content_type=cache.get_content_type_by_id(cursor, x[2]),
         content=cache.get_content_by_id(cursor, content_id)
     )
 
