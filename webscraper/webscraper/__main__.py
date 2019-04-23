@@ -87,22 +87,26 @@ def init_logger(config):
     ch.setLevel(logging.INFO)
 
     if config['logtype'] == "rotate":
-        fh = handlers.RotatingFileHandler(config['logfile'], maxBytes=10*1024*1024, backupCount=10)
+        fh = handlers.RotatingFileHandler(config['debug_logfile'], maxBytes=10*1024*1024, backupCount=10)
     else:
-        fh = logging.FileHandler(config['logfile'], mode='w')
+        fh = logging.FileHandler(config['debug_logfile'], mode='w')
     
     fh.setLevel(logging.DEBUG)
+
+    eh = logging.FileHandler(config['error_logfile'], delay=True)
+    eh.setLevel(logging.ERROR)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s [%(name)s]: %(message)s')
     fh.setFormatter(formatter)
     ch.setFormatter(formatter)
+    eh.setFormatter(formatter)
 
     logger.addHandler(fh)
     logger.addHandler(ch)
-
+    logger.addHandler(eh)
     logger2.addHandler(fh)
     logger2.addHandler(ch)
-
+    logger2.addHandler(eh)
 
 class WebScraperCommandLineParser:
     def __init__(self):
@@ -162,7 +166,7 @@ class WebScraperCommandLineParser:
             for content_type in content_types:
                 responses_count = len(webdb.filters.get_requests_of_session_id_and_content_type(cursor, session_id, content_type))
                 stats.append("\"{}\": {}".format(content_type, responses_count))
-            print("{:4} - {}".format(session_id, ", ".join(stats)))
+            print("{:4} -- {}".format(session_id, ", ".join(stats)))
 
     def slist(self):
         parser = argparse.ArgumentParser(
