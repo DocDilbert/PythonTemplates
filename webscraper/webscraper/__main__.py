@@ -65,7 +65,7 @@ class RequestToDatabase:
         self.cursor = cursor
 
     def response_database_factory(self, request):
-        response, _ = webdb.filters.get_response_of_session_id_and_request(
+        response, _ = webdb.filters.get_response_where_session_id_and_request(
             self.cursor,
             self.session_id,
             request
@@ -173,12 +173,12 @@ class WebScraperCommandLineParser:
         content_types = webdb.interface.get_content_types(cursor)
         sessions = webdb.interface.get_sessions(cursor)
 
-        for session in sessions:
+        for _, meta in sessions:
             stats = []
-            session_id = session['id']
+            session_id = meta['session_id']
             for content_type in content_types:
                 responses_count = len(
-                    webdb.filters.get_requests_of_session_id_and_content_type(
+                    webdb.filters.get_requests_where_session_id_and_content_type(
                         cursor,
                         session_id,
                         content_type
@@ -209,20 +209,19 @@ class WebScraperCommandLineParser:
         sessions = webdb.interface.get_sessions(cursor)
 
         last_start_datetime = None
-        for session in sessions:
-            sid = session['id']
-            session_obj = session['session']
+        for session, meta in sessions:
+            sid = meta['session_id']
             if last_start_datetime:
-                delta_last = session_obj.start_datetime - last_start_datetime
+                delta_last = session.start_datetime - last_start_datetime
             else:
                 delta_last = "---"
 
-            last_start_datetime = session_obj.start_datetime
+            last_start_datetime = session.start_datetime
             print("{:4} -- start = {}  end = {}  session_duration = {}  delta = {}".format(
                 sid,
-                session_obj.start_datetime,
-                session_obj.end_datetime,
-                session_obj.get_duration(),
+                session.start_datetime,
+                session.end_datetime,
+                session.get_duration(),
                 delta_last,
             ))
 

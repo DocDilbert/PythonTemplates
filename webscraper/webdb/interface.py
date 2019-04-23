@@ -247,15 +247,17 @@ def get_sessions(cursor):
            "FROM SESSIONS;")
 
     cursor.execute(sql)
-    session_list = [{
-        'id': x[0],
-        'session': Session.from_timestamps(x[1], x[2])
-    } for x in cursor.fetchall()]
+    session_list = [(
+        Session.from_timestamps(x[1], x[2]),
+        {
+            'session_id': x[0]
+        }
+    ) for x in cursor.fetchall()]
 
     return session_list
 
 
-def get_request_by_id(cursor, request_id):
+def get_request_where_request_id(cursor, request_id):
     sql = ("SELECT "
            "URI_ID,"
            "SESSION_ID,"
@@ -284,7 +286,7 @@ def get_request_by_id(cursor, request_id):
     return (response, (session_id, response_id))
 
 
-def get_response_by_id(cursor, rid):
+def get_response_where_response_id(cursor, response_id):
     """ Extrahiert das unter der rid in der Tabelle RESPONSES 
     abgelegte Response Objekt sowie die zugehöre content id.
 
@@ -304,7 +306,7 @@ def get_response_by_id(cursor, rid):
            "CONTENT_ID "
            "FROM RESPONSES WHERE RESPONSE_ID = :rid;")
 
-    param = {'rid': rid}
+    param = {'rid': response_id}
     cursor.execute(sql, param)
     x = cursor.fetchone()
 
@@ -319,7 +321,7 @@ def get_response_by_id(cursor, rid):
 
     module_logger.debug(
         "Extracted %s with id = %i from RESPONSES. "
-        "Corresponding content_id is %i.", str(response), rid, content_id)
+        "Corresponding content_id is %i.", str(response), response_id, content_id)
 
     return (
         response,

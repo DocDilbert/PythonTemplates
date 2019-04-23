@@ -298,4 +298,4 @@ def get_newest_response_where_request(cursor, request):
 
     response_id = x[0]
 
-    return webdb.interface.get_response_by_id(cursor, response_id)
+    return webdb.interface.get_response_where_response_id(cursor, response_id)
