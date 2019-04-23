@@ -80,7 +80,7 @@ def get_uri_id_where_uri(cursor, scheme, netloc, path, params, query, fragment):
 
 def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
     try:
-        uid = get_uri_id_where_uri(
+        uri_id = get_uri_id_where_uri(
             cursor,
             scheme,
             netloc,
@@ -89,8 +89,8 @@ def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
             query,
             fragment
         )
-        module_logger.debug("Found uri in URI_CACHE. Id is %i", uid)
-        return uid
+        module_logger.debug("Found uri in URI_CACHE. Id is %i", uri_id)
+        return uri_id
 
     except UriNotFound:
         sql = ("INSERT INTO URI_CACHE ("
@@ -110,9 +110,9 @@ def create_or_get_uri_id(cursor, scheme, netloc, path, params, query, fragment):
             query,
             fragment
         ])
-        uid = int(cursor.lastrowid)
-        module_logger.debug("The uri is new. Inserting it. Id is %i", uid)
-        return uid
+        uri_id = int(cursor.lastrowid)
+        module_logger.debug("The uri is new. Inserting it. Id is %i", uri_id)
+        return uri_id
 
 #############################################################
 # CONTENT_TYPE CACHE

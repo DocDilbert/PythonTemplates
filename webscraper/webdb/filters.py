@@ -17,17 +17,10 @@ def get_requests_where_session_id(cursor, session_id):
     request_list = []
     for x in cursor.fetchall():
         request_id = x[0]
-        request, meta = interface.get_request_where_request_id(
-            cursor,
-            request_id
-        )
         request_list.append(
-            (
-                request,
-                {
-                    'request_id':  meta['request_id'],
-                    'response_id': meta['response_id']
-                }
+            interface.get_request_where_request_id(
+                cursor,
+                request_id
             )
         )
 
