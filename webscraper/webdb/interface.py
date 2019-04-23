@@ -283,7 +283,13 @@ def get_request_where_request_id(cursor, request_id):
         fragment=uri['fragment']
     )
 
-    return (response, (session_id, response_id))
+    return (
+        response, 
+        {
+            'session_id': session_id,
+            'response_id':  response_id
+        }    
+    )
 
 
 def get_response_where_response_id(cursor, response_id):
