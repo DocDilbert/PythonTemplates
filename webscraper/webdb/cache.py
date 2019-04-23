@@ -61,7 +61,7 @@ def get_uri_id_where_uri(cursor, scheme, netloc, path, params, query, fragment):
            "FRAGMENT = :fragment"
            ";")
 
-    sql_params = {
+    sqlparams = {
         "scheme": scheme,
         "netloc": netloc,
         "path": path,
@@ -70,7 +70,7 @@ def get_uri_id_where_uri(cursor, scheme, netloc, path, params, query, fragment):
         "fragment": fragment
     }
 
-    cursor.execute(sql, sql_params)
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
     if x:
         return x[0]
@@ -125,11 +125,11 @@ def get_content_type_where_content_type_id(cursor, content_type_id):
            "FROM CONTENT_TYPE_CACHE "
            "WHERE CONTENT_TYPE_ID = :content_type_id;")
 
-    params = {
+    sqlparams = {
         'content_type_id': content_type_id
     }
 
-    cursor.execute(sql, params)
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
 
     content_type = x[0]
@@ -145,11 +145,11 @@ def get_content_type_id_where_content_type(cursor, content_type):
            "FROM CONTENT_TYPE_CACHE "
            "WHERE CONTENT_TYPE = :content_type;")
 
-    params = {
+    sqlparams = {
         'content_type': content_type
     }
 
-    cursor.execute(sql, params)
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
     if x:
         return x[0]
@@ -194,10 +194,11 @@ def get_content_where_content_id(cursor, content_id):
 
     sql = ("SELECT "
            "CONTENT "
-           "FROM CONTENT_CACHE WHERE CONTENT_ID = :rid;")
+           "FROM CONTENT_CACHE WHERE CONTENT_ID = :content_id;")
 
-    param = {'rid': content_id}
-    cursor.execute(sql, param)
+    sqlparams = {'content_id': content_id}
+    
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
 
     content = bz2.decompress(x[0])

@@ -192,11 +192,11 @@ def insert_response(cursor, request, response):
         content_id
     ])
 
-    rid = int(cursor.lastrowid)
+    response_id = int(cursor.lastrowid)
     module_logger.debug(
-        "sql: INSERT %s into RESPONSES. Row id is %i.", response, rid)
+        "sql: INSERT %s into RESPONSES. Row id is %i.", response, response_id)
 
-    return rid
+    return response_id
 
 
 def insert_request_and_response(cursor, session_id, request, response):
@@ -264,8 +264,8 @@ def get_request_where_request_id(cursor, request_id):
            "RESPONSE_ID "
            "FROM REQUESTS WHERE REQUEST_ID = :request_id;")
 
-    param = {'request_id': request_id}
-    cursor.execute(sql, param)
+    sqlparams = {'request_id': request_id}
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
 
     uri_id = x[0]
@@ -310,19 +310,21 @@ def get_response_where_response_id(cursor, response_id):
            "TIMESTAMP,"
            "CONTENT_TYPE_ID,"
            "CONTENT_ID "
-           "FROM RESPONSES WHERE RESPONSE_ID = :rid;")
+           "FROM RESPONSES WHERE RESPONSE_ID= :response_id;")
 
-    param = {'rid': response_id}
-    cursor.execute(sql, param)
+    sqlparams = {
+        'response_id': response_id
+    }
+
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
-
     content_id = x[3]
 
     response = Response(
-        status_code=x[0],
-        date=datetime.fromtimestamp(x[1]),
-        content_type=cache.get_content_type_where_content_type_id(cursor, x[2]),
-        content=cache.get_content_where_content_id(cursor, content_id)
+        status_code= x[0],
+        date= datetime.fromtimestamp(x[1]),
+        content_type= cache.get_content_type_where_content_type_id(cursor, x[2]),
+        content= cache.get_content_where_content_id(cursor, content_id)
     )
 
     module_logger.debug(

@@ -6,7 +6,7 @@ def get_requests_where_session_id(cursor, session_id):
     sql = ("SELECT "
            "REQUEST_ID "
            "FROM REQUESTS "
-           "WHERE SESSION_ID = :session_id"
+           "WHERE SESSION_ID= :session_id"
            ";")
 
     sqlparams = {
@@ -33,9 +33,8 @@ def get_requests_where_session_id_and_content_type(cursor, session_id, content_t
            "SESSION_ID = :session_id AND "
            "RESPONSE_ID IN ("
            "SELECT RESPONSE_ID FROM RESPONSES WHERE "
-           "  CONTENT_TYPE_ID = :content_type_id"
-           ") "
-           ";")
+           "CONTENT_TYPE_ID= :content_type_id"
+           ");")
 
     sqlparams = {
         'session_id': session_id,
@@ -62,15 +61,15 @@ def get_response_where_session_id_and_request(cursor, session_id, request):
 
     sql = ("SELECT RESPONSE_ID FROM REQUESTS "
            "WHERE "
-           "URI_ID =:uri_id AND "
-           "SESSION_ID =:session_id;")
+           "URI_ID= :uri_id AND "
+           "SESSION_ID= :session_id;")
 
-    params = {
+    sqlparams = {
         'uri_id': uri_id,
         'session_id': session_id
     }
 
-    cursor.execute(sql, params)
+    cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
     response_id = x[0]
 
