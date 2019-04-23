@@ -222,14 +222,14 @@ def insert_content(cursor, content):
         sqlite3.Binary(content_compressed)
     ])
 
-    cid = int(cursor.lastrowid)
+    content_id = int(cursor.lastrowid)
 
     l = min(len(content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), cid)
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), content_id)
 
-    return cid
+    return content_id
 
 def create_or_get_content_id(cursor, request, content):
     try:
@@ -281,17 +281,17 @@ def get_newest_response_where_request(cursor, request):
     except UriNotFound:
         raise ResponseNotFound()
 
-    sql = ("SELECT MAX(RESPONSE_ID) FROM ("
+    sql = ( "SELECT MAX(RESPONSE_ID) FROM ("
                 "SELECT RESPONSE_ID FROM REQUESTS "
                 "WHERE "
                     "URI_ID = :uri_id" 
-                ");")
+            ");")
 
-    params = {
+    sqlparams = {
         'uri_id': uri_id
     }
 
-    cursor.execute(sql, params)
+    cursor.execute(sql, sqlparams)
     x =  cursor.fetchone()
     if not x:
         raise ResponseNotFound()
