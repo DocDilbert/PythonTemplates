@@ -5,14 +5,28 @@ import time
 from lxml import etree
 
 CONTENT_TYPE="text/html; charset=UTF-8"
-def add_entry(session_id, uuid, headline, adress, products ):
-    return
-    print(uuid, headline, adress)
 
-    for zahl, product,wann1, wann2 in products:
-        print("\t{:9} {:20}{:25}{}".format(zahl, product,wann1,wann2))
+class FileWriter:
+    def __init__(self):
+        self.f = open("out.csv", "w")
 
-def parse_response(session_id, response, add_entry=add_entry):
+    def add_entry(self, session_id, uuid, headline, adress, products ):
+        
+
+        
+        for zahl, product,wann1, wann2 in products:
+            self.f.write('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
+                session_id,
+                uuid, 
+                headline, 
+                " / ".join(adress),
+                zahl, 
+                product,
+                wann1,
+                wann2
+            ))
+
+def parse_response(session_id, response, add_entry):
     p3 = time.time()
     soup = BeautifulSoup(response.content.decode("utf-8") ,'lxml')
     p3 = time.time() - p3
@@ -65,6 +79,8 @@ def main():
     p2 = 0
     p2_0 = 0
     p2_1 = 0
+
+    file_writer = FileWriter()
     for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
 
@@ -85,7 +101,7 @@ def main():
         p1 = p1 + p1_end - p1_start
         p2_start = time.time()
         for response,_ in responses:
-            p2_0_, p2_1_ = parse_response(session_id, response)
+            p2_0_, p2_1_ = parse_response(session_id, response, add_entry=file_writer.add_entry)
             p2_0 = p2_0 + p2_0_
             p2_1 = p2_1 + p2_1_
 
