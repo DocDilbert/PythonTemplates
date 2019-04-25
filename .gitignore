@@ -114,4 +114,5 @@ autogen/
 /sqlite3/database
 /webscraper/page
 *.log
+*.csv
 /webscraper/*.db

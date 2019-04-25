@@ -45,11 +45,16 @@ def parse_response(session_id, response, add_entry):
    
     products = []
     div_with_class_preis = address_tag.find_all_next("div", {"class","preis"})
+    
     for preisc in div_with_class_preis:
 
         span_with_class_zahl = preisc.find("span", {"class","zahl"}).text
+        
         product = preisc.find("strong").text
+        
         span_with_title=preisc.find("span", {"title":True})
+        if not span_with_title:
+            continue
         wann1 = str.strip(str(span_with_title.next_sibling))
         wann2 = span_with_title['title']
         
