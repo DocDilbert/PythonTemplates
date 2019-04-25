@@ -12,8 +12,6 @@ class FileWriter:
 
     def add_entry(self, session_id, uuid, headline, adress, products ):
         
-
-        
         for zahl, product,wann1, wann2 in products:
             self.f.write('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
                 session_id,
