@@ -32,7 +32,7 @@ def parse_response(session_id, response, add_entry=add_entry):
     adress[0] = adress[0].replace("\r","")
    
     products = []
-    div_with_class_preis = soup.find_all("div", {"class","preis"})
+    div_with_class_preis = address_tag.find_all_next("div", {"class","preis"})
     for preisc in div_with_class_preis:
 
         span_with_class_zahl = preisc.find("span", {"class","zahl"}).text
