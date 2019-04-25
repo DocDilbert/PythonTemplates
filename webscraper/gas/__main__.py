@@ -2,6 +2,8 @@ import webdb
 import re
 from bs4 import BeautifulSoup
 import time
+from lxml import etree
+
 CONTENT_TYPE="text/html; charset=UTF-8"
 def add_entry(session_id, uuid, headline, adress, products ):
     return
@@ -11,9 +13,14 @@ def add_entry(session_id, uuid, headline, adress, products ):
         print("\t{:9} {:20}{:25}{}".format(zahl, product,wann1,wann2))
 
 def parse_response(session_id, response, add_entry=add_entry):
-    soup = BeautifulSoup(response.content, 'html.parser')
+    p3 = time.time()
+    soup = BeautifulSoup(response.content.decode("utf-8") ,'lxml')
+    p3 = time.time() - p3
+
+    p4 =  time.time()
     results = soup.findAll("div", {"data-tankstelle": True})
     
+
     uuid = results[0]["data-tankstelle"]
     headline_tag = results[0].find("h4", {"class" : "headline"})
     headline = headline_tag.string
@@ -43,7 +50,8 @@ def parse_response(session_id, response, add_entry=add_entry):
         ])
         
     add_entry(session_id, uuid, headline, adress, products)
-
+    p4 = time.time() - p4
+    return p3, p4
 
     
 def main():
@@ -56,6 +64,8 @@ def main():
     regex = re.compile("/tankstelle/")
     p1 = 0
     p2 = 0
+    p2_0 = 0
+    p2_1 = 0
     for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
 
@@ -76,7 +86,9 @@ def main():
         p1 = p1 + p1_end - p1_start
         p2_start = time.time()
         for response,_ in responses:
-            parse_response(session_id, response)
+            p2_0_, p2_1_ = parse_response(session_id, response)
+            p2_0 = p2_0 + p2_0_
+            p2_1 = p2_1 + p2_1_
 
         p2_end = time.time()
 
@@ -90,8 +102,11 @@ def main():
     print("Execution time {:.3f} s.".format(end - start))
     print("Execution time per session {:.3f} s.".format((end - start)/max_sessions))
     print("----")
-    print("avg(p1) = {:.3f} s (database access time)".format(p1/max_sessions))
-    print("avg(p2) = {:.3f} s (parsing time)".format(p2/max_sessions))
+    print("  avg(p1) = {:.3f} s (database access time)".format(p1/max_sessions))
+    print("  avg(p2) = {:.3f} s (parsing time)".format(p2/max_sessions))
+    print("avg(p2_0) = {:.3f} s (creation time)".format(p2_0/max_sessions))
+    print("avg(p2_1) = {:.3f} s (searching time)".format(p2_1/max_sessions))
+    print("----")
 
 if __name__ == "__main__":
     main()
