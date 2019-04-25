@@ -1,8 +1,10 @@
 import webdb
 import re
 from bs4 import BeautifulSoup
+import time
 CONTENT_TYPE="text/html; charset=UTF-8"
 def add_entry(session_id, uuid, headline, adress, products ):
+    return
     print(uuid, headline, adress)
 
     for zahl, product,wann1, wann2 in products:
@@ -45,12 +47,16 @@ def parse_response(session_id, response, add_entry=add_entry):
 
     
 def main():
+    
+    start = time.time()
+
     connection = webdb.db.open_db_readonly("webscraper.db")
     cursor = connection.cursor()
 
     regex = re.compile("/tankstelle/")
-    for _, meta in webdb.interface.get_sessions(cursor):
+    for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
+        print("Parsing session {} / {} --> {}".format(session_id, session.start_datetime, session.end_datetime))
         requests = webdb.filters.get_requests_where_session_id_and_content_type(cursor, session_id, CONTENT_TYPE)
 
         requests_filtered = [request for request,_ in requests if regex.match(request.path)]
@@ -64,7 +70,12 @@ def main():
 
         #
 
-        print("------")
+        
+    
+    end = time.time()
+    print()
+    print("Execution time {:.3f} seconds.".format(end - start))
+    print("Execution time per session {:.3f} seconds.".format((end - start)/session_id))
 
 if __name__ == "__main__":
     main()
