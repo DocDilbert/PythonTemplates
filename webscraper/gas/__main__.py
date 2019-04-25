@@ -18,11 +18,10 @@ def parse_response(session_id, response, add_entry=add_entry):
     p3 = time.time() - p3
 
     p4 =  time.time()
-    results = soup.findAll("div", {"data-tankstelle": True})
-    
+    div_with_data = soup.find("div", {"data-tankstelle": True})
+    uuid = div_with_data["data-tankstelle"]
 
-    uuid = results[0]["data-tankstelle"]
-    headline_tag = results[0].find("h4", {"class" : "headline"})
+    headline_tag = div_with_data.find("h4", {"class" : "headline"})
     headline = headline_tag.string
 
     address_tag = headline_tag.find_next("p").find_next("p")
@@ -104,6 +103,7 @@ def main():
     print("----")
     print("  avg(p1) = {:.3f} s (database access time)".format(p1/max_sessions))
     print("  avg(p2) = {:.3f} s (parsing time)".format(p2/max_sessions))
+    print("----")
     print("avg(p2_0) = {:.3f} s (creation time)".format(p2_0/max_sessions))
     print("avg(p2_1) = {:.3f} s (searching time)".format(p2_1/max_sessions))
     print("----")
