@@ -84,6 +84,32 @@ def parse_response(session_id, response, add_entry):
     p4 = time.time() - p4
     return p3, p4
 
+def parse_session(cursor, session_id, session, regex, file_writer):
+
+    print("Parsing session {} / {} --> {}".format(session_id, session.start_datetime, session.end_datetime))
+        
+    p1_start = time.time()
+    requests = webdb.filters.get_requests_where_session_id_and_content_type(cursor, session_id, CONTENT_TYPE)
+
+    requests_filtered = [request for request,_ in requests if regex.match(request.path)]
+    
+    responses = [
+        webdb.filters.get_response_where_session_id_and_request(cursor, session_id, request) 
+        for request in requests_filtered
+    ]
+    p1 = time.time() - p1_start
+    
+    p2_start = time.time()
+    p2_0 = 0
+    p2_1 = 0
+    for response,_ in responses:
+        p2_0_, p2_1_ = parse_response(session_id, response, add_entry=file_writer.add_entry)
+        p2_0 = p2_0 + p2_0_
+        p2_1 = p2_1 + p2_1_
+
+    p2 = time.time() - p2_start
+
+    return p1, p2, p2_0, p2_1
 def parse():
     
     start = time.time()
@@ -92,6 +118,7 @@ def parse():
     cursor = connection.cursor()
 
     regex = re.compile("/tankstelle/")
+
     p1 = 0
     p2 = 0
     p2_0 = 0
@@ -100,34 +127,15 @@ def parse():
     file_writer = DummyWriter()
     for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
-
+        p1_, p2_, p2_0_, p2_1_ = parse_session(cursor, session_id, session, regex, file_writer)
+        p1 += p1_
+        p2 += p2_
+        p2_0 += p2_0_
+        p2_1 += p2_1_
         
-        print("Parsing session {} / {} --> {}".format(session_id, session.start_datetime, session.end_datetime))
-        
-        p1_start = time.time()
-        requests = webdb.filters.get_requests_where_session_id_and_content_type(cursor, session_id, CONTENT_TYPE)
-
-        requests_filtered = [request for request,_ in requests if regex.match(request.path)]
-        
-        responses = [
-            webdb.filters.get_response_where_session_id_and_request(cursor, session_id, request) 
-            for request in requests_filtered
-        ]
-        p1_end = time.time()
-
-        p1 = p1 + p1_end - p1_start
-        p2_start = time.time()
-        for response,_ in responses:
-            p2_0_, p2_1_ = parse_response(session_id, response, add_entry=file_writer.add_entry)
-            p2_0 = p2_0 + p2_0_
-            p2_1 = p2_1 + p2_1_
-
-        p2_end = time.time()
-
-        p2 = p2 + p2_end - p2_start
-    
     end = time.time()
     max_sessions = session_id
+    
     print()
     print("Execution time {:.3f} s.".format(end - start))
     print("Execution time per session {:.3f} s.".format((end - start)/max_sessions))
