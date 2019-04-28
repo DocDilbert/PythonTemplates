@@ -1,8 +1,16 @@
 import webdb
 import re
+import argparse
 from bs4 import BeautifulSoup
 import time
 from lxml import etree
+from version import __version__
+import sys
+import logging
+
+
+# create logger
+module_logger = logging.getLogger('webparser')
 
 CONTENT_TYPE="text/html; charset=UTF-8"
 
@@ -76,8 +84,7 @@ def parse_response(session_id, response, add_entry):
     p4 = time.time() - p4
     return p3, p4
 
-    
-def main():
+def parse():
     
     start = time.time()
 
@@ -133,6 +140,57 @@ def main():
     print("avg(p2_0) = {:.3f} s (creation time)".format(p2_0/max_sessions))
     print("avg(p2_1) = {:.3f} s (searching time)".format(p2_1/max_sessions))
     print("----")
+
+class WebParserCommandLineParser:
+    def __init__(self):
+        parser = argparse.ArgumentParser(
+            prog="webparser",
+            description='',
+            usage=("webscraper <command> [<args]\n"
+                   "\n"
+                   "The following commands are supported:\n"
+                   "   parse    parses the database")
+        )
+
+        parser.add_argument(
+            'command',
+            help='Subcommand to run'
+        )
+
+        parser.add_argument(
+            '--version',
+            action='version',
+            version='%(prog)s {version}'.format(version=__version__)
+        )
+        args = parser.parse_args(sys.argv[1:2])
+
+        if not hasattr(self, args.command):
+            print('Unrecognized command')
+            parser.print_help()
+            exit(1)
+
+        # use dispatch pattern to invoke method with same name
+        getattr(self, args.command)()
+
+    def parse(self):
+        parse()
+
+    
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+
+    module_logger.exception("Uncaught exception", exc_info=(
+        exc_type, exc_value, exc_traceback))
+
+
+def main():
+
+     # Install exception handler
+    sys.excepthook = handle_exception
+    WebParserCommandLineParser()
+
 
 if __name__ == "__main__":
     main()

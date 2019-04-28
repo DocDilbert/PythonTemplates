@@ -18,9 +18,8 @@ from webscraper.content_handler_filesystem import ContentHandlerFilesystem
 from webtypes.request import Request
 from webtypes.response import Response
 
-from webscraper.version import (
-    __version__,
-)
+from version import __version__
+
 
 # chrome 70.0.3538.77
 HEADERS = {

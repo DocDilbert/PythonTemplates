@@ -1,11 +1,10 @@
 from distutils.core import setup
-from webscraper.version import (
-    __version__,
-)
+from version import __version__
+
 setup(
     name='webscraper',
     version=__version__,
-    packages=['webscraper', 'webdb', 'webtypes',],
+    packages=['webscraper', 'webdb', 'webtypes','version', ],
     long_description=open('README.txt').read(),
     #data_files=['VERSION'],
     
