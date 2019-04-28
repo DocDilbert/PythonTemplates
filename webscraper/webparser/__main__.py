@@ -15,8 +15,8 @@ module_logger = logging.getLogger('webparser')
 CONTENT_TYPE="text/html; charset=UTF-8"
 
 class FileWriter:
-    def __init__(self):
-        self.f = open("out.csv", "w")
+    def __init__(self, mode):
+        self.f = open("out.csv", mode)
 
     def add_entry(self, session_id, uuid, headline, adress, products ):
         
@@ -125,8 +125,6 @@ def parse():
         p2_end = time.time()
 
         p2 = p2 + p2_end - p2_start
-
-        
     
     end = time.time()
     max_sessions = session_id
@@ -140,6 +138,23 @@ def parse():
     print("avg(p2_0) = {:.3f} s (creation time)".format(p2_0/max_sessions))
     print("avg(p2_1) = {:.3f} s (searching time)".format(p2_1/max_sessions))
     print("----")
+
+def parse_append():
+    with open("out.csv", "r") as fp:
+        lines = fp.readlines()
+
+    last_session_id = int(lines[-1].split(';')[0])
+
+    connection = webdb.db.open_db_readonly("webscraper.db")
+    cursor = connection.cursor()
+
+    sessions = (
+        (session, meta) for session, meta in webdb.interface.get_sessions(cursor) 
+        if meta['session_id']>last_session_id
+    )
+
+    for session, meta in sessions:
+        print(meta)
 
 class WebParserCommandLineParser:
     def __init__(self):
@@ -174,6 +189,9 @@ class WebParserCommandLineParser:
 
     def parse(self):
         parse()
+    
+    def append(self):
+        parse_append()
 
     
 def handle_exception(exc_type, exc_value, exc_traceback):
