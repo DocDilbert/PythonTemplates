@@ -115,4 +115,5 @@ autogen/
 /webscraper/page
 *.log
 *.csv
+*.png
 /webscraper/*.db
