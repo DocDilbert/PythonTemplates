@@ -24,6 +24,13 @@ class FileWriter:
                 wann2
             ))
 
+class DummyWriter:
+    def __init__(self):
+        pass
+
+    def add_entry(self, session_id, uuid, headline, adress, products ):
+        pass
+
 def parse_response(session_id, response, add_entry):
     p3 = time.time()
     soup = BeautifulSoup(response.content.decode("utf-8") ,'lxml')
@@ -83,7 +90,7 @@ def main():
     p2_0 = 0
     p2_1 = 0
 
-    file_writer = FileWriter()
+    file_writer = DummyWriter()
     for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
 
