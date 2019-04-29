@@ -25,7 +25,7 @@ class FileWriter:
                 session_id,
                 uuid, 
                 headline, 
-                " / ".join(adress),
+                "#?#".join(adress),
                 zahl, 
                 product,
                 wann1,

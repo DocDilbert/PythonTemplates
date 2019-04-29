@@ -28,13 +28,13 @@ def main():
         x = [(i[1].timestamp()-datetime.now().timestamp())/(60*60*24) for i in pricelist]
         y = [i[2] for i in pricelist]
         title = pricelist[0][3]
-        axarr = plt.subplot(9,8, cnt)
+        axarr = plt.subplot(9,9, cnt)
         axarr.xaxis.set_visible(False) # Hide only x axis
         plt.step(x,y,'-')
         plt.title(title)
-        plt.ylim([min_price*0.99, max_price*1.01])
+        plt.ylim([min_price-0.001, max_price+0.001])
         cnt +=1
-        if cnt>9*8:
+        if cnt>9*9:
             break
     
     print("Saving Plot...")

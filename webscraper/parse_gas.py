@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import re
 import pickle
+import pprint
 from datetime import datetime
 
 UUIDS = {}
@@ -11,7 +12,7 @@ def parse_line(line):
     session_id = int(elements[0])
     uuid = elements[1].strip("\"")
     headline = elements[2].strip("\"")
-    adr = elements[3].strip("\"")
+    adr = elements[3].strip("\"").split("#?#")
     price = float(elements[4].strip("\"").strip("€").replace(",","."))
     product = elements[5].strip("\"")
     timel = elements[7].strip("\"")
@@ -31,7 +32,14 @@ def parse_line(line):
 
     pricelist = products[product]
 
-    pricelist.append((session_id, dt, price, adr)) 
+    pricelist.append((
+        session_id, 
+        dt, 
+        price, 
+        headline,
+        adr,
+    )) 
+
 def remove_identicial_rows(li):
     
     iresult = {i[1] : i for i in li}
@@ -48,7 +56,6 @@ def main():
             parse_line(line)
             line = fp.readline()
 
-    
     for _, uuid in UUIDS.items():
         for product, pricelist in uuid.items():
             reduced_list = remove_identicial_rows(pricelist)
@@ -58,5 +65,6 @@ def main():
     with open('data.pickle', 'wb') as outfile:  
         pickle.dump(UUIDS, outfile)
  
+    pprint.pprint(UUIDS)
 if __name__ == "__main__":
     main()
