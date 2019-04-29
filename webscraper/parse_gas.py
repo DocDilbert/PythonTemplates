@@ -43,8 +43,13 @@ def parse_line(line):
 
 
 def remove_identicial_rows(li):
-    iresult = {i[1]: i for i in li}
+
+    # compare whole dataset
+    iresult = {str(i[1])+str(i[2])+str(i[3])+" ".join(i[4]): i for i in li}
     reduced_list = [iresult[k] for k in sorted(iresult.keys())]
+
+    #for k,_ in iresult.items():
+    #    print(k)
     return reduced_list
 
 
