@@ -11,7 +11,7 @@ def main():
 
     print("Plotting data...")
     plt.figure(figsize=(50, 50)) # This increases resolution
-    plt.subplots_adjust(left=0.01,right=0.99,top=0.99, bottom=0.01, wspace = 0.15)
+    plt.subplots_adjust(left=0.01,right=0.99,top=0.99, bottom=0.01, wspace = 0.11)
     cnt = 1
     min_price = 10000
     max_price = 0
@@ -38,7 +38,7 @@ def main():
             break
     
     print("Saving Plot...")
-    plt.savefig('foo.png')
+    plt.savefig('gas_stations.png')
  
 if __name__ == "__main__":
     main()
