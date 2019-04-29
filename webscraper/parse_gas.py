@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import re
+import pickle
 from datetime import datetime
 
 UUIDS = {}
-RDATE = re.compile("(\d+\.\d+\.\d+),\s(\d+:\d+)")
+RDATE = re.compile(r"(\d+\.\d+\.\d+),\s(\d+:\d+)")
 
 def parse_line(line):
     elements = line.split(";")
@@ -36,46 +37,26 @@ def remove_identicial_rows(li):
     iresult = {i[1] : i for i in li}
     reduced_list = [iresult[k] for k in sorted(iresult.keys())]
     return reduced_list
+
+    
 def main():
+    print("Reading file...")
     with open('out.csv','r', encoding='utf8') as fp:
         line = fp.readline()
         
         while line:
             parse_line(line)
             line = fp.readline()
+
     
     for _, uuid in UUIDS.items():
         for product, pricelist in uuid.items():
             reduced_list = remove_identicial_rows(pricelist)
             uuid[product] = reduced_list
 
-    
-    plt.figure(figsize=(50, 50)) # This increases resolution
-    plt.subplots_adjust(left=0.01,right=0.99,top=0.99, bottom=0.01, wspace = 0.15)
-    cnt = 1
-    min_price = 10000
-    max_price = 0
-    for uuid,productdict in UUIDS.items():
-        pricelist = productdict['Super (E10) Benzin']
-        prices = [i[2] for i in pricelist]
-        min_price = min(min_price, min(prices))
-        max_price = max(max_price, max(prices))
-
-    for uuid,productdict in UUIDS.items():
-        pricelist = productdict['Super (E10) Benzin']
-        x = [(i[1].timestamp()-datetime.now().timestamp())/(60*60*24) for i in pricelist]
-        y = [i[2] for i in pricelist]
-        title = pricelist[0][3]
-        axarr = plt.subplot(9,8, cnt)
-        axarr.xaxis.set_visible(False) # Hide only x axis
-        plt.step(x,y,'-')
-        plt.title(title)
-        plt.ylim([min_price*0.99, max_price*1.01])
-        cnt +=1
-        if cnt>9*8:
-            break
-    
-    plt.savefig('foo.png')
+    print("Writing Pickle ...")
+    with open('data.pickle', 'wb') as outfile:  
+        pickle.dump(UUIDS, outfile)
  
 if __name__ == "__main__":
     main()
