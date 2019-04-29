@@ -117,3 +117,4 @@ autogen/
 *.csv
 *.png
 /webscraper/*.db
+*.pickle

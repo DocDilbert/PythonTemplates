@@ -16,7 +16,7 @@ CONTENT_TYPE="text/html; charset=UTF-8"
 
 class FileWriter:
     def __init__(self, mode):
-        self.f = open("out.csv", mode)
+        self.f = open("out.csv", mode,  encoding="utf-8")
 
     def add_entry(self, session_id, uuid, headline, adress, products ):
         
@@ -25,7 +25,7 @@ class FileWriter:
                 session_id,
                 uuid, 
                 headline, 
-                " / ".join(adress),
+                "#?#".join(adress),
                 zahl, 
                 product,
                 wann1,
@@ -124,7 +124,7 @@ def parse():
     p2_0 = 0
     p2_1 = 0
 
-    file_writer = DummyWriter()
+    file_writer = FileWriter("w")
     for session, meta in webdb.interface.get_sessions(cursor):
         session_id = meta['session_id']
         p1_, p2_, p2_0_, p2_1_ = parse_session(cursor, session_id, session, regex, file_writer)
