@@ -7,7 +7,7 @@ from datetime import datetime
 def main():
     print("Reading Pickle ...")
     with open('data.pickle', 'rb') as outfile:  
-        UUIDS=pickle.load(outfile)
+        data=pickle.load(outfile)
 
     print("Plotting data...")
     plt.figure(figsize=(50, 50)) # This increases resolution
@@ -16,18 +16,19 @@ def main():
     min_price = 10000
     max_price = 0
 
-    for uuid,productdict in UUIDS.items():
-        pricelist = productdict['Super (E10) Benzin']
-        prices = [i[2] for i in pricelist]
+    
+    for uuid, item in data.items():
+        pricelist = item['products']['Super (E10) Benzin']
+        prices = [i['price'] for i in pricelist]
         min_price = min(min_price, min(prices))
         max_price = max(max_price, max(prices))
 
-    for uuid, productdict in UUIDS.items():
+    for uuid, item in data.items():
         print("-> Plotting data with uuid {}".format(uuid))
-        pricelist = productdict['Super (E10) Benzin']
-        x = [(i[1].timestamp()-datetime.now().timestamp())/(60*60*24) for i in pricelist]
-        y = [i[2] for i in pricelist]
-        title = pricelist[0][3]
+        pricelist = item['products']['Super (E10) Benzin']
+        x = [(i['timestamp'].timestamp()-datetime.now().timestamp())/(60*60*24) for i in pricelist]
+        y = [i['price'] for i in pricelist]
+        title = item['headlines'][0]['headline']
         axarr = plt.subplot(9,9, cnt)
         axarr.xaxis.set_visible(False) # Hide only x axis
         plt.step(x,y,'-')
