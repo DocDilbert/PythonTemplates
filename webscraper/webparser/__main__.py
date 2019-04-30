@@ -23,10 +23,10 @@ class FileWriter:
     def __init__(self, mode):
         self.f = open("out.csv", mode,  encoding="utf-8")
 
-    def add_entry(self, session_id, uuid, headline, adress, products):
+    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
 
         for zahl, product, wann1, wann2 in products:
-            self.f.write('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
+            self.f.write('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
                 session_id,
                 uuid,
                 headline,
@@ -34,7 +34,8 @@ class FileWriter:
                 zahl,
                 product,
                 wann1,
-                wann2
+                wann2,
+                "\\n".join([i0 + " "+i1 for i0, i1 in otimes]),
             ))
 
 
@@ -42,7 +43,7 @@ class DummyWriter:
     def __init__(self):
         pass
 
-    def add_entry(self, session_id, uuid, headline, adress, products):
+    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
         pass
 
 
@@ -50,10 +51,10 @@ class ConsoleWriter:
     def __init__(self):
         pass
 
-    def add_entry(self, session_id, uuid, headline, adress, products):
+    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
 
         for zahl, product, wann1, wann2 in products:
-            print('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
+            print('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
                 session_id,
                 uuid,
                 headline,
@@ -61,9 +62,27 @@ class ConsoleWriter:
                 zahl,
                 product,
                 wann1,
-                wann2
+                wann2,
+                "\\n".join([i0 + " "+i1 for i0, i1 in otimes]),
             ))
 
+def parse_opening(opening_tag):
+    opening_times = opening_tag.find_all("tr")
+
+    re = []
+    for i in opening_times:
+        day = i.find("th")
+
+    
+        time = day.find_next("td")
+        open_ = ""
+        if time.find("span") != None:
+            open_ = " "+time.find("span").text
+            time = time.find("strong")
+ 
+        re.append((day.text, time.get_text()+ open_))
+
+    return re
 
 def parse_response(session_id, response, add_entry):
     soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
@@ -82,8 +101,12 @@ def parse_response(session_id, response, add_entry):
     adress[0] = adress[0].replace("\r", "")
 
     products = []
-    div_with_class_preis = address_tag.find_all_next("div", {"class", "preis"})
-
+    
+    preis_tag =  address_tag.find_next("div", {"id" : "tankstelle-preis"})
+    opening = preis_tag.find_next("div",{"class": "boxce"})
+    
+    otimes = parse_opening(opening)
+    div_with_class_preis = preis_tag.find_all("div", {"class", "preis"})
     for preisc in div_with_class_preis:
 
         span_with_class_zahl = preisc.find("span", {"class", "zahl"}).text
@@ -105,7 +128,8 @@ def parse_response(session_id, response, add_entry):
             wann2
         ])
 
-    add_entry(session_id, uuid, headline, adress, products)
+   
+    add_entry(session_id, uuid, headline, adress, products, otimes)
 
 
 def parse_session(cursor, session_id, session, regex, writer):
