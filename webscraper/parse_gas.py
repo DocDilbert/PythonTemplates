@@ -13,7 +13,7 @@ def parse_line(line):
     session_id = int(elements[0])
     uuid = elements[1].strip("\"")
     headline = elements[2].strip("\"")
-    adr = elements[3].strip("\"").split("#?#")
+    adr = elements[3].strip("\"").split("\\n")
     price = float(elements[4].strip("\"").strip("€").replace(",", "."))
     product = elements[5].strip("\"")
     timel = elements[7].strip("\"")

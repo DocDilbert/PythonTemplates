@@ -57,7 +57,7 @@ class ConsoleWriter:
                 session_id,
                 uuid,
                 headline,
-                "#?#".join(adress),
+                "\\n".join(adress),
                 zahl,
                 product,
                 wann1,
