@@ -169,6 +169,7 @@ def parse_all():
 
 
 def parse_append():
+    start = time.time()
     with open("out.csv", "r") as fp:
         lines = fp.readlines()
 
@@ -177,15 +178,23 @@ def parse_append():
     connection = webdb.db.open_db_readonly("webscraper.db")
     cursor = connection.cursor()
 
-    sessions = (
+    session_list = [
         (session, meta) for session, meta in webdb.interface.get_sessions(cursor)
         if meta['session_id'] > last_session_id
-    )
+    ]
 
-    for session, meta in sessions:
-        print(meta)
+    if len(session_list) == 0:
+        print("No new sessions found.")
+        return
 
+    regex = re.compile("/tankstelle/")
+    
+    file_writer = FileWriter("a")
+    parse_session_list(cursor, session_list, regex, file_writer)
+    end = time.time()
 
+    max_sessions = session_list[-1][1]['session_id']
+    print_exec_time(start, end, max_sessions)
 def parse_single(session_id):
     start = time.time()
     connection = webdb.db.open_db_readonly("webscraper.db")
@@ -218,6 +227,7 @@ class WebParserCommandLineParser:
                    "\n"
                    "The following commands are supported:\n"
                    "   all      parses all sessions stored in the database\n"
+                   "   appends  appends new sessions\n"
                    "   single   parses a single session stored in the database\n")
         )
 
