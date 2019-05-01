@@ -28,7 +28,7 @@ def main():
         pricelist = item['products']['Super (E10) Benzin']
         x = [(i['timestamp'].timestamp()-datetime.now().timestamp())/(60*60*24) for i in pricelist]
         y = [i['price'] for i in pricelist]
-        title = item['headlines'][0]['headline']
+        title = uuid+"\n"+item['headlines'][0]['headline']
         axarr = plt.subplot(9,9, cnt)
         axarr.xaxis.set_visible(False) # Hide only x axis
         plt.step(x,y,'-')
