@@ -59,7 +59,8 @@ def scrap(
     request_to_response, 
     content_handler, 
     download_img=False,
-    link_filter=None
+    link_filter=None,
+    depth=0,
 ):
     response = request_to_response(request) 
     content_handler.response_with_html_content_received(request, response)
@@ -109,13 +110,13 @@ def scrap(
 
     found_links = set()
     for a in soup.find_all('a', href=True):
-            module_logger.debug("Found <a> with href %s", a)
+            module_logger.debug("Found <a> with href %s", str(a))
             found_links.add(a.get('href'))
 
     download_links = set()
     if link_filter:
         for link in found_links:
-            if link_filter(link):
+            if link_filter(link, depth):
                 module_logger.info("Filter accepted link %s", a)
                 link = transform_url(
                     scheme, 
@@ -130,7 +131,8 @@ def scrap(
             request_to_response,
             content_handler,
             download_img=download_img,
-            link_filter=link_filter
+            link_filter=link_filter,
+            depth=depth+1
         )             
 
 def webscraper(

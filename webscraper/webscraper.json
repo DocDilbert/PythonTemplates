@@ -7,12 +7,13 @@
 
     "database" : "webscraper.db",
 
-    "url" : "https://www.stepstone.de/jobs/Stuttgart.html",
+    "url" : "https://ich-tanke.de/tankstellen/super-e10/region/landkreis-esslingen/",
     "max_level" : 2,
     "link_filters" : [
         {
-            "regex" : "\/5\/ergebnisliste.html.+paging%5Fnext",
-            "max_occurences" : 20 
+            "regex" : "\/tankstelle\/.+\/",
+            "max_occurences" : -1,
+            "max_depth" : 2
         }
     ]
 }

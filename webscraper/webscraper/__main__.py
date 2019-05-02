@@ -44,6 +44,7 @@ def log_raw_response(response):
 
 
 def response_factory(request):
+    module_logger.debug("Do web request %s", request)
     response_raw = requests.get(request.get_url(), headers=HEADERS)
 
     module_logger.info("Web request %s completed", request)
@@ -65,23 +66,29 @@ class LinkFilter:
         self.filters = []
         for filt in config['link_filters']:
             regex = filt['regex']
-            max_occurences = filt['max_occurences']
+    
             self.filters.append({
                 'regex' : re.compile(regex),
                 'occurences' : 0,
-                'max_occurences' : max_occurences
+                'max_occurences' : filt['max_occurences'],
+                'max_depth' : filt['max_depth']
             })
 
-    def filter(self, x):
+    def filter(self, x, depth):
         for filt in self.filters:
             regex = filt['regex']
             if regex.match(x):
                 filt['occurences']=filt['occurences']+1
-                if filt['occurences']<filt['max_occurences']:
-                    self.logger.debug("FILTER MATCH: %s", x)
-                    return True
+                if (filt['max_occurences'] == -1) or (filt['occurences']< filt['max_occurences']):
+
+                    if (filt['max_depth'] != -1) and (depth>=filt['max_depth']):
+                        self.logger.debug("FILTER MATCH AT DEPTH %i BUT MAX DEPTH REACHED: %s", depth, x)
+                        return False
+                    else:
+                        self.logger.debug("FILTER MATCH AT DEPTH %i: %s", depth, x)
+                        return True
                 else:
-                    self.logger.debug("FILTER MATCH BUT MAX OCCURENCES REACHED: %s", x)
+                    self.logger.debug("FILTER MATCH AT DEPTH %i BUT MAX OCCURENCES REACHED: %s", depth, x)
                     return False
         
         self.logger.debug("NO FILTER MATCH: %s", x)
