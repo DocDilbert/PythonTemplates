@@ -81,19 +81,20 @@ class LinkFilter:
             regex = filt['regex']
             if regex.match(x):
                 filt['occurences']=filt['occurences']+1
+
                 if (filt['max_occurences'] == -1) or (filt['occurences']< filt['max_occurences']):
 
                     if (filt['max_depth'] != -1) and (depth>=filt['max_depth']):
-                        self.logger.debug("FILTER MATCH AT DEPTH %i BUT MAX DEPTH REACHED: %s", depth, x)
+                        self.logger.debug("Denied (too deep) \"%s\"", x)
                         return False
                     else:
-                        self.logger.debug("FILTER MATCH AT DEPTH %i: %s", depth, x)
+                        self.logger.debug("Link accepted \"%s\"", x)
                         return True
                 else:
-                    self.logger.debug("FILTER MATCH AT DEPTH %i BUT MAX OCCURENCES REACHED: %s", depth, x)
+                    self.logger.debug("Link denied (too much much occurences) \"%s\"", x)
                     return False
         
-        self.logger.debug("NO FILTER MATCH: %s", x)
+        self.logger.debug("Link denied (no regex match) \"%s\"", x)
         return False
 
 class RequestToDatabase:

@@ -76,7 +76,7 @@ def scrap(
 
     for link in soup.find_all('link', href=True):
 
-        module_logger.debug("Found <link> -> %s\n",link)
+        module_logger.debug("Found <link> -> %s",link)
 
         rel = link.get("rel", None) 
         type_ = link.get("type", None)
@@ -119,7 +119,7 @@ def scrap(
     if link_filter:
         for link in found_links:
             if link_filter(link, depth):
-                module_logger.info("Filter accepted link to new page %s", link)
+                module_logger.info("Filter accepted link to new page \"%s\"", link)
                 link = transform_url(
                     scheme, 
                     netloc, 
