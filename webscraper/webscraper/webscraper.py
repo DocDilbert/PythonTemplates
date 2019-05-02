@@ -59,14 +59,8 @@ def scrap(
     request_to_response, 
     content_handler, 
     download_img=False,
-    link_filter=None,
-    max_level=1,
-    level=0,
+    link_filter=None
 ):
-    if level==max_level:
-        module_logger.info("Maximal recursion level reached.")
-        return
-
     response = request_to_response(request) 
     content_handler.response_with_html_content_received(request, response)
 
@@ -136,9 +130,7 @@ def scrap(
             request_to_response,
             content_handler,
             download_img=download_img,
-            link_filter=link_filter,
-            max_level=max_level,
-            level=level+1
+            link_filter=link_filter
         )             
 
 def webscraper(
@@ -156,8 +148,7 @@ def webscraper(
         request_to_response,
         content_handler,
         download_img=download_img,
-        link_filter=link_filter,
-        max_level=max_level
+        link_filter=link_filter
     )
     content_handler.session_finished()
     

@@ -12,7 +12,7 @@
     "link_filters" : [
         {
             "regex" : "\/5\/ergebnisliste.html.+paging%5Fnext",
-            "max_occurences" : 3 
+            "max_occurences" : 20 
         }
     ]
 }

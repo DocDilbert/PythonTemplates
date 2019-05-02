@@ -73,13 +73,16 @@ class LinkFilter:
             })
 
     def filter(self, x):
-        
         for filt in self.filters:
-
             regex = filt['regex']
             if regex.match(x):
-                self.logger.debug("FILTER MATCH: %s", x)
-                return True
+                filt['occurences']=filt['occurences']+1
+                if filt['occurences']<filt['max_occurences']:
+                    self.logger.debug("FILTER MATCH: %s", x)
+                    return True
+                else:
+                    self.logger.debug("FILTER MATCH BUT MAX OCCURENCES REACHED: %s", x)
+                    return False
         
         self.logger.debug("NO FILTER MATCH: %s", x)
         return False
@@ -344,8 +347,7 @@ class WebScraperCommandLineParser:
             request_to_response=response_factory,
             content_handler=content_handler_sqlite,
             download_img=True,
-            link_filter=link_filter.filter,
-            max_level=config['max_level']
+            link_filter=link_filter.filter
         )
 
     def extract(self):
@@ -382,8 +384,7 @@ class WebScraperCommandLineParser:
             request_to_response=rtb.response_database_factory,
             content_handler=content_handler_filesystem,
             download_img=True,
-            link_filter=link_filter.filter,
-            max_level=config['max_level']
+            link_filter=link_filter.filter
         )
 
 def handle_exception(exc_type, exc_value, exc_traceback):
