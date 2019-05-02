@@ -10,6 +10,9 @@
     "url" : "https://www.stepstone.de/jobs/Stuttgart.html",
     "max_level" : 2,
     "link_filters" : [
-        "\/5\/ergebnisliste.html.+paging%5Fnext"
+        {
+            "regex" : "\/5\/ergebnisliste.html.+paging%5Fnext",
+            "max_occurences" : 3 
+        }
     ]
 }

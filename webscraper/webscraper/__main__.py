@@ -64,13 +64,24 @@ class LinkFilter:
             'webscraper.LinkFilter')
         self.filters = []
         for filt in config['link_filters']:
-            self.filters.append(re.compile(filt))
+            regex = filt['regex']
+            max_occurences = filt['max_occurences']
+            self.filters.append({
+                'regex' : re.compile(regex),
+                'occurences' : 0,
+                'max_occurences' : max_occurences
+            })
 
     def filter(self, x):
-        self.logger.debug("Link filter input: %s", x)
-        for re_filt in self.filters:
-            if re_filt.match(x):
+        
+        for filt in self.filters:
+
+            regex = filt['regex']
+            if regex.match(x):
+                self.logger.debug("FILTER MATCH: %s", x)
                 return True
+        
+        self.logger.debug("NO FILTER MATCH: %s", x)
         return False
 
 class RequestToDatabase:
@@ -364,14 +375,14 @@ class WebScraperCommandLineParser:
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
-        regex = re.compile(config['link_filter'])
+        link_filter = LinkFilter(config)
 
         webscraper(
             url=config['url'],
             request_to_response=rtb.response_database_factory,
             content_handler=content_handler_filesystem,
             download_img=True,
-            link_filter=lambda x: True if regex.match(x) else False,
+            link_filter=link_filter.filter,
             max_level=config['max_level']
         )
 

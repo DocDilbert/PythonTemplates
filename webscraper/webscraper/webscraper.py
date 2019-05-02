@@ -110,28 +110,36 @@ def scrap(
                     content_handler.response_with_img_content_received
                 )
     
-    if link_filter:
-        for a in soup.find_all('a', href=True):
 
-            if link_filter(a.get('href')):
-                module_logger.debug("Found <a> with href %s", a)
+    content_handler.html_post_process_handler(request, soup)
+
+    found_links = set()
+    for a in soup.find_all('a', href=True):
+            module_logger.debug("Found <a> with href %s", a)
+            found_links.add(a.get('href'))
+
+    download_links = set()
+    if link_filter:
+        for link in found_links:
+            if link_filter(link):
+                module_logger.info("Filter accepted link %s", a)
                 link = transform_url(
                     scheme, 
                     netloc, 
-                    a.get('href')
+                    link
                 )
+                download_links.add(link)
 
-                scrap(
-                    Request.from_url(link),
-                    request_to_response,
-                    content_handler,
-                    download_img=download_img,
-                    link_filter=link_filter,
-                    max_level=max_level,
-                    level=level+1
-                )
-
-    content_handler.html_post_process_handler(request, soup)
+    for link in download_links:
+        scrap(
+            Request.from_url(link),
+            request_to_response,
+            content_handler,
+            download_img=download_img,
+            link_filter=link_filter,
+            max_level=max_level,
+            level=level+1
+        )             
 
 def webscraper(
     url, 
