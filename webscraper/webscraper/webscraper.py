@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import requests
 import logging
 import os
 import time
+import string
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urlunparse
 
@@ -72,13 +75,12 @@ def scrap(
     netloc = parsed_url.netloc
 
     for link in soup.find_all('link', href=True):
+
+        module_logger.debug("Found <link> -> %s\n",link)
+
         rel = link.get("rel", None) 
         type_ = link.get("type", None)
         loc = link.get("href")
-        module_logger.debug("Found <link> with href %s\n"
-            "\tloc = %s\n"
-            "\trel = %s\n"
-            "\ttype = %s", link, loc, rel, type_)
 
         # content type css found
         if type_=="text/css" or "stylesheet" in rel:
@@ -110,14 +112,14 @@ def scrap(
 
     found_links = set()
     for a in soup.find_all('a', href=True):
-            module_logger.debug("Found <a> with href %s", str(a))
+            module_logger.debug('Found <a> -> %s', str(a))
             found_links.add(a.get('href'))
 
     download_links = set()
     if link_filter:
         for link in found_links:
             if link_filter(link, depth):
-                module_logger.info("Filter accepted link %s", a)
+                module_logger.info("Filter accepted link to new page %s", link)
                 link = transform_url(
                     scheme, 
                     netloc, 
@@ -143,6 +145,7 @@ def webscraper(
     link_filter=None,
     max_level=1
 ):
+
     content_handler.session_started()
 
     scrap(

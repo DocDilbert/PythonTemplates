@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import logging
 import logging.handlers as handlers
 import os
@@ -44,7 +46,7 @@ def log_raw_response(response):
 
 
 def response_factory(request):
-    module_logger.debug("Do web request %s", request)
+    module_logger.debug("Perfom web request %s", request)
     response_raw = requests.get(request.get_url(), headers=HEADERS)
 
     module_logger.info("Web request %s completed", request)
@@ -131,11 +133,11 @@ def init_logger(config):
         fh = handlers.RotatingFileHandler(
             config['debug_logfile'], maxBytes=10*1024*1024, backupCount=10)
     else:
-        fh = logging.FileHandler(config['debug_logfile'], mode='w')
+        fh = logging.FileHandler(config['debug_logfile'], mode='w', encoding="utf-8")
 
     fh.setLevel(logging.DEBUG)
 
-    eh = logging.FileHandler(config['error_logfile'], delay=True)
+    eh = logging.FileHandler(config['error_logfile'], delay=True, encoding="utf-8")
     eh.setLevel(logging.ERROR)
 
     formatter = logging.Formatter(
