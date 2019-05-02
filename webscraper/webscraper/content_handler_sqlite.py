@@ -44,6 +44,7 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
 
     def response_with_img_content_received(self,  request, response, tag):
         super().response_with_img_content_received(request, response, tag)
+        
         self.insert_request_and_response(request, response)
 
     def html_post_process_handler(self, request, soup):

@@ -98,14 +98,17 @@ def scrap(
             
     if download_img:
         for img in soup.find_all('img', src=True):
-            download(
-                request_to_response,
-                scheme,
-                netloc,
-                img.get('src'), 
-                img, 
-                content_handler.response_with_img_content_received
-            )
+            if 'data:image/' in img.get('src'):
+                pass # img was embedded
+            else:
+                download(
+                    request_to_response,
+                    scheme,
+                    netloc,
+                    img.get('src'), 
+                    img, 
+                    content_handler.response_with_img_content_received
+                )
     
     if link_filter:
         for a in soup.find_all('a', href=True):

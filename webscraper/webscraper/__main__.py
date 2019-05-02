@@ -58,6 +58,20 @@ def response_factory(request):
 
     return response
 
+class LinkFilter:
+    def __init__(self, config ):
+        self.logger = logging.getLogger(
+            'webscraper.LinkFilter')
+        self.filters = []
+        for filt in config['link_filters']:
+            self.filters.append(re.compile(filt))
+
+    def filter(self, x):
+        self.logger.debug("Link filter input: %s", x)
+        for re_filt in self.filters:
+            if re_filt.match(x):
+                return True
+        return False
 
 class RequestToDatabase:
     def __init__(self, cursor, session_id):
@@ -312,14 +326,14 @@ class WebScraperCommandLineParser:
         content_handler_sqlite = ContentHandlerSqlite(config['database'])
 
         content_handler_sqlite.set_component(content_handler_logger)
-
-        regex = re.compile(config['link_filter'])
+        link_filter = LinkFilter(config)
+        
         webscraper(
             url=config['url'],
             request_to_response=response_factory,
             content_handler=content_handler_sqlite,
             download_img=True,
-            link_filter=lambda x: True if regex.match(x) else False,
+            link_filter=link_filter.filter,
             max_level=config['max_level']
         )
 
