@@ -22,7 +22,7 @@ from webtypes.response import Response
 
 from version import __version__
 
-CRAWL_DELAY = 1 # 1 second delay per request
+CRAWL_DELAY = 0 # 1 second delay per request
 # chrome 70.0.3538.77
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
