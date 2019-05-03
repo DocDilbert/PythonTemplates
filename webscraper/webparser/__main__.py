@@ -7,12 +7,13 @@ from lxml import etree
 from version import __version__
 import sys
 import logging
+import json
 
 
 # create logger
 module_logger = logging.getLogger('webparser')
 
-CONTENT_TYPE = "text/html; charset=UTF-8"
+CONTENT_TYPE = "text/html;charset=UTF-8"
 
 
 class SessionIdUnknown(Exception):
@@ -21,29 +22,21 @@ class SessionIdUnknown(Exception):
 
 class FileWriter:
     def __init__(self, mode):
-        self.f = open("out.csv", mode,  encoding="utf-8")
+        self.entrylist = []
 
-    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
+    def add_entry(self, session_id, features_dict):
+        self.entrylist.append(features_dict)
 
-        for zahl, product, wann1, wann2 in products:
-            self.f.write('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
-                session_id,
-                uuid,
-                headline,
-                "\\n".join(adress),
-                zahl,
-                product,
-                wann1,
-                wann2,
-                "\\n".join([i0 + " "+i1 for i0, i1 in otimes]),
-            ))
+    def write_file(self):
+        with open("ss.json","w",encoding="utf-8") as fp:
+            json.dump(self.entrylist, fp, indent=4, sort_keys=True)
 
 
 class DummyWriter:
     def __init__(self):
         pass
 
-    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
+    def add_entry(self, session_id, features_dict):
         pass
 
 
@@ -51,85 +44,40 @@ class ConsoleWriter:
     def __init__(self):
         pass
 
-    def add_entry(self, session_id, uuid, headline, adress, products, otimes):
+    def add_entry(self, session_id, features_dict):
+        print(features_dict)
 
-        for zahl, product, wann1, wann2 in products:
-            print('{};"{}";"{}";"{}";"{}";"{}";"{}";"{}";"{}"\n'.format(
-                session_id,
-                uuid,
-                headline,
-                "\\n".join(adress),
-                zahl,
-                product,
-                wann1,
-                wann2,
-                "\\n".join([i0 + " "+i1 for i0, i1 in otimes]),
-            ))
-
-def parse_opening(opening_tag):
-    opening_times = opening_tag.find_all("tr")
-
-    re = []
-    for i in opening_times:
-        day = i.find("th")
-
-    
-        time = day.find_next("td")
-        open_ = ""
-        if time.find("span") != None:
-            open_ = " "+time.find("span").text
-            time = time.find("strong")
- 
-        re.append((day.text, time.get_text()+ open_))
-
-    return re
 
 def parse_response(session_id, response, add_entry):
     soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
 
-    div_with_data = soup.find("div", {"data-tankstelle": True})
-    uuid = div_with_data["data-tankstelle"]
-
-    headline_tag = div_with_data.find("h4", {"class": "headline"})
-    headline = headline_tag.string
-
-    address_tag = headline_tag.find_next("p").find_next("p")
-
-    # Extract adress
-    adress = address_tag.text.split("\n")
-    adress = adress[2:]
-    adress[0] = adress[0].replace("\r", "")
-
-    products = []
+    results = soup.find_all("div", {"class":"job-element-row"})
     
-    preis_tag =  address_tag.find_next("div", {"id" : "tankstelle-preis"})
-    opening = preis_tag.find_next("div",{"class": "boxce"})
-    
-    otimes = parse_opening(opening)
-    div_with_class_preis = preis_tag.find_all("div", {"class", "preis"})
-    for preisc in div_with_class_preis:
+    for result in results:
+        title_tag = result.find(class_='job-element__url-title-text')
+        title = title_tag.text.strip("\n")
+        
+        company_tag = result.find(class_='job-element__body__company')
+        company = company_tag.text.strip("\n")
 
-        span_with_class_zahl = preisc.find("span", {"class", "zahl"}).text
+        location_tag = result.find(class_='job-element__body__location')
+        location = location_tag.text.strip("\n")
 
-        product = preisc.find("strong").text
+        date_tag = result.find(class_='job-element__date')
+        datetime_tag = date_tag.find('time')
 
-        span_with_title = preisc.find("span", {"title": True})
+        details_tag= result.find(class_='job-element__body__details')
+        details = details_tag.text.strip("\n")
 
-        if not span_with_title:
-            continue
-
-        wann1 = str.strip(str(span_with_title.next_sibling))
-        wann2 = span_with_title['title']
-
-        products.append([
-            span_with_class_zahl,
-            product,
-            wann1,
-            wann2
-        ])
-
-   
-    add_entry(session_id, uuid, headline, adress, products, otimes)
+        features_dict = {
+            'title': title,
+            'company': company,
+            'location': location,
+            'datetime': datetime_tag['datetime'],
+            'details' : details
+        }
+        
+        add_entry(session_id, features_dict)
 
 
 def parse_session(cursor, session_id, session, regex, writer):
@@ -142,10 +90,15 @@ def parse_session(cursor, session_id, session, regex, writer):
     requests = webdb.filters.get_requests_where_session_id_and_content_type(
         cursor, session_id, CONTENT_TYPE)
 
-    requests_filtered = (
-        request for request, _ in requests
-        if regex.match(request.path)
-    )
+    if regex:
+        requests_filtered = (
+            request for request, _ in requests
+            if regex.match(request.path)
+        )
+    else:
+        requests_filtered = (
+            request for request, _ in requests
+        )
 
     responses = (
         webdb.filters.get_response_where_session_id_and_request(
@@ -181,12 +134,12 @@ def parse_all():
     connection = webdb.db.open_db_readonly("webscraper.db")
     cursor = connection.cursor()
 
-    regex = re.compile("/tankstelle/")
-
+    #regex = re.compile("/tankstelle/")
+    regex = None
     file_writer = FileWriter("w")
     session_list = webdb.interface.get_sessions(cursor)
     parse_session_list(cursor, session_list, regex, file_writer)
-
+    file_writer.write_file()
     end = time.time()
     max_sessions = session_list[-1][1]['session_id']
     print_exec_time(start, end, max_sessions)
@@ -219,6 +172,8 @@ def parse_append():
 
     max_sessions = session_list[-1][1]['session_id']
     print_exec_time(start, end, max_sessions)
+
+
 def parse_single(session_id):
     start = time.time()
     connection = webdb.db.open_db_readonly("webscraper.db")
@@ -232,8 +187,8 @@ def parse_single(session_id):
     if len(session_list) != 1:
         raise SessionIdUnknown()
 
-    regex = re.compile("/tankstelle/")
-
+    #regex = re.compile("/tankstelle/")
+    regex = None
     file_writer = ConsoleWriter()
     parse_session_list(cursor, session_list, regex, file_writer)
     end = time.time()
