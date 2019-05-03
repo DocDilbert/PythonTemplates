@@ -8,6 +8,7 @@ from version import __version__
 import sys
 import logging
 import json
+from urllib.parse import urlparse, urlunparse
 
 
 # create logger
@@ -69,12 +70,16 @@ def parse_response(session_id, response, add_entry):
         details_tag= result.find(class_='job-element__body__details')
         details = details_tag.text.strip("\n")
 
+        url_tag= result.find(class_="job-element__url")
+        url = urlparse(url_tag['href'])
+
         features_dict = {
             'title': title,
             'company': company,
             'location': location,
             'datetime': datetime_tag['datetime'],
-            'details' : details
+            'details' : details,
+            'uuid' : url[2]
         }
         
         add_entry(session_id, features_dict)
