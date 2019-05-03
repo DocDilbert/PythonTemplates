@@ -8,7 +8,7 @@ import re
 import json
 import argparse
 import requests
-
+import time
 from urllib.parse import urlparse, urlunparse
 
 import webdb
@@ -22,7 +22,7 @@ from webtypes.response import Response
 
 from version import __version__
 
-
+CRAWL_DELAY = 1 # 1 second delay per request
 # chrome 70.0.3538.77
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -48,8 +48,11 @@ def log_raw_response(response):
 def response_factory(request):
     module_logger.debug("Perfom web request %s", request)
     response_raw = requests.get(request.get_url(), headers=HEADERS)
-
     module_logger.info("Web request %s completed", request)
+
+    module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
+    time.sleep(CRAWL_DELAY)
+    
     log_raw_response(response_raw)
 
     response = Response.fromGMT(
@@ -196,13 +199,15 @@ class WebScraperCommandLineParser:
             description='Stores web content into a database'
         )
 
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[2:])
-
-        with open(CONFIG_FILE_NAME) as json_data:
+        args = parser.parse_args(sys.argv[2:])
+        
+        with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
@@ -232,13 +237,15 @@ class WebScraperCommandLineParser:
             description='Stores web content into a database'
         )
 
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[2:])
-
-        with open(CONFIG_FILE_NAME) as json_data:
+        args = parser.parse_args(sys.argv[2:])
+        
+        with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
@@ -269,13 +276,15 @@ class WebScraperCommandLineParser:
             description='Stores web content into a database'
         )
 
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[2:])
-
-        with open(CONFIG_FILE_NAME) as json_data:
+        args = parser.parse_args(sys.argv[2:])
+        
+        with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
@@ -334,13 +343,15 @@ class WebScraperCommandLineParser:
             description='Stores web content into a database'
         )
 
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _ = parser.parse_args(sys.argv[2:])
-
-        with open(CONFIG_FILE_NAME) as json_data:
+        args = parser.parse_args(sys.argv[2:])
+        
+        with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
@@ -369,12 +380,13 @@ class WebScraperCommandLineParser:
         # prefixing the argument with -- means it's optional
         parser.add_argument('session_id', type=int)
         parser.add_argument('dirname', type=str)
-
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+        
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
 
-        with open(CONFIG_FILE_NAME) as json_data:
+        with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)

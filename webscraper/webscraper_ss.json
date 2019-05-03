@@ -1,0 +1,18 @@
+{
+    "logtype" : "single",
+    "loglevel" : 0,
+    
+    "debug_logfile" : "webscraper.log",
+    "error_logfile" : "webscraper_errors.log",
+
+    "database" : "webscraper.db",
+
+    "url" : "https://www.stepstone.de/jobs/Stuttgart.html",
+    "link_filters" : [
+        {
+            "regex" : "\/5\/ergebnisliste.html.+paging%5Fnext",
+            "max_occurences" : 1000,
+            "max_depth" : -1
+        }
+    ]
+}
