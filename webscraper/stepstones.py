@@ -82,7 +82,7 @@ for k, entry in data.items():
     title = title.replace(',',' ')
     title_words = title.split(' ')
     for word in title_words:
-        word = word.strip('*in')
+        word = word.replace('*in','')
         word = word.strip(')')
         word = word.strip('(')
         
@@ -100,8 +100,7 @@ BLACKLIST = {
     'm/f/d',
     'm/w/x',
     'M/W/D',
-    'm',
-    'de',
+    'm/w/divers',
     'für',
     '/',
     'im',
@@ -112,6 +111,8 @@ BLACKLIST = {
     'in',
     'und',
     'die',
+    'das',
+    'der',
     'mit',
     '|',
     'oder',
@@ -121,7 +122,6 @@ BLACKLIST = {
     'den',
     'bei',
     'zur',
-    'der',
     'Schwerpunkt',
     'Bereich',
     'Project',
