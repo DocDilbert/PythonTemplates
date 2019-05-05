@@ -3,19 +3,25 @@ import pprint
 with open("ss.json", encoding="utf-8") as fp:
     data = json.load(fp)
 
+uuid_dict = {}
+for entry in reversed(data):
+    uuid = entry['uuid']
+    entry.pop('uuid',None) # remove uuid
+    entry_without_id= dict(entry)
+    entry_without_id.pop('session_id', None)
+    if uuid in uuid_dict:
+        last = uuid_dict[uuid][-1]
+        last_without_id = dict(last)
+        last_without_id.pop('session_id', None)
 
-locs = {}
+        if last_without_id != entry_without_id:
+            uuid_dict[uuid].append(entry)
+    else:
+        uuid_dict[uuid]= []
+        uuid_dict[uuid].append(entry)
 
-for entry in data:
-    loc = entry['location']
+for key, _ in uuid_dict.items():
+    uuid_dict[key]=list(reversed(uuid_dict[key]))
 
-    if loc not in locs:
-        locs[loc] = 0
-    
-    locs[loc] =locs[loc]+1
-
-locs = sorted([(y,x) for x,y in locs.items()], key=lambda x:x[0])
-pprint.pprint(locs,width=140)
-
-with open("locs.json","w") as fp:
-    json.dump(locs, fp, indent=4)
+with open("parsed.json","w") as fp:
+    json.dump(uuid_dict, fp, indent=4)
