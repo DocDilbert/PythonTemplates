@@ -59,3 +59,93 @@ parsed = {
 }
 with open("parsed.json","w") as fp:
     json.dump(parsed, fp, indent=4)
+
+locs = {}
+
+for k, entry in up_to_date.items():
+    loc = entry['location']
+
+    if loc not in locs:
+        locs[loc] = 0
+    
+    locs[loc] =locs[loc]+1
+
+locs = sorted([(x,y) for x,y in locs.items()], key=lambda x:x[1])
+pprint.pprint(locs,width=160)
+
+bob = {k:i for k,i in up_to_date.items() if i['location']=='Böblingen'}
+pprint.pprint(bob)
+
+keywords = {}
+for k, entry in data.items():
+    title = entry[-1]['title']
+    title = title.replace(',',' ')
+    title_words = title.split(' ')
+    for word in title_words:
+        word = word.strip('*in')
+        word = word.strip(')')
+        word = word.strip('(')
+        
+        if word in keywords:
+            keywords[word] +=1
+        else:
+            keywords[word] = 1
+BLACKLIST = {
+    '',
+    'm/w/d',
+    'w/m/d',
+    'w/m',
+    'm/w',
+    'f/m/d',
+    'm/f/d',
+    'm/w/x',
+    'M/W/D',
+    'm',
+    'de',
+    'für',
+    '/',
+    'im',
+    '&',
+    'als',
+    '-',
+    '–', # different char
+    'in',
+    'und',
+    'die',
+    'mit',
+    '|',
+    'oder',
+    'and',
+    'von',
+    'of',
+    'den',
+    'bei',
+    'zur',
+    'der',
+    'Schwerpunkt',
+    'Bereich',
+    'Project',
+    'for'
+}
+
+
+keywords = {k:v for k,v in keywords.items() if k not in BLACKLIST}
+
+SYNONYM = {
+    'Software-Entwickler' : 'Softwareentwickler',
+    'Architect' : 'Architekt'
+}
+
+for k, v in SYNONYM.items():
+    if k in keywords:
+        keywords[v]+= keywords[k]
+
+keywords = {k:v for k,v in keywords.items() if k not in SYNONYM}
+
+
+keyword_list = sorted([(x,y) for x,y in keywords.items()], key=lambda x:x[1])
+pprint.pprint(keyword_list)
+
+with open("keywords.txt","w") as fp:
+    for l in keyword_list:
+        fp.write("{}\n".format(l))
