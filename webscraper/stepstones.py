@@ -1,63 +1,111 @@
 import json
 import pprint
-with open("ss.json", encoding="utf-8") as fp:
+with open("stepstones_raw.json", encoding="utf-8") as fp:
     raw_data = json.load(fp)
 
+BLACKLIST = {
+    '',
+    'm/w/d',
+    'w/m/d',
+    'w/m',
+    'm/w',
+    'f/m/d',
+    'f/m/x',
+    'm/f/d',
+    'w/m/x',
+    'm/w/x',
+    'M/W/D',
+    'm|w|d',
+    'f/m',
+    'm/w/divers',
+    'für',
+    '/',
+    'im',
+    '&',
+    '•',
+    'als',
+    '-',
+    '–', # different char
+    'in',
+    'und',
+    'die',
+    'das',
+    'der',
+    'des',
+    'mit',
+    '|',
+    'oder',
+    'and',
+    'von',
+    'of',
+    'den',
+    'bei',
+    'zur',
+    'unter',
+    'Schwerpunkt',
+    'Bereich',
+    'Project',
+    'for',
+    'I',
+    'the',
+    'all'
+}
+
+SYNONYM = {
+    'Software-Entwickler' : 'Softwareentwickler',
+    'Architect' : 'Architekt'
+}
+
+
 data = {}
-for entry in reversed(raw_data):
-    uuid = entry['uuid']
-    entry.pop('uuid',None) # remove uuid
-    entry_without_id= dict(entry)
-    entry_without_id.pop('session_id', None)
-    if uuid in data:
-        last = data[uuid][-1]
-        last_without_id = dict(last)
-        last_without_id.pop('session_id', None)
+for session_id, entry in raw_data.items():
+    if session_id not in data:
+        data[session_id] = {}
 
-        if last_without_id != entry_without_id:
-            data[uuid].append(entry)
-    else:
-        data[uuid]= []
-        data[uuid].append(entry)
+    for i in entry:
+        uuid = i['uuid']
+        i.pop('uuid', None)
 
-for key, _ in data.items():
-    data[key]=list(reversed(data[key]))
+        if uuid in data[session_id]:
+            # when the list changes during readout this can happen
+            # always use the first element and discard the second, third, ...
+            pass
+        else:
+            data[session_id][uuid] = i
 
 max_session_id = max((
-    i['session_id'] for _, l in data.items() for i in l
+    sid for sid in data.keys()
 ))
 
 
+# removed = {
+#     k:i[-1] for k, i in data.items() if i[-1]['session_id']!=max_session_id
+# }
 
-removed = {
-    k:i[-1] for k, i in data.items() if i[-1]['session_id']!=max_session_id
-}
+# removed_dict = {}
 
-removed_dict = {}
-
-for key, entry in removed.items():
-    session_id = entry['session_id']
-    entry_copy = dict(entry)
-    entry_copy.pop('session_id', None)
-    if session_id in removed_dict:
-        removed_dict[session_id].update({key:entry_copy})
-    else:
-        removed_dict[session_id] = {}
-        removed_dict[session_id].update({key:entry_copy})
+# for key, entry in removed.items():
+#     session_id = entry['session_id']
+#     entry_copy = dict(entry)
+#     entry_copy.pop('session_id', None)
+#     if session_id in removed_dict:
+#         removed_dict[session_id].update({key:entry_copy})
+#     else:
+#         removed_dict[session_id] = {}
+#         removed_dict[session_id].update({key:entry_copy})
  
 
 
 up_to_date = {
-    k:i[-1] for k, i in data.items() if i[-1]['session_id']==max_session_id
+    k:i for k, i in data[max_session_id].items() 
 }
 
 parsed = {
     'max_session_id' : max_session_id,
     'data' : data,
     'up_to_date' : up_to_date,
-    'removed' : removed_dict
 }
-with open("parsed.json","w") as fp:
+with open("stepstones.json","w") as fp:
     json.dump(parsed, fp, indent=4)
 
 locs = {}
@@ -77,75 +125,32 @@ bob = {k:i for k,i in up_to_date.items() if i['location']=='Böblingen'}
 pprint.pprint(bob)
 
 keywords = {}
-for k, entry in data.items():
-    title = entry[-1]['title']
-    title = title.replace(',',' ')
-    title_words = title.split(' ')
-    for word in title_words:
-        word = word.replace('*in','')
-        word = word.strip(')')
-        word = word.strip('(')
-        
-        if word in keywords:
-            keywords[word] +=1
-        else:
-            keywords[word] = 1
-BLACKLIST = {
-    '',
-    'm/w/d',
-    'w/m/d',
-    'w/m',
-    'm/w',
-    'f/m/d',
-    'm/f/d',
-    'm/w/x',
-    'M/W/D',
-    'm/w/divers',
-    'für',
-    '/',
-    'im',
-    '&',
-    'als',
-    '-',
-    '–', # different char
-    'in',
-    'und',
-    'die',
-    'das',
-    'der',
-    'mit',
-    '|',
-    'oder',
-    'and',
-    'von',
-    'of',
-    'den',
-    'bei',
-    'zur',
-    'Schwerpunkt',
-    'Bereich',
-    'Project',
-    'for'
-}
+for _, dataset in data.items():
+    for _, entry in dataset.items():
+        title = entry['title']
+        title = title.replace(',',' ')
+        title_words = title.split(' ')
+        for word in title_words:
+            word = word.replace('*in','')
+            word = word.strip(')')
+            word = word.strip('(')
+            
+            if word in SYNONYM:
+                word = SYNONYM[word]
+
+            if word not in BLACKLIST:
+                if word in keywords:
+                    keywords[word] +=1
+                else:
+                    keywords[word] = 1
 
 
-keywords = {k:v for k,v in keywords.items() if k not in BLACKLIST}
-
-SYNONYM = {
-    'Software-Entwickler' : 'Softwareentwickler',
-    'Architect' : 'Architekt'
-}
-
-for k, v in SYNONYM.items():
-    if k in keywords:
-        keywords[v]+= keywords[k]
-
-keywords = {k:v for k,v in keywords.items() if k not in SYNONYM}
+keywords = sorted([(x,y) for x,y in keywords.items()], key=lambda x:x[1])
 
 
-keyword_list = sorted([(x,y) for x,y in keywords.items()], key=lambda x:x[1])
-pprint.pprint(keyword_list)
-
-with open("keywords.txt","w") as fp:
-    for l in keyword_list:
+with open("keywords.txt","w",encoding="utf-8") as fp:
+    for l in keywords:
         fp.write("{}\n".format(l))
+
+
+pprint.pprint(keywords)

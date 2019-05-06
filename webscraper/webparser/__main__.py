@@ -16,22 +16,23 @@ module_logger = logging.getLogger('webparser')
 
 CONTENT_TYPE = "text/html;charset=UTF-8"
 
-
-
 class SessionIdUnknown(Exception):
     pass
 
-
 class FileWriter:
-    def __init__(self, mode):
-        self.entrylist = []
+    def __init__(self, filename):
+        self.session_dict = {}
+        self.filename = filename
 
     def add_entry(self, session_id, features_dict):
-        self.entrylist.append(features_dict)
+        sid = int(session_id)
+        if sid not in self.session_dict:
+            self.session_dict[sid] = []
+        self.session_dict[sid].append(features_dict)
 
     def write_file(self):
-        with open("ss.json","w",encoding="utf-8") as fp:
-            json.dump(self.entrylist, fp, indent=4, sort_keys=True)
+        with open(self.filename, "w", encoding="utf-8") as fp:
+            json.dump(self.session_dict, fp, indent=4, sort_keys=True)
 
 
 class DummyWriter:
@@ -53,6 +54,7 @@ class ResponseParser:
     def __init__(self, add_entry):
         self.regex = re.compile(r"-(\d+)-inline\.")
         self.add_entry = add_entry
+
     def parse(self, session_id, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
 
@@ -84,8 +86,7 @@ class ResponseParser:
                 'location': location,
                 'datetime': datetime_tag['datetime'],
                 'details' : details,
-                'uuid' : uuid_search.group(1),
-                'session_id' : session_id
+                'uuid' : uuid_search.group(1)
             }
             
             self.add_entry(session_id, features_dict)
@@ -147,7 +148,7 @@ def parse_all():
 
     #regex = re.compile("/tankstelle/")
     regex = None
-    file_writer = FileWriter("w")
+    file_writer = FileWriter(filename = "stepstones_raw.json")
     session_list = webdb.interface.get_sessions(cursor)
     parse_session_list(cursor, session_list, regex, file_writer)
     file_writer.write_file()
@@ -177,7 +178,7 @@ def parse_append():
 
     regex = re.compile("/tankstelle/")
     
-    file_writer = FileWriter("a")
+    file_writer = FileWriter(filename = "stepstones_raw.json")
     parse_session_list(cursor, session_list, regex, file_writer)
     end = time.time()
 
