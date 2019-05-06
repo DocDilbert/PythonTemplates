@@ -1,0 +1,19 @@
+{
+    "logtype" : "single",
+    "loglevel" : 0,
+    
+    "debug_logfile" : "webscraper.log",
+    "error_logfile" : "webscraper_errors.log",
+
+    "database" : "webscraper.db",
+
+    "url" : "https://ich-tanke.de/tankstellen/super-e10/region/landkreis-esslingen/",
+    "max_level" : 2,
+    "link_filters" : [
+        {
+            "regex" : "\/tankstelle\/.+\/",
+            "max_occurences" : -1,
+            "max_depth" : 2
+        }
+    ]
+}

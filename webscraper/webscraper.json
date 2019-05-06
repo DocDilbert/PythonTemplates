@@ -7,13 +7,12 @@
 
     "database" : "webscraper.db",
 
-    "url" : "https://ich-tanke.de/tankstellen/super-e10/region/landkreis-esslingen/",
-    "max_level" : 2,
+    "url" : "https://www.stepstone.de/5/ergebnisliste.html?searchTypeFrom=detailedSearch&searchOrigin=Detailed-Search_detailed-search&newsearch=1&li=100&Function=10012000&Function=10002000&Function=10013000&Function=10014000&Function=10016000&Function=10009008&Function=10009007&Function=10018000&Function=10010005&Function=10019000&Function=1003004&Function=1001000&Function=1008000&Function=1009000&Function=1020000&Function=1022000&Country=50077&Country=50087&Country=50078&Country=50079&Country=50080&Country=50081&Country=50082&Country=50083&Country=50084&Country=50085&Country=50086&Statute=222&keyword=&freetext_exact=false&freetext_all_words=false",
     "link_filters" : [
         {
-            "regex" : "\/tankstelle\/.+\/",
-            "max_occurences" : -1,
-            "max_depth" : 2
+            "regex" : "\/5\/ergebnisliste.html.+paging%5Fnext",
+            "max_occurences" : 1000,
+            "max_depth" : -1
         }
     ]
 }
