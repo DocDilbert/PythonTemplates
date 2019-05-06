@@ -194,7 +194,7 @@ relations = {
     k: sorted([(i,l) for i,l in rel.items()], key=lambda x:x[1])[-4:]
     for k, rel in relations.items()
 }
-pprint.pprint(relations)
+#pprint.pprint(relations)
 parsed = {
     'relations' : relations,
     'max_session_id' : max_session_id,
@@ -213,3 +213,9 @@ with open("irrelevant.txt","w",encoding="utf-8") as fp:
     for k, d in data[max_session_id].items():
         if len(d['keywords'])==0:
             fp.write("{} {}\n".format(k, d['title']))
+
+
+for uuid, entry in data[max_session_id].items():
+    keywords = entry['keywords']
+    if 'teamleiter' in keywords:
+        pprint.pprint(entry)
