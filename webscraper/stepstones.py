@@ -57,7 +57,7 @@ BLACKLIST = {
 
 SYNONYM = {
     'architect' : 'architekt',
-    "systeme" : "system",
+    'systeme' : 'system',
     'softwarearchitect' : 'softwarearchitekt'
 }
 
@@ -166,11 +166,37 @@ important_keywords = [ k
 
 keyword_set = { k['keyword'] for k in important_keywords}
 
+# add keywords
 for _, dataset in data.items():
     for _, entry in dataset.items():
         entry['keywords'] = [k for k,_ in build_keywords(entry['title']).items() if k in keyword_set]
 
+relations = {}
+for _, dataset in data.items():
+    for _, entry in dataset.items():
+
+        for kw in entry['keywords']:
+            if kw not in relations:
+                    relations[kw] = {}
+
+            rel = relations[kw]
+
+            for kw2 in entry['keywords']:
+                if kw==kw2:
+                    continue
+
+                if kw2 not in rel:
+                    rel[kw2] = 0
+
+                rel[kw2]+=1
+
+relations = {
+    k: sorted([(i,l) for i,l in rel.items()], key=lambda x:x[1])[-4:]
+    for k, rel in relations.items()
+}
+pprint.pprint(relations)
 parsed = {
+    'relations' : relations,
     'max_session_id' : max_session_id,
     'keywords' : important_keywords,
     'data' : data
