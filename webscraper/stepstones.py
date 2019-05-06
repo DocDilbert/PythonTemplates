@@ -14,9 +14,9 @@ BLACKLIST = {
     'm/f/d',
     'w/m/x',
     'm/w/x',
-    'M/W/D',
     'm|w|d',
     'f/m',
+    '[m/w/d]',
     'm/w/divers',
     'für',
     '/',
@@ -42,20 +42,45 @@ BLACKLIST = {
     'bei',
     'zur',
     'unter',
-    'Schwerpunkt',
-    'Bereich',
-    'Project',
+    'schwerpunkt',
+    'mitarbeiter',
+    'bereich',
+    'project',
     'for',
-    'I',
+    'i',
     'the',
-    'all'
+    'all',
+    "center",
+    "amg",
+    "stuttgart"
 }
 
 SYNONYM = {
-    'Software-Entwickler' : 'Softwareentwickler',
-    'Architect' : 'Architekt'
+    'architect' : 'architekt',
+    "systeme" : "system",
+    'softwarearchitect' : 'softwarearchitekt'
 }
 
+def build_keywords(text):
+    keywords = {}
+    text = text.replace(',',' ')
+    text = text.replace('-',' ')
+    text_words = text.split(' ')
+    for word in text_words:
+        word = word.replace('*in','')
+        word = word.replace('/in','')
+        word = word.strip(')')
+        word = word.strip('(')
+        word = word.lower()
+        if word in SYNONYM:
+            word = SYNONYM[word]
+
+        if word not in BLACKLIST:
+            if word in keywords:
+                keywords[word] +=1
+            else:
+                keywords[word] = 1
+    return keywords
 
 data = {}
 for session_id, entry in raw_data.items():
@@ -96,21 +121,10 @@ max_session_id = max((
  
 
 
-up_to_date = {
-    k:i for k, i in data[max_session_id].items() 
-}
-
-parsed = {
-    'max_session_id' : max_session_id,
-    'data' : data,
-    'up_to_date' : up_to_date,
-}
-with open("stepstones.json","w") as fp:
-    json.dump(parsed, fp, indent=4)
 
 locs = {}
 
-for k, entry in up_to_date.items():
+for k, entry in data[max_session_id].items():
     loc = entry['location']
 
     if loc not in locs:
@@ -119,38 +133,57 @@ for k, entry in up_to_date.items():
     locs[loc] =locs[loc]+1
 
 locs = sorted([(x,y) for x,y in locs.items()], key=lambda x:x[1])
-pprint.pprint(locs,width=160)
-
-bob = {k:i for k,i in up_to_date.items() if i['location']=='Böblingen'}
-pprint.pprint(bob)
+#pprint.pprint(locs,width=160)
 
 keywords = {}
 for _, dataset in data.items():
     for _, entry in dataset.items():
         title = entry['title']
-        title = title.replace(',',' ')
-        title_words = title.split(' ')
-        for word in title_words:
-            word = word.replace('*in','')
-            word = word.strip(')')
-            word = word.strip('(')
-            
-            if word in SYNONYM:
-                word = SYNONYM[word]
+        title_keywords = build_keywords(title)
 
-            if word not in BLACKLIST:
-                if word in keywords:
-                    keywords[word] +=1
-                else:
-                    keywords[word] = 1
+        for word, count in title_keywords.items():
+            if word in keywords:
+                keywords[word] += count
+            else:
+                keywords[word] = count
+
+keyword_sum = sum(count for _, count in keywords.items())
+keywords = sorted([{
+    'keyword':x,
+    'occurrences':y, 
+    'relevance':round(y/keyword_sum*100,3)
+} for x,y in keywords.items()], key=lambda x:x['occurrences'])
 
 
-keywords = sorted([(x,y) for x,y in keywords.items()], key=lambda x:x[1])
+#pprint.pprint(keywords)
+
+RELEVANCE_THRESHOLD = 0.1 #%
+
+important_keywords = [ k
+    for k in keywords
+    if k['relevance'] > RELEVANCE_THRESHOLD
+]
+
+keyword_set = { k['keyword'] for k in important_keywords}
+
+for _, dataset in data.items():
+    for _, entry in dataset.items():
+        entry['keywords'] = [k for k,_ in build_keywords(entry['title']).items() if k in keyword_set]
+
+parsed = {
+    'max_session_id' : max_session_id,
+    'keywords' : important_keywords,
+    'data' : data
+}
+with open("stepstones.json","w") as fp:
+    json.dump(parsed, fp, indent=4)
 
 
 with open("keywords.txt","w",encoding="utf-8") as fp:
     for l in keywords:
         fp.write("{}\n".format(l))
 
-
-pprint.pprint(keywords)
+with open("irrelevant.txt","w",encoding="utf-8") as fp:
+    for k, d in data[max_session_id].items():
+        if len(d['keywords'])==0:
+            fp.write("{} {}\n".format(k, d['title']))
