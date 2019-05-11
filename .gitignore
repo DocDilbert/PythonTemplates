@@ -119,3 +119,4 @@ autogen/
 /webscraper/*.db
 *.pickle
 /webscraper/data
+/webscraper/log

@@ -273,7 +273,7 @@ def init_logger():
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    eh = logging.FileHandler('data/webparser_errors.log', delay=True)
+    eh = logging.FileHandler('log/webparser_errors.log', delay=True)
     eh.setLevel(logging.ERROR)
 
     formatter = logging.Formatter(

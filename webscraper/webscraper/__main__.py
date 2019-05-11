@@ -133,15 +133,30 @@ def init_logger(config):
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
+    logdir = config['log_directory']
     if config['logtype'] == "rotate":
         fh = handlers.RotatingFileHandler(
-            config['debug_logfile'], maxBytes=10*1024*1024, backupCount=10)
+            logdir + config['debug_logfile'], 
+            maxBytes=10*1024*1024, 
+            backupCount=10
+        )
     else:
-        fh = logging.FileHandler(config['debug_logfile'], mode='w', encoding="utf-8")
+        fh = logging.FileHandler(
+            logdir + config['debug_logfile'], 
+            mode='w', 
+            encoding="utf-8"
+        )
 
-    fh.setLevel(logging.DEBUG)
+    if (config['loglevel']==1):
+        fh.setLevel(logging.DEBUG)
+    else:
+        fh.setLevel(logging.INFO)
 
-    eh = logging.FileHandler(config['error_logfile'], delay=True, encoding="utf-8")
+    eh = logging.FileHandler(
+        logdir+config['error_logfile'], 
+        delay=True, 
+        encoding="utf-8"
+    )
     eh.setLevel(logging.ERROR)
 
     formatter = logging.Formatter(
@@ -166,8 +181,9 @@ class WebScraperCommandLineParser:
             usage=("webscraper <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
+                   "   init     Initializes the directories and database file.\n"
                    "   extract  Extract webpage by session id.\n"
-                   "   sql      Stores content into the database.\n"
+                   "   sql      Stores web content into the database.\n"
                    "   slist    Shows a list of stored sessions.\n"
                    "   count    Count the stored content per session.\n"
                    "   info     Shows some useful info of the database.")
@@ -193,6 +209,37 @@ class WebScraperCommandLineParser:
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)()
 
+    def init(self):
+        parser = argparse.ArgumentParser(
+            prog="webscraper init",
+            description='Initializes the directories and database file.'
+        )
+
+        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
+
+        # prefixing the argument with -- means it's optional
+        #parser.add_argument('--amend', action='store_true')
+        # now that we're inside a subcommand, ignore the first
+        # TWO argvs, ie the command (git) and the subcommand (commit)
+        args = parser.parse_args(sys.argv[2:])
+        
+        with open(args.config) as json_data:
+            config = json.load(json_data)
+
+
+        
+        logdir = config['log_directory']
+        if not os.path.exists(logdir):
+            module_logger.info("Created directory %s", logdir)
+            os.mkdir(logdir)
+
+        init_logger(config)
+
+        dbdir = config['database_directory']
+        if not os.path.exists(dbdir):
+            module_logger.info("Created directory %s", dbdir)
+            os.mkdir(dbdir)
+
     def count(self):
         parser = argparse.ArgumentParser(
             prog="webscraper slist",
@@ -211,7 +258,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection = webdb.db.open_db_readonly(config['database'])
+        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
         cursor = connection.cursor()
         content_types = webdb.interface.get_content_types(cursor)
         sessions = webdb.interface.get_sessions(cursor)
@@ -249,7 +296,8 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        connection = webdb.db.open_db_readonly(config['database'])
+        
+        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
         cursor = connection.cursor()
         sessions = webdb.interface.get_sessions(cursor)
 
@@ -289,7 +337,7 @@ class WebScraperCommandLineParser:
 
         init_logger(config)
         statinfo = os.stat(config['database'])
-        connection = webdb.db.open_db_readonly(config['database'])
+        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
         cursor = connection.cursor()
 
         info = webdb.info.info(cursor)
@@ -358,7 +406,7 @@ class WebScraperCommandLineParser:
         log_banner()
 
         content_handler_logger = ContentHandlerLogger()
-        content_handler_sqlite = ContentHandlerSqlite(config['database'])
+        content_handler_sqlite = ContentHandlerSqlite(config['database_directory']+config['database'])
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
@@ -392,7 +440,7 @@ class WebScraperCommandLineParser:
         init_logger(config)
         log_banner()
 
-        connection = webdb.db.open_db_readonly(config['database'])
+        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
         cursor = connection.cursor()
         rtb = RequestToDatabase(cursor, args.session_id)
 
@@ -419,11 +467,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 
 def main():
-
-    dirname = "data"
-    if not os.path.exists(dirname):
-        module_logger.info("Created directory %s", dirname)
-        os.mkdir(dirname)
         
      # Install exception handler
     sys.excepthook = handle_exception
