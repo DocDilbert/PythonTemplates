@@ -85,7 +85,7 @@ class LinkFilter:
             if regex.match(x):
                 filt['occurences']=filt['occurences']+1
 
-                if (filt['max_occurences'] == -1) or (filt['occurences']< filt['max_occurences']):
+                if (filt['max_occurences'] == -1) or (filt['occurences']<= filt['max_occurences']):
 
                     if (filt['max_depth'] != -1) and (depth>=filt['max_depth']):
                         self.logger.debug("Denied (too deep) \"%s\"", x)
@@ -420,6 +420,11 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 def main():
 
+    dirname = "data"
+    if not os.path.exists(dirname):
+        module_logger.info("Created directory %s", dirname)
+        os.mkdir(dirname)
+        
      # Install exception handler
     sys.excepthook = handle_exception
     WebScraperCommandLineParser()

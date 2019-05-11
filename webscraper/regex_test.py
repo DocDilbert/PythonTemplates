@@ -1,0 +1,11 @@
+import re
+test = "https://www.stepstone.de/5/ergebnisliste.html?re=50077&re=50087&re=50078&re=50079&re=50080&re=50081&re=50082&re=50083&re=50084&re=50085&re=50086&fu=10012000&fu=10002000&fu=10013000&fu=10014000&fu=10016000&fu=10009008&fu=10009007&fu=10018000&fu=10010005&fu=10019000&fu=1003004&fu=1001000&fu=1008000&fu=1009000&fu=1020000&fu=1022000&li=100&ct=222&of=500&suid=5fdb05db-2bcf-4898-a137-7c2c0ec354a6&an=paging_next&action=paging_next"
+
+test2 = "https://www.stepstone.de/5/ergebnisliste.html?re=50077&re=50087&re=50078&re=50079&re=50080&re=50081&re=50082&re=50083&re=50084&re=50085&re=50086&fu=1003004&fu=1001000&fu=1008000&fu=1009000&fu=1020000&fu=1022000&fu=3002001&fu=3004002&fu=17000000&li=100&ct=222&suid=44eeeea1-6e75-4f92-ba7f-459d9da3fc9f&an=paging_next&action=facet_deselected;categories;10000000"
+
+test3 = "/5/ergebnisliste.html?re=50077%2C50087%2C50078%2C50079%2C50080%2C50081%2C50082%2C50083%2C50084%2C50085%2C50086&fu=10012000%2C10002000%2C10013000%2C10014000%2C10016000%2C10009008%2C10009007%2C10018000%2C10010005%2C10019000%2C1003004%2C1001000%2C1008000%2C1009000%2C1020000%2C1022000&li=100&ct=222&of=100&suid=a2b4b6d1%2D4010%2D43ee%2Dbd33%2D61dd64f79f71&an=paging%5Fnext"
+reg = r".*\/5\/ergebnisliste.html.+action=paging.{0,3}next"
+
+regex = re.compile(reg)
+
+print(regex.match(test))

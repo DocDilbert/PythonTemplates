@@ -9,7 +9,7 @@ import sys
 import logging
 import json
 from urllib.parse import urlparse, urlunparse
-
+import os
 
 # create logger
 module_logger = logging.getLogger('webparser')
@@ -23,6 +23,7 @@ class FileWriter:
     def __init__(self, filename):
         self.session_dict = {}
         self.filename = filename
+
 
     def add_entry(self, session_id, features_dict):
         sid = int(session_id)
@@ -143,12 +144,13 @@ def print_exec_time(start, end, max_sessions):
 def parse_all():
     start = time.time()
 
-    connection = webdb.db.open_db_readonly("webscraper.db")
+    connection = webdb.db.open_db_readonly("data/webscraper.db")
     cursor = connection.cursor()
 
     #regex = re.compile("/tankstelle/")
     regex = None
-    file_writer = FileWriter(filename = "stepstones_raw.json")
+
+    file_writer = FileWriter(filename = "data/stepstones_raw.json")
     session_list = webdb.interface.get_sessions(cursor)
     parse_session_list(cursor, session_list, regex, file_writer)
     file_writer.write_file()
@@ -164,7 +166,7 @@ def parse_append():
 
     last_session_id = int(lines[-1].split(';')[0])
 
-    connection = webdb.db.open_db_readonly("webscraper.db")
+    connection = webdb.db.open_db_readonly("data/webscraper.db")
     cursor = connection.cursor()
 
     session_list = [
@@ -188,7 +190,7 @@ def parse_append():
 
 def parse_single(session_id):
     start = time.time()
-    connection = webdb.db.open_db_readonly("webscraper.db")
+    connection = webdb.db.open_db_readonly("data/webscraper.db")
     cursor = connection.cursor()
 
     session_list = [
@@ -271,7 +273,7 @@ def init_logger():
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
 
-    eh = logging.FileHandler('webparser_errors.log', delay=True)
+    eh = logging.FileHandler('data/webparser_errors.log', delay=True)
     eh.setLevel(logging.ERROR)
 
     formatter = logging.Formatter(
@@ -294,6 +296,12 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 
 def main():
+
+    dirname = "data"
+    if not os.path.exists(dirname):
+        module_logger.info("Created directory %s", dirname)
+        os.mkdir(dirname)
+
     init_logger()
 
     # Install exception handler

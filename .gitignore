@@ -118,3 +118,4 @@ autogen/
 *.png
 /webscraper/*.db
 *.pickle
+/webscraper/data

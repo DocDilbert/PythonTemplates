@@ -3,9 +3,7 @@ dist:
 
 clean:
 	rm -fr page*
-	rm -f *.db
-	rm -f *.log
 	rm -fr dist
-	rm -f *.json
+	rm -fr data
 
 .PHONY: dist clean
