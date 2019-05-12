@@ -68,8 +68,8 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
 
-    def response_with_css_content_received(self, request, response, tag):
-        super().response_with_css_content_received(request, response, tag)
+    def css_content_post_request_handler(self, request, response, tag):
+        super().css_content_post_request_handler(request, response, tag)
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)
 
@@ -85,8 +85,8 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def img_content_pre_request_handler(self, request,tag):
         super().img_content_pre_request_handler(request,  tag)
 
-    def response_with_img_content_received(self, request, response, tag):
-        super().response_with_img_content_received(request, response, tag)
+    def img_content_post_request_handler(self, request, response, tag):
+        super().img_content_post_request_handler(request, response, tag)
 
         url = request.get_url()
         filename = ExtractFileNameFromURL(url, response.content_type)

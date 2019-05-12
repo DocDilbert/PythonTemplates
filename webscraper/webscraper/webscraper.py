@@ -131,7 +131,7 @@ class WebScraper:
                 request_to_response,
                 request,
                 element, 
-                content_handler.response_with_css_content_received
+                content_handler.css_content_post_request_handler
             )
 
             
@@ -149,7 +149,7 @@ class WebScraper:
                     request_to_response,
                     request,
                     element, 
-                    content_handler.response_with_img_content_received
+                    content_handler.img_content_post_request_handler
                 )
         
 
