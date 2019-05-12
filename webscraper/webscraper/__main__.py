@@ -13,7 +13,7 @@ from urllib.parse import urlparse, urlunparse
 
 import webdb
 
-from webscraper.webscraper import webscraper
+from webscraper.webscraper import WebScraper
 from webscraper.content_handler_sqlite import ContentHandlerSqlite
 from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
@@ -414,8 +414,8 @@ class WebScraperCommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
-        
-        webscraper(
+        webscraper=WebScraper()
+        webscraper.webscraper(
             url=config['url'],
             request_to_response=response_factory,
             content_handler=content_handler_sqlite,
@@ -453,7 +453,8 @@ class WebScraperCommandLineParser:
         content_handler_filesystem.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
 
-        webscraper(
+        webscraper=WebScraper()
+        webscraper.webscraper(
             url=config['url'],
             request_to_response=rtb.response_database_factory,
             content_handler=content_handler_filesystem,
