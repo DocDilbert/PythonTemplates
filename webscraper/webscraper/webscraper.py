@@ -71,14 +71,10 @@ def scrap(
     tree = lxml.html.parse(BytesIO(response.content))
     content_handler.response_with_html_content_received(request, response, tree)
 
-    #parser = etree.HTMLParser()
-    #print("1")
-    
-    
     css = dict()
     img = dict()
     alist = dict()
-    for (element, attribute, link, pos) in tree.getroot().iterlinks():
+    for (element, _, link, _) in tree.getroot().iterlinks():
 
         if element.tag=="link":
             type_ = element.attrib.get('type', None)
