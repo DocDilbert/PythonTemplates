@@ -34,9 +34,12 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             response
         )
 
-    def response_with_html_content_received(self,  request, response, tree):
-        super().response_with_html_content_received(request, response, tree)
+    def html_content_post_request_handler(self,  request, response, tree):
+        super().html_content_post_request_handler(request, response, tree)
         self.insert_request_and_response(request, response)
+    
+    def html_content_post_process_handler(self, request, tree):
+        super().html_content_post_process_handler(request, tree)
 
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
@@ -52,8 +55,6 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
         super().img_content_post_request_handler(request, response)
         self.insert_request_and_response(request, response)
 
-    def html_post_process_handler(self, request, soup):
-        super().html_post_process_handler(request, soup)
 
     def session_finished(self):
         super().session_finished()

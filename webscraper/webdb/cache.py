@@ -75,7 +75,6 @@ def get_uri_id_where_uri(cursor, scheme, netloc, path, params, query, fragment):
     if x:
         return x[0]
     else:
-        print(sqlparams)
         raise UriNotFound()
 
 

@@ -48,8 +48,8 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def session_started(self):
         super().session_started()
 
-    def response_with_html_content_received(self, request, response, tree):
-        super().response_with_html_content_received(request, response, tree)
+    def html_content_post_request_handler(self, request, response, tree):
+        super().html_content_post_request_handler(request, response, tree)
         filename = "index_{}.html".format(self.html_count)
 
         dest = self.dirname+"/"+str(filename)
@@ -66,6 +66,27 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
+    def html_content_post_process_handler(self, request, tree):
+        super().html_content_post_process_handler(request, tree)
+
+        filename = "index_processed_{}.html".format(self.html_count)
+        self.html_count += 1
+        parts = os.path.splitext(str(filename))
+        dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
+        
+        html = etree.tostring(
+            tree.getroot(), 
+            pretty_print=True, 
+            method="html"
+        )
+        
+        with open(dest, "wb") as file:
+            file.write(
+                html
+            )
+
+        self.logger.info("Wrote processed html content to '%s'", dest)
+        
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
         url = request.get_url()
@@ -103,26 +124,6 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
         self.logger.info("Wrote img content to '%s'", dest)
 
-    def html_post_process_handler(self, request, tree):
-        super().html_post_process_handler(request, tree)
-
-        filename = "index_processed_{}.html".format(self.html_count)
-        self.html_count += 1
-        parts = os.path.splitext(str(filename))
-        dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
-        
-        html = etree.tostring(
-            tree.getroot(), 
-            pretty_print=True, 
-            method="html"
-        )
-        
-        with open(dest, "wb") as file:
-            file.write(
-                html
-            )
-
-        self.logger.info("Wrote processed html content to '%s'", dest)
-        
+   
     def session_finished(self):
         super().session_finished()

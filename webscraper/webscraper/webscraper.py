@@ -68,7 +68,7 @@ class WebScraper:
     ):
         
         tree = lxml.html.parse(BytesIO(response.content))
-        content_handler.response_with_html_content_received(request, response, tree)
+        content_handler.html_content_post_request_handler(request, response, tree)
 
         css = dict()
         img = dict()
@@ -135,7 +135,7 @@ class WebScraper:
                 content_handler.img_content_post_request_handler(request, response)
         
 
-        content_handler.html_post_process_handler(request, tree)
+        content_handler.html_content_post_process_handler(request, tree)
 
         found_links = set()
         for link, element in alist.items():

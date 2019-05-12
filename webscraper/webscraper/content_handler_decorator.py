@@ -9,9 +9,9 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.session_started()
 
-    def response_with_html_content_received(self, request, response, tree):
+    def html_content_post_request_handler(self, request, response, tree):
         if self.component:
-            self.component.response_with_html_content_received(request, response, tree)
+            self.component.html_content_post_request_handler(request, response, tree)
 
     def css_content_pre_request_handler(self,  request, tag):
         if self.component:
@@ -29,9 +29,9 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.img_content_post_request_handler(request, response)
     
-    def html_post_process_handler(self, request, soup):
+    def html_content_post_process_handler(self, request, tree):
         if self.component:
-            self.component.html_post_process_handler(request, soup)
+            self.component.html_content_post_process_handler(request, tree)
 
     def session_finished(self):
         if self.component:

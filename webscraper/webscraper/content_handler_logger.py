@@ -11,13 +11,18 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().session_started()
         self.logger.debug("Call: session_started")
 
-    def response_with_html_content_received(self, request, response, tree):
-        super().response_with_html_content_received(request,response, tree)
+    def html_content_post_request_handler(self, request, response, tree):
+        super().html_content_post_request_handler(request,response, tree)
         
-        self.logger.debug("response_with_html_content_received\n"
+        self.logger.debug("html_content_post_request_handler\n"
             "\trequest = %s\n"
             "\tresponse = %s", request, response)
-
+    
+    def html_content_post_process_handler(self, request, tree):
+        super().html_content_post_process_handler(request, tree)
+        self.logger.debug("Call: html_content_post_process_handler\n"
+            "\trequest = %s", request)
+        
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
 
@@ -38,11 +43,7 @@ class ContentHandlerLogger(ContentHandlerDecorator):
             "\trequest = %s\n"
             "\tresponse = %s", request, response)
 
-    def html_post_process_handler(self, request, soup):
-        super().html_post_process_handler(request, soup)
-        self.logger.debug("Call: html_post_process_handler\n"
-            "\trequest = %s", request)
-        
+
     def session_finished(self):
         super().session_finished()
         self.logger.debug("Call: session_finished")
