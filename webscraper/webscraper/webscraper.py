@@ -156,7 +156,19 @@ class WebScraper:
                     )
                     download_links.add(link)
 
-        return [ (depth+1, link) for link in download_links]           
+        return [ 
+            (
+                link,
+                lambda request, response: self.scrap(
+                    request,
+                    response,
+                    request_to_response,
+                    content_handler,
+                    depth = depth + 1,
+                    download_img=download_img,
+                    link_filter=link_filter
+                )
+            ) for link in download_links]           
 
     def webscraper(
         self,
@@ -170,23 +182,35 @@ class WebScraper:
 
         content_handler.session_started()
 
-        download_queue = deque([(0, url)])
+        download_queue = deque([
+            (
+                url,
+                lambda request, response: self.scrap(
+                    request,
+                    response,
+                    request_to_response,
+                    content_handler,
+                    depth = 0,
+                    download_img=download_img,
+                    link_filter=link_filter
+                )
+            )
+        ])
    
         while(len(download_queue) != 0):
             
             to_download = download_queue.popleft()
 
-            request = Request.from_url(to_download[1])
+            request = Request.from_url(
+                to_download[0]
+            )
             response = request_to_response(request) 
 
-            new_downloads = self.scrap(
+            task = to_download[1]
+
+            new_downloads = task(
                 request,
-                response,
-                request_to_response,
-                content_handler,
-                depth = to_download[0],
-                download_img=download_img,
-                link_filter=link_filter
+                response
             )
             
             for i in new_downloads:
