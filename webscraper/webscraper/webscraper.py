@@ -55,18 +55,6 @@ class WebScraper:
         else:
             return False
             
-    def download(
-        self, 
-        request_to_response, 
-        request,  
-        tag, 
-        content_handler
-    ):
-        
-        module_logger.debug("Performing Request %s", str(request))
-
-        response = request_to_response(request) 
-        content_handler(request, response, tag)
 
     def scrap(
         self,
@@ -127,14 +115,11 @@ class WebScraper:
                 element,
             )
 
-            self.download(
-                request_to_response,
-                request,
-                element, 
-                content_handler.css_content_post_request_handler
-            )
+            module_logger.debug("Performing Request %s", str(request))
+            response = request_to_response(request) 
+            content_handler.css_content_post_request_handler(request, response, element)
 
-            
+
         if download_img:
             for link, element in img.items():
 
@@ -145,12 +130,9 @@ class WebScraper:
                     element,
                 )
 
-                self.download(
-                    request_to_response,
-                    request,
-                    element, 
-                    content_handler.img_content_post_request_handler
-                )
+                module_logger.debug("Performing Request %s", str(request))
+                response = request_to_response(request) 
+                content_handler.img_content_post_request_handler(request, response, element)
         
 
         content_handler.html_post_process_handler(request, tree)
