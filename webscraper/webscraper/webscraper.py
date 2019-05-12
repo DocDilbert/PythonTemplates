@@ -55,21 +55,21 @@ class Consumer(multiprocessing.Process):
 
 
 class Task(object):
-    def __init__(self, task_id, depth, url, type_):
+    def __init__(self, depth, request, type_):
         self.depth = depth
-        self.url = url
+        self.request = request
         self.type_ = type_
-        self.task_id = task_id
+        self.task_id = -1
         self.logger = logging.getLogger('webscraper.webscraper.Task')
 
     def __call__(self, request_to_response):
-        request = Request.from_url(self.url)
-        response = request_to_response(request)
+
+        response = request_to_response(self.request)
         return {
             'task_id' : self.task_id,
             'depth' : self.depth,
             'type_': self.type_,
-            'request' : request,
+            'request' : self.request,
             'response' : response
         }
     
@@ -117,22 +117,47 @@ class WebScraper:
         download_img=False,
         link_filter=None,
     ):
+        parsed_url = urlparse(request.get_url())
+        scheme = parsed_url.scheme
+        netloc = parsed_url.netloc
 
         tree = lxml.html.parse(BytesIO(response.content))
         content_handler.html_content_post_request_handler(request, response, tree)
 
-        css = dict()
-        img = dict()
-        alist = dict()
-        for (element, _, link, _) in tree.getroot().iterlinks():
+        css = set()
+        img = set()
+        alist = set()
+
+        root = tree.getroot()
+    
+        for (element, _, link, _) in root.iterlinks():
 
             if element.tag == "link":
                 type_ = element.attrib.get('type', None)
                 rel = element.attrib.get('rel', None)
 
-                if type_ == "text/css" or "stylesheet" in rel:
-                    self.logger.debug('Found <link> -> %s', link)
-                    css[link] = element
+                if not (type_ == "text/css" or "stylesheet" in rel):
+                    continue
+            
+                #ignore duplicates
+                if link in css:
+                    continue
+
+                self.logger.debug('Found <link> -> %s', link)
+                css.add(link)
+
+                url_transf = self.transform_url(scheme, netloc, link)
+                request = Request.from_url(url_transf)
+                content_handler.css_content_pre_request_handler(
+                    request,
+                    element,
+                )
+
+                add_task(Task(
+                    depth+1,
+                    request,
+                    'CSS'
+                ))
 
             if element.tag == "img":
                 if 'src' not in element.attrib:
@@ -143,74 +168,57 @@ class WebScraper:
                 if 'data:image/' in src:
                     continue  # img was embedded
 
+                #ignore duplicates
+                if link in img:
+                    continue
+
                 self.logger.debug('Found <img> -> %s', link)
-                img[link] = element
+                img.add(link)
+
+                if download_img:
+                    url_transf = self.transform_url(scheme, netloc, link)
+                    request = Request.from_url(url_transf)
+                    content_handler.img_content_pre_request_handler(
+                        request,
+                        element,
+                    )
+
+                    add_task(Task(
+                        depth+1,
+                        request,
+                        'IMG',
+                    ))
+
 
             if element.tag == "a":
                 if 'href' not in element.attrib:
                     continue
 
+                #ignore duplicates
+                if link in alist:
+                    continue
+                
                 self.logger.debug('Found <a> -> %s', link)
-                alist[link] = element
 
-        parsed_url = urlparse(request.get_url())
-        scheme = parsed_url.scheme
-        netloc = parsed_url.netloc
+                alist.add(link)
 
-        # CSS HANDLING
-        for link, element in css.items():
-            url_transf = self.transform_url(scheme, netloc, link)
-            request = Request.from_url(url_transf)
-            content_handler.css_content_pre_request_handler(
-                request,
-                element,
-            )
+                if link_filter:
+                    if link_filter(link, depth):
+                        self.logger.info(
+                            "Filter accepted link to new page \"%s\"", link)
 
-            add_task(Task(
-                -1,
-                depth+1,
-                url_transf,
-                'CSS'
-            ))
-
-        # IMG HANDLING
-        if download_img:
-            for link, element in img.items():
-                url_transf = self.transform_url(scheme, netloc, link)
-                request = Request.from_url(url_transf)
-                content_handler.img_content_pre_request_handler(
-                    request,
-                    element,
-                )
-
-                add_task(Task(
-                    -1,
-                    depth+1,
-                    url_transf,
-                    'IMG',
-                ))
-
-        download_links = set()
-        if link_filter:
-            for link,_  in alist.items():
-                if link_filter(link, depth):
-                    self.logger.info(
-                        "Filter accepted link to new page \"%s\"", link)
-
-                    link = self.transform_url(
-                        scheme,
-                        netloc,
-                        link
-                    )
-                    add_task(Task(
-                        -1,
-                        depth+1,
-                        link,
-                        'HTML'
-                    ))
-
-                    download_links.add(link)
-
+                        url_transf = self.transform_url(
+                            scheme,
+                            netloc,
+                            link
+                        )
+                        request = Request.from_url(url_transf)
+                        add_task(Task(
+                            depth+1,
+                            request,
+                            'HTML'
+                        ))
+                
         content_handler.html_content_post_process_handler(request, tree)
 
     def webscraper(
@@ -257,9 +265,8 @@ class WebScraper:
 
         add_task = AddTask()
         add_task( Task(
-            -1,
             0, 
-            url,
+            Request.from_url(url),
             'HTML'
         ))
         while(len(task_set) != 0):
@@ -272,7 +279,6 @@ class WebScraper:
             depth = to_download['depth']
             request = to_download['request']
             response = to_download['response']
-
 
             if (type_ == 'HTML'):
                 self.process_html(
