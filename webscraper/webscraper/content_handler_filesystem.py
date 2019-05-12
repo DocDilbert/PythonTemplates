@@ -2,7 +2,7 @@ import logging
 import os
 from urllib.parse import urlparse, urlunparse
 from webscraper.content_handler_decorator import ContentHandlerDecorator
-
+from lxml import etree
 
 class ExtractFileNameFromURL:
     def __init__(self, url, content_type):
@@ -47,13 +47,21 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def session_started(self):
         super().session_started()
 
-    def response_with_html_content_received(self, request, response):
-        super().response_with_html_content_received(request, response)
+    def response_with_html_content_received(self, request, response, tree):
+        super().response_with_html_content_received(request, response, tree)
         filename = "index_{}.html".format(self.html_count)
 
         dest = self.dirname+"/"+str(filename)
+        html = etree.tostring(
+            tree.getroot(), 
+            pretty_print=True, 
+            method="html"
+        )
+        
         with open(dest, "wb") as file:
-            file.write(response.content)
+            file.write(
+                html
+            )
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
@@ -68,8 +76,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             file.write(response.content)
 
         self.logger.info("Wrote css content to '%s'", dest)
-        tag['href'] = filename
-
+        
+        tag.attrib['href'] = str(filename)
+        
     def response_with_img_content_received(self, request, response, tag):
         super().response_with_img_content_received(request, response, tag)
 
@@ -81,7 +90,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             file.write(response.content)
 
         self.logger.info("Wrote img content to '%s'", dest)
-        tag['src'] = filename
+        tag.attrib['src'] = str(filename)
 
     def html_post_process_handler(self, request, soup):
         super().html_post_process_handler(request, soup)
@@ -91,11 +100,18 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         parts = os.path.splitext(str(filename))
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
         
+        html = etree.tostring(
+            soup.getroot(), 
+            pretty_print=True, 
+            method="html"
+        )
+        
         with open(dest, "wb") as file:
-            buf = str(soup.prettify())
-            file.write(buf.encode(encoding='UTF-8', errors='strict'))
+            file.write(
+                html
+            )
 
         self.logger.info("Wrote processed html content to '%s'", dest)
-
+        
     def session_finished(self):
         super().session_finished()

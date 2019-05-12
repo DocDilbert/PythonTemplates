@@ -34,8 +34,8 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
             response
         )
 
-    def response_with_html_content_received(self,  request, response):
-        super().response_with_html_content_received(request, response)
+    def response_with_html_content_received(self,  request, response, tree):
+        super().response_with_html_content_received(request, response, tree)
         self.insert_request_and_response(request, response)
 
     def response_with_css_content_received(self,  request, response, tag):

@@ -20,6 +20,7 @@ from webscraper.content_handler_filesystem import ContentHandlerFilesystem
 from webtypes.request import Request
 from webtypes.response import Response
 
+
 from version import __version__
 
 CRAWL_DELAY = 0 # 1 second delay per request
@@ -47,11 +48,14 @@ def log_raw_response(response):
 
 def response_factory(request):
     module_logger.debug("Perfom web request %s", request)
-    response_raw = requests.get(request.get_url(), headers=HEADERS)
+    response_raw = requests.get(
+        request.get_url(), 
+        headers=HEADERS
+    )
     module_logger.info("Web request %s completed", request)
 
-    module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
-    time.sleep(CRAWL_DELAY)
+    #module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
+    #time.sleep(CRAWL_DELAY)
     
     log_raw_response(response_raw)
 
@@ -336,7 +340,7 @@ class WebScraperCommandLineParser:
             config = json.load(json_data)
 
         init_logger(config)
-        statinfo = os.stat(config['database'])
+        statinfo = os.stat(config['database_directory']+config['database'])
         connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
         cursor = connection.cursor()
 

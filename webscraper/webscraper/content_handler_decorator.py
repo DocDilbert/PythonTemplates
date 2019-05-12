@@ -9,9 +9,9 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.session_started()
 
-    def response_with_html_content_received(self, request, response):
+    def response_with_html_content_received(self, request, response, tree):
         if self.component:
-            self.component.response_with_html_content_received(request, response)
+            self.component.response_with_html_content_received(request, response, tree)
 
     def response_with_css_content_received(self,  request, response, tag):
         if self.component:

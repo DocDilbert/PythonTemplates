@@ -11,7 +11,9 @@ from urllib.parse import urlparse, urlunparse
 
 from webtypes.request import Request
 from webtypes.response import Response
-
+import lxml.html
+from io import StringIO, BytesIO
+import pprint
 #chrome 70.0.3538.77
 HEADERS = {
     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
@@ -66,54 +68,79 @@ def scrap(
     depth=0,
 ):
     response = request_to_response(request) 
-    content_handler.response_with_html_content_received(request, response)
+    tree = lxml.html.parse(BytesIO(response.content))
+    content_handler.response_with_html_content_received(request, response, tree)
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    #parser = etree.HTMLParser()
+    #print("1")
+    
+    
+    css = dict()
+    img = dict()
+    alist = dict()
+    for (element, attribute, link, pos) in tree.getroot().iterlinks():
+
+        if element.tag=="link":
+            type_ = element.attrib.get('type', None)
+            rel = element.attrib.get('rel', None)
+            
+            if type_=="text/css" or "stylesheet" in rel:
+                css[link] = element
+
+        if element.tag=="img":
+            if 'src' not in element.attrib:
+                continue
+
+            src = element.attrib.get('src')
+
+            if 'data:image/' in src:
+                continue # img was embedded
+
+            img[link] = element      
+
+        if element.tag=="a":
+            if 'href' not in element.attrib:
+                continue     
+
+            alist[link] = element 
+
 
     parsed_url = urlparse(request.get_url())
     scheme = parsed_url.scheme
     netloc = parsed_url.netloc
 
-    for link in soup.find_all('link', href=True):
+    for link, element in css.items():
 
         module_logger.debug("Found <link> -> %s",link)
 
-        rel = link.get("rel", None) 
-        type_ = link.get("type", None)
-        loc = link.get("href")
+        download(
+            request_to_response,
+            scheme,
+            netloc,
+            link, 
+            element, 
+            content_handler.response_with_css_content_received
+        )
 
-        # content type css found
-        if type_=="text/css" or "stylesheet" in rel:
+          
+    if download_img:
+        for link, element in img.items():
             download(
                 request_to_response,
                 scheme,
                 netloc,
-                loc, 
                 link, 
-                content_handler.response_with_css_content_received
+                element, 
+                content_handler.response_with_img_content_received
             )
-            
-    if download_img:
-        for img in soup.find_all('img', src=True):
-            if 'data:image/' in img.get('src'):
-                pass # img was embedded
-            else:
-                download(
-                    request_to_response,
-                    scheme,
-                    netloc,
-                    img.get('src'), 
-                    img, 
-                    content_handler.response_with_img_content_received
-                )
     
 
-    content_handler.html_post_process_handler(request, soup)
+    content_handler.html_post_process_handler(request, tree)
 
     found_links = set()
-    for a in soup.find_all('a', href=True):
-            module_logger.debug('Found <a> -> %s', str(a))
-            found_links.add(a.get('href'))
+    for link, element in alist.items():
+        module_logger.debug('Found <a> -> %s', link)
+        found_links.add(link)
 
     download_links = set()
     if link_filter:

@@ -11,8 +11,8 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().session_started()
         self.logger.debug("Call: session_started")
 
-    def response_with_html_content_received(self, request, response):
-        super().response_with_html_content_received(request,response)
+    def response_with_html_content_received(self, request, response, tree):
+        super().response_with_html_content_received(request,response, tree)
         
         self.logger.debug("response_with_html_content_received\n"
             "\trequest = %s\n"
