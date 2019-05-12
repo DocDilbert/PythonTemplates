@@ -46,27 +46,6 @@ def log_raw_response(response):
     )
 
 
-def response_factory(request):
-    module_logger.debug("Perfom web request %s", request)
-    response_raw = requests.get(
-        request.get_url(), 
-        headers=HEADERS
-    )
-    module_logger.info("Web request %s completed", request)
-
-    #module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
-    #time.sleep(CRAWL_DELAY)
-    
-    log_raw_response(response_raw)
-
-    response = Response.fromGMT(
-        status_code=response_raw.status_code,
-        date_gmt=response_raw.headers['Date'],
-        content_type=response_raw.headers['Content-Type'],
-        content=response_raw.content
-    )
-
-    return response
 
 class LinkFilter:
     def __init__(self, config ):
@@ -105,21 +84,59 @@ class LinkFilter:
         return False
 
 class RequestToDatabase:
-    def __init__(self, cursor, session_id):
+    def __init__(self, conn, session_id):
         self.session_id = session_id
-        self.cursor = cursor
+        self.conn = conn
 
-    def response_database_factory(self, request):
-        response, _ = webdb.filters.get_response_where_session_id_and_request(
-            self.cursor,
-            self.session_id,
-            request
-        )
+    def get(self):
+        class RequestFcn:
+            def __init__(self, cursor, session_id):
+                self.cursor = cursor
+                self.session_id = session_id
+            
+            def __call__(self, request):
+                module_logger.info("Database request %s completed", request)
+                response, _ = webdb.filters.get_response_where_session_id_and_request(
+                    self.cursor,
+                    self.session_id,
+                    request
+                )
+                return response
+                
+        return RequestFcn(self.conn.cursor(), self.session_id)
 
-        module_logger.info("Database request %s completed", request)
+class RequestToInternet:
 
-        return response
+    def __init__(self):
+        pass
 
+    def get(self):
+        class RequestFcn:
+            def __init__(self):
+                pass
+            
+            def __call__(self, request):
+                module_logger.debug("Perfom web request %s", request)
+                response_raw = requests.get(
+                    request.get_url(), 
+                    headers=HEADERS
+                )
+                module_logger.info("Web request %s completed", request)
+
+                #module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
+                #time.sleep(CRAWL_DELAY)
+                
+                log_raw_response(response_raw)
+
+                response = Response.fromGMT(
+                    status_code=response_raw.status_code,
+                    date_gmt=response_raw.headers['Date'],
+                    content_type=response_raw.headers['Content-Type'],
+                    content=response_raw.content
+                )
+
+                return response
+        return RequestFcn()
 
 def log_banner():
     module_logger.info("-------------------------------------")
@@ -414,10 +431,11 @@ class WebScraperCommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
+        request_to_response_factory = RequestToInternet()
         webscraper=WebScraper()
         webscraper.webscraper(
             url=config['url'],
-            request_to_response=response_factory,
+            request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_sqlite,
             download_img=True,
             link_filter=link_filter.filter
@@ -445,8 +463,8 @@ class WebScraperCommandLineParser:
         log_banner()
 
         connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
-        cursor = connection.cursor()
-        rtb = RequestToDatabase(cursor, args.session_id)
+     
+        request_to_response_factory = RequestToDatabase(connection, args.session_id)
 
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
@@ -456,7 +474,7 @@ class WebScraperCommandLineParser:
         webscraper=WebScraper()
         webscraper.webscraper(
             url=config['url'],
-            request_to_response=rtb.response_database_factory,
+            request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_filesystem,
             download_img=True,
             link_filter=link_filter.filter

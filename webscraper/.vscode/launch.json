@@ -21,6 +21,15 @@
             "args": ["sql"] // add arguments to test command line arguments
         },
         {
+            "name": "Python: webscraper extract",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "module": "webscraper",
+            "console": "integratedTerminal",
+            "args": ["extract","4","page"] // add arguments to test command line arguments
+        },
+        {
             "name": "Python: Current File (External Terminal)",
             "type": "python",
             "request": "launch",

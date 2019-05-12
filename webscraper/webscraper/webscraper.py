@@ -38,31 +38,33 @@ class Consumer(multiprocessing.Process):
         proc_name = self.name
         while True:
             next_task = self.task_queue.get()
+
             if next_task is None:
                 # Poison pill means shutdown
                 print('%s: Exiting' % proc_name)
                 self.task_queue.task_done()
                 break
 
-            print('%s: %s' % (proc_name, next_task))
-            self.lock.acquire()
             answer = next_task(self.request_to_response)
-            self.lock.release()
-            self.task_queue.task_done()
+
             self.result_queue.put(answer)
+            self.task_queue.task_done()
+    
         return
 
 
 class Task(object):
-    def __init__(self, depth, url, type_):
+    def __init__(self, task_id, depth, url, type_):
         self.depth = depth
         self.url = url
         self.type_ = type_
+        self.task_id = task_id
 
     def __call__(self, request_to_response):
         request = Request.from_url(self.url)
         response = request_to_response(request)
         return {
+            'task_id' : self.task_id,
             'depth' : self.depth,
             'type_': self.type_,
             'request' : request,
@@ -162,6 +164,7 @@ class WebScraper:
             )
 
             tasks.append(Task(
+                -1,
                 depth+1,
                 url_transf,
                 'CSS'
@@ -178,6 +181,7 @@ class WebScraper:
                 )
 
                 tasks.append(Task(
+                    -1,
                     depth+1,
                     url_transf,
                     'IMG',
@@ -198,6 +202,7 @@ class WebScraper:
                     download_links.add(link)
 
         tasks += (Task(
+            -1,
             depth+1,
             link,
             'HTML'
@@ -210,11 +215,10 @@ class WebScraper:
     def webscraper(
         self,
         url,
-        request_to_response,
+        request_to_response_factory,
         content_handler,
         download_img=False,
-        link_filter=None,
-        max_level=1
+        link_filter=None
     ):
 
         content_handler.session_started()
@@ -226,26 +230,35 @@ class WebScraper:
         # Start consumers
         num_consumers = multiprocessing.cpu_count() * 2
         print('Creating %d consumers' % num_consumers)
-        consumers = [ Consumer(
-                        tasks, 
-                        results, 
-                        request_to_response, 
-                        lock
-                    )
-                    for i in range(num_consumers) ]
+
+        consumers=[]
+        for _ in range(num_consumers):
+            consumers.append(Consumer(
+                tasks, 
+                results, 
+                request_to_response_factory.get(), 
+                lock
+            ))
         for w in consumers:
             w.start()
 
+        task_id = 0
         tasks.put(Task(
+            task_id,
             0, 
             url,
             'HTML'
         ))
+        task_set = set()
+        task_set.add(task_id)
+        task_id +=1
 
-        while(1):
+        while(len(task_set) != 0):
 
             to_download = results.get()
 
+            task_id = to_download['task_id']
+            task_set.remove(task_id)
             type_ = to_download['type_']
             depth = to_download['depth']
             request = to_download['request']
@@ -262,6 +275,10 @@ class WebScraper:
                     link_filter=link_filter
                 )
                 for i in new_tasks:
+                    i.task_id = task_id
+                    task_set.add(task_id)
+                    task_id+=1
+
                     tasks.put(i)
 
             elif (type_ == 'IMG'):
@@ -271,18 +288,10 @@ class WebScraper:
             else:
                 raise Exception()
 
-            if (tasks.empty()) and (results.empty()):
-
-                # Wait for all of the tasks to finish
-                tasks.join()
-
-                if (tasks.empty()) and (results.empty()):
-                    break
-
         # Add a poison pill for each consumer
         for i in range(num_consumers):
             tasks.put(None)
-
+            
         # Wait for all of the tasks to finish
         tasks.join()
 

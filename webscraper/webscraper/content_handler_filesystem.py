@@ -20,9 +20,13 @@ class ExtractFileNameFromURL:
         if parts[1] is '':
             if 'text/html' in content_type:
                 self.filename = parts[0]+'.html'
-            if 'text/css' in content_type:
+            elif 'text/css' in content_type:
                 self.filename = parts[0]+'.css'
-
+            elif 'unknown' in content_type:
+                self.filename = parts[0]+'.unknown'
+            else:
+                raise Exception()
+                
         self.logger.debug(
             "The file name '%s' was extracted from url '%s'", self.filename, url)
 
@@ -108,7 +112,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
     def img_content_pre_request_handler(self, request,tag):
         super().img_content_pre_request_handler(request,  tag)
         url = request.get_url()
-        filename = ExtractFileNameFromURL(url, None)
+        filename = ExtractFileNameFromURL(url, "unknown")
         tag.attrib['src'] = str(filename)
         
 
@@ -116,7 +120,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         super().img_content_post_request_handler(request, response)
 
         url = request.get_url()
-        filename = ExtractFileNameFromURL(url, None)
+        filename = ExtractFileNameFromURL(url, "unknown")
         dest = self.dirname+"/"+str(filename)
 
         with open(dest, "wb") as file:
