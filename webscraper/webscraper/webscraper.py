@@ -55,11 +55,16 @@ class WebScraper:
         else:
             return False
             
-    def download(self, request_to_response, scheme, netloc, url, tag, content_handler):
-        url_transf = self.transform_url(scheme, netloc, url)
-        module_logger.debug("Performing Request on url %s", url_transf)
+    def download(
+        self, 
+        request_to_response, 
+        request,  
+        tag, 
+        content_handler
+    ):
+        
+        module_logger.debug("Performing Request %s", str(request))
 
-        request = Request.from_url(url_transf)
         response = request_to_response(request) 
         content_handler(request, response, tag)
 
@@ -115,11 +120,16 @@ class WebScraper:
 
             module_logger.debug("Found <link> -> %s",link)
 
+            url_transf = self.transform_url(scheme, netloc, link)
+            request = Request.from_url(url_transf)
+            content_handler.css_content_pre_request_handler(
+                request,
+                element,
+            )
+
             self.download(
                 request_to_response,
-                scheme,
-                netloc,
-                link, 
+                request,
                 element, 
                 content_handler.response_with_css_content_received
             )
@@ -127,11 +137,17 @@ class WebScraper:
             
         if download_img:
             for link, element in img.items():
+
+                url_transf = self.transform_url(scheme, netloc, link)
+                request = Request.from_url(url_transf)
+                content_handler.img_content_pre_request_handler(
+                    request,
+                    element,
+                )
+
                 self.download(
                     request_to_response,
-                    scheme,
-                    netloc,
-                    link, 
+                    request,
                     element, 
                     content_handler.response_with_img_content_received
                 )

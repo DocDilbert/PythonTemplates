@@ -65,6 +65,9 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
         self.logger.info("Wrote raw html content to '%s'", dest)
 
+    def css_content_pre_request_handler(self,  request, tag):
+        super().css_content_pre_request_handler(request,  tag)
+
     def response_with_css_content_received(self, request, response, tag):
         super().response_with_css_content_received(request, response, tag)
         url = request.get_url()
@@ -78,7 +81,10 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         self.logger.info("Wrote css content to '%s'", dest)
         
         tag.attrib['href'] = str(filename)
-        
+    
+    def img_content_pre_request_handler(self, request,tag):
+        super().img_content_pre_request_handler(request,  tag)
+
     def response_with_img_content_received(self, request, response, tag):
         super().response_with_img_content_received(request, response, tag)
 
