@@ -49,4 +49,20 @@ class Request:
 
     def __repr__(self):
         return self.__str__()
-   
+
+    def __hash__(self):
+        return hash(self.get_url())
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return ((self.scheme == other.scheme) and
+                    (self.netloc == other.netloc) and
+                    (self.path == other.path) and
+                    (self.params == other.params) and
+                    (self.query == other.query) and 
+                    (self.fragment == other.fragment))
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)

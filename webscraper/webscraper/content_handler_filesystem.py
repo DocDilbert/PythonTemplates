@@ -40,7 +40,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             'webscraper.content_handler_filesystem.ContentHandlerFilesystem')
         self.dirname = dirname
         self.html_count = 0
-
+        self.count_dict = dict()
         if not os.path.exists(dirname):
             self.logger.info("Created directory %s", self.dirname)
             os.mkdir(dirname)

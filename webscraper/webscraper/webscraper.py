@@ -5,7 +5,6 @@ import logging
 import os
 import time
 import string
-from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urlunparse
 
 
@@ -16,7 +15,7 @@ from io import StringIO, BytesIO
 import pprint
 
 from collections import deque
-
+import multiprocessing
 
 # chrome 70.0.3538.77
 HEADERS = {
@@ -26,6 +25,43 @@ HEADERS = {
 # create logger
 module_logger = logging.getLogger('webscraper.webscraper')
 
+class Consumer(multiprocessing.Process):
+    
+    def __init__(self, task_queue, result_queue):
+        multiprocessing.Process.__init__(self)
+        self.task_queue = task_queue
+        self.result_queue = result_queue
+
+    def run(self):
+        proc_name = self.name
+        while True:
+            next_task = self.task_queue.get()
+            if next_task is None:
+                # Poison pill means shutdown
+                print('%s: Exiting' % proc_name)
+                self.task_queue.task_done()
+                break
+
+            print('%s: %s' % (proc_name, next_task))
+            answer = next_task()
+            self.result_queue.put(answer)
+            self.task_queue.task_done()
+        return
+
+
+class Task(object):
+    def __init__(self, depth, url, type_):
+        self.depth = depth
+        self.url = url
+        self.type_ = type_
+
+    def __call__(self):
+        return {
+            'depth' : self.depth,
+            'url' : self.url,
+            'type' : self.type_
+        }
+    
 
 class WebScraper:
     def transform_url(self, scheme, netloc, url):
@@ -119,11 +155,10 @@ class WebScraper:
                 element,
             )
 
-            tasks.append((
+            tasks.append(Task(
+                depth+1,
                 url_transf,
-                lambda request, response:
-                content_handler.css_content_post_request_handler(
-                    request, response)
+                'CSS'
             ))
 
         # IMG HANDLING
@@ -136,11 +171,10 @@ class WebScraper:
                     element,
                 )
 
-                tasks.append((
+                tasks.append(Task(
+                    depth+1,
                     url_transf,
-                    lambda request, response:
-                        content_handler.img_content_post_request_handler(
-                            request, response)
+                    'IMG',
                 ))
 
         download_links = set()
@@ -157,16 +191,10 @@ class WebScraper:
                     )
                     download_links.add(link)
 
-        tasks += ((
+        tasks += (Task(
+            depth+1,
             link,
-            lambda request, response: self.process_html(
-                request,
-                response,
-                content_handler,
-                depth=depth + 1,
-                download_img=download_img,
-                link_filter=link_filter
-            )
+            'HTML'
         ) for link in download_links)
 
         content_handler.html_content_post_process_handler(request, tree)
@@ -184,38 +212,66 @@ class WebScraper:
     ):
 
         content_handler.session_started()
+        tasks = multiprocessing.JoinableQueue()
+        results = multiprocessing.Queue()
 
-        download_queue = deque([
-            (
-                url,
-                lambda request, response: self.process_html(
+        # Start consumers
+        num_consumers = multiprocessing.cpu_count() * 2
+        print('Creating %d consumers' % num_consumers)
+        consumers = [ Consumer(tasks, results)
+                    for i in range(num_consumers) ]
+        for w in consumers:
+            w.start()
+
+        tasks.put(Task(
+            0, 
+            url,
+            'HTML'
+        ))
+
+        while(1):
+
+            to_download = results.get()
+
+            type_ = to_download['type']
+            url = to_download['url']
+            depth = to_download['depth']
+
+            request = Request.from_url(url)
+            response = request_to_response(request)
+
+            if (type_ == 'HTML'):
+                new_tasks = self.process_html(
                     request,
                     response,
                     content_handler,
-                    depth=0,
+                    depth=depth,
                     download_img=download_img,
                     link_filter=link_filter
                 )
-            )
-        ])
+                for i in new_tasks:
+                    tasks.put(i)
 
-        while(len(download_queue) != 0):
-            to_download = download_queue.popleft()
+            elif (type_ == 'IMG'):
+                content_handler.img_content_post_request_handler(request, response)
+            elif (type_ == 'CSS'):
+                content_handler.css_content_post_request_handler(request, response)
+            else:
+                raise Exception()
 
-            request = Request.from_url(
-                to_download[0]
-            )
-            response = request_to_response(request)
+            if (tasks.empty()) and (results.empty()):
 
-            task = to_download[1]
+                # Wait for all of the tasks to finish
+                tasks.join()
 
-            new_downloads = task(
-                request,
-                response
-            )
+                if (tasks.empty()) and (results.empty()):
+                    break
 
-            if new_downloads:
-                for i in new_downloads:
-                    download_queue.append(i)
+        # Add a poison pill for each consumer
+        for i in range(num_consumers):
+            tasks.put(None)
+
+        # Wait for all of the tasks to finish
+        tasks.join()
 
         content_handler.session_finished()
