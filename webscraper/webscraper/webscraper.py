@@ -107,10 +107,10 @@ class WebScraper:
         request,
         response,
         content_handler,
+        add_task,
         depth,
         download_img=False,
         link_filter=None,
-        
     ):
 
         tree = lxml.html.parse(BytesIO(response.content))
@@ -152,8 +152,6 @@ class WebScraper:
         scheme = parsed_url.scheme
         netloc = parsed_url.netloc
 
-        tasks = []
-
         # CSS HANDLING
         for link, element in css.items():
             url_transf = self.transform_url(scheme, netloc, link)
@@ -163,7 +161,7 @@ class WebScraper:
                 element,
             )
 
-            tasks.append(Task(
+            add_task(Task(
                 -1,
                 depth+1,
                 url_transf,
@@ -180,7 +178,7 @@ class WebScraper:
                     element,
                 )
 
-                tasks.append(Task(
+                add_task(Task(
                     -1,
                     depth+1,
                     url_transf,
@@ -199,18 +197,16 @@ class WebScraper:
                         netloc,
                         link
                     )
+                    add_task(Task(
+                        -1,
+                        depth+1,
+                        link,
+                        'HTML'
+                    ))
+
                     download_links.add(link)
 
-        tasks += (Task(
-            -1,
-            depth+1,
-            link,
-            'HTML'
-        ) for link in download_links)
-
         content_handler.html_content_post_process_handler(request, tree)
-
-        return tasks
 
     def webscraper(
         self,
@@ -239,20 +235,28 @@ class WebScraper:
                 request_to_response_factory.get(), 
                 lock
             ))
+
         for w in consumers:
             w.start()
 
-        task_id = 0
-        tasks.put(Task(
-            task_id,
+        task_set = set()
+        class AddTask:
+            def __init__(self):
+                self.task_id = 0
+
+            def __call__(self, task):   
+                task.task_id = self.task_id
+                task_set.add(self.task_id)
+                self.task_id+=1
+                tasks.put(task)
+
+        add_task = AddTask()
+        add_task( Task(
+            -1,
             0, 
             url,
             'HTML'
         ))
-        task_set = set()
-        task_set.add(task_id)
-        task_id +=1
-
         while(len(task_set) != 0):
 
             to_download = results.get()
@@ -265,19 +269,15 @@ class WebScraper:
 
 
             if (type_ == 'HTML'):
-                new_tasks = self.process_html(
+                self.process_html(
                     request,
                     response,
                     content_handler,
+                    add_task=add_task,
                     depth=depth,
                     download_img=download_img,
                     link_filter=link_filter
                 )
-                for i in new_tasks:
-                    i.task_id = task_id
-                    task_set.add(task_id)
-                    task_id+=1
-                    tasks.put(i)
 
             elif (type_ == 'IMG'):
                 content_handler.img_content_post_request_handler(request, response)
