@@ -257,8 +257,7 @@ class WebScraper:
 
             to_download = results.get()
 
-            task_id = to_download['task_id']
-            task_set.remove(task_id)
+            task_set.remove(to_download['task_id'])
             type_ = to_download['type_']
             depth = to_download['depth']
             request = to_download['request']
@@ -278,7 +277,6 @@ class WebScraper:
                     i.task_id = task_id
                     task_set.add(task_id)
                     task_id+=1
-
                     tasks.put(i)
 
             elif (type_ == 'IMG'):
@@ -291,7 +289,7 @@ class WebScraper:
         # Add a poison pill for each consumer
         for i in range(num_consumers):
             tasks.put(None)
-            
+
         # Wait for all of the tasks to finish
         tasks.join()
 
