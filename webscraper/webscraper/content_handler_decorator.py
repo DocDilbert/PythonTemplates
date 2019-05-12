@@ -17,17 +17,17 @@ class ContentHandlerDecorator:
         if self.component:
             self.component.css_content_pre_request_handler(request,  tag)
 
-    def css_content_post_request_handler(self,  request, response, tag):
+    def css_content_post_request_handler(self,  request, response):
         if self.component:
-            self.component.css_content_post_request_handler(request, response, tag)
+            self.component.css_content_post_request_handler(request, response)
 
     def img_content_pre_request_handler(self, request,tag):
         if self.component:
             self.component.img_content_pre_request_handler(request,  tag)
 
-    def img_content_post_request_handler(self, request, response, tag):
+    def img_content_post_request_handler(self, request, response):
         if self.component:
-            self.component.img_content_post_request_handler(request, response, tag)
+            self.component.img_content_post_request_handler(request, response)
     
     def html_post_process_handler(self, request, soup):
         if self.component:

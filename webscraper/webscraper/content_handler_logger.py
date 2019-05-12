@@ -22,8 +22,8 @@ class ContentHandlerLogger(ContentHandlerDecorator):
         super().css_content_pre_request_handler(request,  tag)
 
 
-    def css_content_post_request_handler(self, request, response, tag):
-        super().css_content_post_request_handler(request, response, tag)
+    def css_content_post_request_handler(self, request, response):
+        super().css_content_post_request_handler(request, response)
         self.logger.debug("css_content_post_request_handler\n"
             "\trequest = %s\n"
             "\tresponse = %s", request, response)
@@ -31,8 +31,8 @@ class ContentHandlerLogger(ContentHandlerDecorator):
     def img_content_pre_request_handler(self, request,tag):
         super().img_content_pre_request_handler(request,  tag)
 
-    def img_content_post_request_handler(self, request, response, tag):
-        super().img_content_post_request_handler(request, response, tag)
+    def img_content_post_request_handler(self, request, response):
+        super().img_content_post_request_handler(request, response)
         
         self.logger.debug("img_content_post_request_handler\n"
             "\trequest = %s\n"

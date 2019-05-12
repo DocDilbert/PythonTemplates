@@ -41,16 +41,15 @@ class ContentHandlerSqlite(ContentHandlerDecorator):
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
 
-    def css_content_post_request_handler(self,  request, response, tag):
-        super().css_content_post_request_handler(request, response, tag)
+    def css_content_post_request_handler(self,  request, response):
+        super().css_content_post_request_handler(request, response)
         self.insert_request_and_response(request, response)
 
     def img_content_pre_request_handler(self, request,tag):
         super().img_content_pre_request_handler(request,  tag)
 
-    def img_content_post_request_handler(self,  request, response, tag):
-        super().img_content_post_request_handler(request, response, tag)
-        
+    def img_content_post_request_handler(self,  request, response):
+        super().img_content_post_request_handler(request, response)
         self.insert_request_and_response(request, response)
 
     def html_post_process_handler(self, request, soup):

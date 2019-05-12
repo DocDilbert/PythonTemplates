@@ -117,7 +117,7 @@ class WebScraper:
 
             module_logger.debug("Performing Request %s", str(request))
             response = request_to_response(request) 
-            content_handler.css_content_post_request_handler(request, response, element)
+            content_handler.css_content_post_request_handler(request, response)
 
 
         if download_img:
@@ -132,7 +132,7 @@ class WebScraper:
 
                 module_logger.debug("Performing Request %s", str(request))
                 response = request_to_response(request) 
-                content_handler.img_content_post_request_handler(request, response, element)
+                content_handler.img_content_post_request_handler(request, response)
         
 
         content_handler.html_post_process_handler(request, tree)

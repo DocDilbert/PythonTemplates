@@ -11,6 +11,7 @@ class ExtractFileNameFromURL:
 
         self.logger.debug(
             "Arguments: url = '%s', content_type = '%s'", url, content_type)
+
         urlp = urlparse(url)
         self.filename = os.path.basename(urlp.path)
         parts = os.path.splitext(self.filename)
@@ -67,11 +68,14 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
 
     def css_content_pre_request_handler(self,  request, tag):
         super().css_content_pre_request_handler(request,  tag)
-
-    def css_content_post_request_handler(self, request, response, tag):
-        super().css_content_post_request_handler(request, response, tag)
         url = request.get_url()
-        filename = ExtractFileNameFromURL(url, response.content_type)
+        filename = ExtractFileNameFromURL(url, 'text/css')
+        tag.attrib['href'] = str(filename)
+
+    def css_content_post_request_handler(self, request, response):
+        super().css_content_post_request_handler(request, response)
+        url = request.get_url()
+        filename = ExtractFileNameFromURL(url, 'text/css')
 
         dest = self.dirname+"/"+str(filename)
 
@@ -79,27 +83,28 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
             file.write(response.content)
 
         self.logger.info("Wrote css content to '%s'", dest)
-        
-        tag.attrib['href'] = str(filename)
     
     def img_content_pre_request_handler(self, request,tag):
         super().img_content_pre_request_handler(request,  tag)
+        url = request.get_url()
+        filename = ExtractFileNameFromURL(url, None)
+        tag.attrib['src'] = str(filename)
+        
 
-    def img_content_post_request_handler(self, request, response, tag):
-        super().img_content_post_request_handler(request, response, tag)
+    def img_content_post_request_handler(self, request, response):
+        super().img_content_post_request_handler(request, response)
 
         url = request.get_url()
-        filename = ExtractFileNameFromURL(url, response.content_type)
+        filename = ExtractFileNameFromURL(url, None)
         dest = self.dirname+"/"+str(filename)
 
         with open(dest, "wb") as file:
             file.write(response.content)
 
         self.logger.info("Wrote img content to '%s'", dest)
-        tag.attrib['src'] = str(filename)
 
-    def html_post_process_handler(self, request, soup):
-        super().html_post_process_handler(request, soup)
+    def html_post_process_handler(self, request, tree):
+        super().html_post_process_handler(request, tree)
 
         filename = "index_processed_{}.html".format(self.html_count)
         self.html_count += 1
@@ -107,7 +112,7 @@ class ContentHandlerFilesystem(ContentHandlerDecorator):
         dest = self.dirname+"/{}_processed{}".format(parts[0], parts[1])
         
         html = etree.tostring(
-            soup.getroot(), 
+            tree.getroot(), 
             pretty_print=True, 
             method="html"
         )
