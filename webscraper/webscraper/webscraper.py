@@ -56,7 +56,7 @@ class WebScraper:
             return False
             
 
-    def scrap(
+    def process_html(
         self,
         request,
         response, 
@@ -104,6 +104,7 @@ class WebScraper:
         scheme = parsed_url.scheme
         netloc = parsed_url.netloc
 
+        tasks = []
         for link, element in css.items():
 
             module_logger.debug("Found <link> -> %s",link)
@@ -115,10 +116,12 @@ class WebScraper:
                 element,
             )
 
-            module_logger.debug("Performing Request %s", str(request))
-            response = request_to_response(request) 
-            content_handler.css_content_post_request_handler(request, response)
-
+            tasks.append((
+                    url_transf,
+                    lambda request, response: 
+                        content_handler.css_content_post_request_handler(request, response)
+                    )
+                )
 
         if download_img:
             for link, element in img.items():
@@ -130,12 +133,13 @@ class WebScraper:
                     element,
                 )
 
-                module_logger.debug("Performing Request %s", str(request))
-                response = request_to_response(request) 
-                content_handler.img_content_post_request_handler(request, response)
-        
-
-        content_handler.html_content_post_process_handler(request, tree)
+                
+                tasks.append((
+                    url_transf,
+                    lambda request, response: 
+                        content_handler.img_content_post_request_handler(request, response)
+                    )
+                )
 
         found_links = set()
         for link, element in alist.items():
@@ -153,20 +157,22 @@ class WebScraper:
                         link
                     )
                     download_links.add(link)
+        tasks+= ((
+                    link,
+                    lambda request, response: self.process_html(
+                        request,
+                        response,
+                        request_to_response,
+                        content_handler,
+                        depth = depth + 1,
+                        download_img=download_img,
+                        link_filter=link_filter
+                    )
+                ) for link in download_links)
+        
+        content_handler.html_content_post_process_handler(request, tree)
 
-        return [ 
-            (
-                link,
-                lambda request, response: self.scrap(
-                    request,
-                    response,
-                    request_to_response,
-                    content_handler,
-                    depth = depth + 1,
-                    download_img=download_img,
-                    link_filter=link_filter
-                )
-            ) for link in download_links]           
+        return tasks          
 
     def webscraper(
         self,
@@ -183,7 +189,7 @@ class WebScraper:
         download_queue = deque([
             (
                 url,
-                lambda request, response: self.scrap(
+                lambda request, response: self.process_html(
                     request,
                     response,
                     request_to_response,
@@ -196,7 +202,6 @@ class WebScraper:
         ])
    
         while(len(download_queue) != 0):
-            
             to_download = download_queue.popleft()
 
             request = Request.from_url(
@@ -211,8 +216,9 @@ class WebScraper:
                 response
             )
             
-            for i in new_downloads:
-                download_queue.append(i)
+            if new_downloads:
+                for i in new_downloads:
+                    download_queue.append(i)
  
         content_handler.session_finished()
         
