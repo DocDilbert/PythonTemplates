@@ -27,10 +27,12 @@ module_logger = logging.getLogger('webscraper.webscraper')
 
 class Consumer(multiprocessing.Process):
     
-    def __init__(self, task_queue, result_queue):
+    def __init__(self, task_queue, result_queue,request_to_response, lock):
         multiprocessing.Process.__init__(self)
         self.task_queue = task_queue
         self.result_queue = result_queue
+        self.request_to_response = request_to_response
+        self.lock = lock
 
     def run(self):
         proc_name = self.name
@@ -43,9 +45,11 @@ class Consumer(multiprocessing.Process):
                 break
 
             print('%s: %s' % (proc_name, next_task))
-            answer = next_task()
-            self.result_queue.put(answer)
+            self.lock.acquire()
+            answer = next_task(self.request_to_response)
+            self.lock.release()
             self.task_queue.task_done()
+            self.result_queue.put(answer)
         return
 
 
@@ -55,11 +59,14 @@ class Task(object):
         self.url = url
         self.type_ = type_
 
-    def __call__(self):
+    def __call__(self, request_to_response):
+        request = Request.from_url(self.url)
+        response = request_to_response(request)
         return {
             'depth' : self.depth,
-            'url' : self.url,
-            'type' : self.type_
+            'type_': self.type_,
+            'request' : request,
+            'response' : response
         }
     
 
@@ -101,6 +108,7 @@ class WebScraper:
         depth,
         download_img=False,
         link_filter=None,
+        
     ):
 
         tree = lxml.html.parse(BytesIO(response.content))
@@ -118,8 +126,6 @@ class WebScraper:
                 if type_ == "text/css" or "stylesheet" in rel:
                     module_logger.debug('Found <link> -> %s', link)
                     css[link] = element
-
-                
 
             if element.tag == "img":
                 if 'src' not in element.attrib:
@@ -215,10 +221,17 @@ class WebScraper:
         tasks = multiprocessing.JoinableQueue()
         results = multiprocessing.Queue()
 
+        lock = multiprocessing.Lock()
+
         # Start consumers
         num_consumers = multiprocessing.cpu_count() * 2
         print('Creating %d consumers' % num_consumers)
-        consumers = [ Consumer(tasks, results)
+        consumers = [ Consumer(
+                        tasks, 
+                        results, 
+                        request_to_response, 
+                        lock
+                    )
                     for i in range(num_consumers) ]
         for w in consumers:
             w.start()
@@ -233,12 +246,11 @@ class WebScraper:
 
             to_download = results.get()
 
-            type_ = to_download['type']
-            url = to_download['url']
+            type_ = to_download['type_']
             depth = to_download['depth']
+            request = to_download['request']
+            response = to_download['response']
 
-            request = Request.from_url(url)
-            response = request_to_response(request)
 
             if (type_ == 'HTML'):
                 new_tasks = self.process_html(
