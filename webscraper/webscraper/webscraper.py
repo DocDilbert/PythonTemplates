@@ -55,13 +55,13 @@ class WebScraper:
         else:
             return False
             
-    def download(self, request_to_response, scheme, netloc, url, tag, response_handler):
+    def download(self, request_to_response, scheme, netloc, url, tag, content_handler):
         url_transf = self.transform_url(scheme, netloc, url)
         module_logger.debug("Performing Request on url %s", url_transf)
 
         request = Request.from_url(url_transf)
         response = request_to_response(request) 
-        response_handler(request, response, tag)
+        content_handler(request, response, tag)
 
     def scrap(
         self,
