@@ -14,6 +14,10 @@ from webtypes.response import Response
 import lxml.html
 from io import StringIO, BytesIO
 import pprint
+
+from collections import deque
+
+
 #chrome 70.0.3538.77
 HEADERS = {
     'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
@@ -61,14 +65,15 @@ class WebScraper:
 
     def scrap(
         self,
-        request, 
+        request,
+        response, 
         request_to_response, 
         content_handler, 
+        depth,
         download_img=False,
         link_filter=None,
-        depth=0,
     ):
-        response = request_to_response(request) 
+        
         tree = lxml.html.parse(BytesIO(response.content))
         content_handler.response_with_html_content_received(request, response, tree)
 
@@ -151,15 +156,7 @@ class WebScraper:
                     )
                     download_links.add(link)
 
-        for link in download_links:
-            self.scrap(
-                Request.from_url(link),
-                request_to_response,
-                content_handler,
-                download_img=download_img,
-                link_filter=link_filter,
-                depth=depth+1
-            )             
+        return [ (depth+1, link) for link in download_links]           
 
     def webscraper(
         self,
@@ -173,12 +170,27 @@ class WebScraper:
 
         content_handler.session_started()
 
-        self.scrap(
-            Request.from_url(url),
-            request_to_response,
-            content_handler,
-            download_img=download_img,
-            link_filter=link_filter
-        )
+        download_queue = deque([(0, url)])
+   
+        while(len(download_queue) != 0):
+            
+            to_download = download_queue.popleft()
+
+            request = Request.from_url(to_download[1])
+            response = request_to_response(request) 
+
+            new_downloads = self.scrap(
+                request,
+                response,
+                request_to_response,
+                content_handler,
+                depth = to_download[0],
+                download_img=download_img,
+                link_filter=link_filter
+            )
+            
+            for i in new_downloads:
+                download_queue.append(i)
+ 
         content_handler.session_finished()
         
