@@ -87,15 +87,17 @@ class RequestToDatabase:
     def __init__(self, conn, session_id):
         self.session_id = session_id
         self.conn = conn
+        self.logger = logging.getLogger('webscraper.RequestToDatabase')
 
     def get(self):
         class RequestFcn:
             def __init__(self, cursor, session_id):
                 self.cursor = cursor
                 self.session_id = session_id
+                self.logger = logging.getLogger('webscraper.RequestToDatabase.RequestFcn')
             
             def __call__(self, request):
-                module_logger.info("Database request %s completed", request)
+                self.logger.info("Database request %s completed", request)
                 response, _ = webdb.filters.get_response_where_session_id_and_request(
                     self.cursor,
                     self.session_id,
@@ -108,20 +110,20 @@ class RequestToDatabase:
 class RequestToInternet:
 
     def __init__(self):
-        pass
+        self.logger = logging.getLogger('webscraper.RequestToInternet')
 
     def get(self):
         class RequestFcn:
             def __init__(self):
-                pass
+                self.logger = logging.getLogger('webscraper.RequestToInternet.RequestFcn')
             
             def __call__(self, request):
-                module_logger.debug("Perfom web request %s", request)
+                self.logger.debug("Perfom web request %s", request)
                 response_raw = requests.get(
                     request.get_url(), 
                     headers=HEADERS
                 )
-                module_logger.info("Web request %s completed", request)
+                self.logger.info("Web request %s completed", request)
 
                 #module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
                 #time.sleep(CRAWL_DELAY)

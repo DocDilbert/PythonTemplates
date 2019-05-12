@@ -33,6 +33,7 @@ class Consumer(multiprocessing.Process):
         self.result_queue = result_queue
         self.request_to_response = request_to_response
         self.lock = lock
+        self.logger = logging.getLogger('webscraper.webscraper.Consumer')
 
     def run(self):
         proc_name = self.name
@@ -41,7 +42,7 @@ class Consumer(multiprocessing.Process):
 
             if next_task is None:
                 # Poison pill means shutdown
-                print('%s: Exiting' % proc_name)
+                self.logger.info('%s: Exiting',proc_name)
                 self.task_queue.task_done()
                 break
 
@@ -59,6 +60,7 @@ class Task(object):
         self.url = url
         self.type_ = type_
         self.task_id = task_id
+        self.logger = logging.getLogger('webscraper.webscraper.Task')
 
     def __call__(self, request_to_response):
         request = Request.from_url(self.url)
@@ -73,9 +75,12 @@ class Task(object):
     
 
 class WebScraper:
+    def __init__(self):
+        self.logger = logging.getLogger('webscraper.webscraper.Webscraper')
+
     def transform_url(self, scheme, netloc, url):
         url_parsed = urlparse(url)
-        module_logger.debug(
+        self.logger.debug(
             'Transform url with url_parse results in = %s', url_parsed)
 
         if not url_parsed.scheme:
@@ -90,7 +95,7 @@ class WebScraper:
         else:
             url_transf = url_parsed.geturl()
 
-        module_logger.debug('Transform url from %s to %s', url, url_transf)
+        self.logger.debug('Transform url from %s to %s', url, url_transf)
 
         return url_transf
 
@@ -126,7 +131,7 @@ class WebScraper:
                 rel = element.attrib.get('rel', None)
 
                 if type_ == "text/css" or "stylesheet" in rel:
-                    module_logger.debug('Found <link> -> %s', link)
+                    self.logger.debug('Found <link> -> %s', link)
                     css[link] = element
 
             if element.tag == "img":
@@ -138,14 +143,14 @@ class WebScraper:
                 if 'data:image/' in src:
                     continue  # img was embedded
 
-                module_logger.debug('Found <img> -> %s', link)
+                self.logger.debug('Found <img> -> %s', link)
                 img[link] = element
 
             if element.tag == "a":
                 if 'href' not in element.attrib:
                     continue
 
-                module_logger.debug('Found <a> -> %s', link)
+                self.logger.debug('Found <a> -> %s', link)
                 alist[link] = element
 
         parsed_url = urlparse(request.get_url())
@@ -189,7 +194,7 @@ class WebScraper:
         if link_filter:
             for link,_  in alist.items():
                 if link_filter(link, depth):
-                    module_logger.info(
+                    self.logger.info(
                         "Filter accepted link to new page \"%s\"", link)
 
                     link = self.transform_url(
@@ -225,7 +230,7 @@ class WebScraper:
 
         # Start consumers
         num_consumers = multiprocessing.cpu_count() * 2
-        print('Creating %d consumers' % num_consumers)
+        self.logger.info('Creating %d consumers' % num_consumers)
 
         consumers=[]
         for _ in range(num_consumers):
@@ -261,6 +266,7 @@ class WebScraper:
 
             to_download = results.get()
 
+            # keep track how much task are running
             task_set.remove(to_download['task_id'])
             type_ = to_download['type_']
             depth = to_download['depth']
@@ -287,7 +293,7 @@ class WebScraper:
                 raise Exception()
 
         # Add a poison pill for each consumer
-        for i in range(num_consumers):
+        for _ in range(num_consumers):
             tasks.put(None)
 
         # Wait for all of the tasks to finish
