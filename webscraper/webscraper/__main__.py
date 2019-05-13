@@ -19,7 +19,7 @@ from webscraper.content_handler_logger import ContentHandlerLogger
 from webscraper.content_handler_filesystem import ContentHandlerFilesystem
 from webtypes.request import Request
 from webtypes.response import Response
-
+import webscraper.request_factories as factories
 
 from version import __version__
 
@@ -34,16 +34,6 @@ CONFIG_FILE_NAME = "webscraper.json"
 
 # create logger
 module_logger = logging.getLogger('webscraper')
-
-
-def log_raw_response(response):
-    module_logger.debug(
-        "Raw response received:\n"
-        "\tstatus_code = %s,\n"
-        "\theaders = %s,\n"
-        "\tcookies = %s,\n"
-        "\tencoding = %s", response.status_code, response.headers, response.cookies, response.encoding
-    )
 
 
 
@@ -83,62 +73,6 @@ class LinkFilter:
         self.logger.debug("Link denied (no regex match) \"%s\"", x)
         return False
 
-class RequestToDatabase:
-    def __init__(self, conn, session_id):
-        self.session_id = session_id
-        self.conn = conn
-        self.logger = logging.getLogger('webscraper.RequestToDatabase')
-
-    def get(self):
-        class RequestFcn:
-            def __init__(self, cursor, session_id):
-                self.cursor = cursor
-                self.session_id = session_id
-                self.logger = logging.getLogger('webscraper.RequestToDatabase.RequestFcn')
-            
-            def __call__(self, request):
-                self.logger.info("Database request %s completed", request)
-                response, _ = webdb.filters.get_response_where_session_id_and_request(
-                    self.cursor,
-                    self.session_id,
-                    request
-                )
-                return response
-                
-        return RequestFcn(self.conn.cursor(), self.session_id)
-
-class RequestToInternet:
-
-    def __init__(self):
-        self.logger = logging.getLogger('webscraper.RequestToInternet')
-
-    def get(self):
-        class RequestFcn:
-            def __init__(self):
-                self.logger = logging.getLogger('webscraper.RequestToInternet.RequestFcn')
-            
-            def __call__(self, request):
-                self.logger.debug("Perfom web request %s", request)
-                response_raw = requests.get(
-                    request.get_url(), 
-                    headers=HEADERS
-                )
-                self.logger.info("Web request %s completed", request)
-
-                #module_logger.debug("Sleeping %i seconds... tzzz tzzz tzzz", CRAWL_DELAY)
-                #time.sleep(CRAWL_DELAY)
-                
-                log_raw_response(response_raw)
-
-                response = Response.fromGMT(
-                    status_code=response_raw.status_code,
-                    date_gmt=response_raw.headers['Date'],
-                    content_type=response_raw.headers['Content-Type'],
-                    content=response_raw.content
-                )
-
-                return response
-        return RequestFcn()
 
 def log_banner():
     module_logger.info("-------------------------------------")
@@ -147,15 +81,6 @@ def log_banner():
 
 
 def init_logger(config):
-    logger = logging.getLogger('webscraper')
-    logger.setLevel(logging.DEBUG)
-
-    logger2 = logging.getLogger('webdb')
-    logger2.setLevel(logging.DEBUG)
-
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
-
     logdir = config['log_directory']
     if config['logtype'] == "rotate":
         fh = handlers.RotatingFileHandler(
@@ -182,15 +107,29 @@ def init_logger(config):
     )
     eh.setLevel(logging.ERROR)
 
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+
+
+
     formatter = logging.Formatter(
         '%(asctime)s %(levelname)s [%(name)s]: %(message)s')
     fh.setFormatter(formatter)
     ch.setFormatter(formatter)
     eh.setFormatter(formatter)
 
+    logger = logging.getLogger('webscraper')
+    logger.setLevel(logging.DEBUG)
+
+    logger2 = logging.getLogger('webdb')
+    logger2.setLevel(logging.DEBUG)
+
+
     logger.addHandler(fh)
     logger.addHandler(ch)
     logger.addHandler(eh)
+
     logger2.addHandler(fh)
     logger2.addHandler(ch)
     logger2.addHandler(eh)
@@ -249,8 +188,6 @@ class WebScraperCommandLineParser:
         with open(args.config) as json_data:
             config = json.load(json_data)
 
-
-        
         logdir = config['log_directory']
         if not os.path.exists(logdir):
             module_logger.info("Created directory %s", logdir)
@@ -433,7 +370,7 @@ class WebScraperCommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
-        request_to_response_factory = RequestToInternet()
+        request_to_response_factory = factories.RequestToInternet()
         webscraper=WebScraper()
         webscraper.webscraper(
             url=config['url'],
@@ -464,16 +401,19 @@ class WebScraperCommandLineParser:
         init_logger(config)
         log_banner()
 
-        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
-     
-        request_to_response_factory = RequestToDatabase(connection, args.session_id)
-
+        request_to_response_factory = factories.RequestToDatabase(
+            config['database_directory']+config['database'], 
+            args.session_id
+        )
+        
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
 
         webscraper=WebScraper()
+        
+
         webscraper.webscraper(
             url=config['url'],
             request_to_response_factory=request_to_response_factory,

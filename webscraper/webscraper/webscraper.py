@@ -16,37 +16,32 @@ import pprint
 
 from collections import deque
 import multiprocessing
+import pickle
 
-# chrome 70.0.3538.77
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
-}
 
 # create logger
 module_logger = logging.getLogger('webscraper.webscraper')
 
+
 class Consumer(multiprocessing.Process):
     
-    def __init__(self, task_queue, result_queue,request_to_response, lock):
+    def __init__(self, task_queue, result_queue, request_to_response_factory):
         multiprocessing.Process.__init__(self)
         self.task_queue = task_queue
         self.result_queue = result_queue
-        self.request_to_response = request_to_response
-        self.lock = lock
-        self.logger = logging.getLogger('webscraper.webscraper.Consumer')
-
+        self.request_to_response_factory = request_to_response_factory
+        
     def run(self):
-        proc_name = self.name
+        request_to_response = self.request_to_response_factory.get()
         while True:
             next_task = self.task_queue.get()
 
             if next_task is None:
                 # Poison pill means shutdown
-                self.logger.info('%s: Exiting',proc_name)
                 self.task_queue.task_done()
                 break
 
-            answer = next_task(self.request_to_response)
+            answer = next_task(request_to_response)
 
             self.result_queue.put(answer)
             self.task_queue.task_done()
@@ -60,7 +55,6 @@ class Task(object):
         self.request = request
         self.type_ = type_
         self.task_id = -1
-        self.logger = logging.getLogger('webscraper.webscraper.Task')
 
     def __call__(self, request_to_response):
 
@@ -234,20 +228,21 @@ class WebScraper:
         tasks = multiprocessing.JoinableQueue()
         results = multiprocessing.Queue()
 
-        lock = multiprocessing.Lock()
-
         # Start consumers
         num_consumers = multiprocessing.cpu_count() * 2
         self.logger.info('Creating %d consumers' % num_consumers)
 
+
         consumers=[]
         for _ in range(num_consumers):
-            consumers.append(Consumer(
+
+            consumer = Consumer(
                 tasks, 
                 results, 
-                request_to_response_factory.get(), 
-                lock
-            ))
+                request_to_response_factory
+            )
+
+            consumers.append(consumer)
 
         for w in consumers:
             w.start()
@@ -269,6 +264,7 @@ class WebScraper:
             Request.from_url(url),
             'HTML'
         ))
+
         while(len(task_set) != 0):
 
             to_download = results.get()
@@ -279,7 +275,7 @@ class WebScraper:
             depth = to_download['depth']
             request = to_download['request']
             response = to_download['response']
-
+            logging.info(type_)
             if (type_ == 'HTML'):
                 self.process_html(
                     request,
