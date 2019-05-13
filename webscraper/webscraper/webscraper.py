@@ -259,8 +259,6 @@ class WebScraper:
             self.logger.info('Start consumer %d', idx)
             w.start()
             
-  
-
         task_set = set()
         class AddTask:
             def __init__(self, logger):
