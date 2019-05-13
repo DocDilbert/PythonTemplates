@@ -23,7 +23,7 @@ class Response:
 
         l = min(len(self.content),BLOB_STR_LENGTH)
 
-        return "{{status_code={}, date=\"{}\", content_type=\"{}\" content=\"{} ...\"}}".format(
+        return "{{status_code:{}, date:\"{}\", content_type:\"{}\", content:\"{} ...\"}}".format(
             self.status_code, 
             self.date,
             self.content_type,

@@ -56,6 +56,17 @@ class Task(object):
         self.type_ = type_
         self.task_id = -1
 
+    def __str__(self):
+        return "{{task_id:{}, type:{}, request:{}, depth:{}}}".format(
+            self.task_id, 
+            self.type_,
+            self.request, 
+            self.depth
+        )
+
+    def __repr__(self):
+        return self.__str__()
+
     def __call__(self, request_to_response):
 
         response = request_to_response(self.request)
@@ -123,7 +134,7 @@ class WebScraper:
         alist = set()
 
         root = tree.getroot()
-    
+
         for (element, _, link, _) in root.iterlinks():
 
             if element.tag == "link":
@@ -198,7 +209,7 @@ class WebScraper:
 
                 if link_filter:
                     if link_filter(link, depth):
-                        self.logger.info(
+                        self.logger.debug(
                             "Filter accepted link to new page \"%s\"", link)
 
                         url_transf = self.transform_url(
@@ -223,19 +234,19 @@ class WebScraper:
         download_img=False,
         link_filter=None
     ):
-
+        
         content_handler.session_started()
         tasks = multiprocessing.JoinableQueue()
         results = multiprocessing.Queue()
 
         # Start consumers
         num_consumers = multiprocessing.cpu_count() * 2
-        self.logger.info('Creating %d consumers' % num_consumers)
+        self.logger.info('Creating %d consumers', num_consumers)
 
-
+        
         consumers=[]
-        for _ in range(num_consumers):
-
+        for idx in range(num_consumers):
+            self.logger.debug('Create consumer %d', idx)
             consumer = Consumer(
                 tasks, 
                 results, 
@@ -244,21 +255,29 @@ class WebScraper:
 
             consumers.append(consumer)
 
-        for w in consumers:
+        for idx,w in enumerate(consumers):
+            self.logger.info('Start consumer %d', idx)
             w.start()
+            
+  
 
         task_set = set()
         class AddTask:
-            def __init__(self):
+            def __init__(self, logger):
                 self.task_id = 0
+                self.logger = logger
 
-            def __call__(self, task):   
+            def __call__(self, task): 
+                
                 task.task_id = self.task_id
+
+                
                 task_set.add(self.task_id)
                 self.task_id+=1
                 tasks.put(task)
+                self.logger.info("Task added: %s", task)  
 
-        add_task = AddTask()
+        add_task = AddTask(self.logger)
         add_task( Task(
             0, 
             Request.from_url(url),
@@ -266,8 +285,7 @@ class WebScraper:
         ))
 
         while(len(task_set) != 0):
-
-            to_download = results.get()
+            to_download = results.get(block=True, timeout=5)
 
             # keep track how much task are running
             task_set.remove(to_download['task_id'])
@@ -275,7 +293,8 @@ class WebScraper:
             depth = to_download['depth']
             request = to_download['request']
             response = to_download['response']
-            logging.info(type_)
+            self.logger.info('Task {"task_id":%i, "type":"%s"} finished.', to_download['task_id'], type_) 
+            self.logger.debug("Task response: %s", response)  
             if (type_ == 'HTML'):
                 self.process_html(
                     request,
