@@ -99,7 +99,7 @@ class WebScraperCommandLineParser:
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[3:])
 
-        logdir = scrapconf.LOG_DIR
+        logdir = scrapconf.LOGDIR
         if not os.path.exists(logdir):
             module_logger.info("Created directory %s", logdir)
             os.mkdir(logdir)
