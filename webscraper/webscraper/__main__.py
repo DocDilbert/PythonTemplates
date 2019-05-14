@@ -23,13 +23,6 @@ import webscraper.request_factories as factories
 
 from version import __version__
 
-
-# chrome 70.0.3538.77
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
-}
-
 # create logger
 module_logger = logging.getLogger('webscraper')
 
@@ -97,7 +90,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
 
         logdir = scrapconf.LOGDIR
         if not os.path.exists(logdir):
@@ -121,7 +114,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
 
         scrapconf.init_logger()
         connection = webdb.db.open_db_readonly(
@@ -155,7 +148,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
 
         scrapconf.init_logger()
 
@@ -192,7 +185,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
 
         scrapconf.init_logger()
         statinfo = os.stat(scrapconf.DATABASE_DIR+scrapconf.DATABASE)
@@ -254,7 +247,7 @@ class WebScraperCommandLineParser:
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
 
         scrapconf.init_logger()
         log_banner()
