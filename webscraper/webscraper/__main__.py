@@ -23,7 +23,7 @@ import webscraper.request_factories as factories
 
 from version import __version__
 
-CRAWL_DELAY = 0 # 1 second delay per request
+CRAWL_DELAY = 0  # 1 second delay per request
 # chrome 70.0.3538.77
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -36,40 +36,40 @@ CONFIG_FILE_NAME = "webscraper.json"
 module_logger = logging.getLogger('webscraper')
 
 
-
 class LinkFilter:
-    def __init__(self, config ):
+    def __init__(self, config):
         self.logger = logging.getLogger(
             'webscraper.LinkFilter')
         self.filters = []
         for filt in config['link_filters']:
             regex = filt['regex']
-    
+
             self.filters.append({
-                'regex' : re.compile(regex),
-                'occurences' : 0,
-                'max_occurences' : filt['max_occurences'],
-                'max_depth' : filt['max_depth']
+                'regex': re.compile(regex),
+                'occurences': 0,
+                'max_occurences': filt['max_occurences'],
+                'max_depth': filt['max_depth']
             })
 
     def filter(self, x, depth):
         for filt in self.filters:
             regex = filt['regex']
             if regex.match(x):
-                filt['occurences']=filt['occurences']+1
+                filt['occurences'] = filt['occurences']+1
 
-                if (filt['max_occurences'] == -1) or (filt['occurences']<= filt['max_occurences']):
+                if (filt['max_occurences'] == -1) or (filt['occurences'] <= filt['max_occurences']):
 
-                    if (filt['max_depth'] != -1) and (depth>=filt['max_depth']):
+                    if (filt['max_depth'] != -1) and (depth >= filt['max_depth']):
                         self.logger.debug("Denied (too deep) \"%s\"", x)
                         return False
                     else:
                         self.logger.debug("Link accepted \"%s\"", x)
                         return True
                 else:
-                    self.logger.debug("Link denied (too much much occurences) \"%s\"", x)
+                    self.logger.debug(
+                        "Link denied (too much much occurences) \"%s\"", x)
                     return False
-        
+
         self.logger.debug("Link denied (no regex match) \"%s\"", x)
         return False
 
@@ -84,34 +84,31 @@ def init_logger(config):
     logdir = config['log_directory']
     if config['logtype'] == "rotate":
         fh = handlers.RotatingFileHandler(
-            logdir + config['debug_logfile'], 
-            maxBytes=10*1024*1024, 
+            logdir + config['debug_logfile'],
+            maxBytes=10*1024*1024,
             backupCount=10
         )
     else:
         fh = logging.FileHandler(
-            logdir + config['debug_logfile'], 
-            mode='w', 
+            logdir + config['debug_logfile'],
+            mode='w',
             encoding="utf-8"
         )
 
-    if (config['loglevel']==1):
+    if (config['loglevel'] == 1):
         fh.setLevel(logging.DEBUG)
     else:
         fh.setLevel(logging.INFO)
 
     eh = logging.FileHandler(
-        logdir+config['error_logfile'], 
-        delay=True, 
+        logdir+config['error_logfile'],
+        delay=True,
         encoding="utf-8"
     )
     eh.setLevel(logging.ERROR)
 
-
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
-
-
 
     formatter = logging.Formatter(
         '%(asctime)s %(levelname)s [%(name)s]: %(message)s')
@@ -124,7 +121,6 @@ def init_logger(config):
 
     logger2 = logging.getLogger('webdb')
     logger2.setLevel(logging.DEBUG)
-
 
     logger.addHandler(fh)
     logger.addHandler(ch)
@@ -184,7 +180,7 @@ class WebScraperCommandLineParser:
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
-        
+
         with open(args.config) as json_data:
             config = json.load(json_data)
 
@@ -213,12 +209,13 @@ class WebScraperCommandLineParser:
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
-        
+
         with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
-        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
+        connection = webdb.db.open_db_readonly(
+            config['database_directory']+config['database'])
         cursor = connection.cursor()
         content_types = webdb.interface.get_content_types(cursor)
         sessions = webdb.interface.get_sessions(cursor)
@@ -251,13 +248,14 @@ class WebScraperCommandLineParser:
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
-        
+
         with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
-        
-        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
+
+        connection = webdb.db.open_db_readonly(
+            config['database_directory']+config['database'])
         cursor = connection.cursor()
         sessions = webdb.interface.get_sessions(cursor)
 
@@ -291,13 +289,14 @@ class WebScraperCommandLineParser:
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
-        
+
         with open(args.config) as json_data:
             config = json.load(json_data)
 
         init_logger(config)
         statinfo = os.stat(config['database_directory']+config['database'])
-        connection = webdb.db.open_db_readonly(config['database_directory']+config['database'])
+        connection = webdb.db.open_db_readonly(
+            config['database_directory']+config['database'])
         cursor = connection.cursor()
 
         info = webdb.info.info(cursor)
@@ -358,7 +357,7 @@ class WebScraperCommandLineParser:
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
-        
+
         with open(args.config) as json_data:
             config = json.load(json_data)
 
@@ -366,12 +365,13 @@ class WebScraperCommandLineParser:
         log_banner()
 
         content_handler_logger = ContentHandlerLogger()
-        content_handler_sqlite = ContentHandlerSqlite(config['database_directory']+config['database'])
+        content_handler_sqlite = ContentHandlerSqlite(
+            config['database_directory']+config['database'])
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
         request_to_response_factory = factories.RequestToInternet()
-        webscraper=WebScraper()
+        webscraper = WebScraper()
         webscraper.webscraper(
             url=config['url'],
             request_to_response_factory=request_to_response_factory,
@@ -390,7 +390,7 @@ class WebScraperCommandLineParser:
         parser.add_argument('session_id', type=int)
         parser.add_argument('dirname', type=str)
         parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-        
+
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
@@ -402,17 +402,16 @@ class WebScraperCommandLineParser:
         log_banner()
 
         request_to_response_factory = factories.RequestToDatabase(
-            config['database_directory']+config['database'], 
+            config['database_directory']+config['database'],
             args.session_id
         )
-        
+
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
         link_filter = LinkFilter(config)
 
-        webscraper=WebScraper()
-        
+        webscraper = WebScraper()
 
         webscraper.webscraper(
             url=config['url'],
@@ -421,6 +420,7 @@ class WebScraperCommandLineParser:
             download_img=True,
             link_filter=link_filter.filter
         )
+
 
 def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
@@ -432,7 +432,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 
 def main():
-        
+
      # Install exception handler
     sys.excepthook = handle_exception
     WebScraperCommandLineParser()
