@@ -1,6 +1,8 @@
 import logging
 import logging.handlers as handlers
 import re
+from urllib.parse import urlparse, urlunparse
+
 
 LOGDIR = "log/"
 LOGTYPE = "single"
@@ -89,6 +91,7 @@ class LinkFilter:
             })
 
     def filter(self, x, depth):
+        #self.logger.info(urlparse(x))
         for filt in self.filters:
             regex = filt['regex']
             if regex.match(x):
