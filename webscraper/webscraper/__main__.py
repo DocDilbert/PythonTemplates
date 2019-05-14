@@ -23,55 +23,15 @@ import webscraper.request_factories as factories
 
 from version import __version__
 
-CRAWL_DELAY = 0  # 1 second delay per request
+
 # chrome 70.0.3538.77
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 }
 
-CONFIG_FILE_NAME = "webscraper.json"
-
 # create logger
 module_logger = logging.getLogger('webscraper')
-
-
-class LinkFilter:
-    def __init__(self, config):
-        self.logger = logging.getLogger(
-            'webscraper.LinkFilter')
-        self.filters = []
-        for filt in config['link_filters']:
-            regex = filt['regex']
-
-            self.filters.append({
-                'regex': re.compile(regex),
-                'occurences': 0,
-                'max_occurences': filt['max_occurences'],
-                'max_depth': filt['max_depth']
-            })
-
-    def filter(self, x, depth):
-        for filt in self.filters:
-            regex = filt['regex']
-            if regex.match(x):
-                filt['occurences'] = filt['occurences']+1
-
-                if (filt['max_occurences'] == -1) or (filt['occurences'] <= filt['max_occurences']):
-
-                    if (filt['max_depth'] != -1) and (depth >= filt['max_depth']):
-                        self.logger.debug("Denied (too deep) \"%s\"", x)
-                        return False
-                    else:
-                        self.logger.debug("Link accepted \"%s\"", x)
-                        return True
-                else:
-                    self.logger.debug(
-                        "Link denied (too much much occurences) \"%s\"", x)
-                    return False
-
-        self.logger.debug("Link denied (no regex match) \"%s\"", x)
-        return False
 
 
 def log_banner():
@@ -80,63 +40,16 @@ def log_banner():
     module_logger.info("-------------------------------------")
 
 
-def init_logger(config):
-    logdir = config['log_directory']
-    if config['logtype'] == "rotate":
-        fh = handlers.RotatingFileHandler(
-            logdir + config['debug_logfile'],
-            maxBytes=10*1024*1024,
-            backupCount=10
-        )
-    else:
-        fh = logging.FileHandler(
-            logdir + config['debug_logfile'],
-            mode='w',
-            encoding="utf-8"
-        )
-
-    if (config['loglevel'] == 1):
-        fh.setLevel(logging.DEBUG)
-    else:
-        fh.setLevel(logging.INFO)
-
-    eh = logging.FileHandler(
-        logdir+config['error_logfile'],
-        delay=True,
-        encoding="utf-8"
-    )
-    eh.setLevel(logging.ERROR)
-
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
-
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s [%(name)s]: %(message)s')
-    fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
-    eh.setFormatter(formatter)
-
-    logger = logging.getLogger('webscraper')
-    logger.setLevel(logging.DEBUG)
-
-    logger2 = logging.getLogger('webdb')
-    logger2.setLevel(logging.DEBUG)
-
-    logger.addHandler(fh)
-    logger.addHandler(ch)
-    logger.addHandler(eh)
-
-    logger2.addHandler(fh)
-    logger2.addHandler(ch)
-    logger2.addHandler(eh)
-
-
 class WebScraperCommandLineParser:
+    def load_scrapconf(self, name):
+        mod = __import__(name, fromlist=[''])
+        return mod
+
     def __init__(self):
         parser = argparse.ArgumentParser(
             prog="webscraper",
             description='',
-            usage=("webscraper <command> [<args]\n"
+            usage=("webscraper <scrapconf> <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
                    "   init     Initializes the directories and database file.\n"
@@ -145,6 +58,11 @@ class WebScraperCommandLineParser:
                    "   slist    Shows a list of stored sessions.\n"
                    "   count    Count the stored content per session.\n"
                    "   info     Shows some useful info of the database.")
+        )
+
+        parser.add_argument(
+            'scrapconf',
+            help='Webscraper configuration .py'
         )
 
         parser.add_argument(
@@ -157,65 +75,57 @@ class WebScraperCommandLineParser:
             action='version',
             version='%(prog)s {version}'.format(version=__version__)
         )
-        args = parser.parse_args(sys.argv[1:2])
+
+        args = parser.parse_args(sys.argv[1:3])
 
         if not hasattr(self, args.command):
             print('Unrecognized command')
             parser.print_help()
             exit(1)
+        scrapconf = self.load_scrapconf(args.scrapconf)
 
         # use dispatch pattern to invoke method with same name
-        getattr(self, args.command)()
+        getattr(self, args.command)(scrapconf)
 
-    def init(self):
+    def init(self, scrapconf):
+
         parser = argparse.ArgumentParser(
             prog="webscraper init",
             description='Initializes the directories and database file.'
         )
-
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        logdir = config['log_directory']
+        logdir = scrapconf.LOG_DIR
         if not os.path.exists(logdir):
             module_logger.info("Created directory %s", logdir)
             os.mkdir(logdir)
 
-        init_logger(config)
+        scrapconf.init_logger()
 
-        dbdir = config['database_directory']
+        dbdir = scrapconf.DATABASE_DIR
         if not os.path.exists(dbdir):
             module_logger.info("Created directory %s", dbdir)
             os.mkdir(dbdir)
 
-    def count(self):
+    def count(self, scrapconf):
         parser = argparse.ArgumentParser(
             prog="webscraper slist",
             description='Stores web content into a database'
         )
 
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        init_logger(config)
+        scrapconf.init_logger()
         connection = webdb.db.open_db_readonly(
-            config['database_directory']+config['database'])
+            scrapconf.DATABASE_DIR+scrapconf.DATABASE)
         cursor = connection.cursor()
         content_types = webdb.interface.get_content_types(cursor)
         sessions = webdb.interface.get_sessions(cursor)
@@ -235,27 +145,22 @@ class WebScraperCommandLineParser:
                     content_type, responses_count))
             print("{:4} -- {}".format(session_id, ", ".join(stats)))
 
-    def slist(self):
+    def slist(self, scrapconf):
         parser = argparse.ArgumentParser(
             prog="webscraper slist",
             description='Stores web content into a database'
         )
 
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        init_logger(config)
+        scrapconf.init_logger()
 
         connection = webdb.db.open_db_readonly(
-            config['database_directory']+config['database'])
+            scrapconf.DATABASE_DIR+scrapconf.DATABASE)
         cursor = connection.cursor()
         sessions = webdb.interface.get_sessions(cursor)
 
@@ -276,27 +181,23 @@ class WebScraperCommandLineParser:
                 delta_last,
             ))
 
-    def info(self):
+    def info(self, scrapconf):
+
         parser = argparse.ArgumentParser(
             prog="webscraper info",
             description='Stores web content into a database'
         )
 
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        init_logger(config)
-        statinfo = os.stat(config['database_directory']+config['database'])
+        scrapconf.init_logger()
+        statinfo = os.stat(scrapconf.DATABASE_DIR+scrapconf.DATABASE)
         connection = webdb.db.open_db_readonly(
-            config['database_directory']+config['database'])
+            scrapconf.DATABASE_DIR+scrapconf.DATABASE)
         cursor = connection.cursor()
 
         info = webdb.info.info(cursor)
@@ -344,43 +245,37 @@ class WebScraperCommandLineParser:
                 statinfo.st_size/1024/info['session']
             ))
 
-    def sql(self):
+    def sql(self, scrapconf):
         parser = argparse.ArgumentParser(
             prog="webscraper sql",
             description='Stores web content into a database'
         )
-
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
-
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        init_logger(config)
+        scrapconf.init_logger()
         log_banner()
 
         content_handler_logger = ContentHandlerLogger()
         content_handler_sqlite = ContentHandlerSqlite(
-            config['database_directory']+config['database'])
+            scrapconf.DATABASE_DIR+scrapconf.DATABASE)
 
         content_handler_sqlite.set_component(content_handler_logger)
-        link_filter = LinkFilter(config)
+        link_filter = scrapconf.LinkFilter()
         request_to_response_factory = factories.RequestToInternet()
         webscraper = WebScraper()
         webscraper.webscraper(
-            url=config['url'],
+            url=scrapconf.URL,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_sqlite,
             download_img=True,
             link_filter=link_filter.filter
         )
 
-    def extract(self):
+    def extract(self, scrapconf):
         parser = argparse.ArgumentParser(
             prog="webscraper extract",
             description='Extract web content from database'
@@ -389,32 +284,28 @@ class WebScraperCommandLineParser:
         # prefixing the argument with -- means it's optional
         parser.add_argument('session_id', type=int)
         parser.add_argument('dirname', type=str)
-        parser.add_argument('--config', type=str, default=CONFIG_FILE_NAME)
 
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
+        args = parser.parse_args(sys.argv[3:])
 
-        with open(args.config) as json_data:
-            config = json.load(json_data)
-
-        init_logger(config)
+        scrapconf.init_logger()
         log_banner()
 
         request_to_response_factory = factories.RequestToDatabase(
-            config['database_directory']+config['database'],
+            scrapconf.DATABASE_DIR+scrapconf.DATABASE,
             args.session_id
         )
 
         content_handler_filesystem = ContentHandlerFilesystem(args.dirname)
         content_handler_logger = ContentHandlerLogger()
         content_handler_filesystem.set_component(content_handler_logger)
-        link_filter = LinkFilter(config)
+        link_filter = scrapconf.LinkFilter()
 
         webscraper = WebScraper()
 
         webscraper.webscraper(
-            url=config['url'],
+            url=scrapconf.URL,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_filesystem,
             download_img=True,
