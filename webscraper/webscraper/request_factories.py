@@ -62,6 +62,7 @@ class RequestToDatabase:
        
 
     def get(self):    
+        # This is used for spawning multiple processes
         global __CURSOR__   
         __CURSOR__  = webdb.db.open_db_readonly(self.db_name).cursor()
         
