@@ -17,7 +17,7 @@ import pprint
 from collections import deque
 import multiprocessing
 import pickle
-
+import platform
 
 # create logger
 module_logger = logging.getLogger('webscraper.webscraper')
@@ -234,13 +234,16 @@ class WebScraper:
         download_img=False,
         link_filter=None
     ):
-        
         content_handler.session_started()
         tasks = multiprocessing.JoinableQueue()
         results = multiprocessing.Queue()
 
         # Start consumers
-        num_consumers = multiprocessing.cpu_count() * 2
+
+        if platform.system() == "Windows":
+            num_consumers = 4
+        else:
+            num_consumers = multiprocessing.cpu_count() * 2
         self.logger.info('Creating %d consumers', num_consumers)
 
         
