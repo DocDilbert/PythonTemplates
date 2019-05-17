@@ -241,9 +241,10 @@ class WebScraper:
         # Start consumers
 
         if platform.system() == "Windows":
-            num_consumers = 4
+            num_consumers = multiprocessing.cpu_count() * 2 #4
         else:
             num_consumers = multiprocessing.cpu_count() * 2
+            
         self.logger.info('Creating %d consumers', num_consumers)
 
         

@@ -9,6 +9,7 @@ import argparse
 import requests
 import time
 from urllib.parse import urlparse, urlunparse
+from cProfile import Profile
 
 import webdb
 
@@ -32,13 +33,15 @@ def print_banner():
     print("-------------------------------------")
 
 
-class WebScraperCommandLineParser:
+class CommandLineParser:
     def load_scrapconf(self, name):
         mod = __import__(name, fromlist=[''])
         return mod
 
     def __init__(self, argv):
         self.argv = argv
+        self.logger = logging.getLogger('webscraper.command_line_parser.CommandLineParser')
+
         parser = argparse.ArgumentParser(
             prog="webscraper",
             description='',
@@ -243,11 +246,18 @@ class WebScraperCommandLineParser:
             prog="webscraper sql",
             description='Stores web content into a database'
         )
+
         # prefixing the argument with -- means it's optional
         #parser.add_argument('--amend', action='store_true')
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        _args = parser.parse_args(self.argv[3:])
+        parser.add_argument(
+            '--profile',
+            action='store_true'
+        )
+
+       
+        args = parser.parse_args(self.argv[3:])
 
         scrapconf.init_logger()
         print_banner()
@@ -260,6 +270,11 @@ class WebScraperCommandLineParser:
         link_filter = scrapconf.LinkFilter()
         request_to_response_factory = factories.RequestToInternet()
         webscraper = WebScraper()
+
+        if args.profile:
+            prof = Profile()
+            prof.enable()
+
         webscraper.webscraper(
             url=scrapconf.URL,
             request_to_response_factory=request_to_response_factory,
@@ -267,6 +282,10 @@ class WebScraperCommandLineParser:
             download_img=True,
             link_filter=link_filter.filter
         )
+
+        if args.profile:
+            prof.disable()  # don't profile the generation of stats
+            prof.dump_stats('webscraper.prof')
 
     def extract(self, scrapconf):
         parser = argparse.ArgumentParser(
