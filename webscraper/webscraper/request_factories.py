@@ -13,6 +13,7 @@ HEADERS = {
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 }
 
+
 class RequestInternetFcn:
     def __init__(self):
         pass
@@ -20,10 +21,9 @@ class RequestInternetFcn:
     def __call__(self, request):
 
         response_raw = requests.get(
-            request.get_url(), 
+            request.get_url(),
             headers=HEADERS
         )
-        
 
         response = Response.fromGMT(
             status_code=response_raw.status_code,
@@ -33,19 +33,21 @@ class RequestInternetFcn:
         )
 
         return response
-class RequestToInternet:
 
+
+class RequestToInternet:
     def __init__(self):
         pass
 
     def get(self):
         return RequestInternetFcn()
 
+
 class RequestDatabaseFcn:
-    
+
     def __init__(self,  session_id):
         self.session_id = session_id
-    
+
     def __call__(self, request):
 
         response, _ = webdb.filters.get_response_where_session_id_and_request(
@@ -55,16 +57,15 @@ class RequestDatabaseFcn:
         )
         return response
 
+
 class RequestToDatabase:
     def __init__(self, db_name, session_id):
         self.session_id = session_id
         self.db_name = db_name
-       
 
-    def get(self):    
+    def get(self):
         # This is used for spawning multiple processes
-        global __CURSOR__   
-        __CURSOR__  = webdb.db.open_db_readonly(self.db_name).cursor()
-        
-        return RequestDatabaseFcn(self.session_id)
+        global __CURSOR__
+        __CURSOR__ = webdb.db.open_db_readonly(self.db_name).cursor()
 
+        return RequestDatabaseFcn(self.session_id)
