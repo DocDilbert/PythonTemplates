@@ -94,10 +94,10 @@ def insert_response(cursor, request, response):
         response.content_type
     )
 
-    content_id = cache.create_or_get_content_id(
+    content_id = cache.create_or_get_bz2content_id(
         cursor,
         request,
-        response.content
+        response.bz2Content
     )
     sql = ("INSERT INTO RESPONSES ("
            "STATUS_CODE,"
@@ -245,7 +245,7 @@ def get_response_where_response_id(cursor, response_id):
         status_code= x[0],
         date= datetime.fromtimestamp(x[1]),
         content_type= cache.get_content_type_where_content_type_id(cursor, x[2]),
-        content= cache.get_content_where_content_id(cursor, content_id)
+        bz2Content= cache.get_bz2content_where_content_id(cursor, content_id)
     )
 
     module_logger.debug(

@@ -1,5 +1,4 @@
 import logging
-import bz2
 import sqlite3
 
 import webdb.interface 
@@ -11,7 +10,6 @@ from webdb.exceptions import (
 )
 module_logger = logging.getLogger('webdb.cache')
 
-COMPRESSION_LEVEL = 9
 BLOB_STR_LENGTH = 10
 
 
@@ -180,7 +178,7 @@ def create_or_get_content_type_id(cursor, content_type):
 # CONTENT CACHE
 #############################################################
 
-def get_content_where_content_id(cursor, content_id):
+def get_bz2content_where_content_id(cursor, content_id):
     """ Extrahiert das unter der content_id in der Tabelle CONTENT_CACHE 
     abgelegten Blob.
 
@@ -201,45 +199,43 @@ def get_content_where_content_id(cursor, content_id):
     cursor.execute(sql, sqlparams)
     x = cursor.fetchone()
 
-    content = bz2.decompress(x[0])
+    bz2Content = x[0]
 
-    l = min(len(content), BLOB_STR_LENGTH)
+    l = min(len(bz2Content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "Got \"%s ...\" with id = %i from CONTENT_CACHE.", str(content[0:l]), content_id)
+        "Got \"%s ...\" with id = %i from CONTENT_CACHE.", str(bz2Content[0:l]), content_id)
 
-    return content
+    return bz2Content
 
-def insert_content(cursor, content):
+def insert_bz2content(cursor, bz2Content):
     sql = ("INSERT INTO CONTENT_CACHE ("
            "CONTENT"
            ") VALUES (?);")
 
-    content_compressed = bz2.compress(content, COMPRESSION_LEVEL)
 
-    module_logger.debug("Compression of content reduced the file size to %.3f %% of the original size.",
-                        len(content_compressed)/len(content)*100.0)
+
     cursor.execute(sql, [
-        sqlite3.Binary(content_compressed)
+        sqlite3.Binary(bz2Content)
     ])
 
     content_id = int(cursor.lastrowid)
 
-    l = min(len(content), BLOB_STR_LENGTH)
+    l = min(len(bz2Content), BLOB_STR_LENGTH)
 
     module_logger.debug(
-        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(content[0:l]), content_id)
+        "sql: INSERT \"%s ...\" into CONTENT_CACHE. Id is %i.", str(bz2Content[0:l]), content_id)
 
     return content_id
 
-def create_or_get_content_id(cursor, request, content):
+def create_or_get_bz2content_id(cursor, request, bz2Content):
     try:
         (newest_response, newest_response_metadata) = get_newest_response_where_request(
             cursor, request)
 
-        if (content != newest_response.content):
+        if (bz2Content != newest_response.bz2Content):
             module_logger.debug("The received response content is new.")
-            return insert_content(cursor, content)
+            return insert_bz2content(cursor, bz2Content)
         else:
             module_logger.debug(
                 "The received response content was stored beforehand. Using this instead.")
@@ -250,7 +246,7 @@ def create_or_get_content_id(cursor, request, content):
         module_logger.debug(
             "This is the first time the request %s was perfomed.", request)
 
-        return insert_content(cursor, content)
+        return insert_bz2content(cursor, bz2Content)
 
 
 def get_newest_response_where_request(cursor, request):
