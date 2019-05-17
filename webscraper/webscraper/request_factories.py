@@ -2,10 +2,12 @@ import logging
 import requests
 import webdb
 import sys
+import bz2
 from webtypes.request import Request
 from webtypes.response import Response
 
 __CURSOR__ = None
+COMPRESSION_LEVEL = 9
 
 # chrome 70.0.3538.77
 HEADERS = {
@@ -29,7 +31,7 @@ class RequestInternetFcn:
             status_code=response_raw.status_code,
             date_gmt=response_raw.headers['Date'],
             content_type=response_raw.headers['Content-Type'],
-            content=response_raw.content
+            bz2Content=bz2.compress(response_raw.content, COMPRESSION_LEVEL)
         )
 
         return response

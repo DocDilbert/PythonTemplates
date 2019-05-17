@@ -244,7 +244,7 @@ class WebScraper:
             num_consumers = multiprocessing.cpu_count() * 2 #4
         else:
             num_consumers = multiprocessing.cpu_count() * 2
-            
+
         self.logger.info('Creating %d consumers', num_consumers)
 
         
@@ -287,7 +287,7 @@ class WebScraper:
         ))
 
         while(len(task_set) != 0):
-            to_download = results.get(block=True, timeout=5)
+            to_download = results.get(block=True)
 
             # keep track how much task are running
             task_set.remove(to_download['task_id'])

@@ -9,12 +9,14 @@ class Response:
         self.content_type = content_type
         self.status_code = status_code
         self.date = date
-
+        self.must_decompress = False
+        self.must_compress = False
         if content is not None and bz2Content is None:
             self.content = content
 
         elif content is None and bz2Content is not None:
             self.bz2Content = bz2Content
+            
         else:
             raise Exception("No content was given to create Response object")
         
@@ -43,19 +45,28 @@ class Response:
         return self.__str__()
 
     def getContent(self):
-        return self.__content
+        if self.must_decompress:
+            return bz2.decompress(self.__bz2Content)
+        else:
+            return self.__content
 
     def setContent(self, x):
-        self.__bz2Content = bz2.compress(x, COMPRESSION_LEVEL)
+        self.must_compress = True
+        self.must_decompress = False
         self.__content = x
 
     content = property(getContent, setContent)
 
     def getBz2Content(self):
-        return self.__bz2Content
+        if self.must_compress:
+            return bz2.compress(self.__content, COMPRESSION_LEVEL)
+        else:
+            return self.__bz2Content
 
     def setBz2Content(self, x):
-        self.__content = bz2.decompress(x)
+        #self.__content = bz2.decompress(x)
         self.__bz2Content = x
+        self.must_decompress = True
+        self.must_compress = False
 
     bz2Content = property(getBz2Content, setBz2Content)
