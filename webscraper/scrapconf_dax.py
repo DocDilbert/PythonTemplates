@@ -1,7 +1,7 @@
 import logging
 import logging.handlers as handlers
 from urllib.parse import urlparse, urlunparse
-
+import re
 
 LOGDIR = "log/"
 LOGTYPE = "single"
@@ -11,10 +11,9 @@ LOGFILE_ERRORS = "webscraper_errors.log"
 DATABASE_DIR  = "data/"
 DATABASE = "webscraper.db"
 
-DOWNLOAD_IMGS = True
-URL =  ("https://www.stepstone.de/5/ergebnisliste.html?"
-       "fu=10012000%2C10006000%2C10007000%2C10002000%2C10022000%2C10013000%2C10014000%2C10015000%2C10020000%2C10011000%2C10017000%2C10016000%2C10009008%2C10004000%2C10005000%2C10009007%2C10018000%2C10024000%2C10010005%2C10019000%2C10008000%2C10009010%2C10021000%2C10009001%2C10009005%2C10001000%2C10009009%2C10023000%2C10009006%2C10010000&"
-       "fre=200000096&an=facets&li=100&wt=80001&ct=222&fu=1000000&fid=1000000&fn=categories&fa=select")
+DOWNLOAD_IMGS = False
+
+URL =  ("https://www.boerse.de/realtime-kurse/Dax-Aktien/DE0008469008")
 
 
 def init_logger():
@@ -58,7 +57,7 @@ def init_logger():
     logger2.setLevel(logging.INFO)
 
     logger3 = logging.getLogger('scrapconf')
-    logger3.setLevel(logging.INFO)
+    logger3.setLevel(logging.DEBUG)
 
     logger.addHandler(fh)
     logger.addHandler(ch)
@@ -73,41 +72,35 @@ def init_logger():
     logger3.addHandler(eh)
 
 
-
 class LinkFilter:
     def __init__(self):
         self.logger = logging.getLogger('scrapconf.LinkFilter')
         self.occurences = 0
-        self.max_depth = -1
+        self.max_depth = 1
         self.max_occurences = 100
+        self.regex_aktien = re.compile(r"\/aktien\/.*\/.{12}")
 
     def filter(self, url, depth):
         #self.logger.info(urlparse(x))
-        ( _scheme, 
-           _netloc, 
-           _path, 
-           _params,
-           query, 
-           _fragment
+        (   scheme, 
+            netloc, 
+            path, 
+            params,
+            query, 
+            fragment
         ) = urlparse(url)
 
-        queries = query.split("&")
-        
-        if ("an=paging%5Fnext" in queries) or ("action=paging_next" in queries):
-            self.occurences = self.occurences + 1
 
-            if (self.max_occurences == -1) or (self.occurences <= self.max_occurences):
-
-                if (self.max_depth != -1) and (depth >= self.max_depth):
-                    self.logger.debug("Denied (too deep) \"%s\"", url)
-                    return False
-                else:
-                    self.logger.debug("Link accepted \"%s\"", url)
-                    return True
-            else:
-                self.logger.debug(
-                    "Link denied (too much much occurences) \"%s\"", url)
+        if self.regex_aktien.match(path):
+            if (depth >= self.max_depth):
+                self.logger.debug("Denied (too deep) \"%s\"", url)
                 return False
+            else:
+                self.logger.debug("Link accepted \"%s\"", url)
+                return True
+            
 
-        self.logger.debug("Link denied (no regex match) \"%s\"", url)
+        self.logger.debug('Link denied {scheme="%s", netloc="%s", '
+                          'path="%s", params="%s", query="%s", fragment="%s"}', 
+            scheme, netloc,path,params,query, fragment)
         return False

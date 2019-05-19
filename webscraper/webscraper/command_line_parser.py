@@ -279,7 +279,7 @@ class CommandLineParser:
             url=scrapconf.URL,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_sqlite,
-            download_img=True,
+            download_img=scrapconf.DOWNLOAD_IMGS,
             link_filter=link_filter.filter
         )
 
@@ -320,7 +320,7 @@ class CommandLineParser:
             url=scrapconf.URL,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_filesystem,
-            download_img=True,
+            download_img=scrapconf.DOWNLOAD_IMGS,
             link_filter=link_filter.filter
         )
 
