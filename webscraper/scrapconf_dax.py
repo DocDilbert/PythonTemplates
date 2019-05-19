@@ -16,6 +16,10 @@ SLEEP_TIME = 1.0
 URLS =  [
     ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096"), #DAX
     ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090"), #MDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=158375"), #TECDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159191"), #SDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159194"), #EUROSTOXX50
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159196"), #Stoxx Europe 50
 ]
 
 
@@ -81,13 +85,12 @@ class LinkFilter:
         self.einzelkurs_regex = re.compile(r"\/.*\/kurse_einzelkurs_uebersicht\.htn")
         self.history_regex =  re.compile(r"\/.*\/kurse_einzelkurs_history\.htn")
 
-        #https://kurse.boerse.ard.de/ard/kurse_einzelkurs_history.htn?i=38709702
         self.visited = set()
     def check_next_page(self, url):
 
         up = urlparse(url)
         queries = up.query.split("&")
-        #print(queries)
+        
         if "sortierung=descriptionShort" not in queries:
             return False
         if "offset=0" in queries:
@@ -100,6 +103,7 @@ class LinkFilter:
                 return True
 
         return False
+
     def filter(self, url, url_history):
         #self.logger.info(urlparse(x))
         up = urlparse(url)
