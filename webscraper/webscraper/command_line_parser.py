@@ -268,7 +268,9 @@ class CommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = scrapconf.LinkFilter()
-        request_to_response_factory = factories.RequestToInternet()
+        request_to_response_factory = factories.RequestToInternet(
+            scrapconf.SLEEP_TIME
+        )
         webscraper = WebScraper()
 
         if args.profile:

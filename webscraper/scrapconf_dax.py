@@ -12,7 +12,7 @@ DATABASE_DIR  = "data/"
 DATABASE = "webscraper.db"
 
 DOWNLOAD_IMGS = False
-
+SLEEP_TIME = 1.0
 URL =  ("https://www.boerse.de/realtime-kurse/Dax-Aktien/DE0008469008")
 
 
@@ -75,12 +75,9 @@ def init_logger():
 class LinkFilter:
     def __init__(self):
         self.logger = logging.getLogger('scrapconf.LinkFilter')
-        self.occurences = 0
-        self.max_depth = 1
-        self.max_occurences = 100
         self.regex_aktien = re.compile(r"\/aktien\/.*\/.{12}")
 
-    def filter(self, url, depth):
+    def filter(self, url, url_history):
         #self.logger.info(urlparse(x))
         (   scheme, 
             netloc, 
@@ -92,7 +89,7 @@ class LinkFilter:
 
 
         if self.regex_aktien.match(path):
-            if (depth >= self.max_depth):
+            if (len(url_history) >= 1):
                 self.logger.debug("Denied (too deep) \"%s\"", url)
                 return False
             else:
