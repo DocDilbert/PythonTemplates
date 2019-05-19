@@ -4,6 +4,6 @@ dist:
 clean:
 	rm -fr page*
 	rm -fr dist
-	rm -fr data
+	rm -fr data*
 
 .PHONY: dist clean

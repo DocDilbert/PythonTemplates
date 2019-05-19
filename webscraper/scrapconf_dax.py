@@ -8,12 +8,12 @@ LOGTYPE = "single"
 LOGFILE_DEBUG = "webscraper.log"
 LOGFILE_ERRORS = "webscraper_errors.log"
 
-DATABASE_DIR  = "data/"
+DATABASE_DIR  = "data_dax/"
 DATABASE = "webscraper.db"
 
 DOWNLOAD_IMGS = False
 SLEEP_TIME = 1.0
-URL =  ("https://www.boerse.de/realtime-kurse/Dax-Aktien/DE0008469008")
+URL =  ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096")
 
 
 def init_logger():
@@ -75,8 +75,8 @@ def init_logger():
 class LinkFilter:
     def __init__(self):
         self.logger = logging.getLogger('scrapconf.LinkFilter')
-        self.regex_aktien = re.compile(r"\/aktien\/.*\/.{12}")
-
+        self.einzelkurs_regex = re.compile(r"\/.*\/kurse_einzelkurs_uebersicht\.htn")
+        self.history_regex =  re.compile(r"\/.*\/kurse_einzelkurs_history\.htn")
     def filter(self, url, url_history):
         #self.logger.info(urlparse(x))
         (   scheme, 
@@ -87,17 +87,10 @@ class LinkFilter:
             fragment
         ) = urlparse(url)
 
-
-        if self.regex_aktien.match(path):
-            if (len(url_history) >= 1):
-                self.logger.debug("Denied (too deep) \"%s\"", url)
-                return False
-            else:
-                self.logger.debug("Link accepted \"%s\"", url)
+        if len(url_history)==0:
+            if self.einzelkurs_regex.match(path):
                 return True
-            
-
-        self.logger.debug('Link denied {scheme="%s", netloc="%s", '
-                          'path="%s", params="%s", query="%s", fragment="%s"}', 
-            scheme, netloc,path,params,query, fragment)
+        elif len(url_history)==1:
+            if self.history_regex.match(path):
+                return True
         return False
