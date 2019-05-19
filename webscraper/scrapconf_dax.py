@@ -13,7 +13,10 @@ DATABASE = "webscraper.db"
 
 DOWNLOAD_IMGS = False
 SLEEP_TIME = 1.0
-URL =  ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096")
+URLS =  [
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096"), #DAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090"), #MDAX
+]
 
 
 def init_logger():
@@ -57,7 +60,7 @@ def init_logger():
     logger2.setLevel(logging.INFO)
 
     logger3 = logging.getLogger('scrapconf')
-    logger3.setLevel(logging.DEBUG)
+    logger3.setLevel(logging.INFO)
 
     logger.addHandler(fh)
     logger.addHandler(ch)
@@ -77,20 +80,54 @@ class LinkFilter:
         self.logger = logging.getLogger('scrapconf.LinkFilter')
         self.einzelkurs_regex = re.compile(r"\/.*\/kurse_einzelkurs_uebersicht\.htn")
         self.history_regex =  re.compile(r"\/.*\/kurse_einzelkurs_history\.htn")
+
+        #https://kurse.boerse.ard.de/ard/kurse_einzelkurs_history.htn?i=38709702
+        self.visited = set()
+    def check_next_page(self, url):
+
+        up = urlparse(url)
+        queries = up.query.split("&")
+        #print(queries)
+        if "sortierung=descriptionShort" not in queries:
+            return False
+        if "offset=0" in queries:
+            return False
+        if "ascdesc=ASC"  not in queries:
+            return False
+
+        for q in queries:
+            if "offset=" in q:
+                return True
+
+        return False
     def filter(self, url, url_history):
         #self.logger.info(urlparse(x))
-        (   scheme, 
-            netloc, 
-            path, 
-            params,
-            query, 
-            fragment
-        ) = urlparse(url)
+        up = urlparse(url)
+        path = up.path
+    
+        if url in self.visited:
+            return False
 
-        if len(url_history)==0:
+       
+        last_url = url_history[-1]
+        
+        # Check if further pages exist in list
+        if self.check_next_page(last_url) or len(url_history)==1:
+            if self.check_next_page(url):
+                self.visited.add(url)
+                return True
+
             if self.einzelkurs_regex.match(path):
+                self.visited.add(url)
                 return True
-        elif len(url_history)==1:
+
+        last_path = urlparse(last_url).path
+
+        # Wurde eine Uebersicht geholt?
+        if self.einzelkurs_regex.match(last_path):
+            # dann überprüfe auf history link
             if self.history_regex.match(path):
+                self.visited.add(url)
                 return True
+
         return False

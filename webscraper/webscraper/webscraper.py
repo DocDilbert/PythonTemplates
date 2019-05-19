@@ -152,16 +152,17 @@ class WebScraper:
                 css.add(url)
 
                 url_transf = self.transform_url(scheme, netloc, url)
-                request = Request.from_url(url_transf)
+                new_request = Request.from_url(url_transf)
+
                 content_handler.css_content_pre_request_handler(
-                    request,
+                    new_request,
                     element,
                 )
                 new_url_history = list(url_history)
-                new_url_history.append(url)
+                new_url_history.append(request.get_url())
                 add_task(Task(
                     new_url_history,
-                    request,
+                    new_request,
                     'CSS'
                 ))
 
@@ -183,16 +184,16 @@ class WebScraper:
 
                 if download_img:
                     url_transf = self.transform_url(scheme, netloc, url)
-                    request = Request.from_url(url_transf)
+                    new_request = Request.from_url(url_transf)
                     content_handler.img_content_pre_request_handler(
-                        request,
+                        new_request,
                         element,
                     )
                     new_url_history = list(url_history)
-                    new_url_history.append(url)
+                    new_url_history.append(request.get_url())
                     add_task(Task(
                         new_url_history,
-                        request,
+                        new_request,
                         'IMG',
                     ))
 
@@ -210,7 +211,10 @@ class WebScraper:
                 alist.add(url)
 
                 if link_filter:
-                    if link_filter(url, url_history):
+                    new_url_history = list(url_history)
+                    new_url_history.append(request.get_url())
+
+                    if link_filter(url, new_url_history):
                         self.logger.debug(
                             "Filter accepted url \"%s\"", url)
 
@@ -219,12 +223,11 @@ class WebScraper:
                             netloc,
                             url
                         )
-                        request = Request.from_url(url_transf)
-                        new_url_history = list(url_history)
-                        new_url_history.append(url)
+                        new_request = Request.from_url(url_transf)
+                        
                         add_task(Task(
                             new_url_history,
-                            request,
+                            new_request,
                             'HTML'
                         ))
                     else: 
@@ -235,7 +238,7 @@ class WebScraper:
 
     def webscraper(
         self,
-        url,
+        urls,
         request_to_response_factory,
         content_handler,
         download_img=False,
@@ -287,11 +290,12 @@ class WebScraper:
                 self.logger.info("Task added: %s", task)  
 
         add_task = AddTask(self.logger)
-        add_task( Task(
-            [], # no history 
-            Request.from_url(url),
-            'HTML'
-        ))
+        for url in urls:
+            add_task( Task(
+                [], # no history 
+                Request.from_url(url),
+                'HTML'
+            ))
 
         while(len(task_set) != 0):
             to_download = results.get(block=True)
