@@ -100,7 +100,7 @@ def parse_all(parseconf):
     connection = webdb.db.open_db_readonly(parseconf.DATABASE_DIR + parseconf.DATABASE)
     cursor = connection.cursor()
 
-    file_writer = FileWriter(filename = "data/stepstones_raw.json")
+    file_writer = FileWriter(filename = parseconf.RAW_DATA_DIR + parseconf.RAW_DATA_FILE)
     session_list = webdb.interface.get_sessions(cursor)
     parse_session_list(parseconf, cursor, session_list, file_writer)
 
@@ -166,7 +166,10 @@ class WebParserCommandLineParser:
             exit(1)
 
         parseconf = self.load_parseconf(args.parseconf)
-
+        dirname = parseconf.RAW_DATA_DIR
+        if not os.path.exists(dirname):
+            module_logger.info("Created directory %s", dirname)
+            os.mkdir(dirname)
         # use dispatch pattern to invoke method with same name
         getattr(self, args.command)(parseconf)
 
@@ -230,10 +233,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 def main():
 
-    dirname = "data"
-    if not os.path.exists(dirname):
-        module_logger.info("Created directory %s", dirname)
-        os.mkdir(dirname)
+   
 
     init_logger()
 
