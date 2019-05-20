@@ -92,7 +92,7 @@ class ResponseParser:
             
             self.add_entry(session_id, features_dict)
 
-def parse_session(cursor, session_id, session, regex, writer):
+def parse_session(cursor, session_id, session, writer):
 
     print("Parsing session {} / {} --> {}".format(
         session_id,
@@ -102,20 +102,10 @@ def parse_session(cursor, session_id, session, regex, writer):
     requests = webdb.filters.get_requests_where_session_id_and_content_type(
         cursor, session_id, CONTENT_TYPE)
 
-    if regex:
-        requests_filtered = (
-            request for request, _ in requests
-            if regex.match(request.path)
-        )
-    else:
-        requests_filtered = (
-            request for request, _ in requests
-        )
-
     responses = (
         webdb.filters.get_response_where_session_id_and_request(
             cursor, session_id, request)
-        for request in requests_filtered
+        for request in requests
     )
 
     response_parser = ResponseParser(add_entry=writer.add_entry)
@@ -123,11 +113,11 @@ def parse_session(cursor, session_id, session, regex, writer):
         response_parser.parse(session_id, response)
 
 
-def parse_session_list(cursor, session_list, regex, writer):
+def parse_session_list(cursor, session_list, writer):
     for session, meta in session_list:
         session_id = meta['session_id']
         try:
-            parse_session(cursor, session_id, session, regex, writer)
+            parse_session(cursor, session_id, session, writer)
         except:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             module_logger.exception("Parse session exception", exc_info=(
@@ -147,46 +137,14 @@ def parse_all():
     connection = webdb.db.open_db_readonly("data/webscraper.db")
     cursor = connection.cursor()
 
-    #regex = re.compile("/tankstelle/")
-    regex = None
-
     file_writer = FileWriter(filename = "data/stepstones_raw.json")
     session_list = webdb.interface.get_sessions(cursor)
-    parse_session_list(cursor, session_list, regex, file_writer)
+    parse_session_list(cursor, session_list, file_writer)
+
     file_writer.write_file()
     end = time.time()
     max_sessions = session_list[-1][1]['session_id']
     print_exec_time(start, end, max_sessions)
-
-
-def parse_append():
-    start = time.time()
-    with open("out.csv", "r") as fp:
-        lines = fp.readlines()
-
-    last_session_id = int(lines[-1].split(';')[0])
-
-    connection = webdb.db.open_db_readonly("data/webscraper.db")
-    cursor = connection.cursor()
-
-    session_list = [
-        (session, meta) for session, meta in webdb.interface.get_sessions(cursor)
-        if meta['session_id'] > last_session_id
-    ]
-
-    if len(session_list) == 0:
-        print("No new sessions found.")
-        return
-
-    regex = re.compile("/tankstelle/")
-    
-    file_writer = FileWriter(filename = "stepstones_raw.json")
-    parse_session_list(cursor, session_list, regex, file_writer)
-    end = time.time()
-
-    max_sessions = session_list[-1][1]['session_id']
-    print_exec_time(start, end, max_sessions)
-
 
 def parse_single(session_id):
     start = time.time()
@@ -201,10 +159,9 @@ def parse_single(session_id):
     if len(session_list) != 1:
         raise SessionIdUnknown()
 
-    #regex = re.compile("/tankstelle/")
-    regex = None
+
     file_writer = ConsoleWriter()
-    parse_session_list(cursor, session_list, regex, file_writer)
+    parse_session_list(cursor, session_list, file_writer)
     end = time.time()
 
     max_sessions = session_list[-1][1]['session_id']
@@ -220,7 +177,6 @@ class WebParserCommandLineParser:
                    "\n"
                    "The following commands are supported:\n"
                    "   all      parses all sessions stored in the database\n"
-                   "   appends  appends new sessions\n"
                    "   single   parses a single session stored in the database\n")
         )
 
@@ -246,9 +202,6 @@ class WebParserCommandLineParser:
 
     def all(self):
         parse_all()
-
-    def append(self):
-        parse_append()
 
     def single(self):
         parser = argparse.ArgumentParser(
