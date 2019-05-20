@@ -180,7 +180,7 @@ class WebParserCommandLineParser:
             prog="webparser all",
             description='Parsesall sessions'
         )
-        args = parser.parse_args(sys.argv[3:])
+        _args = parser.parse_args(sys.argv[3:])
         parse_all(parseconf)
 
     def single(self, parseconf):
