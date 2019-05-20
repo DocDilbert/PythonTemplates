@@ -9,8 +9,10 @@ class Response:
         self.content_type = content_type
         self.status_code = status_code
         self.date = date
+        
         self.must_decompress = False
         self.must_compress = False
+
         if content is not None and bz2Content is None:
             self.content = content
 
@@ -25,7 +27,7 @@ class Response:
     def fromGMT(cls, status_code, date_gmt, content_type, *, content=None, bz2Content=None):
         dt = datetime.strptime(date_gmt, "%a, %d %b %Y %H:%M:%S %Z")
 
-        # Assume time is in gmt ... got to local time instead
+        # Assume time is in gmt ... use local time instead
         dt += timedelta(hours=2)
 
         return cls(status_code, dt, content_type, content = content, bz2Content = bz2Content)
