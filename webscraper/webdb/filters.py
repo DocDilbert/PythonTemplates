@@ -48,7 +48,6 @@ def get_requests_where_session_id_and_content_type(cursor, session_id, content_t
 
 
 def get_response_where_session_id_and_request(cursor, session_id, request):
-
     uri_id = cache.get_uri_id_where_uri(
         cursor,
         request.scheme,

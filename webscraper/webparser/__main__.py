@@ -1,7 +1,7 @@
 import webdb
 import re
 import argparse
-from bs4 import BeautifulSoup
+
 import time
 from lxml import etree
 from version import __version__
@@ -10,11 +10,10 @@ import logging
 import json
 from urllib.parse import urlparse, urlunparse
 import os
+import pprint
 
 # create logger
 module_logger = logging.getLogger('webparser')
-
-CONTENT_TYPE = "text/html;charset=UTF-8"
 
 class SessionIdUnknown(Exception):
     pass
@@ -51,73 +50,37 @@ class ConsoleWriter:
     def add_entry(self, session_id, features_dict):
         print(features_dict)
 
-class ResponseParser:
-    def __init__(self, add_entry):
-        self.regex = re.compile(r"-(\d+)-inline\.")
-        self.add_entry = add_entry
-
-    def parse(self, session_id, response):
-        soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
-
-        results = soup.find_all("div", {"class":"job-element-row"})
-        
-        for result in results:
-            title_tag = result.find(class_='job-element__url-title-text')
-            title = title_tag.text.strip("\n")
-            
-            company_tag = result.find(class_='job-element__body__company')
-            company = company_tag.text.strip("\n")
-
-            location_tag = result.find(class_='job-element__body__location')
-            location = location_tag.text.strip("\n")
-
-            date_tag = result.find(class_='job-element__date')
-            datetime_tag = date_tag.find('time')
-
-            details_tag= result.find(class_='job-element__body__details')
-            details = details_tag.text.strip("\n")
-
-            
-            url_tag= result.find(class_="job-element__url")
-            uuid_search = self.regex.search(url_tag['href'])
-
-            features_dict = {
-                'title': title,
-                'company': company,
-                'location': location,
-                'datetime': datetime_tag['datetime'],
-                'details' : details,
-                'uuid' : uuid_search.group(1)
-            }
-            
-            self.add_entry(session_id, features_dict)
-
-def parse_session(cursor, session_id, session, writer):
+def parse_session(parseconf, cursor, session_id, session, writer):
 
     print("Parsing session {} / {} --> {}".format(
         session_id,
         session.start_datetime, session.end_datetime
     ))
 
-    requests = webdb.filters.get_requests_where_session_id_and_content_type(
-        cursor, session_id, CONTENT_TYPE)
+    content_types = webdb.interface.get_content_types(cursor)
+    html_type = next((x for x in content_types if "text/html" in x))
 
-    responses = (
-        webdb.filters.get_response_where_session_id_and_request(
-            cursor, session_id, request)
+    requests = webdb.filters.get_requests_where_session_id_and_content_type(
+        cursor, session_id, html_type)
+
+    transfers = (
+        (
+            request[0],
+            webdb.filters.get_response_where_session_id_and_request(cursor, session_id, request[0])[0]
+        )
         for request in requests
     )
 
-    response_parser = ResponseParser(add_entry=writer.add_entry)
-    for response, _ in responses:
-        response_parser.parse(session_id, response)
+    response_parser = parseconf.ResponseParser(add_entry=writer.add_entry)
+    for request, response in transfers:
+        response_parser.parse(session_id, request, response)
 
 
-def parse_session_list(cursor, session_list, writer):
+def parse_session_list(parseconf,  cursor, session_list, writer):
     for session, meta in session_list:
         session_id = meta['session_id']
         try:
-            parse_session(cursor, session_id, session, writer)
+            parse_session(parseconf, cursor, session_id, session, writer)
         except:
             exc_type, exc_value, exc_traceback = sys.exc_info()
             module_logger.exception("Parse session exception", exc_info=(
@@ -131,24 +94,24 @@ def print_exec_time(start, end, max_sessions):
         (end - start)/max_sessions))
 
 
-def parse_all():
+def parse_all(parseconf):
     start = time.time()
 
-    connection = webdb.db.open_db_readonly("data/webscraper.db")
+    connection = webdb.db.open_db_readonly(parseconf.DATABASE_DIR + parseconf.DATABASE)
     cursor = connection.cursor()
 
     file_writer = FileWriter(filename = "data/stepstones_raw.json")
     session_list = webdb.interface.get_sessions(cursor)
-    parse_session_list(cursor, session_list, file_writer)
+    parse_session_list(parseconf, cursor, session_list, file_writer)
 
     file_writer.write_file()
     end = time.time()
     max_sessions = session_list[-1][1]['session_id']
     print_exec_time(start, end, max_sessions)
 
-def parse_single(session_id):
+def parse_single(parseconf, session_id):
     start = time.time()
-    connection = webdb.db.open_db_readonly("data/webscraper.db")
+    connection = webdb.db.open_db_readonly(parseconf.DATABASE_DIR + parseconf.DATABASE)
     cursor = connection.cursor()
 
     session_list = [
@@ -161,7 +124,7 @@ def parse_single(session_id):
 
 
     file_writer = ConsoleWriter()
-    parse_session_list(cursor, session_list, file_writer)
+    parse_session_list(parseconf, cursor, session_list, file_writer)
     end = time.time()
 
     max_sessions = session_list[-1][1]['session_id']
@@ -173,11 +136,16 @@ class WebParserCommandLineParser:
         parser = argparse.ArgumentParser(
             prog="webparser",
             description='',
-            usage=("webparser <command> [<args]\n"
+            usage=("webparser <parseconf> <command> [<args]\n"
                    "\n"
                    "The following commands are supported:\n"
                    "   all      parses all sessions stored in the database\n"
                    "   single   parses a single session stored in the database\n")
+        )
+        
+        parser.add_argument(
+            'parseconf',
+            help='Parser configuration .py'
         )
 
         parser.add_argument(
@@ -190,20 +158,32 @@ class WebParserCommandLineParser:
             action='version',
             version='%(prog)s {version}'.format(version=__version__)
         )
-        args = parser.parse_args(sys.argv[1:2])
+        args = parser.parse_args(sys.argv[1:3])
 
         if not hasattr(self, args.command):
             print('Unrecognized command')
             parser.print_help()
             exit(1)
 
+        parseconf = self.load_parseconf(args.parseconf)
+
         # use dispatch pattern to invoke method with same name
-        getattr(self, args.command)()
+        getattr(self, args.command)(parseconf)
 
-    def all(self):
-        parse_all()
+    def load_parseconf(self, name):
+        mod = __import__(name, fromlist=[''])
+        return mod
 
-    def single(self):
+
+    def all(self, parseconf):
+        parser = argparse.ArgumentParser(
+            prog="webparser all",
+            description='Parsesall sessions'
+        )
+        args = parser.parse_args(sys.argv[3:])
+        parse_all(parseconf)
+
+    def single(self, parseconf):
         parser = argparse.ArgumentParser(
             prog="webparser single",
             description='Parses a single session'
@@ -215,8 +195,8 @@ class WebParserCommandLineParser:
 
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
-        args = parser.parse_args(sys.argv[2:])
-        parse_single(args.session_id)
+        args = parser.parse_args(sys.argv[3:])
+        parse_single(parseconf, args.session_id)
 
 
 def init_logger():
