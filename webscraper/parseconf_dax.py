@@ -20,6 +20,7 @@ class ResponseParser:
         isin_wkn_span = header2_div.find("span",{"class": "leftfloat bottom_aligned"})
         isin_wkn = [x.strip().split(" ")[1] for x in isin_wkn_span.text.split("|")]
 
+        sample_time_span = header2_div.find("span",{"class": "rightfloat bottom_aligned"})
         table = header2_div.find_next("table")
         gattung_td = table.find_next("td", {"headers":"gattung"})
  
@@ -28,10 +29,11 @@ class ResponseParser:
         features_dict = {
             "type" : "uebersicht",
             "index" : index,
-            "header" : header,
+            "name" : header,
             "isin" : isin_wkn[0],
             "wkn" : isin_wkn[1],
-            "gattung" : gattung_td.text
+            "gattung" : gattung_td.text,
+            "abtastzeit" : sample_time_span.text.replace(u'\xa0', u' ')
         }  
         if "Index" in gattung_td.text:
             land_td = table.find("td", {"headers":"land"})
