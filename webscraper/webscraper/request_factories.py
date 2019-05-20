@@ -5,7 +5,7 @@ import sys
 import bz2
 from webtypes.request import Request
 from webtypes.response import Response
-
+from time import sleep
 __CURSOR__ = None
 COMPRESSION_LEVEL = 9
 
@@ -17,11 +17,13 @@ HEADERS = {
 
 
 class RequestInternetFcn:
-    def __init__(self):
-        pass
+    def __init__(self, sleep_time):
+        self.sleep_time = sleep_time
 
     def __call__(self, request):
+        
 
+        sleep(self.sleep_time)
         response_raw = requests.get(
             request.get_url(),
             headers=HEADERS
@@ -38,11 +40,11 @@ class RequestInternetFcn:
 
 
 class RequestToInternet:
-    def __init__(self):
-        pass
+    def __init__(self,sleep_time):
+        self.sleep_time = sleep_time
 
     def get(self):
-        return RequestInternetFcn()
+        return RequestInternetFcn(self.sleep_time)
 
 
 class RequestDatabaseFcn:

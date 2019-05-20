@@ -268,7 +268,9 @@ class CommandLineParser:
 
         content_handler_sqlite.set_component(content_handler_logger)
         link_filter = scrapconf.LinkFilter()
-        request_to_response_factory = factories.RequestToInternet()
+        request_to_response_factory = factories.RequestToInternet(
+            scrapconf.SLEEP_TIME
+        )
         webscraper = WebScraper()
 
         if args.profile:
@@ -276,10 +278,10 @@ class CommandLineParser:
             prof.enable()
 
         webscraper.webscraper(
-            url=scrapconf.URL,
+            urls=scrapconf.URLS,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_sqlite,
-            download_img=True,
+            download_img=scrapconf.DOWNLOAD_IMGS,
             link_filter=link_filter.filter
         )
 
@@ -317,10 +319,10 @@ class CommandLineParser:
         webscraper = WebScraper()
 
         webscraper.webscraper(
-            url=scrapconf.URL,
+            urls=scrapconf.URLS,
             request_to_response_factory=request_to_response_factory,
             content_handler=content_handler_filesystem,
-            download_img=True,
+            download_img=scrapconf.DOWNLOAD_IMGS,
             link_filter=link_filter.filter
         )
 
