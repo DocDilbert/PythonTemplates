@@ -12,6 +12,28 @@ class ResponseParser:
         self.regex = re.compile(r"-(\d+)-inline\.")
         self.add_entry = add_entry
 
+    def detect_currency(self, str):
+        if "€" in str:
+            return ("euro", "€")
+        elif "$" in str:
+            return ("dollar", "$")
+        else:
+            return ("unbekannt", "?")
+            
+    def convert_to_float(self, trailing, pstr):
+        pstr = pstr.replace(trailing,"")
+        pstr = pstr.strip()
+        pstr = pstr.replace(".","")
+        pstr = pstr.replace(",",".")
+        pstr = pstr.replace(u'\xa0', u' ')
+        pstr = pstr.replace(u'\xb1', u'') # +-
+
+        try:
+            val = float(pstr)
+        except ValueError:
+            val = None
+        return val
+
     def parse_overview(self, session_id, request, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
         header1_div = soup.find("div", {"class":"einzelkurs_header"})
@@ -46,16 +68,18 @@ class ResponseParser:
         # get index from url
         index =  int(request.get_url().split("?")[1].split("=")[1])
 
+        currency = self.detect_currency(aktueller_kurs.text)
+      
         features_dict = {
             "type" : "uebersicht",
             "kurse" : {
-                "aktueller_kurs" : aktueller_kurs.text.replace(u'\xa0', u' '),
-                "tageshoch" : tageshoch.text.replace(u'\xa0', u' '),
-                "tagestief" : tagestief.text.replace(u'\xa0', u' '),
-                "eroeffnung" : eroeffnung.text.replace(u'\xa0', u' '),
-                "vortag" : vortag.text.replace(u'\xa0', u' '),
-                "wochenhoch": wochenhoch.text.replace(u'\xa0', u' '), # 52 Wochen
-                "wochentief": wochentief.text.replace(u'\xa0', u' '), # 52 Wochen
+                "aktueller_kurs" : self.convert_to_float(currency[1], aktueller_kurs.text),
+                "tageshoch" : self.convert_to_float(currency[1], tageshoch.text),
+                "tagestief" : self.convert_to_float(currency[1], tagestief.text),
+                "eroeffnung" : self.convert_to_float(currency[1], eroeffnung.text),
+                "vortag" : self.convert_to_float(currency[1], vortag.text),
+                "wochenhoch": self.convert_to_float(currency[1], wochenhoch.text), # 52 Wochen
+                "wochentief": self.convert_to_float(currency[1], wochentief.text), # 52 Wochen
             },
             "index" : index,
             "name" : header1_div.find("h1").text,
@@ -64,13 +88,13 @@ class ResponseParser:
             "gattung" : gattung_td.text,
             "abtastzeit" : sample_time_span.text.replace(u'\xa0', u' '),
             "performance" : {
-                "eine_woche" : eine_woche.text,
-                "ein_monat" : ein_monat.text,
-                "drei_monate" : drei_monate.text,
-                "sechs_monate" : sechs_monate.text,
-                "ein_jahr" : ein_jahr.text,
-                "drei_jahre" : drei_jahre.text,
-                "fuenf_jahre": fuenf_jahre.text
+                "eine_woche" : self.convert_to_float("%", eine_woche.text),
+                "ein_monat" : self.convert_to_float("%", ein_monat.text),
+                "drei_monate" : self.convert_to_float("%", drei_monate.text),
+                "sechs_monate" : self.convert_to_float("%", sechs_monate.text),
+                "ein_jahr" : self.convert_to_float("%", ein_jahr.text),
+                "drei_jahre" : self.convert_to_float("%", drei_jahre.text),
+                "fuenf_jahre": self.convert_to_float("%", fuenf_jahre.text)
             }
         }  
         if "Index" in gattung_td.text:
@@ -88,6 +112,7 @@ class ResponseParser:
             indizes = [x.text for x in boersen_td.find_all("option")]
     
             features_dict.update( {
+                "waehrung": currency[0],
                 "branche" : branche_td.text,
                 "marktkapitalisierung" : marktkapitalisierung_td.text,
                 "boersen_platz" : boersen_platz.text,
