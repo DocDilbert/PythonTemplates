@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime
 
 DATABASE_DIR  = "data_dax/"
 DATABASE = "webscraper.db"
@@ -33,6 +34,59 @@ class ResponseParser:
         except ValueError:
             val = None
         return val
+    def parse_history(self, session_id, request, response):
+        soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
+
+        header1_div = soup.find("div", {"class":"einzelkurs_header"})
+        header2_div = header1_div.find_next("div", {"class":"einzelkurs_header"})
+        sample_time_span = header2_div.find("span",{"class": "rightfloat bottom_aligned"})
+        isin_wkn_span = header2_div.find("span",{"class": "leftfloat bottom_aligned"})
+        isin_wkn = [x.strip().split(" ")[1] for x in isin_wkn_span.text.split("|")]
+
+        aktueller_wert = header2_div.find("span", {"title":"aktueller Wert"}) 
+
+        currency = self.detect_currency(aktueller_wert.text)
+        kurshistorie = soup.find("div", {"class":"kurshistorie"})
+
+        rows = kurshistorie.find_all("tr")
+
+        historie = []
+        for row in rows[1:]:
+            cell = row.find_all("td")
+            date = cell[0]
+            eroeffnung = cell[1]
+            hoch = cell[2]
+            tief = cell[3]
+            schlusskurs = cell[4]
+            historie.append(
+                {
+                    "datum" : date.text,
+                    "eroeffnung" : self.convert_to_float(currency[1],eroeffnung.text),
+                    "hoch" : self.convert_to_float(currency[1],hoch.text),
+                    "tief" : self.convert_to_float(currency[1],tief.text),
+                    "schlusskurs" : self.convert_to_float(currency[1],schlusskurs.text)
+                }
+            )
+
+        # get index from url
+        index =  int(request.get_url().split("?")[1].split("=")[1])
+
+        # "17.05.2019  17:45"
+        st = datetime.strptime(sample_time_span.text.replace(u'\xa0', u' '), '%d.%m.%Y  %H:%M')
+
+        features_dict = {
+            "name" : header1_div.find("h1").text,
+            "url" : request.get_url(),
+            "abtastzeit" : st.isoformat() ,
+            "waehrung" : currency[0],
+            "index" : index,
+            "historie" : historie,
+            "isin" : isin_wkn[0],
+            "wkn" : isin_wkn[1]
+        }
+
+        self.add_entry(session_id, features_dict)
+
 
     def parse_overview(self, session_id, request, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
@@ -87,7 +141,9 @@ class ResponseParser:
         index =  int(request.get_url().split("?")[1].split("=")[1])
 
         currency = self.detect_currency(aktueller_kurs.text)
-      
+        # "17.05.2019  17:45"
+        st = datetime.strptime(sample_time_span.text.replace(u'\xa0', u' '), '%d.%m.%Y  %H:%M')
+
         features_dict = {
             "url" : request.get_url(),
             "type" : "uebersicht",
@@ -106,7 +162,7 @@ class ResponseParser:
             "isin" : isin_wkn[0],
             "wkn" : isin_wkn[1],
             "gattung" : gattung_td.text,
-            "abtastzeit" : sample_time_span.text.replace(u'\xa0', u' '),
+            "abtastzeit" : st.isoformat(),
             "performance" : {
                 "eine_woche" : self.convert_to_float("%", eine_woche.text),
                 "ein_monat" : self.convert_to_float("%", ein_monat.text),
@@ -136,7 +192,7 @@ class ResponseParser:
                 "branche" : branche_td.text,
                 "marktkapitalisierung" : marktkapitalisierung_td.text,
                 "boersen_platz" : boersen_platz.text,
-                "indizes" : indizes
+                "indizes" : [x.replace(u"\xae","").strip() for x in indizes]
             })
 
         self.add_entry(session_id, features_dict)
@@ -146,5 +202,8 @@ class ResponseParser:
 
         if ("einzelkurs_uebersicht" in url) and ("offset" not in url):
             self.parse_overview(session_id, request, response)
+            pass
+        elif ("einzelkurs_history" in url):
+            self.parse_history(session_id, request, response)
 
         
