@@ -56,7 +56,11 @@ def parse_session(parseconf, cursor, session_id, session, writer):
         session_id,
         session.start_datetime, session.end_datetime
     ))
-
+    writer.add_entry(session_id, {
+        "type" : "session_info",
+        "start_datetime" : session.start_datetime.isoformat(),
+        "end_datetime" : session.end_datetime.isoformat()
+    })
     content_types = webdb.interface.get_content_types(cursor)
     html_type = next((x for x in content_types if "text/html" in x))
 

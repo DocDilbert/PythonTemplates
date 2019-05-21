@@ -19,7 +19,7 @@ class ResponseParser:
             return ("dollar", "$")
         else:
             return ("unbekannt", "?")
-            
+
     def convert_to_float(self, trailing, pstr):
         pstr = pstr.replace(trailing,"")
         pstr = pstr.strip()
@@ -65,13 +65,33 @@ class ResponseParser:
         ein_jahr = vwd_info_box_mid.find("td",{"headers":"ein_jahr"})
         drei_jahre = vwd_info_box_right.find("td",{"headers":"drei_jahre"})
         fuenf_jahre = vwd_info_box_left.find("td",{"headers":"fuenf_jahre"})
+
+        teaser = gattung_td.find_next("div",{"class":"teaserhp"})
+        headline = None
+        news = []
+        if teaser:
+            ahref = teaser.find("a").get("href")
+            
+            headline=teaser.find("h4",{"class":"headline"}).text
+            date=teaser.find("p",{"class":"subheadline"}).text
+            news.append((date,headline, ahref))
+            newstables = teaser.find_all_next("span",{"class":"newstable"})
+            for entry in newstables:
+                spans = entry.find_all("span")
+                date = spans[0].text.replace("|","").strip()
+                headline = spans[1].text.strip()
+                ahref = spans[0].parent.get("href")
+                news.append((date, headline,ahref))
+ 
         # get index from url
         index =  int(request.get_url().split("?")[1].split("=")[1])
 
         currency = self.detect_currency(aktueller_kurs.text)
       
         features_dict = {
+            "url" : request.get_url(),
             "type" : "uebersicht",
+            "news" : news,
             "kurse" : {
                 "aktueller_kurs" : self.convert_to_float(currency[1], aktueller_kurs.text),
                 "tageshoch" : self.convert_to_float(currency[1], tageshoch.text),
