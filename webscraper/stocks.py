@@ -19,13 +19,24 @@ def main():
         if x['gattung']=="Aktie"
     ]
     
+    branchen = list({
+        x['branche'] for x in aktien_uebersicht
+    })
+    pprint.pprint(branchen)
+    branche = "Dienstlstg."
+    aktien_uebersicht_per_branche = [
+        {k:v for k, v in x.items() if k != "gattung"} 
+        for x in uebersicht
+        if (x['gattung']=="Aktie") and (x['branche'] == branche)
+    ]
 
-    isin = [x['isin'] for x in aktien_uebersicht]
-    kurs = [x['kurse']['aktueller_kurs'] for x in aktien_uebersicht]
-    wochenhoch = [x['kurse']['wochenhoch'] for x in aktien_uebersicht]
-    wochentief = [x['kurse']['wochentief'] for x in aktien_uebersicht]
+    isin = [x['isin'] for x in aktien_uebersicht_per_branche]
+    tageshoch = [x['kurse']['tageshoch'] for x in aktien_uebersicht_per_branche]
+    tagestief = [x['kurse']['tagestief'] for x in aktien_uebersicht_per_branche]
+    wochenhoch = [x['kurse']['wochenhoch'] for x in aktien_uebersicht_per_branche]
+    wochentief = [x['kurse']['wochentief'] for x in aktien_uebersicht_per_branche]
 
-    kurs, wochentief, wochenhoch, isin = zip(*sorted(zip(kurs,wochentief,wochenhoch, isin)))
+    tageshoch, tagestief, wochentief, wochenhoch, isin = zip(*sorted(zip(tageshoch, tagestief,wochentief,wochenhoch, isin)))
 
     width = 0.5       # the width of the bars: can also be len(x) sequence
     plt.rcdefaults()    
@@ -35,11 +46,12 @@ def main():
         left = 0.1,
         right= 0.95,
         bottom = 0.2,
-        top = 0.95
+        top = 0.93
     )
     x_pos = np.arange(len(isin))
-    ax.bar(x_pos, wochenhoch, width, bottom=wochentief)
-    ax.plot(x_pos,kurs, 'rx')
+    
+    ax.bar(x_pos, [wh-wt for wh, wt in zip(wochenhoch, wochentief)], width, bottom=wochentief)
+    ax.bar(x_pos, [th-tt for th, tt in zip(tageshoch, tagestief)], 0.75, bottom=tagestief)
     ax.set_xticks(x_pos)
     ax.set_xticklabels(isin, rotation='vertical')
     #ax.boxplot([(x,y,z)
@@ -47,7 +59,7 @@ def main():
 #
     #])
     ax.set_yscale("log", nonposy='clip')
-    
+    plt.title(branche)
     plt.show()
 
 if __name__ == "__main__":
