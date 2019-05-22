@@ -34,6 +34,20 @@ class ResponseParser:
         except ValueError:
             val = None
         return val
+
+    def convert_markt_kapitalisierung(self, mstr):
+        if " Mio." in mstr:
+            mstr = int(mstr.replace(" Mio.","000000"))
+        elif " Mrd." in mstr:
+            mstr = int(mstr.replace(" Mrd.","000000000"))
+        elif " Bio." in mstr:
+            mstr = int(mstr.replace(" Bio.","000000000"))
+        elif  "--" in mstr:
+            mstr = None
+        else:
+            raise Exception(mstr)
+        
+        return mstr
     def parse_history(self, session_id, request, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
 
@@ -191,7 +205,7 @@ class ResponseParser:
             features_dict.update( {
                 "waehrung": currency[0],
                 "branche" : branche_td.text,
-                "marktkapitalisierung" : marktkapitalisierung_td.text,
+                "marktkapitalisierung" : self.convert_markt_kapitalisierung(marktkapitalisierung_td.text),
                 "boersen_platz" : boersen_platz.text,
                 "indizes" : [x.replace(u"\xae","").strip() for x in indizes]
             })
