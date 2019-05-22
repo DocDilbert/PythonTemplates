@@ -84,6 +84,7 @@ class LinkFilter:
         self.logger = logging.getLogger('scrapconf.LinkFilter')
         self.einzelkurs_regex = re.compile(r"\/.*\/kurse_einzelkurs_uebersicht\.htn")
         self.history_regex =  re.compile(r"\/.*\/kurse_einzelkurs_history\.htn")
+        self.profil_regex =  re.compile(r"\/.*\/kurse_einzelkurs_profil\.htn")
 
         self.visited = set()
     def check_next_page(self, url):
@@ -131,6 +132,10 @@ class LinkFilter:
         if self.einzelkurs_regex.match(last_path):
             # dann überprüfe auf history link
             if self.history_regex.match(path):
+                self.visited.add(url)
+                return True
+            # oder profil link
+            if self.profil_regex.match(path):
                 self.visited.add(url)
                 return True
 
