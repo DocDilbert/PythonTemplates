@@ -42,7 +42,7 @@ class DummyWriter:
     def add_entry(self, session_id, features_dict):
         pass
 
-
+py
 class ConsoleWriter:
     def __init__(self):
         pass

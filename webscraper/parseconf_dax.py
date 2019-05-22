@@ -76,6 +76,7 @@ class ResponseParser:
 
         features_dict = {
             "name" : header1_div.find("h1").text,
+            "type" : "historie",
             "url" : request.get_url(),
             "abtastzeit" : st.isoformat() ,
             "waehrung" : currency[0],
@@ -202,7 +203,6 @@ class ResponseParser:
 
         if ("einzelkurs_uebersicht" in url) and ("offset" not in url):
             self.parse_overview(session_id, request, response)
-            pass
         elif ("einzelkurs_history" in url):
             self.parse_history(session_id, request, response)
 
