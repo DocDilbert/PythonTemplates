@@ -3,7 +3,7 @@ import pprint
 import numpy as np
 import matplotlib.pyplot as plt
 SESSION_ID = 1
-def main():
+def test1():
     with open("data_dax/boerse_raw.json", encoding="utf-8") as fp:
         raw_data = json.load(fp)
  
@@ -66,6 +66,44 @@ def main():
     #ax.set_yscale("log", nonposy='clip')
     plt.title(branche)
     plt.show()
+def test2():
+    with open("data_dax/boerse_raw.json", encoding="utf-8") as fp:
+        raw_data = json.load(fp)
+ 
+    #pprint.pprint(historie)
+
+    uebersicht = [
+        {k:v for k, v in x.items() if k != "type"} 
+        for x in raw_data[str(SESSION_ID)] 
+        if x['type']=="uebersicht"
+    ]
+
+    aktien_uebersicht = [
+        {k:v for k, v in x.items() if k != "gattung"} 
+        for x in uebersicht
+        if x['gattung']=="Aktie"
+    ]
+
+    perf_pa = 6
+    performance_1a_pos = {x['isin']:x
+        for x in uebersicht
+        if (x['performance']['drei_jahre'] is not None and x['performance']['drei_jahre']>=perf_pa*3.0) and
+           (x['performance']['ein_jahr'] is not None and x['performance']['ein_jahr']>=perf_pa) and
+           (x['performance']['sechs_monate'] is not None and x['performance']['sechs_monate']>=perf_pa*0.5) and
+           (x['performance']['drei_monate'] is not None and x['performance']['drei_monate']>=perf_pa*0.5*0.5) and
+           (x['performance']['ein_monat'] is not None and x['performance']['ein_monat']>=perf_pa*0.5*0.5*0.33333) 
+    }
+
+    for _,x in performance_1a_pos.items():
+        print(
+            x['isin'], 
+            x['performance']['drei_jahre'],
+            x['performance']['ein_jahr'], 
+            x['performance']['sechs_monate'],
+            x['performance']['drei_monate'],
+            x['performance']['ein_monat'],
+            x['name'])
 
 if __name__ == "__main__":
-    main()
+    #test1()
+    test2()
