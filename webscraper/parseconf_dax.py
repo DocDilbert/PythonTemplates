@@ -2,11 +2,12 @@ from bs4 import BeautifulSoup
 import re
 from datetime import datetime
 
-DATABASE_DIR  = "data_dax/"
-DATABASE = "webscraper.db"
+class Config:
+    DATABASE_DIR  = "data_dax/"
+    DATABASE = "webscraper.db"
 
-RAW_DATA_DIR = "data_dax/"
-RAW_DATA_FILE = "boerse_raw.json"
+    RAW_DATA_DIR = "data_dax/"
+    RAW_DATA_FILE = "boerse_raw.json"
 
 class ResponseParser:
     def __init__(self, add_entry):

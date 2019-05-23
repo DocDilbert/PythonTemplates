@@ -101,10 +101,15 @@ def print_exec_time(start, end, max_sessions):
 def parse_all(parseconf):
     start = time.time()
 
-    connection = webdb.db.open_db_readonly(parseconf.DATABASE_DIR + parseconf.DATABASE)
+    connection = webdb.db.open_db_readonly(
+        parseconf.Config.DATABASE_DIR + parseconf.Config.DATABASE
+    )
+
     cursor = connection.cursor()
 
-    file_writer = FileWriter(filename = parseconf.RAW_DATA_DIR + parseconf.RAW_DATA_FILE)
+    file_writer = FileWriter(
+        filename = parseconf.Config.RAW_DATA_DIR + parseconf.Config.RAW_DATA_FILE
+    )
     session_list = webdb.interface.get_sessions(cursor)
     parse_session_list(parseconf, cursor, session_list, file_writer)
 
@@ -115,7 +120,9 @@ def parse_all(parseconf):
 
 def parse_single(parseconf, session_id):
     start = time.time()
-    connection = webdb.db.open_db_readonly(parseconf.DATABASE_DIR + parseconf.DATABASE)
+    connection = webdb.db.open_db_readonly(
+        parseconf.Config.DATABASE_DIR + parseconf.Config.DATABASE
+    )
     cursor = connection.cursor()
 
     session_list = [
@@ -170,7 +177,7 @@ class WebParserCommandLineParser:
             exit(1)
 
         parseconf = self.load_parseconf(args.parseconf)
-        dirname = parseconf.RAW_DATA_DIR
+        dirname = parseconf.Config.RAW_DATA_DIR
         if not os.path.exists(dirname):
             module_logger.info("Created directory %s", dirname)
             os.mkdir(dirname)
