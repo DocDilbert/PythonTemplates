@@ -24,10 +24,12 @@ def main():
     data_per_isin = {}
     for isin, history in isins.items():
         k = {i['datum'] : i for i in history}
-        data_per_isin[isin] = sorted(list(k.values()), 
-            key=lambda x:datetime.strptime( x['datum'], '%d.%m.%Y')
-        )
+        data_per_isin[isin] = {
+            "historie" : sorted(list(k.values()), 
+                    key=lambda x:datetime.strptime( x['datum'], '%d.%m.%Y')
+                )
 
+        }
     with open("data_stocks/stocks.json", "w", encoding="utf-8") as fp:
         json.dump(data_per_isin, fp, indent=4, sort_keys=True)
 
