@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 SESSION_ID = 1
 def test1():
-    with open("data_dax/boerse_raw.json", encoding="utf-8") as fp:
+    with open("data_stocks/stocks_raw.json", encoding="utf-8") as fp:
         raw_data = json.load(fp)
  
     #pprint.pprint(historie)
@@ -67,7 +67,7 @@ def test1():
     plt.title(branche)
     plt.show()
 def test2():
-    with open("data_dax/boerse_raw.json", encoding="utf-8") as fp:
+    with open("data_stocks/stocks_raw.json", encoding="utf-8") as fp:
         raw_data = json.load(fp)
  
     #pprint.pprint(historie)

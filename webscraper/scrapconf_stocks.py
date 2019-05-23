@@ -8,7 +8,7 @@ LOGTYPE = "single"
 LOGFILE_DEBUG = "webscraper.log"
 LOGFILE_ERRORS = "webscraper_errors.log"
 
-DATABASE_DIR  = "data_dax/"
+DATABASE_DIR  = "data_stocks/"
 DATABASE = "webscraper.db"
 
 DOWNLOAD_IMGS = False

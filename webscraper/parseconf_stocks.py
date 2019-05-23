@@ -3,11 +3,11 @@ import re
 from datetime import datetime
 
 class Config:
-    DATABASE_DIR  = "data_dax/"
+    DATABASE_DIR  = "data_stocks/"
     DATABASE = "webscraper.db"
 
-    RAW_DATA_DIR = "data_dax/"
-    RAW_DATA_FILE = "boerse_raw.json"
+    RAW_DATA_DIR = "data_stocks/"
+    RAW_DATA_FILE = "stocks_raw.json"
 
 class ResponseParser:
     def __init__(self, add_entry):
