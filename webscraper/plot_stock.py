@@ -4,10 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.dates import date2num
 from datetime import datetime
-from matplotlib.finance import candlestick_ochl
 from matplotlib.dates import DateFormatter, WeekdayLocator,\
     DayLocator, MONDAY
-from matplotlib.finance import candlestick_ohlc
+from mpl_finance import candlestick_ochl
 import argparse
 import sys
 
