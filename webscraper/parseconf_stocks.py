@@ -173,6 +173,7 @@ class ResponseParser:
                 "wochenhoch": self.convert_to_float(currency[1], wochenhoch.text), # 52 Wochen
                 "wochentief": self.convert_to_float(currency[1], wochentief.text), # 52 Wochen
             },
+            "waehrung": currency[0],
             "index" : index,
             "name" : header1_div.find("h1").text,
             "isin" : isin_wkn[0],
@@ -204,7 +205,7 @@ class ResponseParser:
             indizes = [x.text for x in boersen_td.find_all("option")]
     
             features_dict.update( {
-                "waehrung": currency[0],
+                
                 "branche" : branche_td.text,
                 "marktkapitalisierung" : self.convert_markt_kapitalisierung(marktkapitalisierung_td.text),
                 "boersen_platz" : boersen_platz.text,
