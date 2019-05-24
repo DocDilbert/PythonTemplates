@@ -46,7 +46,7 @@ def main():
         )
 
         historie_list = [
-            [x['datum'], x['eroeffnung'],x['hoch'], x['tief'], x['schlusskurs']]
+            [x['datum'], x['eroeffnung'],x['schlusskurs'], x['hoch'], x['tief']]
             for x in historie_dict
         ]
 
