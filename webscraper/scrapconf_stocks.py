@@ -14,12 +14,14 @@ DATABASE = "webscraper.db"
 DOWNLOAD_IMGS = False
 SLEEP_TIME = 1.0
 URLS =  [
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096"), #DAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090"), #MDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=158375"), #TECDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159191"), #SDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159194"), #EUROSTOXX50
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159196"), #Stoxx Europe 50
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096"), # DAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090"), # MDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=158375"), # TECDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159191"), # SDAX
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159194"), # EUROSTOXX50
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159196"), # Stoxx Europe 50
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=849973"), # Dow Jones
+    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=149002")  # Nasdaq 100
 ]
 
 
