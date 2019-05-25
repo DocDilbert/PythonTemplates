@@ -34,8 +34,11 @@ def main():
     fig, ax = plt.subplots()
     weekFormatter = DateFormatter('%b %d, %Y')
     ax.xaxis.set_major_formatter(weekFormatter)
-    candlestick_ochl(ax, historie,colorup='g', colordown='r',)
+    candlestick_ochl(ax, historie,colorup='k', colordown='r',)
     plt.title(name)
+    plt.xticks(rotation=70)
+    plt.tight_layout()
+
     plt.show()
 
 
