@@ -227,41 +227,35 @@ class ResponseParser:
             for x in bilanz.find_all("tr")
         ]
 
-        return title, headers, data
-
+        return {
+            'title' : title,
+            'headers' : headers,
+            'data' : data
+        }
     def parse_profil(self, session_id, request, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
         header1_div = soup.find("div", {"class":"einzelkurs_header"})
         header2_div = header1_div.find_next("div", {"class":"einzelkurs_header"})
         isin_wkn_span = header2_div.find("span",{"class": "leftfloat bottom_aligned"})
         isin_wkn = [x.strip().split(" ")[1] for x in isin_wkn_span.text.split("|")]
+        sample_time_span = header2_div.find("span",{"class": "rightfloat bottom_aligned"})
 
-        
-
-        bilanz_title, bilanz_headers, bilanz_data = self.parse_table(soup, 'Bilanz')
-        guv_title, guv_headers, guv_data = self.parse_table(soup, 'GuV')
-        cashflow_title, cashflow_headers, cashflow_data = self.parse_table(soup, 'Cashflow')
+        # "17.05.2019  17:45"
+        st = datetime.strptime(sample_time_span.text.replace(u'\xa0', u' '), '%d.%m.%Y  %H:%M')
 
         features_dict = {
             "url" : request.get_url(),
             "type" : "profil",
             "isin" : isin_wkn[0],
             "wkn" : isin_wkn[1],
-            "bilanz" : {
-                "title" : bilanz_title,
-                "headers" : bilanz_headers,
-                "data" : bilanz_data
-            },
-            "guv" : {
-                "title" : guv_title,
-                "headers" : guv_headers,
-                "data" : guv_data
-            },
-            "cashflow" : {
-                "title" : cashflow_title,
-                "headers" : cashflow_headers,
-                "data" : cashflow_data
-            }
+            "abtastzeit" : st.isoformat(),
+            "bilanz" : self.parse_table(soup, 'Bilanz'),
+            "guv" : self.parse_table(soup, 'GuV'),
+            "cashflow" : self.parse_table(soup, 'Cashflow'),
+            "wertpapierdaten" : self.parse_table(soup, 'Wertpapierdaten'),
+            "bewertungszahlen" : self.parse_table(soup, 'Bewertungszahlen'),
+            "mitarbeiter" : self.parse_table(soup, 'Mitarbeiter'),
+            "aktionaerstruktur" : self.parse_table(soup, 'Aktionärsstruktur:'),
             
         }
         self.add_entry(session_id, features_dict)
@@ -271,11 +265,9 @@ class ResponseParser:
         url = request.get_url()
 
         if ("einzelkurs_uebersicht" in url) and ("offset" not in url):
-            pass
-            #self.parse_overview(session_id, request, response)
+            self.parse_overview(session_id, request, response)
         elif ("einzelkurs_history" in url):
-            pass
-            #self.parse_history(session_id, request, response)
+            self.parse_history(session_id, request, response)
         elif ("einzelkurs_profil" in url):
             self.parse_profil(session_id, request, response)
 
