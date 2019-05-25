@@ -214,12 +214,69 @@ class ResponseParser:
 
         self.add_entry(session_id, features_dict)
 
+    def parse_table(self, soup, title):
+
+        bilanz_hl = soup.find(text=title)
+        bilanz = bilanz_hl.find_next("table")
+
+        title = bilanz.find_next("span").text
+        headers = [x.text for x in bilanz.find_all("th")]
+ 
+        data = [ [y.text
+            for y in x.find_all("td")]
+            for x in bilanz.find_all("tr")
+        ]
+
+        return title, headers, data
+
+    def parse_profil(self, session_id, request, response):
+        soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
+        header1_div = soup.find("div", {"class":"einzelkurs_header"})
+        header2_div = header1_div.find_next("div", {"class":"einzelkurs_header"})
+        isin_wkn_span = header2_div.find("span",{"class": "leftfloat bottom_aligned"})
+        isin_wkn = [x.strip().split(" ")[1] for x in isin_wkn_span.text.split("|")]
+
+        
+
+        bilanz_title, bilanz_headers, bilanz_data = self.parse_table(soup, 'Bilanz')
+        guv_title, guv_headers, guv_data = self.parse_table(soup, 'GuV')
+        cashflow_title, cashflow_headers, cashflow_data = self.parse_table(soup, 'Cashflow')
+
+        features_dict = {
+            "url" : request.get_url(),
+            "type" : "profil",
+            "isin" : isin_wkn[0],
+            "wkn" : isin_wkn[1],
+            "bilanz" : {
+                "title" : bilanz_title,
+                "headers" : bilanz_headers,
+                "data" : bilanz_data
+            },
+            "guv" : {
+                "title" : guv_title,
+                "headers" : guv_headers,
+                "data" : guv_data
+            },
+            "cashflow" : {
+                "title" : cashflow_title,
+                "headers" : cashflow_headers,
+                "data" : cashflow_data
+            }
+            
+        }
+        self.add_entry(session_id, features_dict)
+
+
     def parse(self, session_id, request, response):
         url = request.get_url()
 
         if ("einzelkurs_uebersicht" in url) and ("offset" not in url):
-            self.parse_overview(session_id, request, response)
+            pass
+            #self.parse_overview(session_id, request, response)
         elif ("einzelkurs_history" in url):
-            self.parse_history(session_id, request, response)
+            pass
+            #self.parse_history(session_id, request, response)
+        elif ("einzelkurs_profil" in url):
+            self.parse_profil(session_id, request, response)
 
         
