@@ -220,7 +220,7 @@ class ResponseParser:
         bilanz = bilanz_hl.find_next("table")
 
         title = bilanz.find_next("span").text
-        headers = [x.text for x in bilanz.find_all("th")]
+        header = [x.text for x in bilanz.find_all("th")]
  
         data = [ [y.text
             for y in x.find_all("td")]
@@ -229,7 +229,7 @@ class ResponseParser:
 
         return {
             'title' : title,
-            'headers' : headers,
+            'header' : header,
             'data' : data
         }
     def parse_profil(self, session_id, request, response):
