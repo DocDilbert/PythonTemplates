@@ -1,6 +1,37 @@
 import json
+import pprint
 from datetime import datetime
 SESSION_ID = 2
+
+
+def isolate_profile_value(items, group, name):
+
+    header = [l for i in items for l in i[group]['header'][1:]]
+    data = [l for i in items for l in i[group]['data']]
+
+    # Neue sessions überschreiben ältere. So ist alles aktuell
+
+    isolated = [
+        {key: i for key, i in zip(header, x[1:])}
+        for x in data
+        if len(x) >= 1 and name in x[0]
+    ]
+
+    if len(isolated) == 0:
+        return None
+
+    isolated = {
+        k: float(x.replace('.', '').replace(',', '.')) if x != "-" else None
+        for i in isolated
+        for k, x in i.items()
+    }
+
+    isolated = sorted([
+        [k, v]
+        for k, v in isolated.items()
+    ])
+
+    return isolated
 
 
 def main():
@@ -42,33 +73,31 @@ def main():
             "waehrung": i['waehrung']
         })
 
-    profil = {}
-    for i in raw_data_profil:
-        isin = i['isin']
-        guv = i['guv']
-        guv_header = guv['header'][1:]
-        guv_data = guv['data']
+    raw_data_profil_by_isin = {
+        isin: [x for x in raw_data_profil if x['isin'] == isin]
+        for isin in isins
+    }
 
-        guv_jahresueberschuss = next(
-            x[1:] 
-            for x in guv_data 
-            if len(x)>=1 and "Jahresüberschuss" in x[0]
-        )
-        guv_jahresueberschuss = [
-            float(x.replace('.','').replace(',','.'))
-            for x in guv_jahresueberschuss
-        ]
+    profil_by_isin = {}
+    for isin, profile_list in raw_data_profil_by_isin.items():
+        if len(profile_list) == 0:
+            continue
 
-        guv_jahresueberschuss = [
-            [k , v] 
-            for k, v in zip(guv_header, guv_jahresueberschuss)
-        ]
-
-        entry = profil.setdefault(isin, {})
+        entry = profil_by_isin.setdefault(isin, {})
         entry.update({
             "wkn": i['wkn'],
-            "guv" : {
-                "jahresueberschuss" : guv_jahresueberschuss[::-1]
+            "guv": {
+                "jahresueberschuss": isolate_profile_value(profile_list, 'guv', 'Jahresüberschuss')
+            },
+            "wertpapierdaten": {
+                "gewinn_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Gewinn je Aktie'),
+                "dividende_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende je Aktie'),
+                "dividende": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende')
+            },
+            "bilanz": {
+                "aktiva": {
+                    "summe_umlaufvermögen": isolate_profile_value(profile_list, 'bilanz', 'Summe Umlaufvermögen')
+                }
             }
         })
 
@@ -76,7 +105,6 @@ def main():
     for h in raw_data_historie:
         isin = h['isin']
 
-        
         entry = historie.setdefault(isin, [])
         for i in h['historie']:
             entry.append(i)
@@ -92,15 +120,15 @@ def main():
             continue
 
         # combine and sort
-        historie_dict = sorted(
+        history_dict = sorted(
             list(k.values()),
             key=lambda x: datetime.strptime(
                 x['datum'], '%d.%m.%Y')
         )
 
-        historie_list = [
+        history_list = [
             [x['datum'], x['eroeffnung'], x['schlusskurs'], x['hoch'], x['tief']]
-            for x in historie_dict
+            for x in history_dict
         ]
 
         try:
@@ -110,13 +138,13 @@ def main():
             continue
 
         try:
-            profil_of_isin = profil[isin]
+            profil_of_isin = profil_by_isin[isin]
         except KeyError:
             print("Missing profile: "+isin)
             continue
 
         data_per_isin[isin] = {
-            "historie": historie_list
+            "historie": history_list
         }
 
         data_per_isin[isin].update(
@@ -126,7 +154,6 @@ def main():
         data_per_isin[isin].update(
             ueberischt_of_isin
         )
-
 
     with open("data_stocks/stocks.json", "w", encoding="utf-8") as fp:
         json.dump(data_per_isin, fp, indent=4, sort_keys=True)

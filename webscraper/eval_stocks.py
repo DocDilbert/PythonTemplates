@@ -21,18 +21,25 @@ def sorted_key(x, l):
             x[i+1][1] 
             if (x[i+1][1] is not None) else -float('inf'))
     return criteria
+
 def main():
 
     with open("data_stocks/stocks.json", encoding="utf-8") as fp:
         data = json.load(fp)
     
-    jahresueberschuss = {
-        k:v['guv']['jahresueberschuss']
-        for k,v in data.items()
-    }
+    # eval_value = {
+    #     k:v['guv']['jahresueberschuss']
+    #     for k,v in data.items()
+    #     if v['guv']['jahresueberschuss'] is not None
+    # }
 
+    eval_value = {
+        k:v['bilanz']['aktiva']['summe_umlaufvermögen']
+        for k,v in data.items()
+        if v['bilanz']['aktiva']['summe_umlaufvermögen'] is not None
+    }
     years=set()
-    for isin, value in jahresueberschuss.items():
+    for isin, value in eval_value.items():
 
         for i in value:
             years.add(i[0])
@@ -45,10 +52,8 @@ def main():
         from_to.append((last_year, year))
         last_year = year
 
-
-
     data_over_isin = {}
-    for isin, value in jahresueberschuss.items():
+    for isin, value in eval_value.items():
 
         p_list = []
         
