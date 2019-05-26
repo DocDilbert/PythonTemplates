@@ -13,7 +13,13 @@ import sys
 def sorted_key(x, l):
     criteria= []
     for i in reversed(range(l)):
-        criteria.append(x[i+1][1] if (x[i+1][1] is not None) else -float('inf'))
+        criteria.append(
+            (1 if x[i+1][1]>=0 else -1) 
+            if (x[i+1][1] is not None) else -float('inf'))
+    for i in range(l):
+        criteria.append(
+            x[i+1][1] 
+            if (x[i+1][1] is not None) else -float('inf'))
     return criteria
 def main():
 
@@ -66,19 +72,24 @@ def main():
         ),
         key=lambda x:sorted_key(x, len(from_to))
     )
-    with open("result.txt","w") as fp:
+    import csv
+    with open('results.csv', 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        headers=['isin']
+        for f, t in from_to:
+            headers.append("{} -> {}".format(f,t ))
+
+        csvwriter.writerow(headers)
         for data in data_sorted:
-            buf=[]
+   
             isin = data[0]
-            for i in data[1:]:
-
-                if i[1] is not None:
-                    buf.append(("{} = {:<+6.1f}".format(i[0], i[1])))
-                else:
-                    buf.append(("{} = ?     ".format(i[0])))
-                
-
-            fp.write(isin+" # " +" / ".join(buf)+"\n")
+            row = [x[1] for x in data[1:]]
+            csvwriter.writerow(
+                [isin] + list(map(
+                    lambda x:"{:.3f}".format(x) if x is not None else "",
+                    row
+                ))
+            )
 
 if __name__ == "__main__":
     main()
