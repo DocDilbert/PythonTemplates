@@ -70,7 +70,10 @@ def main():
         entry.update({
             "name": i['name'],
             "wkn": i['wkn'],
-            "waehrung": i['waehrung']
+            "waehrung": i['waehrung'],
+            "kurse":{
+                'aktueller_kurs' : i['kurse']["aktueller_kurs"]
+            }
         })
 
     raw_data_profil_by_isin = {
@@ -84,6 +87,8 @@ def main():
             continue
 
         entry = profil_by_isin.setdefault(isin, {})
+
+
         entry.update({
             "wkn": i['wkn'],
             "guv": {
@@ -91,6 +96,7 @@ def main():
             },
             "wertpapierdaten": {
                 "gewinn_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Gewinn je Aktie'),
+                "ergebnis_je_aktie_verwässert": isolate_profile_value(profile_list,'wertpapierdaten', "Ergebnis je Aktie verwässert"),
                 "dividende_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende je Aktie'),
                 "dividende": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende')
             },
@@ -98,6 +104,9 @@ def main():
                 "aktiva": {
                     "summe_umlaufvermögen": isolate_profile_value(profile_list, 'bilanz', 'Summe Umlaufvermögen')
                 }
+            },
+            "mitarbeiter": {
+                "anzahl_der_mitarbeiter" : isolate_profile_value(profile_list, 'mitarbeiter', 'Anzahl der Mitarbeiter')
             }
         })
 
