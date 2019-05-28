@@ -8,9 +8,22 @@ def isolate_profile_value(items, group, name):
 
     header = [l for i in items for l in i[group]['header'][1:]]
     data = [l for i in items for l in i[group]['data']]
+    has_quantifier = ['quantifier' in i[group] for i in items ][-1]
+
+    quantifier = 1
+    if has_quantifier:
+        quantifier_str = [i[group]['quantifier'] for i in items ][-1]
+        if quantifier_str == 'Mio':
+            quantifier=1000000
+        else:
+            raise ValueError
+    
+    #has_currency = ['currency' in i[group] for i in items ][-1]
+    #currency = None
+    #if has_currency:
+    #    currency = [i[group]['currency'] for i in items ][-1]
 
     # Neue sessions überschreiben ältere. So ist alles aktuell
-
     isolated = [
         {key: i for key, i in zip(header, x[1:])}
         for x in data
@@ -21,7 +34,7 @@ def isolate_profile_value(items, group, name):
         return None
 
     isolated = {
-        k: float(x.replace('.', '').replace(',', '.')) if x != "-" else None
+        k: quantifier*float(x.replace('.', '').replace(',', '.')) if x != "-" else None
         for i in isolated
         for k, x in i.items()
     }
@@ -82,31 +95,37 @@ def main():
     }
 
     profil_by_isin = {}
-    for isin, profile_list in raw_data_profil_by_isin.items():
-        if len(profile_list) == 0:
+    for isin, profile in raw_data_profil_by_isin.items():
+        if len(profile) == 0:
             continue
 
         entry = profil_by_isin.setdefault(isin, {})
 
+        
 
         entry.update({
             "wkn": i['wkn'],
             "guv": {
-                "jahresueberschuss": isolate_profile_value(profile_list, 'guv', 'Jahresüberschuss')
+                "jahresueberschuss": isolate_profile_value(profile, 'guv', 'Jahresüberschuss')
             },
             "wertpapierdaten": {
-                "gewinn_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Gewinn je Aktie'),
-                "ergebnis_je_aktie_verwässert": isolate_profile_value(profile_list,'wertpapierdaten', "Ergebnis je Aktie verwässert"),
-                "dividende_je_aktie": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende je Aktie'),
-                "dividende": isolate_profile_value(profile_list, 'wertpapierdaten', 'Dividende')
+                "gewinn_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Gewinn je Aktie'),
+                "ergebnis_je_aktie_verwässert": isolate_profile_value(profile,'wertpapierdaten', "Ergebnis je Aktie verwässert"),
+                "dividende_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende je Aktie'),
+                "dividende": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende')
             },
             "bilanz": {
                 "aktiva": {
-                    "summe_umlaufvermögen": isolate_profile_value(profile_list, 'bilanz', 'Summe Umlaufvermögen')
+                    "summe_umlaufvermögen": isolate_profile_value(profile, 'bilanz', 'Summe Umlaufvermögen')
                 }
             },
+            "bewertungszahlen" : {
+                "umsatz_je_aktie" : isolate_profile_value(profile, 'bewertungszahlen', "Umsatz je Aktie"),
+                "cashflow_je_aktie" : isolate_profile_value(profile, 'bewertungszahlen', "Cashflow je Aktie"),
+                "fremdkapitalquote" : isolate_profile_value(profile, 'bewertungszahlen', "Fremdkapitalquote")
+            },
             "mitarbeiter": {
-                "anzahl_der_mitarbeiter" : isolate_profile_value(profile_list, 'mitarbeiter', 'Anzahl der Mitarbeiter')
+                "anzahl_der_mitarbeiter" : isolate_profile_value(profile, 'mitarbeiter', 'Anzahl der Mitarbeiter')
             }
         })
 
