@@ -114,10 +114,8 @@ def main():
                 "dividende_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende je Aktie'),
                 "dividende": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende')
             },
-            "bilanz": {
-                "aktiva": {
-                    "summe_umlaufvermögen": isolate_profile_value(profile, 'bilanz', 'Summe Umlaufvermögen')
-                }
+            "bilanz_aktiva": {
+                "summe_umlaufvermögen": isolate_profile_value(profile, 'bilanz', 'Summe Umlaufvermögen')
             },
             "bewertungszahlen" : {
                 "umsatz_je_aktie" : isolate_profile_value(profile, 'bewertungszahlen', "Umsatz je Aktie"),

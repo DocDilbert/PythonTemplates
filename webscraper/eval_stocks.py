@@ -30,14 +30,12 @@ def sorted_key(x, l):
     return criteria
 
 
-def diff():
-    with open("data_stocks/stocks.json", encoding="utf-8") as fp:
-        data = json.load(fp)
+def diff(data, group, value):
 
     eval_value = {
-        k: v['bilanz']['aktiva']['summe_umlaufvermögen']
+        k: v[group][value]
         for k, v in data.items()
-        if v['bilanz']['aktiva']['summe_umlaufvermögen'] is not None
+        if v[group][value] is not None
     }
 
     years = set()
@@ -68,8 +66,14 @@ def diff():
             if f_i is None or t_i is None:
                 p_list.append(["{}->{}".format(f, t), None])
             else:
-                perc = (t_i[1]/f_i[1] - 1.0)*100
-                p_list.append(["{}->{}".format(f, t), perc])
+                try:
+                    perc = (t_i[1]/f_i[1] - 1.0)*100
+                except TypeError:
+                    p_list.append(["{}->{}".format(f, t), None])
+                except ZeroDivisionError:
+                    p_list.append(["{}->{}".format(f, t), None])
+                else:
+                    p_list.append(["{}->{}".format(f, t), perc])
 
         data_over_isin[isin] = p_list
 
@@ -104,14 +108,12 @@ def diff():
             )
 
 
-def abs():
-    with open("data_stocks/stocks.json", encoding="utf-8") as fp:
-        data = json.load(fp)
+def abs(data, group, value):
 
     eval_value = {
-        k: v['bewertungszahlen']['fremdkapitalquote']
+        k: v[group][value]
         for k, v in data.items()
-        if v['bewertungszahlen']['fremdkapitalquote'] is not None
+        if v[group][value] is not None
     }
 
     years = set()
@@ -176,7 +178,17 @@ def main():
     )
     
     parser.add_argument(
-        'value_name',
+        'operation',
+        help='abs, diff'
+    )
+
+    parser.add_argument(
+        'group',
+        help='name of group to evaluate',
+        type=str
+    )
+    parser.add_argument(
+        'value',
         help='name of value to evaluate',
         type=str
     )
@@ -185,8 +197,13 @@ def main():
     with open("data_stocks/stocks.json", encoding="utf-8") as fp:
         data = json.load(fp)
 
-    #abs()
-
+    if args.operation=="diff":
+        diff(data, args.group, args.value)
+    elif args.operation=="abs":
+        abs(data, args.group, args.value)
+    else:
+        parser.print_help()
+        exit(-1)
 
 if __name__ == "__main__":
     main()
