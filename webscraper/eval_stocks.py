@@ -108,7 +108,7 @@ def diff(data, group, value):
             )
 
 
-def abs(data, group, value):
+def abs(data, op, group, value):
 
     eval_value = {
         k: v[group][value]
@@ -131,7 +131,16 @@ def abs(data, group, value):
         p_list = []
 
         for year in years:
-            i = next((i for i in value if i[0] == year), None)
+            try:
+                i = next(
+                    (
+                        [i[0]] + [op(data[isin],l) for l in i[1:]] 
+                        for i in value if i[0] == year
+                    ), 
+                    None
+                )
+            except ZeroDivisionError:
+                i = None
 
             if i is None:
                 p_list.append(["{}".format(year), None])
@@ -200,7 +209,27 @@ def main():
     if args.operation=="diff":
         diff(data, args.group, args.value)
     elif args.operation=="abs":
-        abs(data, args.group, args.value)
+        abs(
+            data, 
+            lambda e, x:x, 
+            args.group, 
+            args.value
+        )
+    elif args.operation=="kgx":
+        abs(
+            data, 
+            lambda e, x:e['kurse']['aktueller_kurs']/x if x!=None else None, 
+            'wertpapierdaten', 
+            'gewinn_je_aktie'
+        )
+
+    elif args.operation=="divren":
+        abs(
+            data, 
+            lambda e, x:(x*100)/e['kurse']['aktueller_kurs'] if x!=None else None, 
+            'wertpapierdaten', 
+            'dividende_je_aktie'
+        )
     else:
         parser.print_help()
         exit(-1)

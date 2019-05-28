@@ -4,14 +4,15 @@ from datetime import datetime
 SESSION_ID = 2
 
 
-def isolate_profile_value(items, group, name):
+def isolate_profile_value(items, group, name, enable_quantifier=True):
 
     header = [l for i in items for l in i[group]['header'][1:]]
     data = [l for i in items for l in i[group]['data']]
     has_quantifier = ['quantifier' in i[group] for i in items ][-1]
 
     quantifier = 1
-    if has_quantifier:
+
+    if has_quantifier and enable_quantifier:
         quantifier_str = [i[group]['quantifier'] for i in items ][-1]
         if quantifier_str == 'Mio':
             quantifier=1000000
@@ -109,9 +110,9 @@ def main():
                 "jahresueberschuss": isolate_profile_value(profile, 'guv', 'Jahresüberschuss')
             },
             "wertpapierdaten": {
-                "gewinn_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Gewinn je Aktie'),
-                "ergebnis_je_aktie_verwässert": isolate_profile_value(profile,'wertpapierdaten', "Ergebnis je Aktie verwässert"),
-                "dividende_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende je Aktie'),
+                "gewinn_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Gewinn je Aktie', False),
+                "ergebnis_je_aktie_verwässert": isolate_profile_value(profile,'wertpapierdaten', "Ergebnis je Aktie verwässert", False),
+                "dividende_je_aktie": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende je Aktie', False),
                 "dividende": isolate_profile_value(profile, 'wertpapierdaten', 'Dividende')
             },
             "bilanz_aktiva": {
