@@ -109,9 +109,9 @@ def abs():
         data = json.load(fp)
 
     eval_value = {
-        k: v['wertpapierdaten']['gewinn_je_aktie']
+        k: v['bewertungszahlen']['fremdkapitalquote']
         for k, v in data.items()
-        if v['wertpapierdaten']['gewinn_je_aktie'] is not None
+        if v['bewertungszahlen']['fremdkapitalquote'] is not None
     }
 
     years = set()
@@ -171,7 +171,21 @@ def abs():
 
 
 def main():
-    abs()
+    parser = argparse.ArgumentParser(
+        prog="eval_stocks",
+    )
+    
+    parser.add_argument(
+        'value_name',
+        help='name of value to evaluate',
+        type=str
+    )
+    args = parser.parse_args(sys.argv[1:])
+
+    with open("data_stocks/stocks.json", encoding="utf-8") as fp:
+        data = json.load(fp)
+
+    #abs()
 
 
 if __name__ == "__main__":
