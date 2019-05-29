@@ -26,7 +26,6 @@ def sorted_key(x, l):
             x[i+1][1]
             if (x[i+1][1] is not None) else -float('inf'))
 
-    
     return criteria
 
 
@@ -85,28 +84,12 @@ def diff(data, group, value):
         key=lambda x: sorted_key(x, len(from_to))
     )
 
-    with open('results.csv', 'w', newline='') as csvfile:
-        csvwriter = csv.writer(csvfile, delimiter=',',
-                               quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    headers = []
 
-        headers = ['isin']
-
-        for f, t in from_to:
-            headers.append("{} -> {}".format(f, t))
-
-        csvwriter.writerow(headers)
-
-        for data in data_sorted:
-
-            isin = data[0]
-            row = [x[1] for x in data[1:]]
-            csvwriter.writerow(
-                [isin] + list(map(
-                    lambda x: "{:.3f}".format(x) if x is not None else "",
-                    row
-                ))
-            )
-
+    for f, t in from_to:
+        headers.append("{} -> {}".format(f, t))
+    
+    return (headers, data_sorted)
 
 def abs(data, op, group, value):
 
@@ -134,12 +117,12 @@ def abs(data, op, group, value):
             try:
                 i = next(
                     (
-                        [i[0]] + [op(data[isin],l) for l in i[1:]] 
+                        [i[0]] + [op(data[isin], l) for l in i[1:]]
                         for i in value if i[0] == year
-                    ), 
+                    ),
                     None
                 )
-            except ZeroDivisionError:
+            except (ZeroDivisionError, TypeError):
                 i = None
 
             if i is None:
@@ -157,22 +140,30 @@ def abs(data, op, group, value):
         key=lambda x: sorted_key(x, len(years))
     )
 
+    header = []
 
-    with open('results.csv', 'w', newline='') as csvfile:
-        csvwriter = csv.writer(csvfile, delimiter=',',
-                               quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    for year in years:
+        header.append("{}".format(year))
 
-        headers = ['isin']
+    return (header, data_sorted)
 
-        for year in years:
-            headers.append("{}".format(year))
 
-        csvwriter.writerow(headers)
+def write_data(filename, header, data):
 
-        for data in data_sorted:
+    with open(filename,  'w', newline='') as csvfile:
 
-            isin = data[0]
-            row = [x[1] for x in data[1:]]
+        csvwriter = csv.writer(
+            csvfile, delimiter=',',
+            quotechar='"',
+            quoting=csv.QUOTE_MINIMAL
+        )
+
+        csvwriter.writerow(['ISIN'] + header)
+
+        for i in data:
+
+            isin = i[0]
+            row = [x[1] for x in i[1:]]
             csvwriter.writerow(
                 [isin] + list(map(
                     lambda x: "{:.3f}".format(x) if x is not None else "",
@@ -185,7 +176,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog="eval_stocks",
     )
-    
+
     parser.add_argument(
         'operation',
         help='abs, diff'
@@ -206,33 +197,42 @@ def main():
     with open("data_stocks/stocks.json", encoding="utf-8") as fp:
         data = json.load(fp)
 
-    if args.operation=="diff":
-        diff(data, args.group, args.value)
-    elif args.operation=="abs":
-        abs(
+    if args.operation == "diff":
+        (header, data) = diff(
             data, 
-            lambda e, x:x, 
-            args.group, 
+            "guv", 
+            "jahresueberschuss"
+        )
+        write_data("results.csv", header, data)
+
+    elif args.operation == "abs":
+        abs(
+            data,
+            lambda i, x: x,
+            args.group,
             args.value
         )
-    elif args.operation=="kgx":
-        abs(
-            data, 
-            lambda e, x:e['kurse']['aktueller_kurs']/x if x!=None else None, 
-            'wertpapierdaten', 
+    elif args.operation == "kgv":
+        (header, data) = abs(
+            data,
+            lambda i, x: i['kurse']['aktueller_kurs']/x,
+            'wertpapierdaten',
             'gewinn_je_aktie'
         )
+        write_data("results.csv", header, data)
 
-    elif args.operation=="divren":
-        abs(
-            data, 
-            lambda e, x:(x*100)/e['kurse']['aktueller_kurs'] if x!=None else None, 
-            'wertpapierdaten', 
+    elif args.operation == "divren":
+        (header, data) = abs(
+            data,
+            lambda i, x: (x*100) / i['kurse']['aktueller_kurs'],
+            'wertpapierdaten',
             'dividende_je_aktie'
         )
+        write_data("results.csv", header, data)
     else:
         parser.print_help()
         exit(-1)
+
 
 if __name__ == "__main__":
     main()
