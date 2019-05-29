@@ -179,25 +179,16 @@ def main():
 
     parser.add_argument(
         'operation',
+        choices={'netincome_diff', 'kgv','divren'},
         help='abs, diff'
     )
 
-    parser.add_argument(
-        'group',
-        help='name of group to evaluate',
-        type=str
-    )
-    parser.add_argument(
-        'value',
-        help='name of value to evaluate',
-        type=str
-    )
     args = parser.parse_args(sys.argv[1:])
 
     with open("data_stocks/stocks.json", encoding="utf-8") as fp:
         data = json.load(fp)
 
-    if args.operation == "diff":
+    if args.operation == "netincome_diff":
         (header, data) = diff(
             data, 
             "guv", 
@@ -205,13 +196,6 @@ def main():
         )
         write_data("results.csv", header, data)
 
-    elif args.operation == "abs":
-        abs(
-            data,
-            lambda i, x: x,
-            args.group,
-            args.value
-        )
     elif args.operation == "kgv":
         (header, data) = abs(
             data,
