@@ -102,8 +102,6 @@ def main():
 
         entry = profil_by_isin.setdefault(isin, {})
 
-        
-
         entry.update({
             "wkn": i['wkn'],
             "guv": {

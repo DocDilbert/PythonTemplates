@@ -307,11 +307,11 @@ class ResponseParser:
     def parse(self, session_id, request, response):
         url = request.get_url()
 
-        if ("einzelkurs_uebersicht" in url) and ("offset" not in url):
+        if ("kurse_einzelkurs_uebersicht" in url) and ("offset" not in url):
             pass
             self.parse_overview(session_id, request, response)
-        elif ("einzelkurs_history" in url):
+        elif ("kurse_einzelkurs_history" in url):
             pass
             self.parse_history(session_id, request, response)
-        elif ("einzelkurs_profil" in url):
+        elif ("kurse_einzelkurs_profil" in url):
             self.parse_profil(session_id, request, response)

@@ -50,11 +50,12 @@ class Consumer(multiprocessing.Process):
 
 
 class Task(object):
-    def __init__(self, url_history, request, type_):
+    def __init__(self, url_history, request, meta, type_):
         self.url_history = url_history
         self.request = request
         self.type_ = type_
         self.task_id = -1
+        self.meta = meta
 
     def __str__(self):
         return '{{task_id={}, type="{}", request={}, len(url_history)={}}}'.format(
@@ -74,6 +75,7 @@ class Task(object):
             'task_id' : self.task_id,
             'url_history' : self.url_history,
             'type_': self.type_,
+            'meta': self.meta,
             'request' : self.request,
             'response' : response
         }
@@ -119,6 +121,7 @@ class WebScraper:
         content_handler,
         add_task,
         url_history,
+        meta,
         download_img=False,
         link_filter=None,
     ):
@@ -163,6 +166,7 @@ class WebScraper:
                 add_task(Task(
                     new_url_history,
                     new_request,
+                    {},
                     'CSS'
                 ))
 
@@ -194,6 +198,7 @@ class WebScraper:
                     add_task(Task(
                         new_url_history,
                         new_request,
+                        {},
                         'IMG',
                     ))
 
@@ -213,8 +218,8 @@ class WebScraper:
                 if link_filter:
                     new_url_history = list(url_history)
                     new_url_history.append(request.get_url())
-
-                    if link_filter(url, new_url_history):
+                    accept, new_meta = link_filter(url, new_url_history, meta)
+                    if accept:
                         self.logger.debug(
                             "Filter accepted url \"%s\"", url)
 
@@ -228,6 +233,7 @@ class WebScraper:
                         add_task(Task(
                             new_url_history,
                             new_request,
+                            new_meta,
                             'HTML'
                         ))
                     else: 
@@ -280,10 +286,7 @@ class WebScraper:
                 self.logger = logger
 
             def __call__(self, task): 
-                
-                task.task_id = self.task_id
-
-                
+                task.task_id = self.task_id 
                 task_set.add(self.task_id)
                 self.task_id+=1
                 tasks.put(task)
@@ -293,22 +296,24 @@ class WebScraper:
         for url in urls:
             add_task( Task(
                 [], # no history 
-                Request.from_url(url),
+                Request.from_url(url[0]),
+                url[1],
                 'HTML'
             ))
 
         while(len(task_set) != 0):
-            to_download = results.get(block=True)
+            task_result = results.get(block=True)
 
             # keep track how much task are running
-            task_set.remove(to_download['task_id'])
+            task_set.remove(task_result['task_id'])
 
-            type_ = to_download['type_']
-            url_history = to_download['url_history']
-            request = to_download['request']
-            response = to_download['response']
-
-            self.logger.info('Task {"task_id":%i, "type":"%s"} finished.', to_download['task_id'], type_) 
+            type_ = task_result['type_']
+            url_history = task_result['url_history']
+            request = task_result['request']
+            response = task_result['response']
+            meta = task_result['meta']
+            
+            self.logger.info('Task {"task_id":%i, "type":"%s"} finished.', task_result['task_id'], type_) 
             self.logger.debug("Task response: %s", response) 
 
             if (type_ == 'HTML'):
@@ -316,6 +321,7 @@ class WebScraper:
                     request,
                     response,
                     content_handler,
+                    meta=meta,
                     add_task=add_task,
                     url_history=url_history,
                     download_img=download_img,

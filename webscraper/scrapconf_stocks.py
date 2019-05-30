@@ -14,14 +14,79 @@ DATABASE = "webscraper.db"
 DOWNLOAD_IMGS = False
 SLEEP_TIME = 1.0
 URLS =  [
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096"), # DAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090"), # MDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=158375"), # TECDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159191"), # SDAX
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159194"), # EUROSTOXX50
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159196"), # Stoxx Europe 50
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=849973"), # Dow Jones
-    ("https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=149002")  # Nasdaq 100
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159096",
+        {
+            "root" : True
+        }
+    ), # DAX
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159090",
+        {
+            "root" : True           
+        }
+    ), # MDAX
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=158375",
+        {
+            "root" : True             
+        }
+    ), # TECDAX
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159191",
+        {
+            "root" : True             
+        }
+    ), # SDAX
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159194",
+        {
+            "root" : True   
+        }
+    ), # EUROSTOXX50
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=159196",
+        {
+            "root" : True 
+        }
+    ), # Stoxx Europe 50
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=849973",
+        {
+            "root" : True 
+        }
+    ), # Dow Jones
+    (
+        "https://kurse.boerse.ard.de/ard/indizes_einzelkurs_uebersicht.htn?i=149002",
+        {
+            "root" : True    
+        }
+    ), # Nasdaq 100
+    (
+        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=320389",
+        {
+            "content" : True
+        } 
+    ), #LU0392494562
+    (
+        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=104171",
+        {
+            "content" : True
+        } 
+    ), # DE0006289473
+    (
+        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=20562180",
+        {
+            "content" : True
+        } 
+    ), # IE00B0M63177
+    (
+        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=2562488",
+        {
+            "content" : True
+        } 
+    ) # DE000A0H0728
+
 ]
 
 
@@ -84,11 +149,12 @@ def init_logger():
 class LinkFilter:
     def __init__(self):
         self.logger = logging.getLogger('scrapconf.LinkFilter')
-        self.einzelkurs_regex = re.compile(r"\/.*\/kurse_einzelkurs_uebersicht\.htn")
-        self.history_regex =  re.compile(r"\/.*\/kurse_einzelkurs_history\.htn")
-        self.profil_regex =  re.compile(r"\/.*\/kurse_einzelkurs_profil\.htn")
-
+        self.einzelkurs_regex = re.compile(r"https:\/\/.*\/kurse_einzelkurs_uebersicht\.htn\?i\=\d*$")
+        self.history_regex =  re.compile(r"https:\/\/.*\/kurse_einzelkurs_history\.htn\?i\=\d*$")
+        self.profil_regex =  re.compile(r"https:\/\/.*\/kurse_einzelkurs_profil\.htn\?i\=\d*$")
+        self.etf_portrait = re.compile(r"https:\/\/.*\/etf_einzelkurs_uebersicht\.htn\?i\=\d+&sektion=gesamtportrait$")
         self.visited = set()
+
     def check_next_page(self, url):
 
         up = urlparse(url)
@@ -107,38 +173,49 @@ class LinkFilter:
 
         return False
 
-    def filter(self, url, url_history):
+    def filter(self, url, url_history, meta):
         #self.logger.info(urlparse(x))
-        up = urlparse(url)
-        path = up.path
-    
-        if url in self.visited:
-            return False
 
-       
-        last_url = url_history[-1]
-        
+        if url in self.visited:
+            return False, {}
+
         # Check if further pages exist in list
-        if self.check_next_page(last_url) or len(url_history)==1:
+        if meta.get('root', False):
+            
             if self.check_next_page(url):
                 self.visited.add(url)
-                return True
-
-            if self.einzelkurs_regex.match(path):
+                return True, {'next_page' : True}
+            
+            if self.einzelkurs_regex.match(url):
                 self.visited.add(url)
-                return True
+                return True, {'content': True}
 
-        last_path = urlparse(last_url).path
+        if meta.get('next_page', False):
+            if self.check_next_page(url):
+                self.visited.add(url)
+                return True, {'next_page' : True}
+
+            if self.einzelkurs_regex.match(url):
+                self.visited.add(url)
+                return True, {'content': True}
 
         # Wurde eine Uebersicht geholt?
-        if self.einzelkurs_regex.match(last_path):
+        if meta.get('content', False):
+            
             # dann überprüfe auf history link
-            if self.history_regex.match(path):
+            if self.history_regex.match(url):
                 self.visited.add(url)
-                return True
+                return True, {}
+                
             # oder profil link
-            if self.profil_regex.match(path):
+            if self.profil_regex.match(url):
                 self.visited.add(url)
-                return True
+                return True, {}
 
-        return False
+            # oder etf portrait link
+            if self.etf_portrait.match(url):
+                self.visited.add(url)
+                return True, {}
+
+
+        return False, {}
