@@ -63,29 +63,11 @@ URLS =  [
         }
     ), # Nasdaq 100
     (
-        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=320389",
+        "https://kurse.boerse.ard.de/ard/etf_suche.htn?suche=1&searchString=&securityTypeCode=ETF_SHARE&instrumentIdUnderlying=&issuerId=",
         {
-            "content" : True
+           "root" : True 
         } 
-    ), #LU0392494562
-    (
-        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=104171",
-        {
-            "content" : True
-        } 
-    ), # DE0006289473
-    (
-        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=20562180",
-        {
-            "content" : True
-        } 
-    ), # IE00B0M63177
-    (
-        "https://kurse.boerse.ard.de/ard/etf_einzelkurs_uebersicht.htn?i=2562488",
-        {
-            "content" : True
-        } 
-    ) # DE000A0H0728
+    ) # ETF Search
 
 ]
 
@@ -149,10 +131,11 @@ def init_logger():
 class LinkFilter:
     def __init__(self):
         self.logger = logging.getLogger('scrapconf.LinkFilter')
-        self.einzelkurs_regex = re.compile(r"https:\/\/.*\/kurse_einzelkurs_uebersicht\.htn\?i\=\d*$")
+        self.einzelkurs_regex = re.compile(r"https:\/\/.*_einzelkurs_uebersicht\.htn\?i\=\d*$")
         self.history_regex =  re.compile(r"https:\/\/.*\/kurse_einzelkurs_history\.htn\?i\=\d*$")
         self.profil_regex =  re.compile(r"https:\/\/.*\/kurse_einzelkurs_profil\.htn\?i\=\d*$")
         self.etf_portrait = re.compile(r"https:\/\/.*\/etf_einzelkurs_uebersicht\.htn\?i\=\d+&sektion=gesamtportrait$")
+        self.next_search_etf_result = re.compile(r".*ETF_SHARE&suche=1&offset=\d+$")
         self.visited = set()
 
     def check_next_page(self, url):
@@ -185,13 +168,18 @@ class LinkFilter:
             if self.check_next_page(url):
                 self.visited.add(url)
                 return True, {'next_page' : True}
-            
+            if self.next_search_etf_result.match(url):
+                self.visited.add(url)
+                return True, {'next_page' : True}
             if self.einzelkurs_regex.match(url):
                 self.visited.add(url)
                 return True, {'content': True}
 
         if meta.get('next_page', False):
             if self.check_next_page(url):
+                self.visited.add(url)
+                return True, {'next_page' : True}
+            if self.next_search_etf_result.match(url):
                 self.visited.add(url)
                 return True, {'next_page' : True}
 

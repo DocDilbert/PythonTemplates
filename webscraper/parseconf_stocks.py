@@ -114,18 +114,18 @@ class ResponseParser:
 
         self.add_entry(session_id, features_dict)
 
-    def parse_overview(self, session_id, request, response):
+    def parse_stock_overview(self, session_id, request, response):
         soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
         header1_div = soup.find("div", {"class": "einzelkurs_header"})
-        header2_div = header1_div.find_next(
-            "div", {"class": "einzelkurs_header"})
-        isin_wkn_span = header2_div.find(
-            "span", {"class": "leftfloat bottom_aligned"})
-        isin_wkn = [x.strip().split(" ")[1]
-                    for x in isin_wkn_span.text.split("|")]
+        header2_div = header1_div.find_next("div", {"class": "einzelkurs_header"})
+        isin_wkn_span = header2_div.find("span", {"class": "leftfloat bottom_aligned"})
+        
+        isin_wkn = [
+            x.strip().split(" ")[1]
+            for x in isin_wkn_span.text.split("|")
+        ]
 
-        sample_time_span = header2_div.find(
-            "span", {"class": "rightfloat bottom_aligned"})
+        sample_time_span = header2_div.find("span", {"class": "rightfloat bottom_aligned"})
         table = header2_div.find_next("table")
         aktueller_kurs = table.find("td", {"headers": "aktueller_kurs"})
         tageshoch = table.find("td", {"headers": "tageshoch"})
@@ -136,9 +136,7 @@ class ResponseParser:
         wochentief = table.find("td", {"headers": "wochentief"})
         gattung_td = table.find_next("td", {"headers": "gattung"})
 
-        vwd_info_box = gattung_td.find_all_next(
-            "div", {"class", "vwd_infobox"})
-
+        vwd_info_box = table.find_all_next("div", {"class", "vwd_infobox"})
         vwd_info_box_left = vwd_info_box[0]
         vwd_info_box_mid = vwd_info_box[1]
         vwd_info_box_right = vwd_info_box[2]
@@ -146,14 +144,14 @@ class ResponseParser:
         eine_woche = vwd_info_box_left.find("td", {"headers": "eine_woche"})
         ein_monat = vwd_info_box_mid.find("td", {"headers": "ein_monat"})
         drei_monate = vwd_info_box_right.find("td", {"headers": "drei_monate"})
-        sechs_monate = vwd_info_box_left.find(
-            "td", {"headers": "sechs_monate"})
+        sechs_monate = vwd_info_box_left.find("td", {"headers": "sechs_monate"})
         ein_jahr = vwd_info_box_mid.find("td", {"headers": "ein_jahr"})
         drei_jahre = vwd_info_box_right.find("td", {"headers": "drei_jahre"})
         fuenf_jahre = vwd_info_box_left.find("td", {"headers": "fuenf_jahre"})
 
-        teaser = gattung_td.find_next("div", {"class": "teaserhp"})
+        teaser = table.find_next("div", {"class": "teaserhp"})
         headline = None
+
         news = []
         if teaser:
             ahref = teaser.find("a").get("href")
@@ -235,7 +233,6 @@ class ResponseParser:
         self.add_entry(session_id, features_dict)
 
     def parse_table(self, soup, title):
-
         bilanz_hl = soup.find(text=title)
         bilanz = bilanz_hl.find_next("table")
         title_hl = bilanz_hl.parent.next_sibling.next_sibling
@@ -309,7 +306,7 @@ class ResponseParser:
 
         if ("kurse_einzelkurs_uebersicht" in url) and ("offset" not in url):
             pass
-            self.parse_overview(session_id, request, response)
+            self.parse_stock_overview(session_id, request, response)
         elif ("kurse_einzelkurs_history" in url):
             pass
             self.parse_history(session_id, request, response)
