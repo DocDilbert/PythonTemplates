@@ -137,8 +137,9 @@ def main():
     data_per_isin = {}
     for isin in isins:
         data_per_isin[isin] = {}
-        # isolate entries
+        
         try:
+            # isolate entries
             k = {i['datum']: i for i in historie[isin]}
 
             # combine and sort
