@@ -91,7 +91,7 @@ def abs(data, op, group, value):
     eval_value = {
         k: v[group][value]
         for k, v in data.items()
-        if v[group][value] is not None
+        if group in v and v[group][value] is not None
     }
 
     years = set()

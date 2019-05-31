@@ -79,8 +79,10 @@ def main():
     uebersicht = {}
     for i in raw_data_uebersicht:
         isin = i['isin']
-
+        print(isin)
         entry = uebersicht.setdefault(isin, {})
+        performance = entry.setdefault("performance", {})
+
         entry.update({
             "name": i['name'],
             "wkn": i['wkn'],
@@ -89,6 +91,10 @@ def main():
                 'aktueller_kurs' : i['kurse']["aktueller_kurs"]
             }
         })
+
+        performance.update(
+            i['performance']
+        )
 
     raw_data_profil_by_isin = {
         isin: [x for x in raw_data_profil if x['isin'] == isin]
