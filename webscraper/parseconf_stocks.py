@@ -232,6 +232,93 @@ class ResponseParser:
 
         self.add_entry(session_id, features_dict)
 
+    def parse_etf_overview(self, session_id, request, response):
+
+        soup = BeautifulSoup(response.content.decode("utf-8"), 'lxml')
+        header1_div = soup.find("div", {"class": "einzelkurs_header"})
+        header2_div = header1_div.find_next("div", {"class": "einzelkurs_header"})
+        isin_wkn_span = header2_div.find("span", {"class": "leftfloat bottom_aligned"})
+        
+        isin_wkn = [
+            x.strip().split(" ")[1]
+            for x in isin_wkn_span.text.split("|")
+        ]
+
+        sample_time_span = header2_div.find("span", {"class": "rightfloat bottom_aligned"})
+        table = header2_div.find_next("table")
+        aktueller_kurs = table.find("td", {"headers": "aktueller_kurs"})
+        vortag = table.find("td", {"headers": "vortag"})
+        wochenhoch = table.find("td", {"headers": "wochenhoch"})
+        wochentief = table.find("td", {"headers": "wochentief"})
+        fondswaehrung = table.find("td", {"headers": "waehrung"})
+        fondsart = table.find("td", {"headers": "fondsart"})
+        fondsvolumen = table.find("td", {"headers": "fondsvolumen"})
+        auschuettungsart = table.find("td", {"headers":"auschuettungsart"})
+        verwaltungsgebuehr = table.find("td", {"headers":"verwaltungsgebuehr"})
+        gesellschaft = table.find("td", {"headers":"gesellschaft"})
+        vwd_info_box = table.find_all_next("div", {"class", "vwd_infobox"})
+        vwd_info_box_left = vwd_info_box[0]
+        vwd_info_box_mid = vwd_info_box[1]
+        vwd_info_box_right = vwd_info_box[2]
+
+        eine_woche = vwd_info_box_left.find("td", {"headers": "eine_woche"})
+        ein_monat = vwd_info_box_mid.find("td", {"headers": "ein_monat"})
+        drei_monate = vwd_info_box_right.find("td", {"headers": "drei_monate"})
+        sechs_monate = vwd_info_box_left.find("td", {"headers": "sechs_monate"})
+        ein_jahr = vwd_info_box_mid.find("td", {"headers": "ein_jahr"})
+        drei_jahre = vwd_info_box_right.find("td", {"headers": "drei_jahre"})
+        fuenf_jahre = vwd_info_box_left.find("td", {"headers": "fuenf_jahre"})
+
+        boersen_platz = table.find("td", {"headers": "boerse"})
+        
+        # get index from url
+        index = int(request.get_url().split("?")[1].split("=")[1])
+
+        currency = self.detect_currency(aktueller_kurs.text)
+        # "17.05.2019  17:45"
+        st = datetime.strptime(sample_time_span.text.replace(
+            u'\xa0', u' '), '%d.%m.%Y  %H:%M')
+
+        features_dict = {
+            "url": request.get_url(),
+            "type": "uebersicht",
+            "gattung": "etf",
+            "kurse": {
+                "aktueller_kurs": self.convert_to_float(currency[1], aktueller_kurs.text),
+                "vortag": self.convert_to_float(currency[1], vortag.text),
+                # 52 Wochen
+                "wochenhoch": self.convert_to_float(currency[1], wochenhoch.text),
+                # 52 Wochen
+                "wochentief": self.convert_to_float(currency[1], wochentief.text),
+            },
+            "waehrung": currency[0],
+            "index": index,
+            "fondwaehrung": fondswaehrung.text,
+            "fondsvolumen": fondsvolumen.text,
+            "auschuettungsart": auschuettungsart.text,
+            "boersen_platz": boersen_platz.text,
+            "verwaltungsgebuehr": verwaltungsgebuehr.text,
+            "gesellschaft":gesellschaft.text,
+            "name": header1_div.find("h1").text,
+            "isin": isin_wkn[0],
+            "wkn": isin_wkn[1],
+            "abtastzeit": st.isoformat(),
+            "fondsart": fondsart.text,
+            "performance": {
+                "eine_woche": self.convert_to_float("%", eine_woche.text),
+                "ein_monat": self.convert_to_float("%", ein_monat.text),
+                "drei_monate": self.convert_to_float("%", drei_monate.text),
+                "sechs_monate": self.convert_to_float("%", sechs_monate.text),
+                "ein_jahr": self.convert_to_float("%", ein_jahr.text),
+                "drei_jahre": self.convert_to_float("%", drei_jahre.text),
+                "fuenf_jahre": self.convert_to_float("%", fuenf_jahre.text)
+            }
+        }
+  
+
+        self.add_entry(session_id, features_dict)
+
+
     def parse_table(self, soup, title):
         bilanz_hl = soup.find(text=title)
         bilanz = bilanz_hl.find_next("table")
@@ -307,8 +394,12 @@ class ResponseParser:
         if ("kurse_einzelkurs_uebersicht" in url) and ("offset" not in url):
             pass
             self.parse_stock_overview(session_id, request, response)
+        elif ("etf_einzelkurs_uebersicht" in url) and ("offset" not in url) and ("sektion" not in url):
+            pass
+            self.parse_etf_overview(session_id, request, response)
         elif ("kurse_einzelkurs_history" in url):
             pass
             self.parse_history(session_id, request, response)
         elif ("kurse_einzelkurs_profil" in url):
+            pass
             self.parse_profil(session_id, request, response)

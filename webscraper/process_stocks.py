@@ -136,49 +136,45 @@ def main():
 
     data_per_isin = {}
     for isin in isins:
-
+        data_per_isin[isin] = {}
         # isolate entries
         try:
             k = {i['datum']: i for i in historie[isin]}
+
+            # combine and sort
+            history_dict = sorted(
+                list(k.values()),
+                key=lambda x: datetime.strptime(
+                    x['datum'], '%d.%m.%Y')
+            )
+
+            history_list = [
+                [x['datum'], x['eroeffnung'], x['schlusskurs'], x['hoch'], x['tief']]
+                for x in history_dict
+            ]
+            data_per_isin[isin].update({
+                "historie": history_list
+            })
+
         except KeyError:
             print("Missing history: "+isin)
-            continue
-
-        # combine and sort
-        history_dict = sorted(
-            list(k.values()),
-            key=lambda x: datetime.strptime(
-                x['datum'], '%d.%m.%Y')
-        )
-
-        history_list = [
-            [x['datum'], x['eroeffnung'], x['schlusskurs'], x['hoch'], x['tief']]
-            for x in history_dict
-        ]
 
         try:
             ueberischt_of_isin = uebersicht[isin]
+            data_per_isin[isin].update(
+                ueberischt_of_isin
+            )
         except KeyError:
             print("Missing overview: "+isin)
-            continue
 
         try:
             profil_of_isin = profil_by_isin[isin]
+            data_per_isin[isin].update(
+                profil_of_isin
+            )
+
         except KeyError:
             print("Missing profile: "+isin)
-            continue
-
-        data_per_isin[isin] = {
-            "historie": history_list
-        }
-
-        data_per_isin[isin].update(
-            profil_of_isin
-        )
-
-        data_per_isin[isin].update(
-            ueberischt_of_isin
-        )
 
     with open("data_stocks/stocks.json", "w", encoding="utf-8") as fp:
         json.dump(data_per_isin, fp, indent=4, sort_keys=True)
