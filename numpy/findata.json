@@ -1,0 +1,21 @@
+[
+    {
+        "monat" : "july 2019",
+        "Einkommen" : 5475.00,
+        "Safety Margin" : -50.0,
+        "Strom" : -40,
+        "Reisen" : -300.0,
+        "GEZ" : -17.5,
+        "Krankenversicherung" : -842.0,
+        "Telefon" : -53.0,
+        "Kfz-Versicherung" : -47.50,
+        "BU-Versicherung" : -83.52,
+        "Privathaftpflicht" : -3.50,
+        "Auslands-kv." : -0.75,
+        "Miete" : -1030.0,
+        "Spenden": -35.0,
+        "Spaß" : -15.0,
+        "Unterhalt" : -914.0
+        
+    }
+]
