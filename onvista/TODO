@@ -23,12 +23,13 @@ ID-Export:
   ✔ Json Liste der IDs lesbar exportieren @done(19-07-29 15:41)
   ☐ MetaDaten in der ID Liste hinzufügen
     ☐ Kurzname und Name hinzufügen (onvista MetaDaten)
-    ☐ Indexname, falls vorhanden, hinzufügen
+    ✔ Indexname, falls vorhanden, hinzufügen @done(19-07-29 15:56)
     ☐ Stammdaten exportieren
       ☐ Symbol exportieren
       ☐ ISIN exportieren
       ☐ WKN exportieren
       ☐ Sektor exportieren
+      ☐ Typ exportieren
     ☐ Gewichtung im DAX
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens

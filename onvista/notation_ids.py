@@ -34,8 +34,10 @@ def main():
         headers=HEADERS
     )
     soup = bs4.BeautifulSoup(response_raw.content, 'html.parser')
-
+    wpname = soup.find("span", {"class": "WERTPAPIERNAME"}).find("a")
+    index_name = wpname.contents[0].strip()
     tbody = soup.find("tbody", {"class": "table_box_content_zebra"})
+    
     entries = tbody.find_all("tr")
 
     data = []
@@ -45,7 +47,8 @@ def main():
         name = ahref['title']
         link = ROOT+ahref['href']
         item = {
-            'name': name
+            'name': name,
+            'index' : index_name
         }
         item.update(details(link))
         print(item)
