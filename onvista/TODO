@@ -35,3 +35,5 @@ ID-Export:
     ☐ Angabe des Dateienamens
   ☐ IDS für beliebigen Index extrahieren
   ☐ PyLint Rules überprüfen
+  ☐ Ermittelte Daten in einer Zeile schön formatiert darstellen.
+  ☐ Ordered Dictionary aus der "details" MEthode ausgeben
