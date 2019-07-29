@@ -7,7 +7,6 @@ import dateutil.relativedelta as rd
 import numpy as np
 import json
 import os
-locale.setlocale(locale.LC_ALL, 'de_DE')
 
 # chrome 70.0.3538.77
 HEADERS = {
@@ -17,6 +16,7 @@ HEADERS = {
 
 
 def main():
+    locale.setlocale(locale.LC_ALL, 'de_DE')
 
     with open("metadata.json","r") as fp:
         data = json.load(fp)
@@ -65,6 +65,7 @@ def main():
             ])
 
             for r in rows[1:]:
+                print(str.strip(r.contents[3].text))
                 date = str.strip(r.contents[1].text).split('.')
                 date_new_format = date[2]+"-"+date[1]+"-"+date[0]
                 opening = locale.atof(str.strip(r.contents[2].text))
@@ -99,6 +100,7 @@ def main():
             },
             'QUOTES': data_array.tolist()
         }
+        filed['META'].update(i)
         try:
             os.mkdir(dirname)
         except OSError:
