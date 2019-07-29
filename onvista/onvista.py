@@ -17,88 +17,95 @@ HEADERS = {
 
 
 def main():
-    name = "Daimler"
-    id_ = "161766"
-    dirname = "stocks"
 
-    scrap_date = datetime.date(1990, 1, 1)
-    datelist = []
-    while(scrap_date <= datetime.date.today()):
+    with open("metadata.json","r") as fp:
+        data = json.load(fp)
+    
+    for i in data:
+        print(i)
+        name = i['name']
+        id_ = i['notation_id']
 
-        scrap_date_url = ""+str(scrap_date.day)+"." + \
-            str(scrap_date.month)+"."+str(scrap_date.year)
-        datelist.append(scrap_date_url)
-        scrap_date = scrap_date + rd.relativedelta(years=+5)
+        dirname = "stocks"
 
-    data_array = None
-    for date_start in datelist:
-        URL = ("https://www.onvista.de/onvista/times+sales/popup/historische-kurse/?"
-               "notationId="+id_+"&"
-               "dateStart="+date_start+"&"
-               "interval=Y5&"
-               "assetName="+name+"&"
-               "exchange=Tradegate"
-               )
+        scrap_date = datetime.date(1990, 1, 1)
+        datelist = []
+        while(scrap_date <= datetime.date.today()):
 
-        response_raw = requests.get(
-            URL,
-            headers=HEADERS
-        )
-        soup = bs4.BeautifulSoup(response_raw.content, 'html.parser')
+            scrap_date_url = ""+str(scrap_date.day)+"." + \
+                str(scrap_date.month)+"."+str(scrap_date.year)
+            datelist.append(scrap_date_url)
+            scrap_date = scrap_date + rd.relativedelta(years=+5)
 
-        rows = soup.find_all("tr")
-        data = []
-        dt = np.dtype([
-            ('date', 'object'),
-            ('opening', 'f4'),
-            ('high', 'f4'),
-            ('low', 'f4'),
-            ('closing', 'f4'),
-            ('volume', 'i4')
-        ])
+        data_array = None
+        for date_start in datelist:
+            URL = ("https://www.onvista.de/onvista/times+sales/popup/historische-kurse/?"
+                "notationId="+str(id_)+"&"
+                "dateStart="+date_start+"&"
+                "interval=Y5&"
+                "assetName="+name+"&"
+                "exchange=Tradegate"
+                )
 
-        for r in rows[1:]:
-            date = str.strip(r.contents[1].text).split('.')
-            date_new_format = date[2]+"-"+date[1]+"-"+date[0]
-            opening = locale.atof(str.strip(r.contents[2].text))
-            high = locale.atof(str.strip(r.contents[3].text))
-            low = locale.atof(str.strip(r.contents[4].text))
-            closing = locale.atof(str.strip(r.contents[5].text))
-            volume = locale.atoi(
-                str.strip(r.contents[6].text.replace('.', '')))
-
-            row = (
-                date_new_format,
-                opening,
-                high,
-                low,
-                closing,
-                volume
+            response_raw = requests.get(
+                URL,
+                headers=HEADERS
             )
-            data.append(row)
+            soup = bs4.BeautifulSoup(response_raw.content, 'html.parser')
 
-        if not data:
-            continue
+            rows = soup.find_all("tr")
+            data = []
+            dt = np.dtype([
+                ('date', 'object'),
+                ('opening', 'f4'),
+                ('high', 'f4'),
+                ('low', 'f4'),
+                ('closing', 'f4'),
+                ('volume', 'i4')
+            ])
 
-        if data_array is None:
-            data_array = np.array(data, dtype=dt)
-        else:
-            data_array = np.concatenate((data_array, np.array(data, dtype=dt)))
+            for r in rows[1:]:
+                date = str.strip(r.contents[1].text).split('.')
+                date_new_format = date[2]+"-"+date[1]+"-"+date[0]
+                opening = locale.atof(str.strip(r.contents[2].text))
+                high = locale.atof(str.strip(r.contents[3].text))
+                low = locale.atof(str.strip(r.contents[4].text))
+                closing = locale.atof(str.strip(r.contents[5].text))
+                volume = locale.atoi(
+                    str.strip(r.contents[6].text.replace('.', '')))
 
-    filed = {
-        'META': {
-            'name': name,
-            'id' : id_
-        },
-        'QUOTES': data_array.tolist()
-    }
-    try:
-        os.mkdir(dirname)
-    except OSError:
-        pass
+                row = (
+                    date_new_format,
+                    opening,
+                    high,
+                    low,
+                    closing,
+                    volume
+                )
+                data.append(row)
 
-    with open(dirname+"/daimler.json", "w") as fp:
-        json.dump(filed, fp)
+            if not data:
+                continue
+
+            if data_array is None:
+                data_array = np.array(data, dtype=dt)
+            else:
+                data_array = np.concatenate((data_array, np.array(data, dtype=dt)))
+
+        filed = {
+            'META': {
+                'name': name,
+                'id' : id_
+            },
+            'QUOTES': data_array.tolist()
+        }
+        try:
+            os.mkdir(dirname)
+        except OSError:
+            pass
+
+        with open(dirname+"/"+name+".json", "w") as fp:
+            json.dump(filed, fp)
 
 
 if __name__ == "__main__":

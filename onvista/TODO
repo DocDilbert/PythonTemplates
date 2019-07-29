@@ -1,31 +1,27 @@
 
 Historische Daten:
-  ☐ Beliebige IDs downloadbar machen
-  ☐ Dem onvista downloader eine json datei im Format des id downloaders übergeben
-  ☐ Ergebnisse in Verzeichniss speichern
-    ✔ VZ erstellen und Datei dort ablegen @done(19-07-29 16:37)
-    ☐ Name des VZ entspricht dem Namen der ID Liste
+  ☐ Alle Metadaten aus der Liste der Zeitreihe hinzufügen @high
+  ☐ Name des VZ entspricht dem Namen der ID Liste
   ☐ OnVista Skript formatieren
   ☐ Progress anzeigen durch string
   ☐ Börsenplatz der historischen Daten ermitteln
   ☐ Historische hson Dateien in Dropbox ablegen und zipen mit Datum.
-  ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)
   ☐ Modul erstellen welches Daten verfügbar macht.
   ☐ Datenmodul um interpolation erweitern
   ☐ FFT Tool erstellen
   ☐ Datenmodul: Zeitreihen beliebig aufteilen 
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens
-
+  ☐ PyLint Rules überprüfen
+  ☐ Aktualisierung der vorhandenen Daten 
+    ☐ Abfrage ab letzen gespeicherten Datum  
+    ☐ Zustand speichern...was wurde geladen was nicht
 
 ID-Export:
-  ✔ ID Liste für download in json format speichern @done(19-07-29 15:07)
-  ✔ Daten in json Format exportieren @done(19-07-29 12:36)
-  ✔ IDs für DAX extrahieren @done(19-07-29 13:15)
-  ✔ Json Liste der IDs lesbar exportieren @done(19-07-29 15:41)
+  ☐ Kommandozeilenunterstützung
+    ☐ Angabe des Dateienamens
   ☐ MetaDaten in der ID Liste hinzufügen
     ☐ Kurzname und Name hinzufügen (onvista MetaDaten)
-    ✔ Indexname, falls vorhanden, hinzufügen @done(19-07-29 15:56)
     ☐ Stammdaten exportieren
       ☐ Symbol exportieren
       ☐ ISIN exportieren
@@ -33,9 +29,21 @@ ID-Export:
       ☐ Sektor exportieren
       ☐ Typ exportieren
     ☐ Gewichtung im DAX
-  ☐ Kommandozeilenunterstützung
-    ☐ Angabe des Dateienamens
   ☐ IDS für beliebigen Index extrahieren
   ☐ PyLint Rules überprüfen
   ☐ Ermittelte Daten in einer Zeile schön formatiert darstellen.
   ☐ Ordered Dictionary aus der "details" MEthode ausgeben
+
+Archive:
+  ✔ Ergebnisse in Verzeichnis speichern @done(19-07-29 22:34) @project(Historische Daten)
+  ✔ Beliebige IDs downloadbar machen @done(19-07-29 22:12) @project(Historische Daten)
+  ✔ Dem onvista downloader eine json datei im Format des id downloaders übergeben @done(19-07-29 22:15) @project
+  ✔ Speicherung der Daten unter verschiedenen Dateinamen @done(19-07-29 22:22) @project(Historische Daten)
+  ✔ Bulk download @done(19-07-29 22:22) @project(Historische Daten)
+  ✔ VZ erstellen und Datei dort ablegen @done(19-07-29 16:37) @project(Historische Daten)
+  ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36) @project(Historische Daten)
+  ✔ ID Liste für download in json format speichern @done(19-07-29 15:07) @project(ID-Export)
+  ✔ Daten in json Format exportieren @done(19-07-29 12:36) @project(ID-Export)
+  ✔ IDs für DAX extrahieren @done(19-07-29 13:15) @project(ID-Export)
+  ✔ Json Liste der IDs lesbar exportieren @done(19-07-29 15:41) @project(ID-Export)
+  ✔ Indexname, falls vorhanden, hinzufügen @done(19-07-29 15:56) @project(ID-Export)
