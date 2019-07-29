@@ -65,13 +65,12 @@ def main():
             ])
 
             for r in rows[1:]:
-                print(str.strip(r.contents[3].text))
                 date = str.strip(r.contents[1].text).split('.')
                 date_new_format = date[2]+"-"+date[1]+"-"+date[0]
-                opening = locale.atof(str.strip(r.contents[2].text))
-                high = locale.atof(str.strip(r.contents[3].text))
-                low = locale.atof(str.strip(r.contents[4].text))
-                closing = locale.atof(str.strip(r.contents[5].text))
+                opening = locale.atof(str.strip(r.contents[2].text.replace('.', '')))
+                high = locale.atof(str.strip(r.contents[3].text.replace('.', '')))
+                low = locale.atof(str.strip(r.contents[4].text.replace('.', '')))
+                closing = locale.atof(str.strip(r.contents[5].text.replace('.', '')))
                 volume = locale.atoi(
                     str.strip(r.contents[6].text.replace('.', '')))
 
