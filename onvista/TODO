@@ -1,23 +1,34 @@
 
-General:
+Historische Daten:
   ☐ Beliebige IDs downloadbar machen
+  ☐ Dem onvista downloader eine json datei im Format des id downloaders übergeben
+  ☐ Ergebnisse in Verzeichniss speichern
+    ☐ Name des VZ entspricht dem Namen der ID Liste
   ☐ OnVista Skript formatieren
-  ✔ IDs für DAX extrahieren @done(19-07-29 13:15)
-  ☐ IDS für beliebigen Index extrahieren
   ☐ Börsenplatz der historischen Daten ermitteln
-  ☐ Json Liste der IDs lesbar exportieren
-  ✔ ID Liste für download in json format speichern @done(19-07-29 15:07)
-  ✔ Daten in json Format exportieren @done(19-07-29 12:36)
+  ☐ Historische hson Dateien in Dropbox ablegen und zipen mit Datum.
   ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)
   ☐ Modul erstellen welches Daten verfügbar macht.
   ☐ Datenmodul um interpolation erweitern
   ☐ FFT Tool erstellen
   ☐ Datenmodul: Zeitreihen beliebig aufteilen 
-  ☐ Beliebige Dateinamen unterstützen
+  ☐ Kommandozeilenunterstützung
+    ☐ Angabe des Dateienamens
+
+
+ID-Export:
+  ✔ ID Liste für download in json format speichern @done(19-07-29 15:07)
+  ✔ Daten in json Format exportieren @done(19-07-29 12:36)
+  ✔ IDs für DAX extrahieren @done(19-07-29 13:15)
+  ☐ Json Liste der IDs lesbar exportieren
   ☐ MetaDaten in der ID Liste
     ☐ Kurzname und Name hinzufügen (onvista MetaDaten)
+    ☐ Indexname, falls vorhanden, hinzufügen
     ☐ Symbol exportieren
     ☐ ISIN exportieren
     ☐ WKN exportieren
     ☐ Sektor exportieren
     ☐ Mehr Metadaten exportieren
+  ☐ Kommandozeilenunterstützung
+    ☐ Angabe des Dateienamens
+  ☐ IDS für beliebigen Index extrahieren
