@@ -2,151 +2,241 @@
     {
         "name": "ADIDAS AG",
         "index": "DAX",
-        "notation_id": 39471840
+        "notation_id": 39517324,
+        "wkn": "A1EWWW",
+        "isin": "DE000A1EWWW0",
+        "symbol": "ADS"
     },
     {
         "name": "ALLIANZ SE",
         "index": "DAX",
-        "notation_id": 1937897
+        "notation_id": 9385907,
+        "wkn": "840400",
+        "isin": "DE0008404005",
+        "symbol": "ALV"
     },
     {
         "name": "BASF SE",
         "index": "DAX",
-        "notation_id": 37886885
+        "notation_id": 37967484,
+        "wkn": "BASF11",
+        "isin": "DE000BASF111",
+        "symbol": "BAS"
     },
     {
         "name": "BAYER AG",
         "index": "DAX",
-        "notation_id": 30820934
+        "notation_id": 30920189,
+        "wkn": "BAY001",
+        "isin": "DE000BAY0017",
+        "symbol": "BAYN"
     },
     {
         "name": "BAYERISCHE MOTOREN WERKE AG",
         "index": "DAX",
-        "notation_id": 143094
+        "notation_id": 9385751,
+        "wkn": "519000",
+        "isin": "DE0005190003",
+        "symbol": "BMW"
     },
     {
         "name": "BEIERSDORF AG",
         "index": "DAX",
-        "notation_id": 143111
+        "notation_id": 9386081,
+        "wkn": "520000",
+        "isin": "DE0005200000",
+        "symbol": "BEI"
     },
     {
         "name": "CONTINENTAL AG",
         "index": "DAX",
-        "notation_id": 144339
+        "notation_id": 9385867,
+        "wkn": "543900",
+        "isin": "DE0005439004",
+        "symbol": "CON"
     },
     {
         "name": "COVESTRO AG INHABER-AKTIEN O.N.",
         "index": "DAX",
-        "notation_id": 143837189
+        "notation_id": 142664738,
+        "wkn": "606214",
+        "isin": "DE0006062144",
+        "symbol": "1COV"
     },
     {
         "name": "DAIMLER AG",
         "index": "DAX",
-        "notation_id": 161766
+        "notation_id": 28859632,
+        "wkn": "710000",
+        "isin": "DE0007100000",
+        "symbol": "DAI"
     },
     {
         "name": "DEUTSCHE BANK AG",
         "index": "DAX",
-        "notation_id": 142991
+        "notation_id": 9385960,
+        "wkn": "514000",
+        "isin": "DE0005140008",
+        "symbol": "DBK"
     },
     {
         "name": "DEUTSCHE BOERSE AG",
         "index": "DAX",
-        "notation_id": 2036789
+        "notation_id": 9385716,
+        "wkn": "581005",
+        "isin": "DE0005810055",
+        "symbol": "DB1"
     },
     {
         "name": "DEUTSCHE LUFTHANSA AG",
         "index": "DAX",
-        "notation_id": 1543196
+        "notation_id": 9385804,
+        "wkn": "823212",
+        "isin": "DE0008232125",
+        "symbol": "LHA"
     },
     {
         "name": "DEUTSCHE POST AG",
         "index": "DAX",
-        "notation_id": 144553
+        "notation_id": 9385755,
+        "wkn": "555200",
+        "isin": "DE0005552004",
+        "symbol": "DPW"
     },
     {
         "name": "DEUTSCHE TELEKOM AG",
         "index": "DAX",
-        "notation_id": 2025437
+        "notation_id": 9385986,
+        "wkn": "555750",
+        "isin": "DE0005557508",
+        "symbol": "DTE"
     },
     {
         "name": "E.ON SE",
         "index": "DAX",
-        "notation_id": 24022547
+        "notation_id": 24113245,
+        "wkn": "ENAG99",
+        "isin": "DE000ENAG999",
+        "symbol": "EOAN"
     },
     {
         "name": "FRESENIUS MEDICAL CARE AG & CO KGAA",
         "index": "DAX",
-        "notation_id": 150288
+        "notation_id": 9385873,
+        "wkn": "578580",
+        "isin": "DE0005785802",
+        "symbol": "FME"
     },
     {
         "name": "FRESENIUS SE & CO. KGAA",
         "index": "DAX",
-        "notation_id": 1958612
+        "notation_id": 31757159,
+        "wkn": "578560",
+        "isin": "DE0005785604",
+        "symbol": "FRE"
     },
     {
         "name": "HEIDELBERGCEMENT AG",
         "index": "DAX",
-        "notation_id": 152371
+        "notation_id": 9385714,
+        "wkn": "604700",
+        "isin": "DE0006047004",
+        "symbol": "HEI"
     },
     {
         "name": "HENKEL AG & CO VZ",
         "index": "DAX",
-        "notation_id": 152378
+        "notation_id": 9386083,
+        "wkn": "604843",
+        "isin": "DE0006048432",
+        "symbol": "HEN3"
     },
     {
         "name": "INFINEON TECHNOLOGIES AG",
         "index": "DAX",
-        "notation_id": 154990
+        "notation_id": 9385968,
+        "wkn": "623100",
+        "isin": "DE0006231004",
+        "symbol": "IFX"
     },
     {
         "name": "LINDE PLC REGISTERED SHARES EO 0,001",
         "index": "DAX",
-        "notation_id": 233661987
+        "notation_id": 195863117,
+        "wkn": "A2DSYC",
+        "isin": "IE00BZ12WP82",
+        "symbol": "LIN"
     },
     {
         "name": "MERCK KGAA",
         "index": "DAX",
-        "notation_id": 158463
+        "notation_id": 9385823,
+        "wkn": "659990",
+        "isin": "DE0006599905",
+        "symbol": "MRK"
     },
     {
         "name": "MUENCHENER RUECKVERSICHERUNGS-GESELLSCHAFT AG",
         "index": "DAX",
-        "notation_id": 186563
+        "notation_id": 9386060,
+        "wkn": "843002",
+        "isin": "DE0008430026",
+        "symbol": "MUV2"
     },
     {
         "name": "RWE AG",
         "index": "DAX",
-        "notation_id": 160037
+        "notation_id": 9385985,
+        "wkn": "703712",
+        "isin": "DE0007037129",
+        "symbol": "RWE"
     },
     {
         "name": "SAP SE",
         "index": "DAX",
-        "notation_id": 163500
+        "notation_id": 9386131,
+        "wkn": "716460",
+        "isin": "DE0007164600",
+        "symbol": "SAP"
     },
     {
         "name": "SIEMENS AG",
         "index": "DAX",
-        "notation_id": 1929749
+        "notation_id": 9385813,
+        "wkn": "723610",
+        "isin": "DE0007236101",
+        "symbol": "SIE"
     },
     {
         "name": "THYSSENKRUPP AG",
         "index": "DAX",
-        "notation_id": 167332
+        "notation_id": 9385932,
+        "wkn": "750000",
+        "isin": "DE0007500001",
+        "symbol": "TKA"
     },
     {
         "name": "VOLKSWAGEN AG VZ",
         "index": "DAX",
-        "notation_id": 176173
+        "notation_id": 9620569,
+        "wkn": "766403",
+        "isin": "DE0007664039",
+        "symbol": "VOW3"
     },
     {
         "name": "VONOVIA SE",
         "index": "DAX",
-        "notation_id": 84035198
+        "notation_id": 82908905,
+        "wkn": "A1ML7J",
+        "isin": "DE000A1ML7J1",
+        "symbol": "VNA"
     },
     {
         "name": "WIRECARD AG",
         "index": "DAX",
-        "notation_id": 6452423
+        "notation_id": 12992081,
+        "wkn": "747206",
+        "isin": "DE0007472060",
+        "symbol": "WDI"
     }
 ]

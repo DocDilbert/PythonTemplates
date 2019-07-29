@@ -20,10 +20,21 @@ def details(url):
     )
     soup = bs4.BeautifulSoup(response_raw.content, 'html.parser')
 
+    stammdaten = soup.find('', {'class':'STAMMDATEN'})
+    dl_0 = stammdaten.find('dl')
+    dd_0 = dl_0.find_all('dd')
+    wkn = dd_0[0].text
+    isin = dd_0[1].text
+    symbol = dd_0[2].text
+
+  
     m = re.search(REGEX_NID, response_raw.content.decode('utf-8'))
 
     return {
-        'notation_id': int(m[1])
+        'notation_id': int(m[1]),
+        'wkn' : wkn,
+        'isin' : isin,
+        'symbol': symbol
     }
 
 

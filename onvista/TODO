@@ -21,11 +21,11 @@ ID-Export:
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens
   ☐ MetaDaten in der ID Liste hinzufügen
-    ☐ Kurzname und Name hinzufügen (onvista MetaDaten)
+    ✔ Kurzname und Name hinzufügen (onvista MetaDaten) @done(19-07-29 22:43)
     ☐ Stammdaten exportieren
-      ☐ Symbol exportieren
-      ☐ ISIN exportieren
-      ☐ WKN exportieren
+      ✔ Symbol exportieren @done(19-07-29 22:43)
+      ✔ ISIN exportieren @done(19-07-29 22:43)
+      ✔ WKN exportieren @done(19-07-29 22:43)
       ☐ Sektor exportieren
       ☐ Typ exportieren
     ☐ Gewichtung im DAX
