@@ -3,6 +3,7 @@ import bs4
 import re
 import json
 
+import collections
 # chrome 70.0.3538.77
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -46,20 +47,19 @@ def main():
         ahref = first.find("a")
         name = ahref['title']
         link = ROOT+ahref['href']
-        item = {
+        item = collections.OrderedDict({
             'name': name,
             'index' : index_name
-        }
+        })
         item.update(details(link))
-        print(item)
+        print(str(item))
         data.append(item)
 
     with open('metadata.json', 'w') as fP:
         json.dump(
             data,
             fP,
-            indent=4,
-            sort_keys=True
+            indent=4
         )
 
 

@@ -1,152 +1,152 @@
 [
     {
-        "index": "DAX",
         "name": "ADIDAS AG",
+        "index": "DAX",
         "notation_id": 39471840
     },
     {
-        "index": "DAX",
         "name": "ALLIANZ SE",
+        "index": "DAX",
         "notation_id": 1937897
     },
     {
-        "index": "DAX",
         "name": "BASF SE",
+        "index": "DAX",
         "notation_id": 37886885
     },
     {
-        "index": "DAX",
         "name": "BAYER AG",
+        "index": "DAX",
         "notation_id": 30820934
     },
     {
-        "index": "DAX",
         "name": "BAYERISCHE MOTOREN WERKE AG",
+        "index": "DAX",
         "notation_id": 143094
     },
     {
-        "index": "DAX",
         "name": "BEIERSDORF AG",
+        "index": "DAX",
         "notation_id": 143111
     },
     {
-        "index": "DAX",
         "name": "CONTINENTAL AG",
+        "index": "DAX",
         "notation_id": 144339
     },
     {
-        "index": "DAX",
         "name": "COVESTRO AG INHABER-AKTIEN O.N.",
+        "index": "DAX",
         "notation_id": 143837189
     },
     {
-        "index": "DAX",
         "name": "DAIMLER AG",
+        "index": "DAX",
         "notation_id": 161766
     },
     {
-        "index": "DAX",
         "name": "DEUTSCHE BANK AG",
+        "index": "DAX",
         "notation_id": 142991
     },
     {
-        "index": "DAX",
         "name": "DEUTSCHE BOERSE AG",
+        "index": "DAX",
         "notation_id": 2036789
     },
     {
-        "index": "DAX",
         "name": "DEUTSCHE LUFTHANSA AG",
+        "index": "DAX",
         "notation_id": 1543196
     },
     {
-        "index": "DAX",
         "name": "DEUTSCHE POST AG",
+        "index": "DAX",
         "notation_id": 144553
     },
     {
-        "index": "DAX",
         "name": "DEUTSCHE TELEKOM AG",
+        "index": "DAX",
         "notation_id": 2025437
     },
     {
-        "index": "DAX",
         "name": "E.ON SE",
+        "index": "DAX",
         "notation_id": 24022547
     },
     {
-        "index": "DAX",
         "name": "FRESENIUS MEDICAL CARE AG & CO KGAA",
+        "index": "DAX",
         "notation_id": 150288
     },
     {
-        "index": "DAX",
         "name": "FRESENIUS SE & CO. KGAA",
+        "index": "DAX",
         "notation_id": 1958612
     },
     {
-        "index": "DAX",
         "name": "HEIDELBERGCEMENT AG",
+        "index": "DAX",
         "notation_id": 152371
     },
     {
-        "index": "DAX",
         "name": "HENKEL AG & CO VZ",
+        "index": "DAX",
         "notation_id": 152378
     },
     {
-        "index": "DAX",
         "name": "INFINEON TECHNOLOGIES AG",
+        "index": "DAX",
         "notation_id": 154990
     },
     {
-        "index": "DAX",
         "name": "LINDE PLC REGISTERED SHARES EO 0,001",
+        "index": "DAX",
         "notation_id": 233661987
     },
     {
-        "index": "DAX",
         "name": "MERCK KGAA",
+        "index": "DAX",
         "notation_id": 158463
     },
     {
-        "index": "DAX",
         "name": "MUENCHENER RUECKVERSICHERUNGS-GESELLSCHAFT AG",
+        "index": "DAX",
         "notation_id": 186563
     },
     {
-        "index": "DAX",
         "name": "RWE AG",
+        "index": "DAX",
         "notation_id": 160037
     },
     {
-        "index": "DAX",
         "name": "SAP SE",
+        "index": "DAX",
         "notation_id": 163500
     },
     {
-        "index": "DAX",
         "name": "SIEMENS AG",
+        "index": "DAX",
         "notation_id": 1929749
     },
     {
-        "index": "DAX",
         "name": "THYSSENKRUPP AG",
+        "index": "DAX",
         "notation_id": 167332
     },
     {
-        "index": "DAX",
         "name": "VOLKSWAGEN AG VZ",
+        "index": "DAX",
         "notation_id": 176173
     },
     {
-        "index": "DAX",
         "name": "VONOVIA SE",
+        "index": "DAX",
         "notation_id": 84035198
     },
     {
-        "index": "DAX",
         "name": "WIRECARD AG",
+        "index": "DAX",
         "notation_id": 6452423
     }
 ]
