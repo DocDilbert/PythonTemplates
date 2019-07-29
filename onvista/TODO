@@ -3,6 +3,7 @@ Historische Daten:
   ☐ Beliebige IDs downloadbar machen
   ☐ Dem onvista downloader eine json datei im Format des id downloaders übergeben
   ☐ Ergebnisse in Verzeichniss speichern
+    ✔ VZ erstellen und Datei dort ablegen @done(19-07-29 16:37)
     ☐ Name des VZ entspricht dem Namen der ID Liste
   ☐ OnVista Skript formatieren
   ☐ Progress anzeigen durch string
