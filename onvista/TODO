@@ -1,6 +1,11 @@
 
 General:
+  ☐ Beliebige IDs downloadbar machen
+  ☐ OnVista Skript formatieren
   ☐ ID Liste für download in json format
-  ☐ Meta Daten in CSV ablegen
+  ✔ Daten in json Format exportieren @done(19-07-29 12:36)
+  ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)
+  ☐ Modul erstellen welches Daten verfügbar macht.
+  ☐ Datenmodul um interpolation erweitern
   ☐ FFT Tool erstellen
-  ☐ Zeitreihen beliebig aufteilen ... hierfür Modul erstellen
+  ☐ Datenmodul: Zeitreihen beliebig aufteilen 

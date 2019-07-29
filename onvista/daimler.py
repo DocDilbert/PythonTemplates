@@ -2,20 +2,21 @@
 import numpy as np
 import scipy.signal as sig
 import matplotlib.pyplot as plt
-
+import json
 
 def main():
-    dates = np.genfromtxt('daimler.csv', delimiter=',',
-                          dtype='datetime64', usecols=[0])
-    prices = np.genfromtxt('daimler.csv', delimiter=',',
-                           dtype='float64', usecols=[1, 2, 3, 4])
-    a = np.genfromtxt('daimler.csv', delimiter=',',
-                      dtype='float64', usecols=[1])
-    volume = np.genfromtxt('daimler.csv', delimiter=',',
-                           dtype='int', usecols=[5])
 
-    
-    np.printoptions(edgeitems=5)
+    with open('daimler.json') as fp:
+        data = json.load(fp)
+
+    quotes = np.array(data['QUOTES'])
+   
+    dates = np.array(quotes[:,0], dtype='datetime64')
+    _prices = np.array(quotes[:,1:4], dtype='float64')
+    a = np.array(quotes[:,1],dtype='float64')
+    _volume = np.array(quotes[:,5],dtype='int')
+
+
     min_date = np.min(dates)
     days = (dates-min_date)
     max_days = np.max(days) / np.timedelta64(1, 'D')
