@@ -9,7 +9,8 @@ HEADERS = {
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 }
 
-REGEX_NID=re.compile(r"notationId: '(\d*)")
+REGEX_NID = re.compile(r"notationId: '(\d*)")
+
 
 def details(url):
     response_raw = requests.get(
@@ -21,8 +22,9 @@ def details(url):
     m = re.search(REGEX_NID, response_raw.content.decode('utf-8'))
 
     return {
-        'notation_id' : int(m[1])
+        'notation_id': int(m[1])
     }
+
 
 def main():
     ROOT = "https://www.onvista.de"
@@ -32,7 +34,7 @@ def main():
         headers=HEADERS
     )
     soup = bs4.BeautifulSoup(response_raw.content, 'html.parser')
-    
+
     tbody = soup.find("tbody", {"class": "table_box_content_zebra"})
     entries = tbody.find_all("tr")
 
@@ -43,14 +45,20 @@ def main():
         name = ahref['title']
         link = ROOT+ahref['href']
         item = {
-            'name' : name
+            'name': name
         }
         item.update(details(link))
         print(item)
         data.append(item)
 
-    with open('metadata.json', 'w') as fp:
-        json.dump(data, fp)
-        
+    with open('metadata.json', 'w') as fP:
+        json.dump(
+            data,
+            fP,
+            indent=4,
+            sort_keys=True
+        )
+
+
 if __name__ == "__main__":
     main()
