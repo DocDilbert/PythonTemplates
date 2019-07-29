@@ -1,6 +1,7 @@
 import requests
 import bs4
 import re
+import json
 
 # chrome 70.0.3538.77
 HEADERS = {
@@ -19,7 +20,9 @@ def details(url):
 
     m = re.search(REGEX_NID, response_raw.content.decode('utf-8'))
 
-    return int(m[1])
+    return {
+        'notation_id' : int(m[1])
+    }
 
 def main():
     ROOT = "https://www.onvista.de"
@@ -32,12 +35,22 @@ def main():
     
     tbody = soup.find("tbody", {"class": "table_box_content_zebra"})
     entries = tbody.find_all("tr")
+
+    data = []
     for i in entries:
         first = i.find("td")
         ahref = first.find("a")
         name = ahref['title']
         link = ROOT+ahref['href']
-        print(name, details(link))
+        item = {
+            'name' : name
+        }
+        item.update(details(link))
+        print(item)
+        data.append(item)
 
+    with open('metadata.json', 'w') as fp:
+        json.dump(data, fp)
+        
 if __name__ == "__main__":
     main()

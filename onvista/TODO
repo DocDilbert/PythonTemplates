@@ -4,9 +4,9 @@ General:
   ☐ OnVista Skript formatieren
   ✔ IDs für DAX extrahieren @done(19-07-29 13:15)
   ☐ IDS für beliebigen Index extrahieren
-  ☐ Mehr Metadaten exportieren
   ☐ Börsenplatz der historischen Daten ermitteln
-  ☐ ID Liste für download in json format speichern
+  ☐ Json Liste der IDs lesbar exportieren
+  ✔ ID Liste für download in json format speichern @done(19-07-29 15:07)
   ✔ Daten in json Format exportieren @done(19-07-29 12:36)
   ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)
   ☐ Modul erstellen welches Daten verfügbar macht.
@@ -14,4 +14,10 @@ General:
   ☐ FFT Tool erstellen
   ☐ Datenmodul: Zeitreihen beliebig aufteilen 
   ☐ Beliebige Dateinamen unterstützen
-  ☐ Kurzname und Name hinzufügen (onvista)
+  ☐ MetaDaten in der ID Liste
+    ☐ Kurzname und Name hinzufügen (onvista MetaDaten)
+    ☐ Symbol exportieren
+    ☐ ISIN exportieren
+    ☐ WKN exportieren
+    ☐ Sektor exportieren
+    ☐ Mehr Metadaten exportieren
