@@ -5,6 +5,7 @@ Historische Daten:
   ☐ Ergebnisse in Verzeichniss speichern
     ☐ Name des VZ entspricht dem Namen der ID Liste
   ☐ OnVista Skript formatieren
+  ☐ Progress anzeigen durch string
   ☐ Börsenplatz der historischen Daten ermitteln
   ☐ Historische hson Dateien in Dropbox ablegen und zipen mit Datum.
   ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)

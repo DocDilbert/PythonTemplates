@@ -6,6 +6,7 @@ import bs4
 import dateutil.relativedelta as rd
 import numpy as np
 import json
+import os
 locale.setlocale(locale.LC_ALL, 'de_DE')
 
 # chrome 70.0.3538.77
@@ -18,6 +19,7 @@ HEADERS = {
 def main():
     name = "Daimler"
     id_ = "161766"
+    dirname = "stocks"
 
     scrap_date = datetime.date(1990, 1, 1)
     datelist = []
@@ -90,8 +92,12 @@ def main():
         },
         'QUOTES': data_array.tolist()
     }
+    try:
+        os.mkdir(dirname)
+    except OSError:
+        pass
 
-    with open("daimler.json", "w") as fp:
+    with open(dirname+"/daimler.json", "w") as fp:
         json.dump(filed, fp)
 
 

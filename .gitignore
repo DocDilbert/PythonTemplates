@@ -120,3 +120,4 @@ autogen/
 *.pickle
 /webscraper/data*
 /webscraper/log
+/onvista/stocks
