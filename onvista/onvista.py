@@ -17,6 +17,7 @@ HEADERS = {
 
 def main():
     name = "Daimler"
+    id_ = "161766"
 
     scrap_date = datetime.date(1990, 1, 1)
     datelist = []
@@ -30,7 +31,7 @@ def main():
     data_array = None
     for date_start in datelist:
         URL = ("https://www.onvista.de/onvista/times+sales/popup/historische-kurse/?"
-               "notationId=28859632&"
+               "notationId="+id_+"&"
                "dateStart="+date_start+"&"
                "interval=Y5&"
                "assetName="+name+"&"
@@ -84,7 +85,8 @@ def main():
 
     filed = {
         'META': {
-            'name': name
+            'name': name,
+            'id' : id_
         },
         'QUOTES': data_array.tolist()
     }

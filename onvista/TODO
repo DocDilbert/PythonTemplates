@@ -2,10 +2,15 @@
 General:
   ☐ Beliebige IDs downloadbar machen
   ☐ OnVista Skript formatieren
-  ☐ ID Liste für download in json format
+  ✔ IDs für DAX extrahieren @done(19-07-29 13:15)
+  ☐ IDS für beliebigen Index extrahieren
+  ☐ Mehr Metadaten exportieren
+  ☐ ID Liste für download in json format speichern
   ✔ Daten in json Format exportieren @done(19-07-29 12:36)
   ✔ MetaDaten Sektion zu Zeitreihen hinzufügen @done(19-07-29 12:36)
   ☐ Modul erstellen welches Daten verfügbar macht.
   ☐ Datenmodul um interpolation erweitern
   ☐ FFT Tool erstellen
   ☐ Datenmodul: Zeitreihen beliebig aufteilen 
+  ☐ Beliebige Dateinamen unterstützen
+  ☐ Kurzname und Name hinzufügen (onvista)
