@@ -44,7 +44,7 @@ def main():
                 "dateStart="+date_start+"&"
                 "interval=Y5&"
                 "assetName="+name+"&"
-                "exchange=Tradegate"
+                "exchange=Xetra"
                 )
 
             response_raw = requests.get(

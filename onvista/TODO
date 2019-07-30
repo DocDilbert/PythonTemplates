@@ -1,3 +1,9 @@
+Daten lesen:
+  ☐ Modul erstellen welches Daten verfügbar macht.
+  ☐ Datenmodul: Zeitreihen beliebig aufteilen
+  ☐ Datenmodul um interpolation erweitern
+  ☐ Zeitfilter der vorhandenen Daten hinzufügen. Z.b. nur Aktien die eine gewisse Historie haben verwenden
+  ☐ Aktien auf Rendite umrechen
 
 Historische Daten:
   ☐ Alle Metadaten aus der Liste der Zeitreihe hinzufügen @high
@@ -6,10 +12,7 @@ Historische Daten:
   ☐ Progress anzeigen durch string
   ☐ Börsenplatz der historischen Daten ermitteln
   ☐ Historische hson Dateien in Dropbox ablegen und zipen mit Datum.
-  ☐ Modul erstellen welches Daten verfügbar macht.
-  ☐ Datenmodul um interpolation erweitern
   ☐ FFT Tool erstellen
-  ☐ Datenmodul: Zeitreihen beliebig aufteilen 
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens
   ☐ PyLint Rules überprüfen
@@ -18,6 +21,8 @@ Historische Daten:
     ☐ Zustand speichern...was wurde geladen was nicht
 
 ID-Export:
+  ☐ IDS für Xetra extrahieren @high 
+  ☐ IDS für beliebigen Index extrahieren
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens
   ☐ MetaDaten in der ID Liste hinzufügen
@@ -29,7 +34,6 @@ ID-Export:
       ☐ Sektor exportieren
       ☐ Typ exportieren
     ☐ Gewichtung im DAX
-  ☐ IDS für beliebigen Index extrahieren
   ☐ PyLint Rules überprüfen
   ☐ Ermittelte Daten in einer Zeile schön formatiert darstellen.
   ☐ Ordered Dictionary aus der "details" MEthode ausgeben
