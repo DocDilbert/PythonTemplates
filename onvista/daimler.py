@@ -2,19 +2,15 @@
 import numpy as np
 import scipy.signal as sig
 import matplotlib.pyplot as plt
-import json
+import provider
 
 def main():
 
-    with open('stocks/ADIDAS AG.json') as fp:
-        data = json.load(fp)
-
-    quotes = np.array(data['QUOTES'])
-   
-    dates = np.array(quotes[:,0], dtype='datetime64')
-    _prices = np.array(quotes[:,1:4], dtype='float64')
-    a = np.array(quotes[:,1],dtype='float64')
-    _volume = np.array(quotes[:,5],dtype='int')
+    meta, quotes = provider.load_data()
+    dates = np.array(quotes['date'], dtype='datetime64')
+    #_prices = np.array(quotes[1:4], dtype='float64')
+    a = np.array(quotes['closing'],dtype='float64')
+    _volume = np.array(quotes['volume'],dtype='int')
 
 
     min_date = np.min(dates)

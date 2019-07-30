@@ -1,5 +1,7 @@
 Daten lesen:
-  ☐ Modul erstellen welches Daten verfügbar macht.
+  ✔ Modul erstelen welches Daten verfügbar macht. @done(19-07-30 13:43)
+  ☐ Datum konvertieren
+  ☐ Array mit Namen verstehen
   ☐ Datenmodul: Zeitreihen beliebig aufteilen
   ☐ Datenmodul um interpolation erweitern
   ☐ Zeitfilter der vorhandenen Daten hinzufügen. Z.b. nur Aktien die eine gewisse Historie haben verwenden
@@ -22,7 +24,7 @@ Historische Daten:
 
 ID-Export:
   ✔ IDS für Xetra extrahieren @high @done(19-07-30 08:42)
-  ☐ Börsenplatz in Meta Daten aufnehmen
+  ✔ Börsenplatz in Meta Daten aufnehmen @done(19-07-30 13:30)
   ☐ IDS für beliebigen Index extrahieren
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens
