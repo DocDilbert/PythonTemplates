@@ -1,6 +1,5 @@
 import requests
 import bs4
-import re
 import json
 
 import collections
@@ -9,9 +8,6 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
 }
-
-REGEX_NID = re.compile(r"notationId: '(\d*)")
-
 
 def details(url):
     response_raw = requests.get(
@@ -28,10 +24,17 @@ def details(url):
     symbol = dd_0[2].text
 
   
-    m = re.search(REGEX_NID, response_raw.content.decode('utf-8'))
+    chart_ex_l = soup.find('', {'id':'chartExchangesLayer'})
+    ul_0 = chart_ex_l.find('ul')
+    xetra = ul_0.find(text=' Xetra ').parent
+
+    # for further implementations
+    _tradegate = ul_0.find(text=' Tradegate ').parent
+
+    xetra_id = xetra['href'].split('=')[1]
 
     return {
-        'notation_id': int(m[1]),
+        'notation_id': int(xetra_id),
         'wkn' : wkn,
         'isin' : isin,
         'symbol': symbol

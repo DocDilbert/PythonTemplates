@@ -6,7 +6,7 @@ Daten lesen:
   ☐ Aktien auf Rendite umrechen
 
 Historische Daten:
-  ☐ Alle Metadaten aus der Liste der Zeitreihe hinzufügen @high
+  ✔ Alle Metadaten aus der Liste der Zeitreihe hinzufügen @high @done(19-07-30 08:40)
   ☐ Name des VZ entspricht dem Namen der ID Liste
   ☐ OnVista Skript formatieren
   ☐ Progress anzeigen durch string
@@ -21,7 +21,8 @@ Historische Daten:
     ☐ Zustand speichern...was wurde geladen was nicht
 
 ID-Export:
-  ☐ IDS für Xetra extrahieren @high 
+  ✔ IDS für Xetra extrahieren @high @done(19-07-30 08:42)
+  ☐ Börsenplatz in Meta Daten aufnehmen
   ☐ IDS für beliebigen Index extrahieren
   ☐ Kommandozeilenunterstützung
     ☐ Angabe des Dateienamens

@@ -6,7 +6,7 @@ import json
 
 def main():
 
-    with open('daimler.json') as fp:
+    with open('stocks/ADIDAS AG.json') as fp:
         data = json.load(fp)
 
     quotes = np.array(data['QUOTES'])
