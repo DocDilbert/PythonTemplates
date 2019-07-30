@@ -37,7 +37,8 @@ def details(url):
         'notation_id': int(xetra_id),
         'wkn' : wkn,
         'isin' : isin,
-        'symbol': symbol
+        'symbol': symbol,
+        'stock_exchange' : 'Xetra',
     }
 
 

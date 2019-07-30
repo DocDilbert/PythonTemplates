@@ -5,7 +5,8 @@
         "notation_id": 39471840,
         "wkn": "A1EWWW",
         "isin": "DE000A1EWWW0",
-        "symbol": "ADS"
+        "symbol": "ADS",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "ALLIANZ SE",
@@ -13,7 +14,8 @@
         "notation_id": 1937897,
         "wkn": "840400",
         "isin": "DE0008404005",
-        "symbol": "ALV"
+        "symbol": "ALV",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "BASF SE",
@@ -21,7 +23,8 @@
         "notation_id": 37886885,
         "wkn": "BASF11",
         "isin": "DE000BASF111",
-        "symbol": "BAS"
+        "symbol": "BAS",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "BAYER AG",
@@ -29,7 +32,8 @@
         "notation_id": 30820934,
         "wkn": "BAY001",
         "isin": "DE000BAY0017",
-        "symbol": "BAYN"
+        "symbol": "BAYN",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "BAYERISCHE MOTOREN WERKE AG",
@@ -37,7 +41,8 @@
         "notation_id": 143094,
         "wkn": "519000",
         "isin": "DE0005190003",
-        "symbol": "BMW"
+        "symbol": "BMW",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "BEIERSDORF AG",
@@ -45,7 +50,8 @@
         "notation_id": 143111,
         "wkn": "520000",
         "isin": "DE0005200000",
-        "symbol": "BEI"
+        "symbol": "BEI",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "CONTINENTAL AG",
@@ -53,7 +59,8 @@
         "notation_id": 144339,
         "wkn": "543900",
         "isin": "DE0005439004",
-        "symbol": "CON"
+        "symbol": "CON",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "COVESTRO AG INHABER-AKTIEN O.N.",
@@ -61,7 +68,8 @@
         "notation_id": 143837189,
         "wkn": "606214",
         "isin": "DE0006062144",
-        "symbol": "1COV"
+        "symbol": "1COV",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DAIMLER AG",
@@ -69,7 +77,8 @@
         "notation_id": 161766,
         "wkn": "710000",
         "isin": "DE0007100000",
-        "symbol": "DAI"
+        "symbol": "DAI",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DEUTSCHE BANK AG",
@@ -77,7 +86,8 @@
         "notation_id": 142991,
         "wkn": "514000",
         "isin": "DE0005140008",
-        "symbol": "DBK"
+        "symbol": "DBK",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DEUTSCHE BOERSE AG",
@@ -85,7 +95,8 @@
         "notation_id": 2036789,
         "wkn": "581005",
         "isin": "DE0005810055",
-        "symbol": "DB1"
+        "symbol": "DB1",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DEUTSCHE LUFTHANSA AG",
@@ -93,7 +104,8 @@
         "notation_id": 1543196,
         "wkn": "823212",
         "isin": "DE0008232125",
-        "symbol": "LHA"
+        "symbol": "LHA",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DEUTSCHE POST AG",
@@ -101,7 +113,8 @@
         "notation_id": 144553,
         "wkn": "555200",
         "isin": "DE0005552004",
-        "symbol": "DPW"
+        "symbol": "DPW",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "DEUTSCHE TELEKOM AG",
@@ -109,7 +122,8 @@
         "notation_id": 2025437,
         "wkn": "555750",
         "isin": "DE0005557508",
-        "symbol": "DTE"
+        "symbol": "DTE",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "E.ON SE",
@@ -117,7 +131,8 @@
         "notation_id": 24022547,
         "wkn": "ENAG99",
         "isin": "DE000ENAG999",
-        "symbol": "EOAN"
+        "symbol": "EOAN",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "FRESENIUS MEDICAL CARE AG & CO KGAA",
@@ -125,7 +140,8 @@
         "notation_id": 150288,
         "wkn": "578580",
         "isin": "DE0005785802",
-        "symbol": "FME"
+        "symbol": "FME",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "FRESENIUS SE & CO. KGAA",
@@ -133,7 +149,8 @@
         "notation_id": 1958612,
         "wkn": "578560",
         "isin": "DE0005785604",
-        "symbol": "FRE"
+        "symbol": "FRE",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "HEIDELBERGCEMENT AG",
@@ -141,7 +158,8 @@
         "notation_id": 152371,
         "wkn": "604700",
         "isin": "DE0006047004",
-        "symbol": "HEI"
+        "symbol": "HEI",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "HENKEL AG & CO VZ",
@@ -149,7 +167,8 @@
         "notation_id": 152378,
         "wkn": "604843",
         "isin": "DE0006048432",
-        "symbol": "HEN3"
+        "symbol": "HEN3",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "INFINEON TECHNOLOGIES AG",
@@ -157,7 +176,8 @@
         "notation_id": 154990,
         "wkn": "623100",
         "isin": "DE0006231004",
-        "symbol": "IFX"
+        "symbol": "IFX",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "LINDE PLC REGISTERED SHARES EO 0,001",
@@ -165,7 +185,8 @@
         "notation_id": 233661987,
         "wkn": "A2DSYC",
         "isin": "IE00BZ12WP82",
-        "symbol": "LIN"
+        "symbol": "LIN",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "MERCK KGAA",
@@ -173,7 +194,8 @@
         "notation_id": 158463,
         "wkn": "659990",
         "isin": "DE0006599905",
-        "symbol": "MRK"
+        "symbol": "MRK",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "MUENCHENER RUECKVERSICHERUNGS-GESELLSCHAFT AG",
@@ -181,7 +203,8 @@
         "notation_id": 186563,
         "wkn": "843002",
         "isin": "DE0008430026",
-        "symbol": "MUV2"
+        "symbol": "MUV2",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "RWE AG",
@@ -189,7 +212,8 @@
         "notation_id": 160037,
         "wkn": "703712",
         "isin": "DE0007037129",
-        "symbol": "RWE"
+        "symbol": "RWE",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "SAP SE",
@@ -197,7 +221,8 @@
         "notation_id": 163500,
         "wkn": "716460",
         "isin": "DE0007164600",
-        "symbol": "SAP"
+        "symbol": "SAP",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "SIEMENS AG",
@@ -205,7 +230,8 @@
         "notation_id": 1929749,
         "wkn": "723610",
         "isin": "DE0007236101",
-        "symbol": "SIE"
+        "symbol": "SIE",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "THYSSENKRUPP AG",
@@ -213,7 +239,8 @@
         "notation_id": 167332,
         "wkn": "750000",
         "isin": "DE0007500001",
-        "symbol": "TKA"
+        "symbol": "TKA",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "VOLKSWAGEN AG VZ",
@@ -221,7 +248,8 @@
         "notation_id": 176173,
         "wkn": "766403",
         "isin": "DE0007664039",
-        "symbol": "VOW3"
+        "symbol": "VOW3",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "VONOVIA SE",
@@ -229,7 +257,8 @@
         "notation_id": 84035198,
         "wkn": "A1ML7J",
         "isin": "DE000A1ML7J1",
-        "symbol": "VNA"
+        "symbol": "VNA",
+        "stock_exchange": "Xetra"
     },
     {
         "name": "WIRECARD AG",
@@ -237,6 +266,7 @@
         "notation_id": 6452423,
         "wkn": "747206",
         "isin": "DE0007472060",
-        "symbol": "WDI"
+        "symbol": "WDI",
+        "stock_exchange": "Xetra"
     }
 ]
