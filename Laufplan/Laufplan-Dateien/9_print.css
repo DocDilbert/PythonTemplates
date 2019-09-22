@@ -1,0 +1,69 @@
+/*Mobile Devices with small space: BOTTOM*/body {
+margin: 0;
+padding: 0;
+text-align: center;max-width: 800px;text-align:left; margin: 0 auto;
+}
+
+div.all {
+font: 8pt Verdana, Arial, Helvetica, sans-serif;
+color: black;
+}
+
+div.all h1 {
+color: red;
+font-size: 14pt;
+}
+
+div.all h2 {
+font-size: 12pt;
+color: red;
+}
+
+div.all h3 {
+font-size: 10pt;
+color: red;
+}
+
+table.all_hmt {
+font: 8pt Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+table.all_hmt tbody td.left {
+  align: left;
+  }
+
+table.all_hmt tbody tr.odd {
+  background: #EEEEEE;
+  }
+  
+table.all_hmt tbody tr.yell {
+  background: #FFFF66;
+  }
+  
+table.all_h tbody tr.odd {
+  background: #EEEEEE;
+  }
+  
+table.all tbody tr.yell {
+  background: #FFFF66;
+  }
+  
+  table.tempo {
+ width: 560px;
+ font-size: 95%;
+ }
+ 
+table.tempo tbody tr.odd {
+  background: #EEEEEE;
+  text-align: center;
+  }
+  
+table.tempo tbody tr.yell {
+  background: #FFFF66;
+  text-align: center;
+  }
+  
+div.weg {
+display: none;
+}/*avs: absendebutton optimieren, sodass auch gut sichtbare Anzeige auf Mobilgeräten*/	input[type=submit],	input#Terminkalender { /* den Submit-Button */	  float: none;	  width: auto;	  overflow: visible; /*IE Hack: erzwingt vernünftige Submit-Button-Breite*/	  padding: 0.1em 0.25em 0.1em 0.25em;  	  	  color: #fff;	  cursor: pointer;	  border: 0;	  padding: 0.5em;	  background: #2f3036;	  	}		* html input#Terminkalender {	  padding: 0;	}/*END absendebutton*//*-------------------------------------------------------------------------------------------*//*-------------------------------------------------------------------------------------------*//*Mobile Devices with small space*//*

@@ -1,0 +1,333 @@
+BEGIN:VCALENDAR
+PRODID:ics.py - http://git.io/lLljaA
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191027
+SUMMARY:1. Lockerer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 40 min\nPuls: 117 bis 123 (73%)\nTempo: 07:57 min/km\nStrecke: 5.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:cfa970d0-e8e6-4439-8456-4c2d64de09c8@cfa9.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191215
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 30 min\nPuls: 115 bis 121 (71%)\nTempo: 08:05 min/km\nStrecke: 3.7 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:c34ed9e5-9f19-4068-a978-a8a00fecc260@c34e.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20190926
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 90 min\nPuls: 125 bis 131 (78%)\nTempo: 07:12 min/km\nStrecke: 12.5 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:9207bd3c-6263-4a41-94bf-30126bc6259d@9207.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191105
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 4 x 4 min\, je 3 min TP
+DESCRIPTION:Dauer: 55 min\nPuls: 112 bis 118 (70%) / 151 bis 157 (93%)\nTempo: 08:22 min/km / 05:57 min/km\nStrecke: 7.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:4dbc191d-6aed-4e09-8ee3-4bd4b23ccecb@4dbc.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191031
+SUMMARY:3. Langsamer Dauerlauf
+DESCRIPTION:Dauer: 50 min\nPuls: 112 bis 118 (70%)\nTempo: 08:24 min/km\nStrecke: 6.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8df53b51-a5c5-4905-a821-cea5eb4d75b5@8df5.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191103
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 115 bis 121 (71%)\nTempo: 08:07 min/km\nStrecke: 6.2 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:42abf2c5-047a-4031-b688-88351a7f8398@42ab.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191203
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 2 x 10 min\, je 5 min TP
+DESCRIPTION:Dauer: 55 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:21 min/km / 06:22 min/km\nStrecke: 7.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:e6d4af6d-be8c-4314-b5c9-7acdc948053f@e6d4.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191217
+SUMMARY:2. Lockerer Dauerlauf
+DESCRIPTION:Dauer: 45 min\nPuls: 122 bis 128 (76%)\nTempo: 07:27 min/km\nStrecke: 6.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:ebc1d6e5-c8ea-4389-b3ec-b31ba76179bb@ebc1.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191114
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 100 min\nPuls: 123 bis 129 (76%)\nTempo: 07:21 min/km\nStrecke: 13.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:5509d2c4-f658-4719-9c5f-23145c319161@5509.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191124
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 117 bis 123 (73%)\nTempo: 07:55 min/km\nStrecke: 6.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:c82b31f3-85e8-42aa-803e-c893bacee19a@c82b.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191006
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 115 bis 121 (71%)\nTempo: 08:08 min/km\nStrecke: 6.1 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:d4ba99e1-055b-4867-b69d-8f2eab8abbf7@d4ba.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191112
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 2 x 10 min\, je 5 min TP
+DESCRIPTION:Dauer: 55 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:22 min/km / 06:23 min/km\nStrecke: 7.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:b798f50c-a26c-4774-9743-a5ead706675a@b798.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20200105
+SUMMARY:1a: Intervalltraining: 10 min EL\, IV\, 10 min loDL  1b: IV= 3 x 2 min\, je 2 min TP
+DESCRIPTION:Dauer: 30 min\nPuls: 115 bis 121 (71%) / 146 bis 152 (90%)\nTempo: 08:04 min/km / 06:21 min/km\nStrecke: 3.9 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:67f3cd56-760c-4a45-8c82-1bd935c15791@67f3.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191013
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 117 bis 123 (73%)\nTempo: 07:57 min/km\nStrecke: 6.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:59d99dd6-9197-454b-9d30-03471c4791e0@59d9.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191107
+SUMMARY:3. Langer Dauerlauf oder alternativ: Testlauf zur Formbestimmung
+DESCRIPTION:Dauer: 90 min\nPuls: 125 bis 131 (78%)\nTempo: 07:10 min/km\nStrecke: 12.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:1a0cd99a-6378-433c-920e-001c0c07daef@1a0c.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191121
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 120 min\nPuls: 125 bis 131 (78%)\nTempo: 07:10 min/km\nStrecke: 16.7 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:78e5ce50-c9c9-4d45-a345-c999ffeb64ed@78e5.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191226
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 120 min\nPuls: 120 bis 126 (75%)\nTempo: 07:34 min/km\nStrecke: 15.9 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:f76c50c9-51ef-4f1c-bda4-8b8f4d85bd65@f76c.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191015
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 4 x 4 min\, je 3 min TP
+DESCRIPTION:Dauer: 55 min\nPuls: 112 bis 118 (70%) / 151 bis 157 (93%)\nTempo: 08:24 min/km / 05:58 min/km\nStrecke: 7.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:7b696322-f0f0-4d32-bec1-c1b9d126383a@7b69.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20200102
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 70 min\nPuls: 125 bis 131 (78%)\nTempo: 07:07 min/km\nStrecke: 9.8 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8b432722-abcf-4da6-831d-d17b8b9d7225@8b43.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191126
+SUMMARY:2. Lockerer Dauerlauf
+DESCRIPTION:Dauer: 45 min\nPuls: 122 bis 128 (76%)\nTempo: 07:29 min/km\nStrecke: 6.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:612c5cea-df45-4fdd-80ec-70fe0c7c5670@612c.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191205
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 120 min\nPuls: 120 bis 126 (75%)\nTempo: 07:35 min/km\nStrecke: 15.8 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:82e22649-d7df-4c2c-b06f-db1ecb26a0eb@82e2.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191208
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 117 bis 123 (73%)\nTempo: 07:54 min/km\nStrecke: 6.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:f7804585-63a7-4f5f-b6f8-05905b1d9b79@f780.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191210
+SUMMARY:2a: 10-km-Wettkampf: je 10 min EL und AL 2b: bis km 5 ca. 06:01 min/km 2c: 
+DESCRIPTION:Dauer: 79 min\nPuls: 112 bis 118 (70%) / 151 bis 157 (93%)\nTempo: 08:21 min/km / 05:56 min/km\nStrecke: 12.4 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:a8e373d0-98bb-4d6e-aa4c-5e77eba672d2@a8e3.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20190924
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 4 x 4 min\, je 5 min TP
+DESCRIPTION:Dauer: 61 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:25 min/km / 06:26 min/km\nStrecke: 7.8 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8b591884-1be2-4215-b58d-7c0fbbff5f60@8b59.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191110
+SUMMARY:1. Lockerer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 60 min\nPuls: 122 bis 128 (76%)\nTempo: 07:29 min/km\nStrecke: 8.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:ff515900-5c73-4fe0-b2c2-157265a4ee48@ff51.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191001
+SUMMARY:2. Lockerer Dauerlauf
+DESCRIPTION:Dauer: 45 min\nPuls: 122 bis 128 (76%)\nTempo: 07:31 min/km\nStrecke: 6.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:0fb34522-6db8-40ed-9369-b1abff29733b@0fb3.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191010
+SUMMARY:3. Langer Dauerlauf oder alternativ: Testlauf zur Formbestimmung
+DESCRIPTION:Dauer: 100 min\nPuls: 123 bis 129 (76%)\nTempo: 07:22 min/km\nStrecke: 13.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:cd4aef2c-96ca-4918-8322-38a10800c68b@cd4a.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191117
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 115 bis 121 (71%)\nTempo: 08:07 min/km\nStrecke: 6.2 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:c64466cf-bc82-4788-9097-fc3374176c21@c644.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191003
+SUMMARY:3. Langsamer Dauerlauf
+DESCRIPTION:Dauer: 40 min\nPuls: 112 bis 118 (70%)\nTempo: 08:25 min/km\nStrecke: 4.7 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:bbc443b8-529f-4e09-aa28-9f0e25ef3a72@bbc4.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20190922
+SUMMARY:1. Lockerer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil
+DESCRIPTION:Dauer: 50 min\nPuls: 119 bis 125 (74%)\nTempo: 07:47 min/km\nStrecke: 6.4 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:ea89b42a-1b27-4253-b83b-30dcba11b160@ea89.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191029
+SUMMARY:2. Lockerer Dauerlauf
+DESCRIPTION:Dauer: 45 min\nPuls: 120 bis 126 (75%)\nTempo: 07:38 min/km\nStrecke: 5.9 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8aeac0ce-4282-49ed-9e85-99f8b147c7f4@8aea.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191224
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 3 x 6 min\, je 4 min TP
+DESCRIPTION:Dauer: 56 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:19 min/km / 06:21 min/km\nStrecke: 7.4 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:b5b86f48-f220-4ae8-a90f-850a67381bc4@b5b8.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191231
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 3 x 8 min\, je 4 min TP
+DESCRIPTION:Dauer: 62 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:19 min/km / 06:21 min/km\nStrecke: 8.3 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:e696abc4-c00a-4ea9-93ff-14f9eb85931c@e696.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20190929
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 40 min\nPuls: 117 bis 123 (73%)\nTempo: 07:58 min/km\nStrecke: 5.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:064d3a36-fb4b-40a0-9c0e-ac6869320025@064d.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191212
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 100 min\nPuls: 125 bis 131 (78%)\nTempo: 07:08 min/km\nStrecke: 14.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:50e23775-c8be-4461-8d87-072fc0558cee@50e2.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191128
+SUMMARY:3. Langsamer Dauerlauf
+DESCRIPTION:Dauer: 50 min\nPuls: 112 bis 118 (70%)\nTempo: 08:22 min/km\nStrecke: 6.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:54fa2faa-d6e4-44fe-b4c7-25fe0621506c@54fa.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191022
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 4 x 5 min\, je 3 min TP
+DESCRIPTION:Dauer: 59 min\nPuls: 112 bis 118 (70%) / 152 bis 158 (94%)\nTempo: 08:24 min/km / 05:55 min/km\nStrecke: 8.0 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:76592e43-ec95-42dc-ae47-2e2f5eba1095@7659.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191119
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 3 x 8 min\, je 5 min TP
+DESCRIPTION:Dauer: 64 min\nPuls: 112 bis 118 (70%) / 146 bis 152 (90%)\nTempo: 08:22 min/km / 06:23 min/km\nStrecke: 8.5 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:faa7fa70-9e29-4814-a09c-1ab8bd033783@faa7.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191219
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 60 min\nPuls: 120 bis 126 (75%)\nTempo: 07:35 min/km\nStrecke: 7.9 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:fbe519b6-55a9-414f-b35e-45f322701d55@fbe5.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191229
+SUMMARY:1. Lockerer Dauerlauf (einige Steigerungsläufe gegen Ende)
+DESCRIPTION:Dauer: 50 min\nPuls: 122 bis 128 (76%)\nTempo: 07:26 min/km\nStrecke: 6.7 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:3fa8edd6-336d-4611-a519-cc2a7fc70d51@3fa8.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191020
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 70 min\nPuls: 115 bis 121 (71%)\nTempo: 08:08 min/km\nStrecke: 8.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:a301cfe7-16dc-4f70-a71c-231bae37345a@a301.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191222
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 60 min\nPuls: 117 bis 123 (73%)\nTempo: 07:53 min/km\nStrecke: 7.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:036a5c9f-2706-4e8f-b380-943858a14dbd@036a.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20200107
+SUMMARY:2a: 30 min laDL  2b: Dazwischen 5-6 Steigerungsläufe
+DESCRIPTION:Dauer: 30 min\nPuls: 112 bis 118 (70%)\nTempo: 08:19 min/km\nStrecke: 3.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:c2828a18-154c-47d8-a9ec-9a093d3c90cc@c282.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191008
+SUMMARY:2a: Intervalltraining: 10 min EL\, IV\, 20 min loDL  2b: IV= 2 x 6 min\, je 5 min TP
+DESCRIPTION:Dauer: 47 min\nPuls: 112 bis 118 (70%) / 147 bis 153 (91%)\nTempo: 08:24 min/km / 06:18 min/km\nStrecke: 6.1 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:6bf35267-8cee-4d96-9be7-0bdf1844a7f2@6bf3.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191024
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 100 min\nPuls: 123 bis 129 (76%)\nTempo: 07:22 min/km\nStrecke: 13.6 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:cd4eaf23-1e27-4fee-a6ce-5bcc72fb2260@cd4e.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191017
+SUMMARY:3. Langer Dauerlauf
+DESCRIPTION:Dauer: 110 min\nPuls: 120 bis 126 (75%)\nTempo: 07:38 min/km\nStrecke: 14.4 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8fe72727-45dd-44a9-bcde-21fcb4e12dc4@8fe7.org
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20191201
+SUMMARY:1. Langsamer Dauerlauf (inkl. 5 min Lauf-ABC im 2. Teil)
+DESCRIPTION:Dauer: 50 min\nPuls: 115 bis 121 (71%)\nTempo: 08:05 min/km\nStrecke: 6.2 km\n\nloDL: lockerer Dauerlauf - LDL: langer Dauerlauf\, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining\, Intervalle - TP: Trabpausen\, Gehpausen - EL: Einlaufen\, aufwärmen - AL: cool down\, auslaufen.
+TRANSP:OPAQUE
+UID:8b97011a-40ee-4eda-b3ed-834d2dc7073e@8b97.org
+END:VEVENT
+END:VCALENDAR

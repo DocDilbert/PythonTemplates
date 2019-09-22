@@ -3,9 +3,16 @@ from ics import Calendar, Event
 from bs4 import Tag, NavigableString, BeautifulSoup
 import re
 import pprint
+import arrow
 
 re_week = re.compile(r'^([A-Z]*).*Woche\s(\d+).*')
-re_training = re.compile(r'^\d[a-z]*[:\.]\s.*')
+
+
+re_training = re.compile(r'^(\d)[a-z]*[:\.]\s.*')
+
+
+c = Calendar()
+
 
 
 def is_week(row):
@@ -14,22 +21,58 @@ def is_week(row):
         return True
     return False
 
+def out_training(training):
+    ergs = re_training.match(training['title'])
+    training_nr = int(ergs[1])
+    print("%2i %2s - %-60s - %10s - %s - %s - %s"%(
+        training['week'],
+        training_nr,
+        training['title'],
+        training['dauer'],
+        training['pulswert'],
+        training['tempo'],
+        training['strecke']  
+    ))
+
+    e = Event()
+    e.name = training['title']
+    begin = arrow.get('2019-09-22T18:00:00')
+    e.begin = begin.shift(days=(training_nr-1)*2, weeks=training['week']-1)
+    e.description = "Dauer: %s\nPuls: %s\nTempo: %s\nStrecke: %s\n\n%s"%(
+        training['dauer'],
+        training['pulswert'],
+        training['tempo'],
+        training['strecke'],
+        'loDL: lockerer Dauerlauf - LDL: langer Dauerlauf, Longjog - laDL: langsamer Dauerlauf - züDL: zügiger Dauerlauf - TDL: Tempodauerlauf - IV: Intervalltraining, Intervalle - TP: Trabpausen, Gehpausen - EL: Einlaufen, aufwärmen - AL: cool down, auslaufen.'
+        )
+    e.make_all_day()
+    c.events.add(e)
+    c.events
+
+
 def parse_training(week, row):
     tds = row.find_all('td')
     title = tds[0]
     if not re_training.match(title.text):
         return
-    dauer = tds[1]
+
+    titles = ' '.join([i for i in title.contents if isinstance(i,NavigableString)])
+    dauer = ' '.join([i for i in  tds[1].contents if isinstance(i,NavigableString)])
+    pulse = ' / '.join([i for i in  tds[2].contents if isinstance(i,NavigableString)])
+    tempos = ' / '.join([i for i in  tds[3].contents if isinstance(i,NavigableString)])
+    strecken = ' '.join([i for i in  tds[4].contents if isinstance(i,NavigableString)])
+
+    
     training = {
-        'title' : title.text,
-        'dauer' : dauer.text
+        'title' : titles,
+        'dauer' : dauer,
+        'pulswert' : pulse,
+        'tempo' : tempos,
+        'strecke' : strecken
     }
+
     training.update(week)
-    print("%2i - %-100s - %s"%(
-        training['week'],
-        training['title'],
-        training['dauer']
-    ))
+    out_training(training)
 
 
 def parse_week(wdata):
@@ -60,18 +103,7 @@ cla = soup.find_all("tr",{'class':'yell'})
 for i in cla:
     parse_week(i)
 
-c = Calendar()
-e = Event()
-e.name = "My cool event"
-e.begin = '2019-09-23 00:00:00'
-c.events.add(e)
-c.events
 
-e = Event()
-e.name = "My cool event 2"
-e.begin = '2019-09-24 00:00:00'
-c.events.add(e)
-c.events
 
 # [<Event 'My cool event' begin:2014-01-01 00:00:00 end:2014-01-01 00:00:01>]
 with open('laufplan.ics', 'w') as my_file:
